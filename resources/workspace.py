@@ -13,12 +13,6 @@ from .answers import answers, show_answer, show_example, macros
 # Load widgets
 from ipywidgets import *
 
-# Load nbAgg backend which 
-# - is inline (=> notebooks can be perused from remote server) 
-# - allows user interaction
-# - (unfortunately) does not enable live updates
-mpl.use('nbAgg')
-
 ####################################
 # DA video
 ####################################
