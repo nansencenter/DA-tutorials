@@ -58,4 +58,4 @@ data/
 *.mat
 *.npz
 
-Theory companion
+resources/companion
