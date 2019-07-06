@@ -15,7 +15,7 @@ setuptools.setup(
 
     python_requires='~=3.6',
     install_requires=[
-      'DA-DAPPER==0.9.5',
+      'DA-DAPPER==0.9.6',
       'jupyter>=1.0.0',
       'Markdown==3.1.1',
       ],
