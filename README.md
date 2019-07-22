@@ -20,13 +20,19 @@ Tutorial format
 
 Installation
 ================================================
+Works on Linux/Windows/Mac.
 
-1. **Prerequisite**: python>=3.6 (suggest setting it up with [anaconda](https://www.anaconda.com/download)).  
-Execute `python -V` (uppercase `V`) in a [terminal](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html#starting-conda) to assert that the version is 3.6 or higher.
+1. **Prerequisite**: python>=3.6.  
+   If you're not {admin | expert}:  
+   1a. Install it with [Anaconda](https://www.anaconda.com/download).  
+   1b. Use the [Anaconda terminal](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html#starting-conda) to run the commands below.
+
 2. **Install**:  
    Download and extract (or `git clone`) DA-tutorials,  
-   `cd` into the resulting folder,  
-   `pip install -e .`
+   `cd` into the resulting folder
+	 *(ensure you're at the level with a `setup.py` file)*:  
+   `pip install -e .` (don't forget the `.`).
+
 3. **Launch the Jupyter notebooks**:  
    `jupyter-notebook`  
    This will open up a page in your web browser that is a file navigator.  
