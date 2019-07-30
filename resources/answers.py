@@ -100,6 +100,16 @@ Regression
 Fitting                  
 """]
 
+answers['Discussion topics 1'] = ['MD',r'''
+ * (a). State estimation for large systems.
+ * (b). States are (unknown) variables that change in time.  
+ For a given dynamical system, the chosen parameterisation  
+ should contain all prognostic variables, and be fairly non-redundant.
+ * (c). Stuff that changes in time.
+ * (d). In principle it's a science. In practice...
+ * (e). Abstract concept to break the problem down into smaller, recursive, problems.  
+DAGs. Formalises the concept of hidden variables (states).
+''']
 
 ###########################################
 # Tut: Bayesian inference
