@@ -4,8 +4,9 @@
 # - defining python environments (e.g. requirements.txt)
 # - pre-loading data/scripts other than what's in the notebook.
 # We therefore make this script for bootstrapping the notebooks by cloning the full repo.
-# It can be launched from a notebook using:
-#!wget -qO- https://raw.githubusercontent.com/nansencenter/DA-tutorials/master/resources/colab_bootstrap.sh | bash -s -- -q
+# It should be run in a Colab notebook using:
+# URL="https://raw.githubusercontent.com/nansencenter/DA-tutorials/master/resources/colab_bootstrap.sh"
+#!wget -qO- $URL | bash -s -- --debug
 
 setup () {
     set -e

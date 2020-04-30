@@ -1,6 +1,5 @@
 from markdown import markdown as md2html # better than markdown2 ?
 from IPython.display import HTML, display
-from .colab_stuff import is_colab, setup_typeset
 
 # Notes:
 # - md2html rendering sometimes breaks
@@ -35,6 +34,49 @@ def show_answer(tag):
 
 def show_example(tag):
     formatted_display(*examples[tag], '#ffed90')
+
+try:
+    import google.colab
+    is_colab = True
+except ImportError:
+    is_colab = False
+
+def setup_typeset():
+    """MathJax initialization for the current cell.
+
+    This installs and configures MathJax for the current output.
+
+    Necessary in Google Colab. Ref:
+    https://github.com/googlecolab/colabtools/issues/322
+    """
+    if not is_colab: return
+    display(HTML('''
+            <script src="https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured"></script>
+            <script>
+                (() => {
+                    const mathjax = window.MathJax;
+                    mathjax.Hub.Config({
+                    'tex2jax': {
+                        'inlineMath': [['$', '$'], ['\\(', '\\)']],
+                        'displayMath': [['$$', '$$'], ['\\[', '\\]']],
+                        'processEscapes': true,
+                        'processEnvironments': true,
+                        'skipTags': ['script', 'noscript', 'style', 'textarea', 'code'],
+                        'displayAlign': 'center',
+                    },
+                    'HTML-CSS': {
+                        'styles': {'.MathJax_Display': {'margin': 0}},
+                        'linebreaks': {'automatic': true},
+                        // Disable to prevent OTF font loading, which aren't part of our
+                        // distribution.
+                        'imageFont': null,
+                    },
+                    'messageStyle': 'none'
+                });
+                mathjax.Hub.Configured();
+            })();
+            </script>
+            '''))
 
 answers = {}
 examples = {}
