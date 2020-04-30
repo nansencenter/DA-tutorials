@@ -12,7 +12,7 @@ def formatted_display(TYPE,s,bg_color):
     bg = 'background-color:'+ bg_color + ';' #d8e7ff #e2edff
     if   TYPE == "HTML": s = s
     elif TYPE == "MD"  : s = md2html(s)
-    elif TYPE == "TXT" : s = '<code style="'+bg+'">'+s+'</code>'
+    elif TYPE == "TXT" : s = '<pre><code style="'+bg+'">'+s+'</code></pre>'
     s = ''.join([
         '<div ',
         'style="',bg,'padding:0.5em;">',
