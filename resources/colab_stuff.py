@@ -57,6 +57,15 @@ def setup_typeset():
 import subprocess
 import sys
 
+
 # https://stackoverflow.com/a/50255019/38281
-def pip_install(package):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+def pip_install(args):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", *args])
+
+def bootstrap_colab():
+    URL="https://github.com/nansencenter/DA-tutorials.git"
+    subprocess.check_call(["git","clone",URL,"REPO"])
+    pip_install("-q","-r","REPO/requirements.txt")
+    pip_install("-q","jupyter_contrib_nbextensions")
+    # !jupyter contrib nbextension install --user
+    # !jupyter nbextension enable load_tex_macros/main
