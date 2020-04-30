@@ -8,25 +8,29 @@ from IPython.display import HTML, display
 #   Can be fixed by escaping, i.e. writing \_
 
 def formatted_display(TYPE,s,bg_color):
-    s = s[1:] # Remove newline
+
+  # Remove 1st linebreak
+    s = s[1:]
+
+    # Make bg style
     bg = 'background-color:'+ bg_color + ';' #d8e7ff #e2edff
+
+    # Convert from TYPE to HTML
     if   TYPE == "HTML": s = s
     elif TYPE == "MD"  : s = md2html(s)
     elif TYPE == "TXT" : s = '<pre><code>'+s+'</code></pre>'
-    s = ''.join([
-        '<div ',
-        'style="',bg,'padding:0.5em;">',
-        str(s),
-        '</div>'])
+
+    # Compose string
+    s = '<div style="'+bg+'padding:0.5em;">'+str(s)'</div>'
+
+    # Display
     display(HTML(s))
 
 def show_answer(tag):
     formatted_display(*answers[tag], '#dbf9ec') # #d8e7ff
 
-        
 def show_example(tag):
     formatted_display(*examples[tag], '#ffed90')
-
 
 answers = {}
 examples = {}
