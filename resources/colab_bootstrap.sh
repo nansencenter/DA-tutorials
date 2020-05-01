@@ -8,6 +8,7 @@
 # URL="https://raw.githubusercontent.com/nansencenter/DA-tutorials/master/resources/colab_bootstrap.sh"
 #!wget -qO- $URL | bash -s -- --debug
 
+
 setup () {
     set -e
     URL=https://github.com/nansencenter/DA-tutorials.git
@@ -17,11 +18,14 @@ setup () {
     pip install jupyter_contrib_nbextensions
 }
 
-# Quiet execution
-if echo $@ | grep -- '--debug' > /dev/null ; then
-  setup
-else
-  setup > /dev/null 2>&1
+# Only run if we're on colab
+if python -c "import colab"; then
+    # Quiet execution
+    if echo $@ | grep -- '--debug' > /dev/null ; then
+        setup
+    else
+        setup > /dev/null 5>&1
+    fi
+    echo "Initialization for Colab done."
 fi
 
-echo "Initialization for Colab done."
