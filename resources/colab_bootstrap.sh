@@ -24,7 +24,7 @@ if python -c "import colab"; then
     if echo $@ | grep -- '--debug' > /dev/null ; then
         setup
     else
-        setup > /dev/null 5>&1
+        setup > /dev/null 2>&1
     fi
     echo "Initialization for Colab done."
 fi
