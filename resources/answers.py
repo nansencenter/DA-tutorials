@@ -288,12 +288,12 @@ and so is always between 0 and 1.
 ''']
 
 answers['BR Gauss code'] = ['MD',r'''
-    P  = 1/(1/B+1/R)
-    mu = P*(b/B+y/R)
+    P    = 1/(1/B+1/R)
+    xhat = P*(b/B+y/R)
     # Gain version:
-    #     KG = B/(B+R)
-    #     P  = (1-KG)*B
-    #     mu = b + KG*(y-b)
+    #     KG   = B/(B+R)
+    #     P    = (1-KG)*B
+    #     xhat = b + KG*(y-b)
 ''']
 
 answers['Posterior cov'] =  ['MD',r"""
@@ -321,10 +321,11 @@ answers['Why Gaussian'] =  ['MD',r"""
 ###########################################
 
 # Also see 'Gaussian sampling a'
-answers['Gaussian sums'] = ['MD',r'''
+answers['RV sums'] = ['MD',r'''
 By the [linearity of the expected value](https://en.wikipedia.org/wiki/Expected_value#Linearity),
+and that of (Dyn),
 the mean parameter becomes:
-$$ E(Fx+q) =  F E(x) + E(q) = F \hat{x} + \hat{q} \, . $$
+$$ E(Fx+q) =  F E(x) + E(q) = F \hat{x} \, . $$
 
 Moreover, by independence,
 $ Var(Fx+q) = Var(Fx) + Var(q) $,
@@ -354,15 +355,15 @@ The KF accepts a general $F_k$.
 answers['KF_k'] = ['MD',r'''
     ...
         else:
-            PPf[k] = F(k-1)*PPa[k-1]*F(k-1) + Q
-            xxf[k] = F(k-1)*xxa[k-1]
+            BB[k] = F(k-1)*PP[k-1]*F(k-1) + Q
+            bb[k] = F(k-1)*xxhat[k-1]
         # Analysis
-        PPa[k] = 1/(1/PPf[k] + 1/R)
-        xxa[k] = PPa[k] * (xxf[k]/PPf[k] + yy[k]/R)
+        PP[k]    = 1/(1/BB[k] + 1/R)
+        xxhat[k] = PP[k] * (bb[k]/BB[k] + yy[k]/R)
         # Kalman gain form:
-        # KG     = PPf[k] / (PPf[k] + R)
-        # PPa[k] = (1-KG)*PPf[k]
-        # xxa[k] = xxf[k]+KG*(yy[k]-xxf[k])
+        # KG       = BB[k] / (BB[k] + R)
+        # PP[k]    = (1-KG)*BB[k]
+        # xxhat[k] = bb[k]+KG*(yy[k]-bb[k])
 ''']
 
 answers['LinReg compare'] = ['MD',r'''
@@ -377,7 +378,7 @@ $ \hat{x}_K = K \hat{a}_K \, . $
 answers['x_KF == x_LinReg'] = ['MD',r'''
 We'll proceed by induction.  
 
-With $P_1^f = \infty$, we get $P_1 \;(\text{i.e.}\; P_1^a)\; = R$,
+With $B_1 = \infty$, we get $P_1 \;(\text{i.e.}\; P_1)\; = R$,
 which initializes (13).  
 
 Now, inserting (13) in (12) yields:
@@ -420,19 +421,19 @@ $$
 ''']
 
 answers['Asymptotic P when F<1'] = ['MD',r'''
-Note that $P_k^a < P_k^f$ for each $k$
+Note that $P_k < B_k$ for each $k$
 (c.f. the Gaussian-Gaussian Bayes rule from tutorial 2.)
 Thus,
 $$
-P_k^a < P_k^f = F^2 P_{k-1}^f
+P_k < B_k = F^2 B_{k-1}
 \xrightarrow[k \rightarrow \infty]{} 0 \, .
 $$
 ''']
 
 answers['KG fail'] = ['MD',r'''
-Because `PPa[0]` is infinite.
-And while the limit (as `PPf` goes to +infinity) of
-`KG = PPf / (PPf + R)` is 1,
+Because `PP[0]` is infinite.
+And while the limit (as `BB` goes to +infinity) of
+`KG = BB / (BB + R)` is 1,
 its numerical evaluation fails (as it should).
 Note that the infinity did not cause any problems numerically
 for the "weighted average" form.
@@ -756,11 +757,11 @@ answers['EnKF v1'] = ['MD',r'''
                 Perturb  = R_chol @ randn((p,N))
                 KG       = divide_1st_by_2nd(PH, HPH+R)
                 E       += KG @ (y[:,None] - Perturb - Eo)
-            mu[k] = mean(E,axis=1)
+            xhat[k] = mean(E,axis=1)
 ''']
 
 answers['rmse'] = ['MD',r'''
-    rmses = sqrt(np.mean((xx-mu)**2, axis=1))
+    rmses = sqrt(np.mean((xx-xhat)**2, axis=1))
     average = np.mean(rmses)
 ''']
 

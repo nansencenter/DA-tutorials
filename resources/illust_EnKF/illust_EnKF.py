@@ -15,7 +15,7 @@ txts[2] = 'The ensemble is forecasted from time $(t-1)$ to $t$ '+\
           'using the dynamical model $f$.'+LE+'\n'+\
           'We now denote it using the superscript $f$.'+LE
 txts[3] = 'Now we consider the analysis at time t. The ensemble is used'+LE+'\n'+\
-          'to estimate $\mu^f_t$ and $P^f_t$, i.e. the new contour curves.'+LE
+          'to estimate $b_t$ and $B_t$, i.e. the new contour curves.'+LE
 txts[4] = 'The likelihood is taken into account...'+LE+'\n'+LE
 txts[5] = "...which implicitly yields this posterior (Bayes' rule)." +LE+'\n'+LE
 txts[6] = 'Explicitly, however,'+LE+'\n'+\
