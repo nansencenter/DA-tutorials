@@ -101,9 +101,7 @@ macros=r'''%
 \newcommand{\I}[0]{\mat{I}}
 \newcommand{\K}[0]{\mat{K}}
 \newcommand{\bP}[0]{\mat{P}}
-\newcommand{\F}[0]{\mat{F}}
 \newcommand{\bH}[0]{\mat{H}}
-\newcommand{\bF}[0]{\mat{F}}
 \newcommand{\R}[0]{\mat{R}}
 \newcommand{\Q}[0]{\mat{Q}}
 \newcommand{\B}[0]{\mat{B}}
@@ -325,13 +323,13 @@ answers['RV sums'] = ['MD',r'''
 By the [linearity of the expected value](https://en.wikipedia.org/wiki/Expected_value#Linearity),
 and that of (Dyn),
 the mean parameter becomes:
-$$ E(Fx+q) =  F E(x) + E(q) = F \hat{x} \, . $$
+$$ \\text{E}(\\mathscr{M} x+q) =  \\mathscr{M} \\text{E}(x) + \\text{E}(q) = \\mathscr{M} \hat{x} \, . $$
 
 Moreover, by independence,
-$ Var(Fx+q) = Var(Fx) + Var(q) $,
+$ \\text{Var}(\\mathscr{M} x+q) = \\text{Var}(\\mathscr{M} x) + \\text{Var}(q) $,
 and so
 the variance parameter becomes:
-$$ Var(Fx+q) = F^2 P + Q \, .  $$
+$$ \\text{Var}(\\mathscr{M} x+q) = \\mathscr{M}^2 P + Q \, .  $$
 ''']
 
 answers['LinReg deriv'] = ['MD',r'''
@@ -348,15 +346,19 @@ answers['Sequential 2 Recusive'] = ['MD',r'''
 ''']
 
 answers['LinReg ⊂ KF'] = ['MD',r'''
-The linear regression problem is formulated with $F_k = (k+1)/k$.  
-The KF accepts a general $F_k$.
+Linear regression is only optimal if the truth is a straight line,
+i.e. if $\\mathscr{M}_k = (k+1)/k$.  
+
+Compared to the KF, which accepts a general $\\mathscr{M}_k$,
+this is so restrictive that one does not usually think
+of the methods as belonging to the same class at all.
 ''']
 
 answers['KF_k'] = ['MD',r'''
     ...
         else:
-            BB[k] = F(k-1)*PP[k-1]*F(k-1) + Q
-            bb[k] = F(k-1)*xxhat[k-1]
+            BB[k] = Mod(k-1)*PP[k-1]*Mod(k-1) + Q
+            bb[k] = Mod(k-1)*xxhat[k-1]
         # Analysis
         PP[k]    = 1/(1/BB[k] + 1/R)
         xxhat[k] = PP[k] * (bb[k]/BB[k] + yy[k]/R)
@@ -402,15 +404,15 @@ which concludes the induction.
 The proof for (b) is similar.
 ''']
 
-answers['Asymptotic P when F>1'] = ['MD',r'''
+answers['Asymptotic P when M>1'] = ['MD',r'''
 The fixed point $P_\infty$ should satisfy
-$P_\infty = 1/\big(1/R + 1/[F^2 P_\infty]\big)$.
-This yields $P_\infty = R (1-1/F^2)$.  
+$P_\infty = 1/\big(1/R + 1/[\\mathscr{M}^2 P_\infty]\big)$.
+This yields $P_\infty = R (1-1/\\mathscr{M}^2)$.  
 Interestingly, this means that the asymptotic state uncertainty ($P$)
 is directly proportional to the observation uncertainty ($R$).
 ''']
 
-answers['Asymptotic P when F=1'] = ['MD',r'''
+answers['Asymptotic P when M=1'] = ['MD',r'''
 Since
 $ P_k^{-1} = P_{k-1}^{-1} + R^{-1} \, , $
 it follows that
@@ -420,12 +422,12 @@ $$ P_k = \frac{1}{1/P_0 + k/R} \xrightarrow[k \rightarrow \infty]{} 0 \, .
 $$
 ''']
 
-answers['Asymptotic P when F<1'] = ['MD',r'''
+answers['Asymptotic P when M<1'] = ['MD',r'''
 Note that $P_k < B_k$ for each $k$
 (c.f. the Gaussian-Gaussian Bayes rule from tutorial 2.)
 Thus,
 $$
-P_k < B_k = F^2 B_{k-1}
+P_k < B_k = \\mathscr{M}^2 B_{k-1}
 \xrightarrow[k \rightarrow \infty]{} 0 \, .
 $$
 ''']
@@ -746,7 +748,7 @@ answers['EnKF v1'] = ['MD',r'''
         for k in range(1,K+1):
             # Forecast
             t   = k*dt
-            E   = f(E,t-dt,dt)
+            E   = Dyn(E,t-dt,dt)
             E  += Q_chol @ randn((M,N))
             if not k%dkObs:
                 # Analysis
