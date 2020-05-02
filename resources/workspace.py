@@ -46,26 +46,24 @@ def envisat_video():
 ####################################
 # EnKF animation
 ####################################
+# Init image
 wI = Image(
-    value=open("./resources/illust_EnKF/illust_EnKF_prez_8.png", "rb").read(),
+    value=open("./resources/illust_EnKF/illust_EnKF_0.png", "rb").read(),
     format='png',
-    width=600,
-    height=400,
+    width=800,
+    height=600,
 )
-wT = Image(
-    value=open("./resources/illust_EnKF/txts_8.png", "rb").read(),
-    format='png',
-    width=600,
-    height=50,
-)
-def show_image(i=0):
-    img = "./resources/illust_EnKF/illust_EnKF_prez_"+str(i+8)+".png"
-    txt = "./resources/illust_EnKF/txts_"+str(i+8)+".png"
+
+# Update 
+def set_image(i=0):
+    img = "./resources/illust_EnKF/illust_EnKF_"+str(i)+".png"
     wI.value=open(img, "rb").read()
-    wT.value=open(txt, "rb").read()
     
-wS = interactive(show_image,i=(0,7,1))
-EnKF_animation = VBox([wS,wT,wI])
+# Slider
+wS = interactive(set_image,i=(0,7,1))
+
+# Stack elements
+EnKF_animation = VBox([wS,wI])
 
 
 
@@ -83,7 +81,3 @@ def weave_fa(xf,xa=None):
     pw_f  = array([[xa[k  ], xf[k+1], nan] for k in range(len(xf)-1)]).ravel()
     pw_a  = array([[xf[k+1], xa[k+1], nan] for k in range(len(xf)-1)]).ravel()
     return pw_f, pw_a
-
-
-
-
