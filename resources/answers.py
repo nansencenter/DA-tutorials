@@ -754,16 +754,16 @@ answers['EnKF v1'] = ['MD',r'''
                 # Analysis
                 y        = yy[k//dkObs-1] # current obs
                 Eo       = Obs(E,t)
-                PH       = estimate_cross_cov(E,Eo)
-                HPH      = estimate_mean_and_cov(Eo)[1]
+                BH       = estimate_cross_cov(E,Eo)
+                HBH      = estimate_mean_and_cov(Eo)[1]
                 Perturb  = R_chol @ randn((p,N))
-                KG       = divide_1st_by_2nd(PH, HPH+R)
+                KG       = divide_1st_by_2nd(BH, HBH+R)
                 E       += KG @ (y[:,None] - Perturb - Eo)
-            xhat[k] = mean(E,axis=1)
+            xxhat[k] = mean(E,axis=1)
 ''']
 
 answers['rmse'] = ['MD',r'''
-    rmses = sqrt(np.mean((xx-xhat)**2, axis=1))
+    rmses = sqrt(np.mean((xx-xxhat)**2, axis=1))
     average = np.mean(rmses)
 ''']
 
