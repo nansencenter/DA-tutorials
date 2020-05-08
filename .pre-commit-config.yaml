@@ -1,0 +1,18 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.3.0
+    hooks:
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+        exclude: |
+            (?x)( # make whitespace in this regex insignificant and allow comments
+                ^README.md|           # I use double-space line-endings a lot in my MD.
+                ^resources/answers.py # MD also used in answers.
+            )
+
+- repo: https://github.com/patricknraanes/nbhooks.git
+  rev: 1.0.0  # Set to the most recent version
+  hooks:
+  - id: nb-ensure-clean
+    args: [--meta, ExecuteTime]  # Optional blacklist of metadata keys (you can use regex)
