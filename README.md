@@ -40,11 +40,11 @@ This is a bit snappier than running them online.
    If the installation (below) fails, try doing step 1c first.
 
 2. **Install**:  
+   Run these commands in the terminal (excluding the `$` sign):  
    `$ git clone https://github.com/nansencenter/DA-tutorials.git`  
-   `$ pip install -e DA-tutorials`  
-   NB: don't download via your browser (instead of git). This zip won't install.
+   `$ pip install -r DA-tutorials/requirements.txt`  
 
 3. **Launch the Jupyter notebooks**:  
-   `jupyter-notebook`  
+   `$ jupyter-notebook`  
    This will open up a page in your web browser that is a file navigator.  
-   Open (click on) the first tutorial (`T1... .ipynb`), and start going through!
+   Enter the folder `DA-tutorials/notebooks`, and click on a tutorial (`T1... .ipynb`).
