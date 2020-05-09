@@ -1,24 +1,25 @@
-Get started (no installation!) by picking one of these online servers:
+Get started (no installation!) by clicking on of these online servers
+(and entering the `notebooks` folder):
 
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/DA-tutorials/blob/Colab)
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
 - [![Azure Notebooks](https://notebooks.azure.com/launch.png)](https://notebooks.azure.com/import/gh/nansencenter/DA-tutorials) -- Requires MS/Azure account and
-[Step1](./resources/instruction_images/azure1.png)
-[Step2](./resources/instruction_images/azure2.png)
-[Step3](./resources/instruction_images/azure3.png)
+[Step1](./notebooks/resources/instruction_images/azure1.png)
+[Step2](./notebooks/resources/instruction_images/azure2.png)
+[Step3](./notebooks/resources/instruction_images/azure3.png)
 .
 
 
 ### Tutorial format
 <!--
 ! 
-! Previews resources/getting_started/*.svg
+! Previews notebooks/resources/getting_started/*.svg
 ! 
 -->
 
-<!---![Getting started 1](./resources/getting_started/intro1.svg)-->
-<!---![Getting started 2](./resources/getting_started/intro2.svg)-->
-<!---![Getting started 4](./resources/getting_started/intro4.svg)-->
+<!---![Getting started 1](./notebooks/resources/getting_started/intro1.svg)-->
+<!---![Getting started 2](./notebooks/resources/getting_started/intro2.svg)-->
+<!---![Getting started 4](./notebooks/resources/getting_started/intro4.svg)-->
 
 * Interactive (Jupyter notebook) theory and programming exercises.
 * Work in pairs.
