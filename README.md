@@ -1,7 +1,7 @@
 Get started (no installation!) by picking one of these online servers:
 
-- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/DA-tutorials/blob/Colab)
-- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
+- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/DA-tutorials/blob/Colab/notebooks)
+- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials)
 - [![Azure Notebooks](https://notebooks.azure.com/launch.png)](https://notebooks.azure.com/import/gh/nansencenter/DA-tutorials) -- Requires MS/Azure account and
 [Step1](./resources/instruction_images/azure1.png)
 [Step2](./resources/instruction_images/azure2.png)
@@ -46,5 +46,3 @@ This is a bit snappier than running them online.
    `jupyter-notebook`  
    This will open up a page in your web browser that is a file navigator.  
    Open (click on) the first tutorial (`T1... .ipynb`), and start going through!
-
-

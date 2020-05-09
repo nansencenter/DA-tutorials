@@ -19,6 +19,7 @@ setuptools.setup(
       'jupyter>=1.0.0',
       'Markdown==3.1.1',
       ],
+    #pre-commit
 
     packages=setuptools.find_packages(),
 
@@ -38,5 +39,3 @@ setuptools.setup(
     url="https://github.com/nansencenter/DA-tutorials",
     keywords='data-assimilation enkf kalman-filtering state-estimation particle-filter kalman bayesian-methods bayesian-filter chaos',
 )
-
-

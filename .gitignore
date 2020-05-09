@@ -61,6 +61,6 @@ data/
 # GIMP
 *.xcf
 
-resources/companion
+notebooks/resources/companion
 DA and the Dynamics of Ensemble Based Forecasting
 Notes.txt
