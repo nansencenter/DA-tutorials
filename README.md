@@ -1,24 +1,26 @@
-Get started (no installation!) by picking one of these online servers:
+Get started (no installation!) by clicking on of these online servers:
 
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/DA-tutorials/blob/Colab)
-- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials)
+- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
 - [![Azure Notebooks](https://notebooks.azure.com/launch.png)](https://notebooks.azure.com/import/gh/nansencenter/DA-tutorials) -- Requires MS/Azure account and
-[Step1](./resources/instruction_images/azure1.png)
-[Step2](./resources/instruction_images/azure2.png)
-[Step3](./resources/instruction_images/azure3.png)
+[Step1](./notebooks/resources/instruction_images/azure1.png)
+[Step2](./notebooks/resources/instruction_images/azure2.png)
+[Step3](./notebooks/resources/instruction_images/azure3.png)
 .
+
+You will find the tutorials in the `notebooks` folder.
 
 
 ### Tutorial format
 <!--
 ! 
-! Previews resources/getting_started/*.svg
+! Previews notebooks/resources/getting_started/*.svg
 ! 
 -->
 
-<!---![Getting started 1](./resources/getting_started/intro1.svg)-->
-<!---![Getting started 2](./resources/getting_started/intro2.svg)-->
-<!---![Getting started 4](./resources/getting_started/intro4.svg)-->
+<!---![Getting started 1](./notebooks/resources/getting_started/intro1.svg)-->
+<!---![Getting started 2](./notebooks/resources/getting_started/intro2.svg)-->
+<!---![Getting started 4](./notebooks/resources/getting_started/intro4.svg)-->
 
 * Interactive (Jupyter notebook) theory and programming exercises.
 * Work in pairs.
@@ -38,11 +40,11 @@ This is a bit snappier than running them online.
    If the installation (below) fails, try doing step 1c first.
 
 2. **Install**:  
+   Run these commands in the terminal (excluding the `$` sign):  
    `$ git clone https://github.com/nansencenter/DA-tutorials.git`  
-   `$ pip install -e DA-tutorials`  
-   NB: don't download via your browser (instead of git). This zip won't install.
+   `$ pip install -r DA-tutorials/requirements.txt`  
 
 3. **Launch the Jupyter notebooks**:  
-   `jupyter-notebook`  
+   `$ jupyter-notebook`  
    This will open up a page in your web browser that is a file navigator.  
-   Open (click on) the first tutorial (`T1... .ipynb`), and start going through!
+   Enter the folder `DA-tutorials/notebooks`, and click on a tutorial (`T1... .ipynb`).

@@ -13,7 +13,7 @@ setup () {
     set -e
     URL=https://github.com/nansencenter/DA-tutorials.git
     if [[ ! -d REPO ]]; then git clone --depth=1 $URL REPO; fi
-    pip install -e REPO
+    pip install -r REPO/requirements.txt
     cp -r REPO/notebooks/resources ./
 }
 
