@@ -2,10 +2,6 @@ Get started (no installation!) by clicking on of these online servers:
 
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/DA-tutorials/blob/Colab)
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
-- [![Azure Notebooks](https://notebooks.azure.com/launch.png)](https://notebooks.azure.com/import/gh/nansencenter/DA-tutorials) -- Requires MS/Azure account and
-[Step1](./notebooks/resources/instruction_images/azure1.png)
-[Step2](./notebooks/resources/instruction_images/azure2.png)
-[Step3](./notebooks/resources/instruction_images/azure3.png)
 .
 
 You will find the tutorials in the `notebooks` folder.
