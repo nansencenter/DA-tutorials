@@ -28,4 +28,3 @@ if python -c "import colab"; then
     fi
     echo "Initialization for Colab done."
 fi
-

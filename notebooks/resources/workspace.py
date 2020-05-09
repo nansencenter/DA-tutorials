@@ -54,11 +54,11 @@ wI = Image(
     height=600,
 )
 
-# Update 
+# Update
 def set_image(i=0):
     img = "./resources/illust_EnKF/illust_EnKF_"+str(i)+".png"
     wI.value=open(img, "rb").read()
-    
+
 # Slider
 wS = interactive(set_image,i=(0,7,1))
 
