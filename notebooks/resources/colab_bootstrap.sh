@@ -15,6 +15,7 @@ setup () {
     if [[ ! -d REPO ]]; then git clone --depth=1 $URL REPO; fi
     pip install -r REPO/requirements.txt
     cp -r REPO/notebooks/resources ./
+    cp REPO/notebooks/dpr_config.ini ./
 }
 
 # Only run if we're on colab
