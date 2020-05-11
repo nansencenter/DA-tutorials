@@ -766,10 +766,9 @@ Residual: discrepancy from explained to observed data.
 # Tut: Writing your own EnKF
 ###########################################
 answers["EnKF_nobias_a"] = ['MD',r'''
-$$
+$
 '''+macros+r'''
-$$
-Let $\ones$ be the vector of ones of length $N$. Then
+$Let $\ones$ be the vector of ones of length $N$. Then
 $$\begin{align}
     \bx^a
     &= \frac{1}{N} \E^\tn{a} \ones \tag{because $\sum_{n=1}^N \x^\tn{a}_n = \E^\tn{a} \mathbf{1}$.} \\\
@@ -796,10 +795,9 @@ However, this is only when $\E^\tn{f}$ is considered fixed, and its moments assu
 ''']
 
 answers["EnKF_nobias_b"] = ['MD',r'''
-$$
+$
 '''+macros+r'''
-$$
-First, compute the updated anomalies, $\X^\tn{a}$, by inserting  eqn. (4) for $\E^a$:
+$First, compute the updated anomalies, $\X^\tn{a}$, by inserting  eqn. (4) for $\E^a$:
 $$\begin{align}
 	\X^\tn{a}
 	&= \E^a \big( \I_N - \ones \ones\tr / N \big) \\\
@@ -859,10 +857,9 @@ $$\begin{align}
 ''']
 
 answers["EnKF_without_perturbations"] = ['MD',r'''
-$$
+$
 '''+macros+r'''
-$$
-If $\Dobs = \mathbf{0}$, then eqn. (A3) from the previous answer becomes
+$If $\Dobs = \mathbf{0}$, then eqn. (A3) from the previous answer becomes
 $$\begin{align}
     \barP
 	&= (\I_m-\barK \bH)\barB(\I_m-\bH\tr \barK{}\tr) \tag{A5} \, ,
