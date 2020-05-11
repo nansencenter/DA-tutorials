@@ -332,7 +332,19 @@ the variance parameter becomes:
 $$ \\text{Var}(\\mathscr{M} x+q) = \\mathscr{M}^2 P + Q \, .  $$
 ''']
 
-answers['LinReg deriv'] = ['MD',r'''
+answers['LinReg deriv a'] = ['MD',r'''
+$$ \begin{align}
+p\, (y_1, \ldots, y_K \;|\; a)
+&= \prod_{k=1}^K \, p\, (y_k \;|\; a) \tag{each obs. is indep. of others, knowing $a$.} \\\
+&= \prod_k \, \mathcal{N}(y_k \mid a k,R) \tag{inserted eqn. (3) and then (1).} \\\
+&= \prod_k \,  (2 \pi R)^{-1/2} e^{-(x - a k)^2/2 R} \tag{inserted eqn. (G1) from T2.} \\\
+&= c \exp\Big(\frac{-1}{2 R}\sum_k (x - a k)^2\Big) \\\
+\end{align} $$
+Taking the logarithm is a monotonic transformation, so it does not change the location of the maximum location.
+Neither does diving by $c$. Multiplying by $-2 R$ means that the maximum becomes the minimum.
+''']
+
+answers['LinReg deriv b'] = ['MD',r'''
 $$ \frac{d J_K}{d \hat{a}} = 0 = \ldots $$
 ''']
 
@@ -742,6 +754,103 @@ Residual: discrepancy from explained to observed data.
 ###########################################
 # Tut: Writing your own EnKF
 ###########################################
+answers["EnKF_nobias_a"] = ['MD',r'''
+Let $\ones$ be the vector of ones of length $N$. Then
+$$\begin{align}
+    \bx^a
+    &= \frac{1}{N} \E^\tn{a} \ones \tag{because $\sum_{n=1}^N \x^\tn{a}_n = \E^\tn{a} \mathbf{1}$.} \\\
+    &= \frac{1}{N} \E^\tn{f} \ones + \frac{1}{N} \barK
+    \left(\y\ones\tr - \Dobs - \bH \E^\tn{f} \right) \ones \tag{inserting eqn. (4).}
+\end{align}$$
+Assuming $\Dobs \mathbf{1}=0$ yields eqn. (6).
+One might say that the mean of the EnKF update conforms to the KF mean update.  
+
+"Conforming" is not a well-defined math word.
+However, the above expression makes it clear that $\bx^\tn{a}$ is linear with respect to $\Dobs$, so that
+$$\begin{align}
+    \mathbb{E} \bx^\tn{a}
+    &= \frac{1}{N} \E^\tn{f} \ones + \frac{1}{N} \barK
+    \left(\y\ones\tr - \mathbb{E}\Dobs - \bH \E^\tn{f} \right) \\\
+    &= \bx^\tn{f} + \barK \left[\y - \bH \bx^\tn{f}\right] \, .
+\end{align}$$
+
+Now, since $\mathbb{E} \br_n = \mathbf{0}$, i.e. $\mathbb{E} \Dobs = \mathbf{0}$,
+and we again recover eqn. (6).
+
+The conclusion: the mean EnKF update is unbiased...
+However, this is only when $\E^\tn{f}$ is considered fixed, and its moments assumed correct.
+''']
+
+answers["EnKF_nobias_b"] = ['MD',r'''
+First, compute the updated anomalies, $\X^\tn{a}$, by inserting  eqn. (4) for $\E^a$:
+$$\begin{align}
+	\X^\tn{a}
+	&= \E^a \big( \I_N - \ones \ones\tr / N \big) \\\
+	%&= {\X} + \barK\left(\y \ones\tr - \D - \bH \E^f\right) \big( \I_N - \ones \ones\tr / N \big) \\\
+	&= {\X} - \barK \left[\D + \bH \X\right] \, , \tag{A1}
+\end{align}$$
+where the definition of $\D$ has been used.
+
+Inserting eqn. (A1) for the updated ensemble covariance matrix, eqn. (7b):
+$$\begin{align}
+	\barP
+	&= \frac{1}{N-1} \X^\tn{a}{\X^\tn{a}}\tr \\\
+    %
+	&= \frac{1}{N-1} \left({\X} - \barK\left[\D + \bH \X\right]\right)
+	\left({\X} - \barK\left[\D + \bH \X\right]\right)\tr \, .  \tag{A2}
+\end{align}$$
+
+Writing this out, and employing
+the definition of $\barB$, eqn. (7a), yields:
+$$\begin{align}
+    \barP
+	&= \barB + \barK \bH \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr - \barK \bH \barB \tag{A3} \\\
+	&\phantom{= } - \frac{1}{N-1}\left[
+		{\X}\D\tr \barK{}\tr
+		+ \barK\D {\X}\tr
+		- \barK\D {\X}\tr \bH\tr \barK{}\tr
+		- \barK \bH \X \D\tr \barK{}\tr
+		- \barK\D\D\tr \barK{}\tr
+	\right] \notag \, .
+\end{align}$$
+
+Substituting eqns. (9) into eqn. (A3) yields
+$$\begin{align}
+	\barP
+	&=  \barB  + \barK \bH \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr - \barK \bH \barB  + \barK \R \barK{}\tr \tag{A4} \\\
+	&=  (\I_m - \barK \bH) \barB + \barK(\bH \barB \bH\tr + \R)\barK{}\tr -  \barB \bH\tr \barK{}\tr \tag{regrouped.} \\\
+	&=  (\I_m - \barK \bH) \barB + \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr \, , \tag{inserted eqn. (5a).} \\\
+    &=  (\I_m - \barK \bH) \barB \, . \tag{10}
+    \end{align}$$
+Thus the covariance of the EnKF update "conforms" to the KF covariance update.
+
+Finally, eqn. (A3) shows that
+$\barP$ is linear with respect to the objects in eqns. (9).
+Moreover, with $\mathbb{E}$ prepended, eqns. (9) hold true (not just as an assumption).
+Thus, $\mathbb{E} \barP$ also equals eqn. (10).
+
+The conclusion: the analysis/posterior/updated covariance produced by the EnKF is unbiased
+(in the same, limited sense as for the previous exercise.)
+
+Another grouping is also sometimes useful:
+$$\begin{align}
+    \barP
+	&= (\I_m-\barK \bH)\barB(\I_m-\bH\tr \barK{}\tr)  \tag{A4} \\\
+	&\phantom{= } - \frac{1}{N-1}\left[ (\I_m-\barK \bH){\X}\D\tr \barK{}\tr
+	+ \barK\D {\X}\tr(\I_m-\bH\tr \barK{}\tr) - \barK\D \D\tr \barK{}\tr\right] \, , \notag 
+\end{align}$$
+''']
+
+answers["EnKF_without_perturbations"] = ['MD',r'''
+If $\Dobs = \mathbf{0}$, then eqn. (A3) from the previous answer becomes
+$$\begin{align}
+    \barP
+	&= (\I_m-\barK \bH)\barB(\I_m-\bH\tr \barK{}\tr) \tag{A5} \, ,
+\end{align}$$
+which shows that the updated covariance would be too small.
+''']
+
+
 answers['EnKF v1'] = ['MD',r'''
     def my_EnKF(N):
         E = mu0[:,None] + P0_chol @ randn((M,N))

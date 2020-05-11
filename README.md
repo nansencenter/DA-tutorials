@@ -1,13 +1,12 @@
-Get started (no installation!) by clicking on of these online servers:
+# Introduction to data assimilation and the EnKF
 
-- [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/DA-tutorials/blob/Colab)
-- [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
-.
+Jump right in by chosing one of these cloud computing facilities:
 
-You will find the tutorials in the `notebooks` folder.
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/DA-tutorials/blob/Colab)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
 
 
-### Tutorial format
+### Overview
 <!--
 ! 
 ! Previews notebooks/resources/getting_started/*.svg
@@ -18,11 +17,12 @@ You will find the tutorials in the `notebooks` folder.
 <!---![Getting started 2](./notebooks/resources/getting_started/intro2.svg)-->
 <!---![Getting started 4](./notebooks/resources/getting_started/intro4.svg)-->
 
-* Interactive (Jupyter notebook) theory and programming exercises.
-* Work in pairs.
-* Each tutorial takes ≈75 min. of individual work.
-* Each tutorial is followed by summary discussions with the tutor.
-* The tutor will circulate to assist with the exercises.
+* Interactive (Jupyter notebook)
+* Contains theory, code (Python), and exercises.
+* Recommendation: work in pairs.
+* Each tutorial takes ≈75 min.
+* The tutor will circulate to assist with the exercises,  
+  and summarize each section after you have worked on them.
 
 ### Instructions for working locally
 You can also run these notebooks on your own (Linux/Windows/Mac) computer.
