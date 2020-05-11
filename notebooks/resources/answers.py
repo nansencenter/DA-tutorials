@@ -102,6 +102,7 @@ macros=r'''%
 \newcommand{\K}[0]{\mat{K}}
 \newcommand{\bP}[0]{\mat{P}}
 \newcommand{\bH}[0]{\mat{H}}
+\newcommand{\bF}[0]{\mat{F}}
 \newcommand{\R}[0]{\mat{R}}
 \newcommand{\Q}[0]{\mat{Q}}
 \newcommand{\B}[0]{\mat{B}}
@@ -125,6 +126,16 @@ macros=r'''%
 %
 \newcommand{\bx}[0]{\bvec{\bar{x}}}
 \newcommand{\barP}[0]{\mat{\bar{P}}}
+\newcommand{\tn}[1]{#1}
+%
+\newcommand{\bx}[0]{\bvec{\bar{x}}}
+\newcommand{\barB}[0]{\mat{\bar{B}}}
+\newcommand{\barP}[0]{\mat{\bar{P}}}
+\newcommand{\barK}[0]{\mat{\bar{K}}}
+\newcommand{\D}[0]{\mat{D}}
+\newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}}
+\newcommand{\Dmod}[0]{\mat{D}_{\text{mod}}}
+\newcommand{\ones}[0]{\bvec{1}}
 %'''
 
 ###########################################
