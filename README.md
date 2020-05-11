@@ -2,7 +2,6 @@ Get started (no installation!) by clicking on of these online servers:
 
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/DA-tutorials/blob/Colab)
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
-.
 
 You will find the tutorials in the `notebooks` folder.
 
