@@ -766,6 +766,9 @@ Residual: discrepancy from explained to observed data.
 # Tut: Writing your own EnKF
 ###########################################
 answers["EnKF_nobias_a"] = ['MD',r'''
+$$
+'''+macros+r'''
+$$
 Let $\ones$ be the vector of ones of length $N$. Then
 $$\begin{align}
     \bx^a
@@ -793,6 +796,9 @@ However, this is only when $\E^\tn{f}$ is considered fixed, and its moments assu
 ''']
 
 answers["EnKF_nobias_b"] = ['MD',r'''
+$$
+'''+macros+r'''
+$$
 First, compute the updated anomalies, $\X^\tn{a}$, by inserting  eqn. (4) for $\E^a$:
 $$\begin{align}
 	\X^\tn{a}
@@ -853,6 +859,9 @@ $$\begin{align}
 ''']
 
 answers["EnKF_without_perturbations"] = ['MD',r'''
+$$
+'''+macros+r'''
+$$
 If $\Dobs = \mathbf{0}$, then eqn. (A3) from the previous answer becomes
 $$\begin{align}
     \barP
