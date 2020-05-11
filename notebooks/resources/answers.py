@@ -332,7 +332,19 @@ the variance parameter becomes:
 $$ \\text{Var}(\\mathscr{M} x+q) = \\mathscr{M}^2 P + Q \, .  $$
 ''']
 
-answers['LinReg deriv'] = ['MD',r'''
+answers['LinReg deriv a'] = ['MD',r'''
+$$ \begin{align}
+p\, (y_1, \ldots, y_K \;|\; a)
+&= \prod_{k=1}^K \, p\, (y_k \;|\; a) \tag{each obs. is indep. of others, knowing $a$.} \\\
+&= \prod_k \, \mathcal{N}(y_k \mid a k,R) \tag{inserted eqn. (3) and then (1).} \\\
+&= \prod_k \,  (2 \pi R)^{-1/2} e^{-(x - a k)^2/2 R} \tag{inserted eqn. (G1) from T2.} \\\
+&= c \exp\Big(\frac{-1}{2 R}\sum_k (x - a k)^2\Big) \\\
+\end{align} $$
+Taking the logarithm is a monotonic transformation, so it does not change the location of the maximum location.
+Neither does diving by $c$. Multiplying by $-2 R$ means that the maximum becomes the minimum.
+''']
+
+answers['LinReg deriv b'] = ['MD',r'''
 $$ \frac{d J_K}{d \hat{a}} = 0 = \ldots $$
 ''']
 
