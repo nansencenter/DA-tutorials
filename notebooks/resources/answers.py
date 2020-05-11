@@ -123,9 +123,6 @@ macros=r'''%
 %
 \newcommand{\cx}[0]{\text{const}}
 \newcommand{\norm}[1]{\|{#1}\|}
-%
-\newcommand{\bx}[0]{\bvec{\bar{x}}}
-\newcommand{\barP}[0]{\mat{\bar{P}}}
 \newcommand{\tn}[1]{#1}
 %
 \newcommand{\bx}[0]{\bvec{\bar{x}}}
