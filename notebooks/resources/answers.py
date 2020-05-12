@@ -92,9 +92,6 @@ examples = {}
 macros=r'''%
 %MACRO DEFINITION
 \newcommand{\Reals}{\mathbb{R}}
-\newcommand{\Imags}{i\Reals}
-\newcommand{\Integers}{\mathbb{Z}}
-\newcommand{\Naturals}{\mathbb{N}}
 %
 \newcommand{\Expect}[0]{\mathbb{E}}
 \newcommand{\NormDist}{\mathcal{N}}
@@ -105,6 +102,7 @@ macros=r'''%
 %
 \newcommand{\trsign}{{\mathsf{T}}}
 \newcommand{\tr}{^{\trsign}}
+\newcommand{\tn}[1]{#1}
 %
 \newcommand{\I}[0]{\mat{I}}
 \newcommand{\K}[0]{\mat{K}}
@@ -129,18 +127,17 @@ macros=r'''%
 \newcommand{\br}[0]{\bvec{r}}
 \newcommand{\bb}[0]{\bvec{b}}
 %
-\newcommand{\cx}[0]{\text{const}}
-\newcommand{\norm}[1]{\|{#1}\|}
-\newcommand{\tn}[1]{#1}
-%
 \newcommand{\bx}[0]{\bvec{\bar{x}}}
 \newcommand{\barB}[0]{\mat{\bar{B}}}
 \newcommand{\barP}[0]{\mat{\bar{P}}}
 \newcommand{\barK}[0]{\mat{\bar{K}}}
+%
 \newcommand{\D}[0]{\mat{D}}
 \newcommand{\Dobs}[0]{\mat{D}\_{\text{obs}}}
 \newcommand{\Dmod}[0]{\mat{D}\_{\text{obs}}}
+%
 \newcommand{\ones}[0]{\bvec{1}}
+\newcommand{\AN}[0]{\big( \I\_N - \ones \ones\tr / N \big)}
 %'''
 
 ###########################################
