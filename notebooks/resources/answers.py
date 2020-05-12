@@ -131,7 +131,6 @@ macros=r'''%
 \newcommand{\barK}[0]{\mat{\bar{K}}}
 \newcommand{\D}[0]{\mat{D}}
 \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}}
-\newcommand{\Dmod}[0]{\mat{D}_{\text{mod}}}
 \newcommand{\ones}[0]{\bvec{1}}
 %'''
 
@@ -472,10 +471,9 @@ for the "weighted average" form.
 ###########################################
 
 answers['Likelihood derivation'] = ['MD',r'''
-$$
+$
 '''+macros+r'''
-$$
-Imagine that $\y=\br$ (instead of eqn 2),
+$Imagine that $\y=\br$ (instead of eqn 2),
 then the distribution of $\y$ would be the same as for $\br$.
 The only difference is that we've added $\bH \x$, which is a (deterministic/fixed) constant, given $\x$.
 Adding a constant to a random variable just changes its mean,
