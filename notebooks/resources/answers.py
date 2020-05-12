@@ -57,8 +57,8 @@ def setup_typeset():
                     const mathjax = window.MathJax;
                     mathjax.Hub.Config({
                     'tex2jax': {
-                        'inlineMath': [['$', '$'], ['\\(', '\\)']],
-                        'displayMath': [['$$', '$$'], ['\\[', '\\]']],
+                        'inlineMath': [['$', '$']],
+                        'displayMath': [['$$', '$$']],
                         'processEscapes': true,
                         'processEnvironments': true,
                         'skipTags': ['script', 'noscript', 'style', 'textarea', 'code'],
