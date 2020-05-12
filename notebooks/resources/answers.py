@@ -36,11 +36,6 @@ def show_answer(tag):
 def show_example(tag):
     formatted_display(*examples[tag], '#ffed90')
 
-try:
-    import google.colab
-    is_colab = True
-except ImportError:
-    is_colab = False
 
 def setup_typeset():
     """MathJax initialization for the current cell.
@@ -52,7 +47,10 @@ def setup_typeset():
     """
 
     # Only run in Colab
-    if not is_colab: return
+    try:
+        import google.colab
+    except ImportError:
+        return
 
     # Note: The original function enabled \( math \) and \[ math \] style, with:
     #    'inlineMath': [['$', '$'], ['\\(', '\\)']],
