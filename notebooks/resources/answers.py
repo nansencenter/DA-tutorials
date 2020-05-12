@@ -1,11 +1,14 @@
 from markdown import markdown as md2html # better than markdown2 ?
 from IPython.display import HTML, display
 
-# Notes:
+from .macros import macros
+
+# Gotchas:
 # - md2html rendering sometimes breaks
 #   because it has failed to parse the eqn properly.
 #   For ex: _ in math sometimes gets replaced by <em>.
 #   Can be fixed by escaping, i.e. writing \_
+# - Also see note in setup_typeset().
 
 def formatted_display(TYPE,s,bg_color):
 
@@ -35,11 +38,6 @@ def show_answer(tag):
 def show_example(tag):
     formatted_display(*examples[tag], '#ffed90')
 
-try:
-    import google.colab
-    is_colab = True
-except ImportError:
-    is_colab = False
 
 def setup_typeset():
     """MathJax initialization for the current cell.
@@ -49,7 +47,19 @@ def setup_typeset():
     Necessary in Google Colab. Ref:
     https://github.com/googlecolab/colabtools/issues/322
     """
-    if not is_colab: return
+
+    # Only run in Colab
+    try:
+        import google.colab
+    except ImportError:
+        return
+
+    # Note: The original function enabled \( math \) and \[ math \] style, with:
+    #    'inlineMath': [['$', '$'], ['\\(', '\\)']],
+    #    'displayMath': [['$$', '$$'], ['\\[', '\\]']],
+    # but I disabled this coz regular Jupyter does not support this,
+    # and it breaks MD rendering of regular parantheses and brackets.
+
     display(HTML('''
             <script src="https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured"></script>
             <script>
@@ -81,59 +91,6 @@ def setup_typeset():
 answers = {}
 examples = {}
 
-macros=r'''%
-%MACRO DEFINITION
-\newcommand{\Reals}{\mathbb{R}}
-\newcommand{\Imags}{i\Reals}
-\newcommand{\Integers}{\mathbb{Z}}
-\newcommand{\Naturals}{\mathbb{N}}
-%
-\newcommand{\Expect}[0]{\mathbb{E}}
-\newcommand{\NormDist}{\mathcal{N}}
-%
-\newcommand{\mat}[1]{{\mathbf{{#1}}}} 
-%\newcommand{\mat}[1]{{\pmb{\mathsf{#1}}}}
-\newcommand{\bvec}[1]{{\mathbf{#1}}}
-%
-\newcommand{\trsign}{{\mathsf{T}}}
-\newcommand{\tr}{^{\trsign}}
-%
-\newcommand{\I}[0]{\mat{I}}
-\newcommand{\K}[0]{\mat{K}}
-\newcommand{\bP}[0]{\mat{P}}
-\newcommand{\bH}[0]{\mat{H}}
-\newcommand{\bF}[0]{\mat{F}}
-\newcommand{\R}[0]{\mat{R}}
-\newcommand{\Q}[0]{\mat{Q}}
-\newcommand{\B}[0]{\mat{B}}
-\newcommand{\Ri}[0]{\R^{-1}}
-\newcommand{\Bi}[0]{\B^{-1}}
-\newcommand{\X}[0]{\mat{X}}
-\newcommand{\A}[0]{\mat{A}}
-\newcommand{\Y}[0]{\mat{Y}}
-\newcommand{\E}[0]{\mat{E}}
-\newcommand{\U}[0]{\mat{U}}
-\newcommand{\V}[0]{\mat{V}}
-%
-\newcommand{\x}[0]{\bvec{x}}
-\newcommand{\y}[0]{\bvec{y}}
-\newcommand{\q}[0]{\bvec{q}}
-\newcommand{\br}[0]{\bvec{r}}
-\newcommand{\bb}[0]{\bvec{b}}
-%
-\newcommand{\cx}[0]{\text{const}}
-\newcommand{\norm}[1]{\|{#1}\|}
-\newcommand{\tn}[1]{#1}
-%
-\newcommand{\bx}[0]{\bvec{\bar{x}}}
-\newcommand{\barB}[0]{\mat{\bar{B}}}
-\newcommand{\barP}[0]{\mat{\bar{P}}}
-\newcommand{\barK}[0]{\mat{\bar{K}}}
-\newcommand{\D}[0]{\mat{D}}
-\newcommand{\Dobs}[0]{\mat{D}\_{\text{obs}}}
-\newcommand{\Dmod}[0]{\mat{D}\_{\text{obs}}}
-\newcommand{\ones}[0]{\bvec{1}}
-%'''
 
 ###########################################
 # Tut: DA & EnKF
