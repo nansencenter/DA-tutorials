@@ -88,8 +88,8 @@ macros=r'''%
 \newcommand{\Integers}{\mathbb{Z}}
 \newcommand{\Naturals}{\mathbb{N}}
 %
-\newcommand{\Expect}[0]{\mathop{}\! \mathbb{E}}
-\newcommand{\NormDist}{\mathop{}\! \mathcal{N}}
+\newcommand{\Expect}[0]{\mathbb{E}}
+\newcommand{\NormDist}{\mathcal{N}}
 %
 \newcommand{\mat}[1]{{\mathbf{{#1}}}} 
 %\newcommand{\mat}[1]{{\pmb{\mathsf{#1}}}}
@@ -130,8 +130,8 @@ macros=r'''%
 \newcommand{\barP}[0]{\mat{\bar{P}}}
 \newcommand{\barK}[0]{\mat{\bar{K}}}
 \newcommand{\D}[0]{\mat{D}}
-\newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}}
-\newcommand{\Dmod}[0]{\mat{D}_{\text{mod}}}
+\newcommand{\Dobs}[0]{\mat{D}\_{\text{obs}}}
+\newcommand{\Dmod}[0]{\mat{D}\_{\text{obs}}}
 \newcommand{\ones}[0]{\bvec{1}}
 %'''
 
@@ -472,10 +472,9 @@ for the "weighted average" form.
 ###########################################
 
 answers['Likelihood derivation'] = ['MD',r'''
-$$
+$
 '''+macros+r'''
-$$
-Imagine that $\y=\br$ (instead of eqn 2),
+$Imagine that $\y=\br$ (instead of eqn 2),
 then the distribution of $\y$ would be the same as for $\br$.
 The only difference is that we've added $\bH \x$, which is a (deterministic/fixed) constant, given $\x$.
 Adding a constant to a random variable just changes its mean,
@@ -843,14 +842,6 @@ Thus, $\mathbb{E} \barP$ also equals eqn. (10).
 
 The conclusion: the analysis/posterior/updated covariance produced by the EnKF is unbiased
 (in the same, limited sense as for the previous exercise.)
-
-Another grouping is also sometimes useful:
-$$\begin{align}
-    \barP
-	&= (\I_m-\barK \bH)\barB(\I_m-\bH\tr \barK{}\tr)  \tag{A4} \\\
-	&\phantom{= } - \frac{1}{N-1}\left[ (\I_m-\barK \bH){\X}\D\tr \barK{}\tr
-	+ \barK\D {\X}\tr(\I_m-\bH\tr \barK{}\tr) - \barK\D \D\tr \barK{}\tr\right] \, , \notag 
-\end{align}$$
 ''']
 
 answers["EnKF_without_perturbations"] = ['MD',r'''
