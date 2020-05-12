@@ -1,11 +1,12 @@
 from markdown import markdown as md2html # better than markdown2 ?
 from IPython.display import HTML, display
 
-# Notes:
+# Gotchas:
 # - md2html rendering sometimes breaks
 #   because it has failed to parse the eqn properly.
 #   For ex: _ in math sometimes gets replaced by <em>.
 #   Can be fixed by escaping, i.e. writing \_
+# - Also see note in setup_typeset().
 
 def formatted_display(TYPE,s,bg_color):
 
@@ -49,7 +50,16 @@ def setup_typeset():
     Necessary in Google Colab. Ref:
     https://github.com/googlecolab/colabtools/issues/322
     """
+
+    # Only run in Colab
     if not is_colab: return
+
+    # Note: The original function enabled \( math \) and \[ math \] style, with:
+    #    'inlineMath': [['$', '$'], ['\\(', '\\)']],
+    #    'displayMath': [['$$', '$$'], ['\\[', '\\]']],
+    # but I disabled this coz regular Jupyter does not support this,
+    # and it breaks MD rendering of regular parantheses and brackets.
+
     display(HTML('''
             <script src="https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured"></script>
             <script>
