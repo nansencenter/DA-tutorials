@@ -3,6 +3,9 @@ from IPython.display import HTML, display
 
 from .macros import include_macros
 
+def show_answer (tag): formatted_display(*answers[tag], '#dbf9ec') #d8e7ff
+def show_example(tag): formatted_display(*answers[tag], '#ffed90')
+
 def formatted_display(TYPE,content,bg_color):
 
     # Remove 1st linebreak
@@ -24,14 +27,6 @@ def formatted_display(TYPE,content,bg_color):
 
     # Display
     display(HTML(content))
-
-def show_answer(tag):
-    formatted_display(*answers[tag], '#dbf9ec') # #d8e7ff
-
-# TODO: rm examples dict
-def show_example(tag):
-    formatted_display(*examples[tag], '#ffed90')
-
 
 def setup_typeset():
     """MathJax initialization for the current cell.
@@ -85,8 +80,6 @@ def setup_typeset():
             '''))
 
 answers = {}
-examples = {}
-
 
 ###########################################
 # Tut: DA & EnKF
@@ -129,7 +122,7 @@ answers['pdf_G1'] = ['MD',r'''
     # pdf_values = sp.stats.norm.pdf(x,loc=b,scale=sqrt(B))
 ''']
 
-examples['BR'] = ['MD',r'''
+answers['BR'] = ['MD',r'''
  - You believe the temperature $(x)$ in the room is $22°C \pm 2°C$;  
 more specifically, your prior is: $p(x) = \mathcal{N}(x \mid 22, 4)$.  
  - A thermometer yields the observation $y = 24°C \pm 2°C$;  
