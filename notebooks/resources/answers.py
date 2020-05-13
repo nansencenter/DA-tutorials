@@ -482,8 +482,8 @@ answers['Cov memory'] = ['MD',r'''
  * (a). $M$-by-$M$
  * (b). Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
     at least 2 times $M^3/3$.
- * (c). Assume $\mathbf{B}$ stored as float (double). Then it's 8 bytes/element.
- And the number of elements in $\mathbf{B}$: $M^2$. So the total memory is $8 M^2$.
+ * (c). Assume $\B$ stored as float (double). Then it's 8 bytes/element.
+ And the number of elements in $\B$: $M^2$. So the total memory is $8 M^2$.
  * (d). 8 trillion bytes. I.e. 8 million MB. 
 ''']
 
@@ -640,7 +640,7 @@ Procedure:
 
  1. Repeat the experiment many times.
  2. Compute the average error ("bias") of $\overline{\mathbf{x}}$. Verify that it converges to 0 as $N$ is increased.
- 3. Compute the average *squared* error. Verify that it is approximately $\text{diag}(\mathbf{B})/N$.
+ 3. Compute the average *squared* error. Verify that it is approximately $\text{diag}(\B)/N$.
 ''']
 
 answers['ensemble moments'] = ['MD',r'''
@@ -662,7 +662,7 @@ answers['ensemble moments vectorized'] = ['MD',r'''
  * (a). Show that element $(i,j)$ of the matrix product $\mathbf{X}^{} \mathbf{Y}^T$
  equals element $(i,j)$ of the sum of the outer product of their columns:
  $\sum_n \mathbf{x}_n \mathbf{y}_n^T$.
- Put this in the context of $\overline{\mathbf{B}}$.
+ Put this in the context of $\overline{\B}$.
  * (b). Use the following
  
 code:
