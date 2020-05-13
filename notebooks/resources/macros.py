@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+# Macros must be included in every answer that uses them.
+# Macros must also be included in every notebook.
+# I used to include them in every cell that used them,
+# but that does not appear to be necessary anymore.
+
 
 from pathlib import Path
 import re
