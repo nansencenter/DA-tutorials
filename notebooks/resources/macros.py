@@ -7,12 +7,6 @@ import sys
 
 import nbformat
 
-# Gotchas:
-# - md2html rendering sometimes breaks
-#   because it has failed to parse the eqn properly.
-#   For ex: _ in math sometimes gets replaced by <em>.
-#   Can be fixed by escaping, i.e. writing \_
-
 macros=r'''$
 % START OF MACRO DEF
 % DO NOT EDIT IN INDIVIDUAL NOTEBOOKS, BUT IN '''+__file__+r'''
@@ -58,11 +52,11 @@ macros=r'''$
 \newcommand{\barK}[0]{\mat{\bar{K}}}
 %
 \newcommand{\D}[0]{\mat{D}}
-\newcommand{\Dobs}[0]{\mat{D}\_{\text{obs}}}
-\newcommand{\Dmod}[0]{\mat{D}\_{\text{obs}}}
+\newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}}
+\newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}}
 %
 \newcommand{\ones}[0]{\bvec{1}}
-\newcommand{\AN}[0]{\big( \I\_N - \ones \ones\tr / N \big)}
+\newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 %
 % END OF MACRO DEF
 $'''
@@ -90,6 +84,8 @@ def include_macros(content):
         mm = [_macros[i] for i in ii]
         # PRE-pend those that should always be there
         mm = [m for m in _macros if ("ALWAYS" in m) and (m not in mm)] + mm
+        # Escape underscore coz md2html sometimes interprets it as <em>.
+        # mm = [m.replace("_","\\_") for m in mm]
         # Include surrounding dollar signs
         mm = _macros[:1] + mm + _macros[-1:]
         # Insert space if needed
@@ -99,7 +95,7 @@ def include_macros(content):
     return content
 
 
-def broadcast_macros(nb):
+def broadcast_macros():
     """Insert macros in 1st markdown cell of all notebooks."""
 
     def find_notebooks():
