@@ -76,7 +76,7 @@ delimit = lambda m: re.compile( no_escape(m) + r'(_|\b)' )
 
 
 def include_macros(content):
-    """Include those macros that are used in content (used for answers.)"""
+    """Include macros in answers. Only those that are required."""
     # Find macros present in content
     ii = [i for macro, i in lineno_by_name.items() if delimit(macro).search(content)]
     # Include in content
@@ -85,7 +85,7 @@ def include_macros(content):
         # PRE-pend those that should always be there
         mm = [m for m in _macros if ("ALWAYS" in m) and (m not in mm)] + mm
         # Escape underscore coz md2html sometimes interprets it as <em>.
-        # mm = [m.replace("_","\\_") for m in mm]
+        mm = [m.replace("_","\\_") for m in mm]
         # Include surrounding dollar signs
         mm = _macros[:1] + mm + _macros[-1:]
         # Insert space if needed
