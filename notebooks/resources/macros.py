@@ -7,6 +7,12 @@ import sys
 
 import nbformat
 
+# Gotchas:
+# - md2html rendering sometimes breaks
+#   because it has failed to parse the eqn properly.
+#   For ex: _ in math sometimes gets replaced by <em>.
+#   Can be fixed by escaping, i.e. writing \_
+
 macros=r'''$
 % START OF MACRO DEF
 % DO NOT EDIT IN INDIVIDUAL NOTEBOOKS, BUT IN '''+__file__+r'''
@@ -15,13 +21,13 @@ macros=r'''$
 \newcommand{\Expect}[0]{\mathbb{E}}
 \newcommand{\NormDist}{\mathcal{N}}
 %
-\newcommand{\mat}[1]{{\mathbf{{#1}}}}
+\newcommand{\mat}[1]{{\mathbf{{#1}}}} % ALWAYS
 %\newcommand{\mat}[1]{{\pmb{\mathsf{#1}}}}
-\newcommand{\bvec}[1]{{\mathbf{#1}}}
+\newcommand{\bvec}[1]{{\mathbf{#1}}} % ALWAYS
 %
-\newcommand{\trsign}{{\mathsf{T}}}
-\newcommand{\tr}{^{\trsign}}
-\newcommand{\tn}[1]{#1}
+\newcommand{\trsign}{{\mathsf{T}}} % ALWAYS
+\newcommand{\tr}{^{\trsign}} % ALWAYS
+\newcommand{\tn}[1]{#1} % ALWAYS
 %
 \newcommand{\I}[0]{\mat{I}}
 \newcommand{\K}[0]{\mat{K}}
@@ -64,6 +70,7 @@ $'''
 _macros = macros.split("\n")
 _HEADER = _macros[1]
 _FOOTER = _macros[-2]
+
 
 def broadcast_macros(nb):
     """Insert macros in 1st markdown cell."""

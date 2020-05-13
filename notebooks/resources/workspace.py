@@ -8,7 +8,7 @@ mpl.use('nbAgg') # inline (like ipkernel/pylab/backend_inline.py), and interacti
 from dapper import *
 
 # Load answers
-from .answers import answers, show_answer, show_example, macros
+from .answers import answers, show_answer, show_example
 
 # Load widgets
 from ipywidgets import *
