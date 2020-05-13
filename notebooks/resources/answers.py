@@ -1,45 +1,23 @@
-import re
-
 from markdown import markdown as md2html # better than markdown2 ?
 from IPython.display import HTML, display
 
-from .macros import macros
-# Convert to {macro_name: macro_lineno}
-regex = re.compile(r'''^\\newcommand{(.+?)}''')
-_macros = macros.split("\n")
-macro_d = {m.group(1):i for i,ln in enumerate(_macros) for m in [regex.match(ln)] if m}
-# Search for a macro, for ex. \mat, including \mat_, but not \mathbf:
-delimit = lambda m: re.compile( m.replace("\\",r"\\") + r'(_|\b)' )
-
+from .macros import include_macros
 
 def formatted_display(TYPE,content,bg_color):
 
     # Remove 1st linebreak
     content = content[1:]
 
-    # Make bg style
-    bg = 'background-color:'+ bg_color + ';' #d8e7ff #e2edff
-
     # Convert from TYPE to HTML
-    if TYPE == "HTML":
-        content = content
-    elif TYPE == "TXT":
-        content = '<pre><code>'+content+'</code></pre>'
-    elif TYPE == "MD":
-        # Find required macros
-        mm = [_macros[macro_d[m]] for m in macro_d if delimit(m).search(content)]
-        # Include macros
-        if mm:
-            mm = [m for m in _macros if ("ALWAYS" in m) and (m not in mm)] + mm
-            mm = "\n".join(_macros[:1] + mm + _macros[-1:])
-            space = " " if content.startswith("$") else ""
-            content = mm + space + content
-        # Convert
-        src = content
-        content = md2html(content)
+    if   TYPE == "HTML": content = content
+    elif TYPE == "TXT" : content = '<pre><code>'+content+'</code></pre>'
+    elif TYPE == "MD"  : content = md2html(include_macros(content))
+
+    # Make bg style
+    bg_color = 'background-color:'+ bg_color + ';' #d8e7ff #e2edff
 
     # Compose string
-    content = '<div style="'+bg+'padding:0.5em;">'+str(content)+'</div>'
+    content = '<div style="'+bg_color+'padding:0.5em;">'+str(content)+'</div>'
 
     # Fix Colab - MathJax incompatibility
     setup_typeset()
@@ -50,6 +28,7 @@ def formatted_display(TYPE,content,bg_color):
 def show_answer(tag):
     formatted_display(*answers[tag], '#dbf9ec') # #d8e7ff
 
+# TODO: rm examples dict
 def show_example(tag):
     formatted_display(*examples[tag], '#ffed90')
 
