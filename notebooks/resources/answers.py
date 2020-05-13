@@ -611,7 +611,7 @@ answers["doubling time"] = ["MD",r"""
 
 # Moreover,
 # $$\newcommand{\b}{\mathbf{b}} \newcommand{\x}{\mathbf{x}} \newcommand{\z}{\mathbf{z}} \newcommand{\L}{\mathbf{L}}
-# E((\x - \b)(\x - \b)^T) = E((\L \z)(\L \z)^T) = \L E(\z^{} \z^T) \L^T = \L \mathbf{I}_m \L^T = \L \L^T \, .$$
+# E((\x - \b)(\x - \b)^T) = E((\L \z)(\L \z)^T) = \L E(\z^{} \z^T) \L^T = \L \mathbf{I}_M \L^T = \L \L^T \, .$$
 # ''']
 
 answers['KDE'] = ['MD',r'''
@@ -767,9 +767,9 @@ Substituting eqns. (9) into eqn. (A3) yields
 $$\begin{align}
 	\barP
 	&=  \barB  + \barK \bH \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr - \barK \bH \barB  + \barK \R \barK{}\tr \tag{A4} \\\
-	&=  (\I_m - \barK \bH) \barB + \barK(\bH \barB \bH\tr + \R)\barK{}\tr -  \barB \bH\tr \barK{}\tr \tag{regrouped.} \\\
-	&=  (\I_m - \barK \bH) \barB + \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr \, , \tag{inserted eqn. (5a).} \\\
-    &=  (\I_m - \barK \bH) \barB \, . \tag{10}
+	&=  (\I_M - \barK \bH) \barB + \barK(\bH \barB \bH\tr + \R)\barK{}\tr -  \barB \bH\tr \barK{}\tr \tag{regrouped.} \\\
+	&=  (\I_M - \barK \bH) \barB + \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr \, , \tag{inserted eqn. (5a).} \\\
+    &=  (\I_M - \barK \bH) \barB \, . \tag{10}
     \end{align}$$
 Thus the covariance of the EnKF update "conforms" to the KF covariance update.
 
@@ -786,7 +786,7 @@ answers["EnKF_without_perturbations"] = ['MD',r'''
 If $\Dobs = \mathbf{0}$, then eqn. (A3) from the previous answer becomes
 $$\begin{align}
     \barP
-	&= (\I_m-\barK \bH)\barB(\I_m-\bH\tr \barK{}\tr) \tag{A5} \, ,
+	&= (\I_M-\barK \bH)\barB(\I_M-\bH\tr \barK{}\tr) \tag{A5} \, ,
 \end{align}$$
 which shows that the updated covariance would be too small.
 ''']
