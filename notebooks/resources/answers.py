@@ -1,43 +1,32 @@
 from markdown import markdown as md2html # better than markdown2 ?
 from IPython.display import HTML, display
 
-from .macros import macros
+from .macros import include_macros
 
-# Gotchas:
-# - md2html rendering sometimes breaks
-#   because it has failed to parse the eqn properly.
-#   For ex: _ in math sometimes gets replaced by <em>.
-#   Can be fixed by escaping, i.e. writing \_
-# - Also see note in setup_typeset().
+def show_answer (tag): formatted_display(*answers[tag], '#dbf9ec') #d8e7ff
+def show_example(tag): formatted_display(*answers[tag], '#ffed90')
 
-def formatted_display(TYPE,s,bg_color):
+def formatted_display(TYPE,content,bg_color):
 
     # Remove 1st linebreak
-    s = s[1:]
-
-    # Make bg style
-    bg = 'background-color:'+ bg_color + ';' #d8e7ff #e2edff
+    content = content[1:]
 
     # Convert from TYPE to HTML
-    if   TYPE == "HTML": s = s
-    elif TYPE == "MD"  : s = md2html(s)
-    elif TYPE == "TXT" : s = '<pre><code>'+s+'</code></pre>'
+    if   TYPE == "HTML": content = content
+    elif TYPE == "TXT" : content = '<pre><code>'+content+'</code></pre>'
+    elif TYPE == "MD"  : content = md2html(include_macros(content))
+
+    # Make bg style
+    bg_color = 'background-color:'+ bg_color + ';' #d8e7ff #e2edff
 
     # Compose string
-    s = '<div style="'+bg+'padding:0.5em;">'+str(s)+'</div>'
+    content = '<div style="'+bg_color+'padding:0.5em;">'+str(content)+'</div>'
 
     # Fix Colab - MathJax incompatibility
     setup_typeset()
 
     # Display
-    display(HTML(s))
-
-def show_answer(tag):
-    formatted_display(*answers[tag], '#dbf9ec') # #d8e7ff
-
-def show_example(tag):
-    formatted_display(*examples[tag], '#ffed90')
-
+    display(HTML(content))
 
 def setup_typeset():
     """MathJax initialization for the current cell.
@@ -60,8 +49,10 @@ def setup_typeset():
     # but I disabled this coz regular Jupyter does not support this,
     # and it breaks MD rendering of regular parantheses and brackets.
 
-    display(HTML('''
-            <script src="https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured"></script>
+    script1 = '''https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js'''
+    script1 += '''?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured'''
+    script1 = '''<script src="%s"></script>'''%script1
+    display(HTML(script1 + '''
             <script>
                 (() => {
                     const mathjax = window.MathJax;
@@ -89,8 +80,6 @@ def setup_typeset():
             '''))
 
 answers = {}
-examples = {}
-
 
 ###########################################
 # Tut: DA & EnKF
@@ -133,7 +122,7 @@ answers['pdf_G1'] = ['MD',r'''
     # pdf_values = sp.stats.norm.pdf(x,loc=b,scale=sqrt(B))
 ''']
 
-examples['BR'] = ['MD',r'''
+answers['BR'] = ['MD',r'''
  - You believe the temperature $(x)$ in the room is $22°C \pm 2°C$;  
 more specifically, your prior is: $p(x) = \mathcal{N}(x \mid 22, 4)$.  
  - A thermometer yields the observation $y = 24°C \pm 2°C$;  
@@ -429,9 +418,7 @@ for the "weighted average" form.
 ###########################################
 
 answers['Likelihood derivation'] = ['MD',r'''
-$
-'''+macros+r'''
-$Imagine that $\y=\br$ (instead of eqn 2),
+Imagine that $\y=\br$ (instead of eqn 2),
 then the distribution of $\y$ would be the same as for $\br$.
 The only difference is that we've added $\bH \x$, which is a (deterministic/fixed) constant, given $\x$.
 Adding a constant to a random variable just changes its mean,
@@ -455,7 +442,6 @@ $$
 answers['KF precision'] = ['MD',r'''
 By Bayes' rule:
 $$
-'''+macros+r'''
 \begin{align}
 - 2 \log p(\x|\y) =
 \norm{\bH \x-\y}\_\R^2 + \norm{\x - \bb}\_\B^2
@@ -500,7 +486,6 @@ answers['Cov memory'] = ['MD',r'''
 answers['Woodbury'] = ['MD',r'''
 We show that they cancel:
 $$
-'''+macros+r'''
 \begin{align}
   &\left(\B^{-1}+\V\tr \R^{-1} \U \right)
   \left[ \B - \B \V\tr \left(\R+\U \B \V\tr \right)^{-1} \U \B \right] \\\
@@ -515,9 +500,7 @@ $$
 ''']
 
 answers['Woodbury C1'] = ['MD',r'''
-$
-'''+macros+r'''
-$The corollary follows from the Woodbury identity
+The corollary follows from the Woodbury identity
 by replacing $\V,\U$ by $\bH$,
 *provided that everything is still well-defined*.
 In other words,
@@ -531,9 +514,7 @@ and hence invertible.
 ''']
 
 answers['Woodbury C2'] = ['MD',r'''
-$
-'''+macros+r'''
-$A straightforward validation of (C2)
+A straightforward validation of (C2)
 is obtained by cancelling out one side with the other.
 A more satisfying exercise is to derive it from (C1)
 starting by right-multiplying by $\bH\tr$.
@@ -719,9 +700,7 @@ Residual: discrepancy from explained to observed data.
 # Tut: Writing your own EnKF
 ###########################################
 answers["EnKF_nobias_a"] = ['MD',r'''
-$
-'''+macros+r'''
-$Let $\ones$ be the vector of ones of length $N$. Then
+Let $\ones$ be the vector of ones of length $N$. Then
 $$\begin{align}
     \bx^a
     &= \frac{1}{N} \E^\tn{a} \ones \tag{because $\sum_{n=1}^N \x^\tn{a}_n = \E^\tn{a} \mathbf{1}$.} \\\
@@ -748,9 +727,7 @@ However, this is only when $\E^\tn{f}$ is considered fixed, and its moments assu
 ''']
 
 answers["EnKF_nobias_b"] = ['MD',r'''
-$
-'''+macros+r'''
-$First, compute the updated anomalies, $\X^\tn{a}$, by inserting  eqn. (4) for $\E^a$:
+First, compute the updated anomalies, $\X^\tn{a}$, by inserting  eqn. (4) for $\E^a$:
 $$\begin{align}
 	\X^\tn{a}
 	&= \E^a \big( \I_N - \ones \ones\tr / N \big) \\\
@@ -802,9 +779,7 @@ The conclusion: the analysis/posterior/updated covariance produced by the EnKF i
 ''']
 
 answers["EnKF_without_perturbations"] = ['MD',r'''
-$
-'''+macros+r'''
-$If $\Dobs = \mathbf{0}$, then eqn. (A3) from the previous answer becomes
+If $\Dobs = \mathbf{0}$, then eqn. (A3) from the previous answer becomes
 $$\begin{align}
     \barP
 	&= (\I_m-\barK \bH)\barB(\I_m-\bH\tr \barK{}\tr) \tag{A5} \, ,
