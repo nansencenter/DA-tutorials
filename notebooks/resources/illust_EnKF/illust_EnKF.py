@@ -12,7 +12,7 @@ txts  += ['We consider a single cycle of the EnKF,'
         'starting with the analysis state\n'
         'at time $(k-1)$.'
         'The contours are "iso-density" curves of '
-        '$\|\mathbf{x}-\mathbf{\hat{x}}_{k-1}\|_{\mathbf{P}_{k-1}}$.']
+        '$\|\mathbf{x}-\mathbf{\hat{x}}_{k-1}\|_{\bP_{k-1}}$.']
 txts  += ['The ensemble $\{\mathbf{x}_n^a\}_{n=1..N}$ is (assumed) sampled from '
         'this distribution.']
 txts  += ['The ensemble is forecasted from time $(k-1)$ to $k$ '
@@ -25,7 +25,7 @@ txts  += ['The obs. likelihood is taken into account...']
 txts  += ["...which (implicitly) yields this posterior (Bayes' rule)."]
 txts  += ['What we actually do, however,\n'
         'is to compute the Kalman gain from '
-        '$\\bar{\mathbf{b}}_k$ and $\\bar{\mathbf{B}}_k$.']
+        '$\\bar{\mathbf{b}}_k$ and $\\bar{\B}_k$.']
 txts  += ['The Kalman gain is then used to shift the ensemble such that '
         'it represents\n'
         'the (implicit) posterior. The cycle can then begin again, '
