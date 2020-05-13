@@ -659,7 +659,7 @@ answers['Why (N-1)'] = ['MD',r'''
 ''']
 
 answers['ensemble moments vectorized'] = ['MD',r'''
- * (a). Show that element $(i,j)$ of the matrix product $\mathbf{X}^{} \mathbf{Y}^T$
+ * (a). Show that element $(i,j)$ of the matrix product $\X^{} \Y^T$
  equals element $(i,j)$ of the sum of the outer product of their columns:
  $\sum_n \mathbf{x}_n \mathbf{y}_n^T$.
  Put this in the context of $\overline{\B}$.
