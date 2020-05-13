@@ -49,9 +49,14 @@ def setup_typeset():
     # but I disabled this coz regular Jupyter does not support this,
     # and it breaks MD rendering of regular parantheses and brackets.
 
-    script1 = '''https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js'''
-    script1 += '''?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured'''
-    script1 = '''<script src="%s"></script>'''%script1
+
+    URL = '''https://colab.research.google.com/static/mathjax/MathJax.js'''
+    URL += '''?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured'''
+    script1 = '''<script src="%s"></script>'''%URL
+    # Alternative URL (also need config?):
+    # - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js 
+    # - https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js
+
     display(HTML(script1 + '''
             <script>
                 (() => {
@@ -715,12 +720,11 @@ However, the above expression makes it clear that $\bx^\tn{a}$ is linear with re
 $$\begin{align}
     \mathbb{E} \bx^\tn{a}
     &= \frac{1}{N} \E^\tn{f} \ones + \frac{1}{N} \barK
-    \left(\y\ones\tr - \mathbb{E}\Dobs - \bH \E^\tn{f} \right) \\\
-    &= \bx^\tn{f} + \barK \left[\y - \bH \bx^\tn{f}\right] \, .
+    \left(\y\ones\tr - \mathbb{E}\Dobs - \bH \E^\tn{f} \right) \, .
 \end{align}$$
 
-Now, since $\mathbb{E} \br_n = \mathbf{0}$, i.e. $\mathbb{E} \Dobs = \mathbf{0}$,
-and we again recover eqn. (6).
+Now, since $\mathbb{E} \br_n = \mathbf{0}$, it follows that $\mathbb{E} \Dobs = \mathbf{0}$,
+and we recover eqn. (6).
 
 The conclusion: the mean EnKF update is unbiased...
 However, this is only when $\E^\tn{f}$ is considered fixed, and its moments assumed correct.
