@@ -173,7 +173,7 @@ $$\texttt{sum(pp)*dx}
 
 <!--
 *Advanced*:
-Firstly, note that normalization is quite necessary, being requried by any expectation computation. For example, $\mathbb{E}(x|y) = \int x \, p(x) \, dx \approx$ `x*pp*dx` is only valid if `pp` has been normalized.
+Firstly, note that normalization is quite necessary, being requried by any expectation computation. For example, $\Expect(x|y) = \int x \, p(x) \, dx \approx$ `x*pp*dx` is only valid if `pp` has been normalized.
 Computation of the normalization constant is automatic/implicit when fitting the distribution to a parametric one (e.g. the Gaussian one).
 Otherwise, we usually delay its computation until strictly necessary
 (for example, not during intermediate stages of conditioning, but at the end).
@@ -282,13 +282,13 @@ answers['RV sums'] = ['MD',r'''
 By the [linearity of the expected value](https://en.wikipedia.org/wiki/Expected_value#Linearity),
 and that of (Dyn),
 the mean parameter becomes:
-$$ \\text{E}(\\mathscr{M} x+q) =  \\mathscr{M} \\text{E}(x) + \\text{E}(q) = \\mathscr{M} \hat{x} \, . $$
+$$ \\Expect(\\DynMod x+q) =  \\DynMod \\Expect(x) + \\Expect(q) = \\DynMod \hat{x} \, . $$
 
 Moreover, by independence,
-$ \\text{Var}(\\mathscr{M} x+q) = \\text{Var}(\\mathscr{M} x) + \\text{Var}(q) $,
+$ \\text{Var}(\\DynMod x+q) = \\text{Var}(\\DynMod x) + \\text{Var}(q) $,
 and so
 the variance parameter becomes:
-$$ \\text{Var}(\\mathscr{M} x+q) = \\mathscr{M}^2 P + Q \, .  $$
+$$ \\text{Var}(\\DynMod x+q) = \\DynMod^2 P + Q \, .  $$
 ''']
 
 answers['LinReg deriv a'] = ['MD',r'''
@@ -318,9 +318,9 @@ answers['Sequential 2 Recusive'] = ['MD',r'''
 
 answers['LinReg ⊂ KF'] = ['MD',r'''
 Linear regression is only optimal if the truth is a straight line,
-i.e. if $\\mathscr{M}_k = (k+1)/k$.  
+i.e. if $\\DynMod_k = (k+1)/k$.  
 
-Compared to the KF, which accepts a general $\\mathscr{M}_k$,
+Compared to the KF, which accepts a general $\\DynMod_k$,
 this is so restrictive that one does not usually think
 of the methods as belonging to the same class at all.
 ''']
@@ -377,8 +377,8 @@ The proof for (b) is similar.
 
 answers['Asymptotic P when M>1'] = ['MD',r'''
 The fixed point $P_\infty$ should satisfy
-$P_\infty = 1/\big(1/R + 1/[\\mathscr{M}^2 P_\infty]\big)$.
-This yields $P_\infty = R (1-1/\\mathscr{M}^2)$.  
+$P_\infty = 1/\big(1/R + 1/[\\DynMod^2 P_\infty]\big)$.
+This yields $P_\infty = R (1-1/\\DynMod^2)$.  
 Interestingly, this means that the asymptotic state uncertainty ($P$)
 is directly proportional to the observation uncertainty ($R$).
 ''']
@@ -398,7 +398,7 @@ Note that $P_k < B_k$ for each $k$
 (c.f. the Gaussian-Gaussian Bayes rule from tutorial 2.)
 Thus,
 $$
-P_k < B_k = \\mathscr{M}^2 B_{k-1}
+P_k < B_k = \\DynMod^2 B_{k-1}
 \xrightarrow[k \rightarrow \infty]{} 0 \, .
 $$
 ''']
@@ -718,12 +718,12 @@ One might say that the mean of the EnKF update conforms to the KF mean update.
 "Conforming" is not a well-defined math word.
 However, the above expression makes it clear that $\bx^\tn{a}$ is linear with respect to $\Dobs$, so that
 $$\begin{align}
-    \mathbb{E} \bx^\tn{a}
+    \Expect \bx^\tn{a}
     &= \frac{1}{N} \E^\tn{f} \ones + \frac{1}{N} \barK
-    \left(\y\ones\tr - \mathbb{E}\Dobs - \bH \E^\tn{f} \right) \, .
+    \left(\y\ones\tr - \Expect\Dobs - \bH \E^\tn{f} \right) \, .
 \end{align}$$
 
-Now, since $\mathbb{E} \br_n = \mathbf{0}$, it follows that $\mathbb{E} \Dobs = \mathbf{0}$,
+Now, since $\Expect \br_n = \mathbf{0}$, it follows that $\Expect \Dobs = \mathbf{0}$,
 and we recover eqn. (6).
 
 The conclusion: the mean EnKF update is unbiased...
@@ -775,8 +775,8 @@ Thus the covariance of the EnKF update "conforms" to the KF covariance update.
 
 Finally, eqn. (A3) shows that
 $\barP$ is linear with respect to the objects in eqns. (9).
-Moreover, with $\mathbb{E}$ prepended, eqns. (9) hold true (not just as an assumption).
-Thus, $\mathbb{E} \barP$ also equals eqn. (10).
+Moreover, with $\Expect$ prepended, eqns. (9) hold true (not just as an assumption).
+Thus, $\Expect \barP$ also equals eqn. (10).
 
 The conclusion: the analysis/posterior/updated covariance produced by the EnKF is unbiased
 (in the same, limited sense as for the previous exercise.)

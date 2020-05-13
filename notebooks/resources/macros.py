@@ -20,6 +20,9 @@ macros=r'''$
 \newcommand{\Expect}[0]{\mathbb{E}}
 \newcommand{\NormDist}{\mathcal{N}}
 %
+\newcommand{\DynMod}[0]{\mathscr{M}}
+\newcommand{\ObsMod}[0]{\mathscr{H}}
+%
 \newcommand{\mat}[1]{{\mathbf{{#1}}}} % ALWAYS
 %\newcommand{\mat}[1]{{\pmb{\mathsf{#1}}}}
 \newcommand{\bvec}[1]{{\mathbf{#1}}} % ALWAYS
@@ -101,7 +104,7 @@ def include_macros(content):
 
 
 def broadcast_macros():
-    """Insert macros in 1st markdown cell of all notebooks."""
+    """Insert macros in notebooks (1st markdown cell)."""
 
     def find_notebooks():
         ff = [str(f) for f in Path().glob("notebooks/T*.ipynb")]
@@ -117,20 +120,25 @@ def broadcast_macros():
             if cell["cell_type"] == "markdown":
                 lines = cell["source"].split("\n")
 
-                # Find line indices of macros section.
-                # +/-1 is used to include surrounding dollar signs.
                 try:
+                    # Find line indices of macros section.
+                    # +/-1 is used to include surrounding dollar signs.
                     L1 = lines.index(HEADER)-1
                     L2 = lines.index(FOOTER)+1
-                    assert lines[L1]=="$"
-                    assert lines[L2]=="$"
-                except (ValueError, AssertionError) as e:
-                    return
+                    assert lines[L1]=="$", "Macros in nb could not be parsed."
+                    assert lines[L2]=="$", "Macros in nb could not be parsed."
 
-                if lines[L1:L2+1] != _macros:
-                    lines = lines[:L1] + _macros + lines[L2+1:]
-                    cell["source"] = "\n".join(lines)
+                    if lines[L1:L2+1] != _macros:
+                        lines = lines[:L1] + _macros + lines[L2+1:]
+                        cell["source"] = "\n".join(lines)
+                        return True # indicate that changes were made
+
+                except ValueError as e:
+                    # Macros not found. Insert on top.
+                    cell["source"] = "\n".join(_macros + lines)
                     return True # indicate that changes were made
+
+
 
     for f in sorted(find_notebooks()):
 
