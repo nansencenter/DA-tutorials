@@ -630,7 +630,7 @@ answers['Average sampling error'] = ['MD',r'''
 Procedure:
 
  1. Repeat the experiment many times.
- 2. Compute the average error ("bias") of $\overline{\x}$. Verify that it converges to 0 as $N$ is increased.
+ 2. Compute the average error ("bias") of $\bx$. Verify that it converges to 0 as $N$ is increased.
  3. Compute the average *squared* error. Verify that it is approximately $\text{diag}(\B)/N$.
 ''']
 
@@ -650,13 +650,15 @@ answers['Why (N-1)'] = ['MD',r'''
 ''']
 
 answers['ensemble moments vectorized'] = ['MD',r'''
+
+
  * (a). Show that element $(i,j)$ of the matrix product $\X^{} \Y^T$
  equals element $(i,j)$ of the sum of the outer product of their columns:
  $\sum_n \x_n \y_n^T$.
- Put this in the context of $\overline{\B}$.
- * (b). Use the following
- 
-code:
+ Put this in the context of $\barB$.
+ * (b). Use the following code:
+
+...
 
     x_bar = np.sum(E,axis=1,keepdims=True)/N
     X     = E - x_bar
