@@ -1,10 +1,10 @@
 # Introduction to data assimilation and the EnKF
 
-Jump right in by chosing one of these cloud computing facilities:
+Jump right in by chosing one of these cloud computing providers:
 
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/DA-tutorials/blob/Colab) (requires Google login)
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
-  (may be slow to start up)
+  (sometimes slow to start)
 
 
 ### Overview

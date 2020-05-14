@@ -30,8 +30,9 @@ macros=r'''$
 \newcommand{\trsign}{{\mathsf{T}}} % ALWAYS
 \newcommand{\tr}{^{\trsign}} % ALWAYS
 \newcommand{\tn}[1]{#1} % ALWAYS
+\newcommand{\ceq}[0]{\mathrel{≔}}
 %
-\newcommand{\I}[0]{\mat{I}}
+\newcommand{\I}[0]{\mat{I}} % ALWAYS
 \newcommand{\K}[0]{\mat{K}}
 \newcommand{\bP}[0]{\mat{P}}
 \newcommand{\bH}[0]{\mat{H}}
@@ -39,6 +40,7 @@ macros=r'''$
 \newcommand{\R}[0]{\mat{R}}
 \newcommand{\Q}[0]{\mat{Q}}
 \newcommand{\B}[0]{\mat{B}}
+\newcommand{\C}[0]{\mat{C}}
 \newcommand{\Ri}[0]{\R^{-1}}
 \newcommand{\Bi}[0]{\B^{-1}}
 \newcommand{\X}[0]{\mat{X}}
@@ -50,20 +52,23 @@ macros=r'''$
 %
 \newcommand{\x}[0]{\bvec{x}}
 \newcommand{\y}[0]{\bvec{y}}
+\newcommand{\z}[0]{\bvec{z}}
 \newcommand{\q}[0]{\bvec{q}}
 \newcommand{\br}[0]{\bvec{r}}
 \newcommand{\bb}[0]{\bvec{b}}
 %
 \newcommand{\bx}[0]{\bvec{\bar{x}}}
+\newcommand{\by}[0]{\bvec{\bar{y}}}
 \newcommand{\barB}[0]{\mat{\bar{B}}}
 \newcommand{\barP}[0]{\mat{\bar{P}}}
+\newcommand{\barC}[0]{\mat{\bar{C}}}
 \newcommand{\barK}[0]{\mat{\bar{K}}}
 %
 \newcommand{\D}[0]{\mat{D}}
 \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}}
 \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}}
 %
-\newcommand{\ones}[0]{\bvec{1}}
+\newcommand{\ones}[0]{\bvec{1}} % ALWAYS
 \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 %
 % END OF MACRO DEF

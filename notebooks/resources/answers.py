@@ -436,8 +436,8 @@ p(\y|\x)
 &= \int p(\y,\br|\x) \, d \br \tag{by law of total proba.}  \\\
 &= \int p(\y|\br,\x) \, p(\br|\x) \, d \br \tag{by def. of conditional proba.} \\\
 &= \int \delta\big(\y-(\bH \x + \br)\big) \, p(\br|\x) \, d \br \tag{$\y$ is fully determined by $\x$ and $\br$} \\\
-&= \int \delta\big(\y-(\bH \x + \br)\big) \, \mathcal{N}(\br \mid 0, \R) \, d \br \tag{the draw of $\br$ does not depened on $\x$} \\\
-&= \mathcal{N}(\y - \bH \x \mid 0, \R) \tag{by def. of Dirac Delta} \\\
+&= \int \delta\big(\y-(\bH \x + \br)\big) \, \mathcal{N}(\br \mid \\bvec{0}, \R) \, d \br \tag{the draw of $\br$ does not depened on $\x$} \\\
+&= \mathcal{N}(\y - \bH \x \mid \\bvec{0}, \R) \tag{by def. of Dirac Delta} \\\
 &= \mathcal{N}(\y \mid \bH \x, \R) \tag{by reformulation} \, .
 \end{align}
 $$
@@ -602,18 +602,6 @@ answers["doubling time"] = ["MD",r"""
 # Tut: Ensemble [Monte-Carlo] approach
 ###########################################
 
-# answers['Gaussian sampling a'] = ['MD',r'''
-# Firstly, a linear (affine) transformation can be decomposed into a sequence of sums. This means that $\mathbf{x}$ will be Gaussian.
-# It remains only to calculate its moments.
-
-# By the [linearity of the expected value](https://en.wikipedia.org/wiki/Expected_value#Linearity),
-# $$E(\mathbf{x}) = E(\mathbf{L} \mathbf{z} + \mathbf{b}) = \mathbf{L} E(\mathbf{z}) + \mathbf{b} = \mathbf{b} \, .$$
-
-# Moreover,
-# $$\newcommand{\b}{\mathbf{b}} \newcommand{\x}{\mathbf{x}} \newcommand{\z}{\mathbf{z}} \newcommand{\L}{\mathbf{L}}
-# E((\x - \b)(\x - \b)^T) = E((\L \z)(\L \z)^T) = \L E(\z^{} \z^T) \L^T = \L \mathbf{I}_M \L^T = \L \L^T \, .$$
-# ''']
-
 answers['KDE'] = ['MD',r'''
     from scipy.stats import gaussian_kde`
     ax.plot(xx,gaussian_kde(E.ravel()).evaluate(xx),label="KDE estimate")
@@ -639,7 +627,7 @@ answers['Average sampling error'] = ['MD',r'''
 Procedure:
 
  1. Repeat the experiment many times.
- 2. Compute the average error ("bias") of $\overline{\mathbf{x}}$. Verify that it converges to 0 as $N$ is increased.
+ 2. Compute the average error ("bias") of $\overline{\x}$. Verify that it converges to 0 as $N$ is increased.
  3. Compute the average *squared* error. Verify that it is approximately $\text{diag}(\B)/N$.
 ''']
 
@@ -661,7 +649,7 @@ answers['Why (N-1)'] = ['MD',r'''
 answers['ensemble moments vectorized'] = ['MD',r'''
  * (a). Show that element $(i,j)$ of the matrix product $\X^{} \Y^T$
  equals element $(i,j)$ of the sum of the outer product of their columns:
- $\sum_n \mathbf{x}_n \mathbf{y}_n^T$.
+ $\sum_n \x_n \y_n^T$.
  Put this in the context of $\overline{\B}$.
  * (b). Use the following
  
@@ -708,11 +696,11 @@ answers["EnKF_nobias_a"] = ['MD',r'''
 Let $\ones$ be the vector of ones of length $N$. Then
 $$\begin{align}
     \bx^a
-    &= \frac{1}{N} \E^\tn{a} \ones \tag{because $\sum_{n=1}^N \x^\tn{a}_n = \E^\tn{a} \mathbf{1}$.} \\\
+    &= \frac{1}{N} \E^\tn{a} \ones \tag{because $\sum_{n=1}^N \x^\tn{a}_n = \E^\tn{a} \ones$.} \\\
     &= \frac{1}{N} \E^\tn{f} \ones + \frac{1}{N} \barK
     \left(\y\ones\tr - \Dobs - \bH \E^\tn{f} \right) \ones \tag{inserting eqn. (4).}
 \end{align}$$
-Assuming $\Dobs \mathbf{1}=0$ yields eqn. (6).
+Assuming $\Dobs \ones=\\bvec{0}$ yields eqn. (6).
 One might say that the mean of the EnKF update conforms to the KF mean update.  
 
 "Conforming" is not a well-defined math word.
@@ -723,7 +711,7 @@ $$\begin{align}
     \left(\y\ones\tr - \Expect\Dobs - \bH \E^\tn{f} \right) \, .
 \end{align}$$
 
-Now, since $\Expect \br_n = \mathbf{0}$, it follows that $\Expect \Dobs = \mathbf{0}$,
+Now, since $\Expect \br_n = \bvec{0}$, it follows that $\Expect \Dobs = \bvec{0}$,
 and we recover eqn. (6).
 
 The conclusion: the mean EnKF update is unbiased...
@@ -734,8 +722,8 @@ answers["EnKF_nobias_b"] = ['MD',r'''
 First, compute the updated anomalies, $\X^\tn{a}$, by inserting  eqn. (4) for $\E^a$:
 $$\begin{align}
 	\X^\tn{a}
-	&= \E^a \big( \I_N - \ones \ones\tr / N \big) \\\
-	%&= {\X} + \barK\left(\y \ones\tr - \D - \bH \E^f\right) \big( \I_N - \ones \ones\tr / N \big) \\\
+	&= \E^a \AN \\\
+	%&= {\X} + \barK\left(\y \ones\tr - \D - \bH \E^f\right) \AN \\\
 	&= {\X} - \barK \left[\D + \bH \X\right] \, , \tag{A1}
 \end{align}$$
 where the definition of $\D$ has been used.
@@ -783,7 +771,7 @@ The conclusion: the analysis/posterior/updated covariance produced by the EnKF i
 ''']
 
 answers["EnKF_without_perturbations"] = ['MD',r'''
-If $\Dobs = \mathbf{0}$, then eqn. (A3) from the previous answer becomes
+If $\Dobs = \bvec{0}$, then eqn. (A3) from the previous answer becomes
 $$\begin{align}
     \barP
 	&= (\I_M-\barK \bH)\barB(\I_M-\bH\tr \barK{}\tr) \tag{A5} \, ,
@@ -854,7 +842,7 @@ answers['Rank hist'] = ['MD',r'''
 # The "butterfly" is contained within a certain box (limits for $x$, $y$ and $z$).
 answers['RMSE vs inf error'] = ['MD',r'''
 It follows from [the fact that](https://en.wikipedia.org/wiki/Lp_space#Relations_between_p-norms)
-$ \newcommand{\x}{\mathbf{x}} \|\x\|_2 \leq M^{1/2} \|\x\|\_\infty \text{and}  \|\x\|_1 \leq M^{1/2} \|\x\|_2$
+$ \newcommand{\x}{\x} \|\x\|_2 \leq M^{1/2} \|\x\|\_\infty \text{and}  \|\x\|_1 \leq M^{1/2} \|\x\|_2$
 that
 $$ 
 \text{RMSE} 
