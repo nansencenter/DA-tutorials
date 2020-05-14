@@ -602,18 +602,6 @@ answers["doubling time"] = ["MD",r"""
 # Tut: Ensemble [Monte-Carlo] approach
 ###########################################
 
-# answers['Gaussian sampling a'] = ['MD',r'''
-# Firstly, a linear (affine) transformation can be decomposed into a sequence of sums. This means that $\mathbf{x}$ will be Gaussian.
-# It remains only to calculate its moments.
-
-# By the [linearity of the expected value](https://en.wikipedia.org/wiki/Expected_value#Linearity),
-# $$E(\mathbf{x}) = E(\mathbf{L} \mathbf{z} + \mathbf{b}) = \mathbf{L} E(\mathbf{z}) + \mathbf{b} = \mathbf{b} \, .$$
-
-# Moreover,
-# $$\newcommand{\b}{\mathbf{b}} \newcommand{\x}{\mathbf{x}} \newcommand{\z}{\mathbf{z}} \newcommand{\L}{\mathbf{L}}
-# E((\x - \b)(\x - \b)^T) = E((\L \z)(\L \z)^T) = \L E(\z^{} \z^T) \L^T = \L \mathbf{I}_M \L^T = \L \L^T \, .$$
-# ''']
-
 answers['KDE'] = ['MD',r'''
     from scipy.stats import gaussian_kde`
     ax.plot(xx,gaussian_kde(E.ravel()).evaluate(xx),label="KDE estimate")
@@ -708,11 +696,11 @@ answers["EnKF_nobias_a"] = ['MD',r'''
 Let $\ones$ be the vector of ones of length $N$. Then
 $$\begin{align}
     \bx^a
-    &= \frac{1}{N} \E^\tn{a} \ones \tag{because $\sum_{n=1}^N \x^\tn{a}_n = \E^\tn{a} \mathbf{1}$.} \\\
+    &= \frac{1}{N} \E^\tn{a} \ones \tag{because $\sum_{n=1}^N \x^\tn{a}_n = \E^\tn{a} \ones$.} \\\
     &= \frac{1}{N} \E^\tn{f} \ones + \frac{1}{N} \barK
     \left(\y\ones\tr - \Dobs - \bH \E^\tn{f} \right) \ones \tag{inserting eqn. (4).}
 \end{align}$$
-Assuming $\Dobs \mathbf{1}=\\bvec{0}$ yields eqn. (6).
+Assuming $\Dobs \ones=\\bvec{0}$ yields eqn. (6).
 One might say that the mean of the EnKF update conforms to the KF mean update.  
 
 "Conforming" is not a well-defined math word.
