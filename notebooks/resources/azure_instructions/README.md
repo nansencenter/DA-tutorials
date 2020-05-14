@@ -1,0 +1,6 @@
+![Step1](./instruction_images/azure1.png)
+![Step1](./instruction_images/azure2.png)
+![Step1](./instruction_images/azure3.png)
+![Step1](./instruction_images/azure4.png)
+![Step1](./instruction_images/azure5.png)
+![Step1](./instruction_images/azure6.png)
