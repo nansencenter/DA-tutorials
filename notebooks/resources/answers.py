@@ -351,7 +351,7 @@ $ \hat{x}_K = K \hat{a}_K \, . $
 answers['x_KF == x_LinReg'] = ['MD',r'''
 We'll proceed by induction.  
 
-With $B_1 = \infty$, we get $P_1 \;(\text{i.e.}\; P_1)\; = R$,
+With $B_1 = \infty$, we get $P_1 = R$,
 which initializes (13).  
 
 Now, inserting (13) in (12) yields:
@@ -372,7 +372,7 @@ P_{K+1} &= 1\Big/\big(1/R + \textstyle (\frac{K}{K+1})^2 / P_K\big)
 $$
 which concludes the induction.
 
-The proof for (b) is similar.
+The proof for $\hat{x}_k$ is similar.
 ''']
 
 answers['Asymptotic P when M>1'] = ['MD',r'''
