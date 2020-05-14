@@ -31,7 +31,7 @@ macros=r'''$
 \newcommand{\tr}{^{\trsign}} % ALWAYS
 \newcommand{\tn}[1]{#1} % ALWAYS
 %
-\newcommand{\I}[0]{\mat{I}}
+\newcommand{\I}[0]{\mat{I}} % ALWAYS
 \newcommand{\K}[0]{\mat{K}}
 \newcommand{\bP}[0]{\mat{P}}
 \newcommand{\bH}[0]{\mat{H}}
@@ -63,7 +63,7 @@ macros=r'''$
 \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}}
 \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}}
 %
-\newcommand{\ones}[0]{\bvec{1}}
+\newcommand{\ones}[0]{\bvec{1}} % ALWAYS
 \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 %
 % END OF MACRO DEF

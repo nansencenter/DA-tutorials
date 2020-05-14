@@ -436,8 +436,8 @@ p(\y|\x)
 &= \int p(\y,\br|\x) \, d \br \tag{by law of total proba.}  \\\
 &= \int p(\y|\br,\x) \, p(\br|\x) \, d \br \tag{by def. of conditional proba.} \\\
 &= \int \delta\big(\y-(\bH \x + \br)\big) \, p(\br|\x) \, d \br \tag{$\y$ is fully determined by $\x$ and $\br$} \\\
-&= \int \delta\big(\y-(\bH \x + \br)\big) \, \mathcal{N}(\br \mid 0, \R) \, d \br \tag{the draw of $\br$ does not depened on $\x$} \\\
-&= \mathcal{N}(\y - \bH \x \mid 0, \R) \tag{by def. of Dirac Delta} \\\
+&= \int \delta\big(\y-(\bH \x + \br)\big) \, \mathcal{N}(\br \mid \\mathbf{0}, \R) \, d \br \tag{the draw of $\br$ does not depened on $\x$} \\\
+&= \mathcal{N}(\y - \bH \x \mid \\mathbf{0}, \R) \tag{by def. of Dirac Delta} \\\
 &= \mathcal{N}(\y \mid \bH \x, \R) \tag{by reformulation} \, .
 \end{align}
 $$
@@ -712,7 +712,7 @@ $$\begin{align}
     &= \frac{1}{N} \E^\tn{f} \ones + \frac{1}{N} \barK
     \left(\y\ones\tr - \Dobs - \bH \E^\tn{f} \right) \ones \tag{inserting eqn. (4).}
 \end{align}$$
-Assuming $\Dobs \mathbf{1}=0$ yields eqn. (6).
+Assuming $\Dobs \mathbf{1}=\\mathbf{0}$ yields eqn. (6).
 One might say that the mean of the EnKF update conforms to the KF mean update.  
 
 "Conforming" is not a well-defined math word.
@@ -734,8 +734,8 @@ answers["EnKF_nobias_b"] = ['MD',r'''
 First, compute the updated anomalies, $\X^\tn{a}$, by inserting  eqn. (4) for $\E^a$:
 $$\begin{align}
 	\X^\tn{a}
-	&= \E^a \big( \I_N - \ones \ones\tr / N \big) \\\
-	%&= {\X} + \barK\left(\y \ones\tr - \D - \bH \E^f\right) \big( \I_N - \ones \ones\tr / N \big) \\\
+	&= \E^a \AN \\\
+	%&= {\X} + \barK\left(\y \ones\tr - \D - \bH \E^f\right) \AN \\\
 	&= {\X} - \barK \left[\D + \bH \X\right] \, , \tag{A1}
 \end{align}$$
 where the definition of $\D$ has been used.
