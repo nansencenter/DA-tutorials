@@ -4,9 +4,14 @@
 import matplotlib as mpl
 try:
     import google.colab
-    # mpl.use("module://ipykernel.pylab.backend_inline")
+    # I believe Colab will call `%matplotlib inline` implicitly,
+    # which resets rcParams. Avoid this by already use() its backend.
+    mpl.use("module://ipykernel.pylab.backend_inline")
+
+    # Make figures and fonts larger
     mpl.rcParams.update({'font.size': 15})
     mpl.rcParams.update({'figure.figsize': [10,6]})
+
 except ImportError:
     # inline (like ipkernel/pylab/backend_inline.py) AND interactive:
     mpl.use('nbAgg')
