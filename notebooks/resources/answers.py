@@ -478,13 +478,16 @@ Eqns (5) and (6) follow by identification.
 
 
 # Also comment on CFL condition (when resolution is increased)?
+# Excessive spacing needed for Colab to make list.
 answers['Cov memory'] = ['MD',r'''
- * (a). $M$-by-$M$
- * (b). Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
+
+
+ - (a). $M$-by-$M$
+ - (b). Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
     at least 2 times $M^3/3$.
- * (c). Assume $\B$ stored as float (double). Then it's 8 bytes/element.
- And the number of elements in $\B$: $M^2$. So the total memory is $8 M^2$.
- * (d). 8 trillion bytes. I.e. 8 million MB. 
+ - (c). Assume $\B$ stored as float (double). Then it's 8 bytes/element.
+        And the number of elements in $\B$: $M^2$. So the total memory is $8 M^2$.
+ - (d). 8 trillion bytes. I.e. 8 million MB.
 ''']
 
 
