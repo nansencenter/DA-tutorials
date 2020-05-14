@@ -4,6 +4,7 @@
 import matplotlib as mpl
 try:
     import google.colab
+    # mpl.use("module://ipykernel.pylab.backend_inline")
     mpl.rcParams.update({'font.size': 15})
     mpl.rcParams.update({'figure.figsize': [10,6]})
 except ImportError:
