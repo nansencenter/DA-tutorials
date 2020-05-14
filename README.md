@@ -3,8 +3,12 @@
 Jump right in by chosing one of these cloud computing providers:
 
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/DA-tutorials/blob/Colab) (requires Google login)
+- [![Azure Notebooks](https://notebooks.azure.com/launch.png)](https://notebooks.azure.com/import/gh/nansencenter/DA-tutorials) (requires MS/Azure login and
+[Step1](./notebooks/resources/instruction_images/azure1.png)
+[Step2](./notebooks/resources/instruction_images/azure2.png)
+[Step3](./notebooks/resources/instruction_images/azure3.png))
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
-  (sometimes slow to start)
+  (no login, but sometimes slow to start)
 
 
 ### Overview
