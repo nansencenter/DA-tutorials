@@ -117,8 +117,11 @@ def broadcast_macros():
         assert len(ff), "Must have notebooks dir in PWD."
         return ff
 
-    HEADER = _macros[1]
-    FOOTER = _macros[-2]
+    # Strip % ALWAYS
+    macros = [m.replace("% ALWAYS","") for m in _macros]
+
+    HEADER = macros[1]
+    FOOTER = macros[-2]
 
     def update(nb):
         for cell in nb["cells"]:
@@ -133,14 +136,14 @@ def broadcast_macros():
                     assert lines[L1]=="$", "Macros in nb could not be parsed."
                     assert lines[L2]=="$", "Macros in nb could not be parsed."
 
-                    if lines[L1:L2+1] != _macros:
-                        lines = lines[:L1] + _macros + lines[L2+1:]
+                    if lines[L1:L2+1] != macros:
+                        lines = lines[:L1] + macros + lines[L2+1:]
                         cell["source"] = "\n".join(lines)
                         return True # indicate that changes were made
 
                 except ValueError as e:
                     # Macros not found. Insert on top.
-                    cell["source"] = "\n".join(_macros + lines)
+                    cell["source"] = "\n".join(macros + lines)
                     return True # indicate that changes were made
 
 
