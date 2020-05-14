@@ -30,6 +30,7 @@ macros=r'''$
 \newcommand{\trsign}{{\mathsf{T}}} % ALWAYS
 \newcommand{\tr}{^{\trsign}} % ALWAYS
 \newcommand{\tn}[1]{#1} % ALWAYS
+\newcommand{\ceq}[0]{\mathrel{≔}}
 %
 \newcommand{\I}[0]{\mat{I}} % ALWAYS
 \newcommand{\K}[0]{\mat{K}}
@@ -39,6 +40,7 @@ macros=r'''$
 \newcommand{\R}[0]{\mat{R}}
 \newcommand{\Q}[0]{\mat{Q}}
 \newcommand{\B}[0]{\mat{B}}
+\newcommand{\C}[0]{\mat{C}}
 \newcommand{\Ri}[0]{\R^{-1}}
 \newcommand{\Bi}[0]{\B^{-1}}
 \newcommand{\X}[0]{\mat{X}}
@@ -56,8 +58,10 @@ macros=r'''$
 \newcommand{\bb}[0]{\bvec{b}}
 %
 \newcommand{\bx}[0]{\bvec{\bar{x}}}
+\newcommand{\by}[0]{\bvec{\bar{y}}}
 \newcommand{\barB}[0]{\mat{\bar{B}}}
 \newcommand{\barP}[0]{\mat{\bar{P}}}
+\newcommand{\barC}[0]{\mat{\bar{C}}}
 \newcommand{\barK}[0]{\mat{\bar{K}}}
 %
 \newcommand{\D}[0]{\mat{D}}

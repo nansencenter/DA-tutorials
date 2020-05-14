@@ -627,7 +627,7 @@ answers['Average sampling error'] = ['MD',r'''
 Procedure:
 
  1. Repeat the experiment many times.
- 2. Compute the average error ("bias") of $\overline{\mathbf{x}}$. Verify that it converges to 0 as $N$ is increased.
+ 2. Compute the average error ("bias") of $\overline{\x}$. Verify that it converges to 0 as $N$ is increased.
  3. Compute the average *squared* error. Verify that it is approximately $\text{diag}(\B)/N$.
 ''']
 
@@ -649,7 +649,7 @@ answers['Why (N-1)'] = ['MD',r'''
 answers['ensemble moments vectorized'] = ['MD',r'''
  * (a). Show that element $(i,j)$ of the matrix product $\X^{} \Y^T$
  equals element $(i,j)$ of the sum of the outer product of their columns:
- $\sum_n \mathbf{x}_n \mathbf{y}_n^T$.
+ $\sum_n \x_n \y_n^T$.
  Put this in the context of $\overline{\B}$.
  * (b). Use the following
  
@@ -842,7 +842,7 @@ answers['Rank hist'] = ['MD',r'''
 # The "butterfly" is contained within a certain box (limits for $x$, $y$ and $z$).
 answers['RMSE vs inf error'] = ['MD',r'''
 It follows from [the fact that](https://en.wikipedia.org/wiki/Lp_space#Relations_between_p-norms)
-$ \newcommand{\x}{\mathbf{x}} \|\x\|_2 \leq M^{1/2} \|\x\|\_\infty \text{and}  \|\x\|_1 \leq M^{1/2} \|\x\|_2$
+$ \newcommand{\x}{\x} \|\x\|_2 \leq M^{1/2} \|\x\|\_\infty \text{and}  \|\x\|_1 \leq M^{1/2} \|\x\|_2$
 that
 $$ 
 \text{RMSE} 
