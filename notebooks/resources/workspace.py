@@ -2,7 +2,14 @@
 
 # Load nbAgg backend before dapper does plt.ion()
 import matplotlib as mpl
-mpl.use('nbAgg') # inline (like ipkernel/pylab/backend_inline.py), and interactive.
+try:
+    import google.colab
+    mpl.rcParams.update({'font.size': 15})
+    mpl.rcParams.update({'figure.figsize': [10,6]})
+except ImportError:
+    # inline (like ipkernel/pylab/backend_inline.py) AND interactive:
+    mpl.use('nbAgg')
+
 
 # Load DAPPER
 from dapper import *

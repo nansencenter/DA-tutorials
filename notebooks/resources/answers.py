@@ -351,7 +351,7 @@ $ \hat{x}_K = K \hat{a}_K \, . $
 answers['x_KF == x_LinReg'] = ['MD',r'''
 We'll proceed by induction.  
 
-With $B_1 = \infty$, we get $P_1 \;(\text{i.e.}\; P_1)\; = R$,
+With $B_1 = \infty$, we get $P_1 = R$,
 which initializes (13).  
 
 Now, inserting (13) in (12) yields:
@@ -372,7 +372,7 @@ P_{K+1} &= 1\Big/\big(1/R + \textstyle (\frac{K}{K+1})^2 / P_K\big)
 $$
 which concludes the induction.
 
-The proof for (b) is similar.
+The proof for $\hat{x}_k$ is similar.
 ''']
 
 answers['Asymptotic P when M>1'] = ['MD',r'''
@@ -449,8 +449,8 @@ By Bayes' rule:
 $$
 \begin{align}
 - 2 \log p(\x|\y) =
-\norm{\bH \x-\y}\_\R^2 + \norm{\x - \bb}\_\B^2
- + \cx_1
+\|\bH \x-\y \|\_\R^2 + \| \x - \bb \|\_\B^2
+ + \text{const}_1
 \, .
 \end{align}
 $$
@@ -460,16 +460,16 @@ $$
 - 2 \log p(\x|\y)
 &=
 \x\tr \left( \bH\tr \Ri \bH + \Bi  \right)\x
-- 2\x\tr \left[\bH\tr \Ri \y + \Bi \bb\right] + \cx_2
+- 2\x\tr \left[\bH\tr \Ri \y + \Bi \bb\right] + \text{const}_2
 \, .
 \end{align}
 $$
 Meanwhile
 $$
 \begin{align}
-\norm{\x-\hat{\x}}_\bP^2
+\| \x-\hat{\x} \|_\bP^2
 &=
-\x\tr \bP^{-1} \x - 2 \x\tr \bP^{-1} \hat{\x} + \cx_3
+\x\tr \bP^{-1} \x - 2 \x\tr \bP^{-1} \hat{\x} + \text{const}_3
 \, .
 \end{align}
 $$
@@ -478,13 +478,16 @@ Eqns (5) and (6) follow by identification.
 
 
 # Also comment on CFL condition (when resolution is increased)?
+# Excessive spacing needed for Colab to make list.
 answers['Cov memory'] = ['MD',r'''
- * (a). $M$-by-$M$
- * (b). Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
+
+
+ - (a). $M$-by-$M$
+ - (b). Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
     at least 2 times $M^3/3$.
- * (c). Assume $\B$ stored as float (double). Then it's 8 bytes/element.
- And the number of elements in $\B$: $M^2$. So the total memory is $8 M^2$.
- * (d). 8 trillion bytes. I.e. 8 million MB. 
+ - (c). Assume $\B$ stored as float (double). Then it's 8 bytes/element.
+        And the number of elements in $\B$: $M^2$. So the total memory is $8 M^2$.
+ - (d). 8 trillion bytes. I.e. 8 million MB.
 ''']
 
 
@@ -627,7 +630,7 @@ answers['Average sampling error'] = ['MD',r'''
 Procedure:
 
  1. Repeat the experiment many times.
- 2. Compute the average error ("bias") of $\overline{\x}$. Verify that it converges to 0 as $N$ is increased.
+ 2. Compute the average error ("bias") of $\bx$. Verify that it converges to 0 as $N$ is increased.
  3. Compute the average *squared* error. Verify that it is approximately $\text{diag}(\B)/N$.
 ''']
 
@@ -647,13 +650,15 @@ answers['Why (N-1)'] = ['MD',r'''
 ''']
 
 answers['ensemble moments vectorized'] = ['MD',r'''
+
+
  * (a). Show that element $(i,j)$ of the matrix product $\X^{} \Y^T$
  equals element $(i,j)$ of the sum of the outer product of their columns:
  $\sum_n \x_n \y_n^T$.
- Put this in the context of $\overline{\B}$.
- * (b). Use the following
- 
-code:
+ Put this in the context of $\barB$.
+ * (b). Use the following code:
+
+...
 
     x_bar = np.sum(E,axis=1,keepdims=True)/N
     X     = E - x_bar
