@@ -1,25 +1,24 @@
 """Load tutorials workspace."""
 
-# Load nbAgg backend before dapper does plt.ion()
 import matplotlib as mpl
 try:
     import google.colab
-    # I believe Colab will call `%matplotlib inline` implicitly,
-    # which resets rcParams. Avoid this by already use() its backend.
-    mpl.use("module://ipykernel.pylab.backend_inline")
-    # TODO: still doesn't work!
+    # Colab only supports mpl inline backend => no point loading other.
 
-    # Make figures and fonts larger
+    # Make figures and fonts larger.
+    # This must not be in 1st cell of the notebook, coz Colab does
+    # %matplotlib inline at startup (I think), which resets rcParams.
     mpl.rcParams.update({'font.size': 15})
     mpl.rcParams.update({'figure.figsize': [10,6]})
 
 except ImportError:
-    # inline (like ipkernel/pylab/backend_inline.py) AND interactive:
-    # This should be the same as %matplotlib notebook in newer jupyter.
+    # Use INLINE and INTERACTIVE (zoom, pan, etc) backend,
+    # before dapper does plt.ion().
+    mpl.use('nbAgg') # = %matplotlib notebook in newer jupyter.
     # Note: Why do I sometimes explicitly use %matplotlib inline?
-    # because interactivity is less important,
-    # and it doesn't steal focus from sliders.
-    mpl.use('nbAgg')
+    # Coz interactive steals focus from sliders when using arrow keys.
+    # Since Colab is inline anyways, this should not be in its branch,
+    # to avoid resetting the rcParams.
 
 
 # Load DAPPER
@@ -30,6 +29,7 @@ from .answers import answers, show_answer, show_example
 
 # Load widgets
 from ipywidgets import *
+
 
 ####################################
 # DA video
@@ -60,7 +60,6 @@ def envisat_video():
   return vid
 
 
-
 ####################################
 # EnKF animation
 ####################################
@@ -84,11 +83,9 @@ wS = interactive(set_image,i=(0,7,1))
 EnKF_animation = VBox([wS,wI])
 
 
-
 ####################################
 # Misc
 ####################################
-
 def weave_fa(xf,xa=None):
     "Make piece-wise graph for plotting f/a lines together"
     if xa is None:
