@@ -443,36 +443,29 @@ p(\y|\x)
 $$
 ''']
 
-
 answers['KF precision'] = ['MD',r'''
 By Bayes' rule:
-$$
-\begin{align}
+$$\begin{align}
 - 2 \log p(\x|\y) =
 \|\bH \x-\y \|\_\R^2 + \| \x - \bb \|\_\B^2
  + \text{const}_1
 \, .
-\end{align}
-$$
+\end{align}$$
 Expanding, and gathering terms of equal powers in $\x$ yields:
-$$
-\begin{align}
+$$\begin{align}
 - 2 \log p(\x|\y)
 &=
 \x\tr \left( \bH\tr \Ri \bH + \Bi  \right)\x
 - 2\x\tr \left[\bH\tr \Ri \y + \Bi \bb\right] + \text{const}_2
 \, .
-\end{align}
-$$
+\end{align}$$
 Meanwhile
-$$
-\begin{align}
-\| \x-\hat{\x} \|_\bP^2
+$$\begin{align}
+\| \x-\hat{\x} \|\_\bP^2
 &=
 \x\tr \bP^{-1} \x - 2 \x\tr \bP^{-1} \hat{\x} + \text{const}_3
 \, .
-\end{align}
-$$
+\end{align}$$
 Eqns (5) and (6) follow by identification.
 ''']
 
@@ -606,7 +599,7 @@ answers["doubling time"] = ["MD",r"""
 ###########################################
 
 answers['KDE'] = ['MD',r'''
-    from scipy.stats import gaussian_kde`
+    from scipy.stats import gaussian_kde
     ax.plot(xx,gaussian_kde(E.ravel()).evaluate(xx),label="KDE estimate")
 ''']
 
