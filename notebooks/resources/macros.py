@@ -12,9 +12,12 @@ import sys
 
 import nbformat
 
+# Cannot contain slash coz then Colab doesnt process
+filename = Path(__file__).name
+
 macros=r'''$
 % START OF MACRO DEF
-% DO NOT EDIT IN INDIVIDUAL NOTEBOOKS, BUT IN '''+__file__+r'''
+% DO NOT EDIT IN INDIVIDUAL NOTEBOOKS, BUT IN '''+filename+r'''
 %
 \newcommand{\Reals}{\mathbb{R}}
 \newcommand{\Expect}[0]{\mathbb{E}}
