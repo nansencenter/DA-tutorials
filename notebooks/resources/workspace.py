@@ -15,7 +15,7 @@ except ImportError:
     # Use INLINE and INTERACTIVE (zoom, pan, etc) backend,
     # before dapper does plt.ion().
     mpl.use('nbAgg') # = %matplotlib notebook in newer jupyter.
-    # Note: Why do I sometimes explicitly use %matplotlib inline?
+    # Note: Why do I sometimes use %matplotlib inline?
     # Coz interactive steals focus from sliders when using arrow keys.
     # Since Colab is inline anyways, this should not be in its branch,
     # to avoid resetting the rcParams.
