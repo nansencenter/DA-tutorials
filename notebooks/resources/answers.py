@@ -789,7 +789,7 @@ answers['EnKF v1'] = ['MD',r'''
             t   = k*dt
             E   = Dyn(E,t-dt,dt)
             E  += Q_chol @ randn((M,N))
-            if not k%dkObs:
+            if k%dkObs == 0:
                 # Analysis
                 y        = yy[k//dkObs-1] # current obs
                 Eo       = Obs(E,t)
