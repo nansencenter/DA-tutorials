@@ -312,7 +312,7 @@ answers['LinReg_k'] = ['MD',r'''
     a = sum(kk*yy[kk]) / sum(kk**2)
 ''']
 
-answers['Sequential 2 Recusive'] = ['MD',r'''
+answers['Sequential 2 Recursive'] = ['MD',r'''
     (k+1)/k
 ''']
 
