@@ -595,7 +595,7 @@ answers["doubling time"] = ["MD",r"""
 
 
 ###########################################
-# Tut: Ensemble [Monte-Carlo] approach
+# Tut: Ensemble representation
 ###########################################
 
 answers['KDE'] = ['MD',r'''
