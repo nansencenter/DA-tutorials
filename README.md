@@ -21,7 +21,7 @@ Jump right in using one of these cloud computing providers:
 You can also run these notebooks on your own (Linux/Windows/Mac) computer.
 This is a bit snappier than running them online.
 
-1. **Prerequisite**: Python>=3.6.  
+1. **Prerequisite**: Python>=3.7.  
    If you're not a python expert:  
    1a. Install Python via [Anaconda](https://www.anaconda.com/download).  
    1b. Use the [Anaconda terminal](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html#starting-conda)
