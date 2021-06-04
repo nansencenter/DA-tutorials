@@ -23,11 +23,16 @@ This is a bit snappier than running them online.
 
 1. **Prerequisite**: Python==3.7.  
    If you're not a python expert:  
-   1a. Install Python via [Anaconda](https://www.anaconda.com/download).  
-   1b. Use the [Anaconda terminal](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html#starting-conda)
-       to run the commands below.  
-   1c. (Optional) [Create & activate a new Python environment](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html#managing-environments).
-       If the installation (below) fails, try doing step 1c first.
+   - Install Python via [Anaconda](https://www.anaconda.com/download).  
+   - Open the [Anaconda terminal](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html#starting-conda)
+     Run the following commands.
+
+          conda create --yes --name my-da-env python=3.7
+          conda activate my-da-env
+          python -c 'import sys; print("Version:", sys.version.split()[0])'
+
+     Ensure the output at the end gives version 3.7.  
+     Keep using the same terminal for the commands below.
 
 2. **Install**:  
    Run these commands in the terminal (excluding the `$` sign):  
