@@ -22,25 +22,30 @@ You can also run these notebooks on your own (Linux/Windows/Mac) computer.
 This is a bit snappier than running them online.
 
 1. **Prerequisite**: Python==3.7.  
-   If you're not a python expert:  
-   - Install Python via [Anaconda](https://www.anaconda.com/download).  
-   - Open the [Anaconda terminal](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html#starting-conda)
-     Run the following commands.
+   If you're an expert, setup a python environment however you like.
+   Otherwise:
+   Install [Anaconda](https://www.anaconda.com/download), then
+   open the [Anaconda terminal](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html#starting-conda)
+   and run the following commands:
 
-          conda create --yes --name my-da-env python=3.7
-          conda activate my-da-env
-          python -c 'import sys; print("Version:", sys.version.split()[0])'
+   ```bash
+   conda create --yes --name my-da-env python=3.7
+   conda activate my-da-env
+   python -c 'import sys; print("Version:", sys.version.split()[0])'
+   ```
 
-     Ensure the output at the end gives version 3.7.  
-     Keep using the same terminal for the commands below.
+   Ensure the output at the end gives version 3.7.  
+   *Keep using the same terminal for the commands below.*
 
 2. **Install**:  
-   Run these commands in the terminal (excluding the `$` sign):  
-   `$ git clone https://github.com/nansencenter/DA-tutorials.git`  
-   `$ pip install -r DA-tutorials/requirements.txt`  
+   Run these commands in the terminal:
+   ```sh
+   git clone https://github.com/nansencenter/DA-tutorials.git
+   pip install -r DA-tutorials/requirements.txt
+   ```
 
 3. **Launch the Jupyter notebooks**:  
-   `$ jupyter-notebook`  
+   Run `jupyter-notebook`.  
    This will open up a page in your web browser that is a file navigator.  
    Enter the folder `DA-tutorials/notebooks`, and click on a tutorial (`T1... .ipynb`).
 
