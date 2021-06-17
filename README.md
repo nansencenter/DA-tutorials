@@ -29,8 +29,8 @@ This is a bit snappier than running them online.
    and run the following commands:
 
    ```bash
-   conda create --yes --name my-da-env python=3.7
-   conda activate my-da-env
+   conda create --yes --name my-env python=3.7
+   conda activate my-env
    python -c 'import sys; print("Version:", sys.version.split()[0])'
    ```
 
