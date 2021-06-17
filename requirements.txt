@@ -4,7 +4,7 @@
 # and libraries that had to be pinned) and yields faster startup
 # on Colab.
 DA-DAPPER==0.9.6
-jupyter>=1.0.0
+jupyter==1.0.0
 Markdown==3.1.1
 # https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529#issuecomment-726995518
 nbconvert<6
