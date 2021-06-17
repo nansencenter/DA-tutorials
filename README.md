@@ -39,6 +39,7 @@ This is a bit snappier than running them online.
 
 2. **Install**:  
    Run these commands in the terminal:
+
    ```sh
    git clone https://github.com/nansencenter/DA-tutorials.git
    pip install -r DA-tutorials/requirements.txt
