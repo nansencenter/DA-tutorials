@@ -46,7 +46,11 @@ This is a bit snappier than running them online.
    ```
 
 3. **Launch the Jupyter notebooks**:  
-   Run `jupyter-notebook`.  
+
+   ```sh
+   jupyter-notebook
+   ```
+
    This will open up a page in your web browser that is a file navigator.  
    Enter the folder `DA-tutorials/notebooks`, and click on a tutorial (`T1... .ipynb`).
 
