@@ -35,7 +35,7 @@ This is a bit snappier than running them online.
    ```
 
    Ensure the printed version is 3.7.  
-   *Keep using the same terminal for the commands below.*
+   **Keep using the same terminal for the commands below.**
 
 2. **Install**:  
    Run these commands in the terminal:
