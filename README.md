@@ -45,6 +45,10 @@ This is a bit snappier than running them online.
    pip install -r DA-tutorials/requirements.txt
    ```
 
+   If you don't have `git` you can instead click the green ("Code") button
+   on GitHub and download a zip file, which you can then extract, and `cd` into,
+   before running the `pip install` command **with the appropriate path**.
+
 3. **Launch the Jupyter notebooks**:  
 
    ```sh
