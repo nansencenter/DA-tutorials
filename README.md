@@ -31,10 +31,10 @@ This is a bit snappier than running them online.
    ```bash
    conda create --yes --name my-env python=3.7
    conda activate my-env
-   python -c 'import sys; print("Version:", sys.version.split()[0])'
+   python --version
    ```
 
-   Ensure the output at the end gives version 3.7.  
+   Ensure the printed version is 3.7.  
    *Keep using the same terminal for the commands below.*
 
 2. **Install**:  
