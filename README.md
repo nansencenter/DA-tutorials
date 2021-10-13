@@ -37,25 +37,23 @@ This is a bit snappier than running them online.
    Ensure the printed version is 3.7.  
    *Keep using the same terminal for the commands below.*
 
-2. **Install**:  
-   Run these commands in the terminal:
+2. **Install**:
 
-   ```sh
-   git clone https://github.com/nansencenter/DA-tutorials.git
-   pip install -r DA-tutorials/requirements.txt
-   ```
-
-   If you don't have `git` you can instead click the green ("Code") button
-   on GitHub and download a zip file, which you can then extract, and `cd` into,
-   before running the `pip install` command **with the appropriate path**.
+    - Download and unzip (or `git clone`)
+      this repository (see the green button up top)
+    - Move the resulting folder wherever you like
+    - `cd` into the folder
+    - Install requirements:  
+      `pip install -r path/to/requirements.txt`
 
 3. **Launch the Jupyter notebooks**:  
 
-   ```sh
-   jupyter-notebook
-   ```
+- Launch the "notebook server" by executing:  
 
-   This will open up a page in your web browser that is a file navigator.  
-   Enter the folder `DA-tutorials/notebooks`, and click on a tutorial (`T1... .ipynb`).
+  ```sh
+  jupyter-notebook
+  ```
 
+  This will open up a page in your web browser that is a file navigator.  
+- Enter the folder `DA-tutorials/notebooks`, and click on a tutorial (`T1... .ipynb`).
 <!-- markdownlint-disable-file heading-increment -->
