@@ -8,6 +8,8 @@ jupyter==1.0.0
 Markdown==3.1.1
 # https://github.com/ipython-contrib/jupyter_contrib_nbextensions/issues/1529#issuecomment-726995518
 nbconvert<6
+# https://github.com/pallets/jinja/issues/1626
+jinja2==3.0.3
 # Newer matplotlib is slightly incompatible (tested in T1 and T2)
 matplotlib<3.3
 # Dev tools:
