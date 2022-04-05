@@ -11,7 +11,7 @@ repos:
                 resources/answers.py # MD also used in answers.
             )
 
-- repo: https://github.com/patricknraanes/nbhooks.git
+- repo: https://github.com/patnr/nbhooks.git
   rev: 1.3.3  # Use `pre-commit autoupdate --bleeding-edge` to set to most recent version
   hooks:
   - id: nb-ensure-clean
