@@ -171,19 +171,6 @@ $$\texttt{sum(pp)*dx}
 = \int p(x) \, p(y|x) \, dx
 = \int p(x,y) \, dx
 = p(y) \, .$$
-
-
-<!--
-*Advanced*:
-Firstly, note that normalization is quite necessary, being requried by any expectation computation. For example, $\Expect(x|y) = \int x \, p(x) \, dx \approx$ `x*pp*dx` is only valid if `pp` has been normalized.
-Computation of the normalization constant is automatic/implicit when fitting the distribution to a parametric one (e.g. the Gaussian one).
-Otherwise, we usually delay its computation until strictly necessary
-(for example, not during intermediate stages of conditioning, but at the end).
-Note that when $ p(x|y)$ is not known
-(has not been evaluated) for an entire grid of $x$,
-but only in a few points,
-then "how to normalize" becomes an important question too.
--->
 ''']
 
 answers['pdf_U1'] = ['MD',r'''
