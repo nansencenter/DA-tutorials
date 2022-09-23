@@ -137,7 +137,7 @@ more specifically, the likelihood is: $p(y|x) = \mathcal{N}(24 \mid x, 4)$.
 ''']
 
 answers['BR derivation'] = ['MD',r'''
-<a href="https://en.wikipedia.org/wiki/Bayes%27_theorem#Derivation" target="_blank">Wikipedia</a>
+<a href="https://en.wikipedia.org/wiki/Bayes%27_theorem#For_continuous_random_variables</a>
 
 ''']
 
