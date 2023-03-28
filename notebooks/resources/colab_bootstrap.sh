@@ -42,7 +42,7 @@ main () {
 }
 
 # Only run if we're on colab
-if python -c "import colab"; then
+if python -c "import google.colab"; then
 
     # Use `bash -s -- --debug` to get verbose output
     if echo $@ | grep -E -- '(--debug|-v)' > /dev/null ; then
