@@ -124,6 +124,7 @@ DAGs. Formalises the concept of hidden variables (states).
 answers['pdf_G1'] = ['MD', r'''
     pdf_values = 1/np.sqrt(2*np.pi*B)*np.exp(-0.5*(x-b)**2/B)
     # Version using the scipy (sp) library:
+    # import scipy as sp
     # pdf_values = sp.stats.norm.pdf(x, loc=b, scale=np.sqrt(B))
 ''']
 
@@ -137,7 +138,7 @@ more specifically, the likelihood is: $p(y|x) = \mathcal{N}(24 \mid x, 4)$.
 ''']
 
 answers['BR derivation'] = ['MD', r'''
-<a href="https://en.wikipedia.org/wiki/Bayes%27_theorem#For_continuous_random_variables</a>
+<a href="https://en.wikipedia.org/wiki/Bayes%27_theorem#For_continuous_random_variables" target="_blank">Wikipedia</a>
 
 ''']
 
