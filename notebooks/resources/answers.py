@@ -39,7 +39,7 @@ def setup_typeset():
 
     # Only run in Colab
     try:
-        import google.colab
+        import google.colab  # type: ignore
     except ImportError:
         return
 
@@ -122,9 +122,9 @@ DAGs. Formalises the concept of hidden variables (states).
 # Tut: Bayesian inference
 ###########################################
 answers['pdf_G1'] = ['MD', r'''
-    pdf_values = 1/sqrt(2*pi*B)*exp(-0.5*(x-b)**2/B)
+    pdf_values = 1/np.sqrt(2*np.pi*B)*np.exp(-0.5*(x-b)**2/B)
     # Version using the scipy (sp) library:
-    # pdf_values = sp.stats.norm.pdf(x, loc=b, scale=sqrt(B))
+    # pdf_values = sp.stats.norm.pdf(x, loc=b, scale=np.sqrt(B))
 ''']
 
 answers['BR'] = ['MD', r'''
@@ -177,10 +177,10 @@ answers['pdf_U1'] = ['MD', r'''
     def pdf_U1(x, b, B):
         # Univariate (scalar), Uniform pdf
 
-        pdf_values = ones((x-b).shape)
+        pdf_values = np.ones((x-b).shape)
 
-        a = b - sqrt(3*B)
-        b = b + sqrt(3*B)
+        a = b - np.sqrt(3*B)
+        b = b + np.sqrt(3*B)
 
         pdf_values[x<a] = 0
         pdf_values[x>b] = 0
@@ -297,7 +297,7 @@ $$ \frac{d J_K}{d \hat{a}} = 0 = \ldots $$
 ''']
 
 answers['LinReg_k'] = ['MD', r'''
-    kk = 1+arange(k)
+    kk = 1+np.arange(k)
     a = sum(kk*yy[kk]) / sum(kk**2)
 ''']
 
@@ -574,11 +574,11 @@ $\frac{d \varepsilon}{dt} \approx F \varepsilon + (f-g)$
 answers["doubling time"] = ["MD", r"""
     xx   = output_63[0][:, -1]     # Ensemble of particles at the end of integration
     v    = np.var(xx, axis=0)      # Variance (spread^2) of final ensemble
-    v    = mean(v)                 # homogenize
-    d    = sqrt(v)                 # std. dev.
+    v    = np.mean(v)              # homogenize
+    d    = np.sqrt(v)              # std. dev.
     eps  = [FILL IN SLIDER VALUE]  # initial spread
     T    = [FILL IN SLIDER VALUE]  # integration time
-    rate = log(d/eps)/T            # assuming d = eps*exp(rate*T)
+    rate = np.log(d/eps)/T         # assuming d = eps*exp(rate*T)
     print("Doubling time (approx):", log(2)/rate)
 """]
 
@@ -602,10 +602,10 @@ answers['Gaussian sampling b'] = ['MD', r'''
 ''']
 
 answers['Gaussian sampling c'] = ['MD', r'''
-    E = b[:, None] + L @ randn(M, N)
+    E = b[:, None] + L @ rnd.randn(M, N)
     # Alternatives:
     # E = np.random.multivariate_normal(b, B, N).T
-    # E = ( b + randn(N, M) @ L.T ).T
+    # E = ( b + rnd.randn(N, M) @ L.T ).T
 ''']
 
 answers['Average sampling error'] = ['MD', r'''
@@ -618,7 +618,7 @@ Procedure:
 
 answers['ensemble moments'] = ['MD', r'''
     x_bar = np.sum(E, axis=1)/N
-    B_bar = zeros((M, M))
+    B_bar = np.zeros((M, M))
     for n in range(N):
         xc = (E[:, n] - x_bar)[:, None] # x_centered
         B_bar += xc @ xc.T
@@ -772,26 +772,26 @@ which shows that the updated covariance would be too small.
 
 answers['EnKF v1'] = ['MD', r'''
     def my_EnKF(N):
-        E = mu0[:, None] + P0_chol @ randn(M, N)
+        E = mu0[:, None] + P0_chol @ rnd.randn(M, N)
         for k in range(1, K+1):
             # Forecast
             t   = k*dt
             E   = Dyn(E, t-dt, dt)
-            E  += Q_chol @ randn(M, N)
+            E  += Q_chol @ rnd.randn(M, N)
             if k%dko == 0:
                 # Analysis
                 y        = yy[k//dko-1] # current obs
                 Eo       = Obs(E, t)
                 BH       = estimate_cross_cov(E, Eo)
                 HBH      = estimate_mean_and_cov(Eo)[1]
-                Perturb  = R_chol @ randn(p, N)
+                Perturb  = R_chol @ rnd.randn(p, N)
                 KG       = divide_1st_by_2nd(BH, HBH+R)
                 E       += KG @ (y[:, None] - Perturb - Eo)
-            xxhat[k] = mean(E, axis=1)
+            xxhat[k] = np.mean(E, axis=1)
 ''']
 
 answers['rmse'] = ['MD', r'''
-    rmses = sqrt(np.mean((xx-xxhat)**2, axis=1))
+    rmses = np.sqrt(np.mean((xx-xxhat)**2, axis=1))
     average = np.mean(rmses)
 ''']
 
@@ -805,7 +805,7 @@ answers['Repeat experiment b'] = ['MD', r'''
 
 answers['Repeat experiment cd'] = ['MD', r'''
  * (c). Void.
- * (d). Use: `Perturb  = D_infl * R_chol @ randn(p, N)` in the EnKF algorithm.
+ * (d). Use: `Perturb  = D_infl * R_chol @ rnd.randn(p, N)` in the EnKF algorithm.
 ''']
 
 
