@@ -1,12 +1,9 @@
-# While less comprehensive than the output of `pip freeze`
-# (and therefore less prone to not reproduce outcomes exactly)
-# it is easier to maintain (since it lists only direct requirements
-# and libraries that had to be pinned) and yields faster startup
-# on Colab.
-DA-DAPPER==0.9.6
-jupyter==1.0.0
+# DAPPER is maintained for compatibility with Colab
+# and its deps https://github.com/nansencenter/DAPPER/issues/41#issuecomment-1381616971)
+# include most of the packages needed for the tutorial.
+dapper==1.5.1
+# -e ${HOME}/P/DAPPER
+
+jupyter
 Markdown==3.1
-# Newer matplotlib is slightly incompatible (tested in T1 and T2)
-matplotlib<3.3
-# Dev tools:
 pre-commit

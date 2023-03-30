@@ -108,9 +108,8 @@ gaussian
 filtfilt
 padlen
 UnivariateSpline
-kkObs
 SelectMultiple
-dkObs
+dko
 GaussRV
 MyMethod
 Var3D
@@ -149,12 +148,12 @@ rk4
 t0
 x0
 chol
-dtObs
-KObs
+dto
+Ko
 mu0
 P0
 Init
-kObs
+Ko
 nla
 Eo
 HBH

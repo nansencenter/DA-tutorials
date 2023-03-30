@@ -1,35 +1,30 @@
 """Load tutorials workspace."""
 
+import numpy as np
 import matplotlib as mpl
 try:
-    import google.colab
+    import google.colab  # type: ignore
     # Colab only supports mpl inline backend => no point loading other.
 
     # Make figures and fonts larger.
-    # This must not be in 1st cell of the notebook, coz Colab does
-    # %matplotlib inline at startup (I think), which resets rcParams.
+    # Must NOT be in 1st cell of the notebook, because Colab does
+    # %matplotlib inline at startup (I think), resetting rcParams.
     mpl.rcParams.update({'font.size': 15})
     mpl.rcParams.update({'figure.figsize': [10,6]})
 
 except ImportError:
-    # Use INLINE and INTERACTIVE (zoom, pan, etc) backend,
-    # before dapper does plt.ion().
-    mpl.use('nbAgg') # = %matplotlib notebook in newer jupyter.
+    # Should PRECEDE plt.ion()
+    mpl.use('nbAgg') # = %matplotlib notebook
 
-    # Note: `%matplotlib inline` is found in those tutorials which include `@interact`.
-    # This is because nbAgg steals focus from sliders, and re-generates entire figure
-    # (not just canvas).
-    # BUT! since Colab uses `inline` anyway, don't re-set, to avoid resetting the rcParams.
-
-
-# Load DAPPER
-from dapper import *
+    # Note: `%matplotlib inline` is used in tutorials which include `@interact`.
+    # because `nbAgg` steals focus from sliders,
+    # and re-generates entire figure (not just canvas).
 
 # Load answers
 from .answers import answers, show_answer, show_example
 
 # Load widgets
-from ipywidgets import *
+from ipywidgets import interact, Image, interactive, VBox, IntSlider, SelectMultiple
 
 
 ####################################
@@ -94,6 +89,6 @@ def weave_fa(xf,xa=None):
     else:
         assert len(xf)==len(xa)
     # Assemble piece-wise lines for plotting purposes
-    pw_f  = array([[xa[k  ], xf[k+1], nan] for k in range(len(xf)-1)]).ravel()
-    pw_a  = array([[xf[k+1], xa[k+1], nan] for k in range(len(xf)-1)]).ravel()
+    pw_f  = np.array([[xa[k  ], xf[k+1], np.nan] for k in range(len(xf)-1)]).ravel()
+    pw_a  = np.array([[xf[k+1], xa[k+1], np.nan] for k in range(len(xf)-1)]).ravel()
     return pw_f, pw_a

@@ -21,7 +21,7 @@ Jump right in using one of these cloud computing providers:
 You can also run these notebooks on your own (Linux/Windows/Mac) computer.
 This is a bit snappier than running them online.
 
-1. **Prerequisite**: Python 3.7.  
+1. **Prerequisite**: Python 3.9.  
    If you're an expert, setup a python environment however you like.
    Otherwise:
    Install [Anaconda](https://www.anaconda.com/download), then
@@ -29,12 +29,12 @@ This is a bit snappier than running them online.
    and run the following commands:
 
    ```bash
-   conda create --yes --name my-env python=3.7
+   conda create --yes --name my-env python=3.9
    conda activate my-env
    python --version
    ```
 
-   Ensure the printed version is 3.7.  
+   Ensure the printed version is 3.9.  
    *Keep using the same terminal for the commands below.*
 
 2. **Install**:
