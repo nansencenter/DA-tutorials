@@ -48,19 +48,3 @@ docs/_build/
 
 # Jupyter Notebook
 .ipynb_checkpoints
-
-##############################
-# Personal config for Patrick
-##############################
-
-# Data
-data/
-*.mat
-*.npz
-
-# GIMP
-*.xcf
-
-notebooks/resources/companion
-DA and the Dynamics of Ensemble Based Forecasting
-personal_notes.txt
