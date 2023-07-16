@@ -628,9 +628,28 @@ answers['ensemble moments'] = ['MD', r'''
 ''']
 
 answers['Why (N-1)'] = ['MD', r'''
- * [Unbiased](https://en.wikipedia.org/wiki/Variance#Sample_variance)
- * Suppose we compute the square root of this estimate. Is this an unbiased estimator for the standard deviation?
+Because it is the [unbiased](https://en.wikipedia.org/wiki/Variance#Sample_variance)
+estimates in the case of an unknown mean.
+
+*PS: in practice, in DA,
+this is more of a convention than a requirement,
+since its impact is overshadowed by that of repeat cycling,
+as well as inflation and localisation.*
 ''']
+
+answers['variance estimate statistics'] = ['MD', r'''
+
+
+ * Visibly, the expected value (mean) of $1/\barB$ is not $1$,
+   so $1/\barB$ is not unbiased. This is to be expected,
+   since taking the reciprocal is a *nonlinear* operation.
+ * The mean of $\barB$ is $1$ for any ensemble size.
+ * The mean  of $1/\barB$ is infinite for $ N=2 $,
+   and decreases monotonically as $ N $ increases,
+   tending to $1$ as $ N $ tends to $+\infty$.
+
+''']
+
 
 answers['ensemble moments vectorized'] = ['MD', r'''
 
