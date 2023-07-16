@@ -585,6 +585,28 @@ answers["doubling time"] = ["MD", r"""
 
 
 ###########################################
+# Tut: Geostats
+###########################################
+
+answers["nearest neighbour interp"] = ["MD", r"""
+    nearest_obs = [np.argmin(d) for d in dists_xy]
+    # nearest_obs = np.argmin(dists_xy, 1)
+"""]
+
+answers["inv-dist weight interp"] = ["MD", r"""
+    weights = 1/dists_xy**exponent
+    weights = weights / weights.sum(axis=1, keepdims=True)  # normalize
+"""]
+
+answers['Kriging code'] = ["MD", r"""
+    covar_yy = 1 - variogram(dists_yy, **vg_params)
+    cross_xy = 1 - variogram(dists_xy, **vg_params)
+    regression_coefficients = sla.solve(covar_yy, cross_xy.T).T
+"""]
+
+
+
+###########################################
 # Tut: Ensemble representation
 ###########################################
 
