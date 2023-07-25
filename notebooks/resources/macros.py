@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
-# Macros must be included in every answer that uses them.
-# Macros must also be included in every notebook.
-# I used to include them in every cell that used them,
-# but that does not appear to be necessary anymore.
+# Macros must be included in
+# - every notebook.
+# - every answer that uses them.
 
 
 from pathlib import Path
@@ -156,9 +155,12 @@ def broadcast_macros():
         try:
             nb = nbformat.read(f, as_version=4)
 
+            print(f)
             if update(nb):
-                print("Updating", f)
+                print("Updated!")
                 nbformat.write(nb, f)
+            else:
+                print("No change")
 
         except nbformat.reader.NotJSONError as e:
             print("Could not read file", f)
