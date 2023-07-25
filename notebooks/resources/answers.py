@@ -1,3 +1,9 @@
+# You can edit answers here and preview in notebook by using
+#
+# >>> import importlib
+# >>> from resources import answers
+# >>> importlib.reload(answers)
+
 from markdown import markdown as md2html # better than markdown2 ?
 from IPython.display import HTML, display
 
@@ -223,8 +229,17 @@ p(x|y)
 Identifying the last line with $N(x \mid \hat{x}, P)$ yields eqns (5) and (6).
 ''']
 
+answers['BR Kalman1'] = ['MD', r'''
+- Multiplying eqn. (5) by $1 = \frac{B R}{B R}$ yields
+  $P = \frac{B R}{B + R} = \frac{B}{B + R} R$, i.e. eqn. (8).
+- Alternatively, $P = \frac{R}{B + R} B$.
+  Adding $0 = B - B$ to the numerator yields eqn. (10).
+- Applying formulae (8) and (10) for $P$
+  in eqn. (6) immediately produces eqn. (11).
+''']
+
 answers['KG intuition'] = ['MD', r'''
-Because it describes how much the esimate is dragged from $b$ "towards" $y$.  
+Because it describes how much the esimate is "dragged" from $b$ "towards" $y$.  
 I.e. it is a multiplification (amplification) factor,
 which French (signal processing) people like to call "gain".  
 
