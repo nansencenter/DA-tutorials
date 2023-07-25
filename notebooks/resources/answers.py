@@ -90,11 +90,9 @@ answers = {}
 # Tut: DA & EnKF
 ###########################################
 answers['thesaurus 1'] = ["TXT", r"""
-Data Assimilation (DA)     Ensemble      Stochastic     Data        
-Filtering                  Sample        Random         Measurements
-Kalman filter (KF)         Set of draws  Monte-Carlo    Observations
-State estimation           
-Data fusion                
+Ensemble      Stochastic     Data        
+Sample        Random         Measurements
+Set of draws  Monte-Carlo    Observations
 """]
 
 answers['thesaurus 2'] = ["TXT", r"""
@@ -102,8 +100,7 @@ Statistical inference    Ensemble member     Quantitative belief    Recursive
 Inverse problems         Sample point        Probability            Sequential
 Inversion                Realization         Relative frequency     Iterative 
 Estimation               Single draw                                Serial    
-Approximation            Particle
-Regression               
+Regression               Particle
 Fitting                  
 """]
 
@@ -122,7 +119,8 @@ DAGs. Formalises the concept of hidden variables (states).
 # Tut: Bayesian inference
 ###########################################
 answers['pdf_G1'] = ['MD', r'''
-    pdf_values = 1/np.sqrt(2*np.pi*B)*np.exp(-0.5*(x-b)**2/B)
+    const = 1/np.sqrt(2*np.pi*B)
+    pdf_values = const * np.exp(-0.5*(x - b)**2/B)
     # Version using the scipy (sp) library:
     # import scipy as sp
     # pdf_values = sp.stats.norm.pdf(x, loc=b, scale=np.sqrt(B))
@@ -206,7 +204,7 @@ answers['Dimensionality b'] = ['MD', r'''
 $15 * 360 * 180 = 972'000 \approx 10^6$
 ''']
 answers['Dimensionality c'] = ['MD', r'''
-$10^{10^6}$
+$20^{10^6}$
 ''']
 
 answers['BR Gauss'] = ['MD', r'''
@@ -388,7 +386,7 @@ Note that $P_k < B_k$ for each $k$
 (c.f. the Gaussian-Gaussian Bayes rule from tutorial 2.)
 Thus,
 $$
-P_k < B_k = \\DynMod^2 B_{k-1}
+P_k < B_k = \\DynMod^2 P_{k-1}
 \xrightarrow[k \rightarrow \infty]{} 0 \, .
 $$
 ''']
@@ -413,10 +411,10 @@ for the "weighted average" form.
 ###########################################
 
 answers['Likelihood derivation'] = ['MD', r'''
-Imagine that $\y=\br$ (instead of eqn 2),
-then the distribution of $\y$ would be the same as for $\br$.
-The only difference is that we've added $\bH \x$, which is a (deterministic/fixed) constant, given $\x$.
-Adding a constant to a random variable just changes its mean,
+Start by assuming (in place of eqn 2) that $\y=\br$;
+then $\y$ would have the same distribution as $\br$.
+Adding $\bH \x$ just shifts (translates) the distribution,
+i.e. changes its mean,
 hence $\mathcal{N}(\y \mid \bH \x, \R)$
 
 A more formal (but not really more rigorous) explanation is as follows:
