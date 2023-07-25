@@ -132,6 +132,28 @@ answers['pdf_G1'] = ['MD', r'''
     # pdf_values = sp.stats.norm.pdf(x, loc=b, scale=np.sqrt(B))
 ''']
 
+answers['Gauss integrals'] = ['MD', r'''
+(i) $$\begin{align} \Expect[x]
+&= \int x \, c \, e^{-(x-b)^2 / 2 B} \,d x \tag{by definition} \\\
+&= \int (u + b) \, c \, e^{-u^2 / 2 B} \,d u \tag{$u = x-b$}\\\
+&= \int u \, c \, e^{-u^2 / 2 B}
++       b \, c \, e^{-u^2 / 2 B} \,d u \\\
+&= [-B \, c \, e^{-u^2 / 2 B}]^{+\infty}_{-\infty}
++ b \, \Expect[1]
+\end{align}
+$$
+The first term is zero. The second leaves only $b$, since $\Expect[1] = 1$.
+
+(ii) $$\begin{align} \Expect[(x - b)^2]
+&= \int (x - b)^2 \, c \, e^{-(x-b)^2 / 2 B} \,d x \tag{by definition} \\\
+&= \int u^2 \, c \, e^{-u^2 / 2 B} \,d u \tag{$u = x-b$}\\\
+&= \int u \, u \, c \, e^{-u^2 / 2 B} \,d u \\\
+&= 0 - \int (1) (-B) \, c \, e^{-u^2 / 2 B} \,d u  \tag{Integrate by parts} \\\
+\end{align}
+$$
+''']
+
+
 answers['BR'] = ['MD', r'''
  - You believe the temperature $(x)$ in the room is $22°C \pm 2°C$;  
 more specifically, your prior is: $p(x) = \mathcal{N}(x \mid 22, 4)$.  
