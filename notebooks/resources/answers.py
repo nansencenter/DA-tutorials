@@ -116,7 +116,7 @@ DAGs. Formalises the concept of hidden variables (states).
 ''']
 
 ###########################################
-# Tut: Bayesian inference
+# Tut: Bayesian inference & Gaussians
 ###########################################
 answers['pdf_G1'] = ['MD', r'''
     const = 1/np.sqrt(2*np.pi*B)
