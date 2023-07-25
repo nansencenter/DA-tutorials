@@ -120,7 +120,7 @@ def broadcast_macros():
         return ff
 
     # Strip % ALWAYS
-    macros = [m.replace("% ALWAYS","") for m in _macros]
+    macros = [m.replace("% ALWAYS","").rstrip() for m in _macros]
 
     HEADER = macros[1]
     FOOTER = macros[-2]
