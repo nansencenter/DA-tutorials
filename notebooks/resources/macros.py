@@ -129,6 +129,8 @@ def broadcast_macros():
         for cell in nb["cells"]:
             if cell["cell_type"] == "markdown":
                 lines = cell["source"].split("\n")
+                if not any("START OF MACRO DEF" in ln for ln in lines):
+                    continue
 
                 try:
                     # Find line indices of macros section.
