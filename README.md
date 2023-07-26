@@ -1,14 +1,14 @@
 # Intro to data assimilation (DA) and the EnKF
 
 An interactive (Jupyter notebook) tutorial.
-Prerequisites: matrix determinants, inverse, continuous random variables, basic Python (numpy).
-
 Jump right in using one of these cloud computing providers:
 
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/DA-tutorials/blob/Colab)
   (requires Google login)
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
   (no login but can be slow to start)
+
+Prerequisites: matrix determinants, inverse, continuous random variables, basic Python (numpy).
 
 ### Instructions for working locally
 
