@@ -8,7 +8,13 @@ Jump right in using one of these cloud computing providers:
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
   (no login but can be slow to start)
 
-Prerequisites: matrix determinants, inverse, continuous random variables, basic Python (numpy).
+*Prerequisites*: familiarity with matrix determinants and inverses,
+random variables, basic Python (numpy).
+
+<br>
+<br>
+<br>
+<br>
 
 ### Instructions for working locally
 
