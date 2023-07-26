@@ -1,4 +1,7 @@
-# Introduction to data assimilation and the EnKF
+# Intro to data assimilation (DA) and the EnKF
+
+An interactive (Jupyter notebook) tutorial.
+Prerequisites: matrix determinants, inverse, continuous random variables, basic Python (numpy).
 
 Jump right in using one of these cloud computing providers:
 
@@ -6,15 +9,6 @@ Jump right in using one of these cloud computing providers:
   (requires Google login)
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
   (no login but can be slow to start)
-
-### Overview
-
-- Interactive (Jupyter notebook)
-- Contains theory, code (Python), and exercises.
-- Recommendation: work in pairs.
-- Each tutorial takes ≈75 min.
-- The tutor will circulate to assist with the exercises,  
-  and summarize each section after you have worked on them.
 
 ### Instructions for working locally
 
