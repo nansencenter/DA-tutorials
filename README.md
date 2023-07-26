@@ -8,7 +8,7 @@ Jump right in using one of these cloud computing providers:
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
   (no login but can be slow to start)
 
-*Prerequisites*: familiarity with matrix determinants and inverses,
+*Prerequisites*: some familiarity with matrices (e.g. inverses),
 random variables, basic Python (numpy).
 
 <br>
@@ -52,4 +52,5 @@ This is a bit snappier than running them online.
       `jupyter-notebook`  
       This will open up a page in your web browser that is a file navigator.  
     - Enter the folder `DA-tutorials/notebooks`, and click on a tutorial (`T1... .ipynb`).
-<!-- markdownlint-disable-file heading-increment -->
+
+<!-- markdownlint-disable-file heading-increment no-inline-html -->
