@@ -278,11 +278,14 @@ answers['Posterior cov'] =  ['MD', r"""
 """]
 
 answers['Why Gaussian'] =  ['MD', r"""
- * Simplicity: (recursively) yields "linear least-squares problems", whose solution is given by a linear systems of equations.
-   This was demonstrated by the simplicity of the parametric Gaussian-Gaussian Bayes' rule.
- * The central limit theorem (CLT) and all its implications about likely noise distributions.
- * The intuitive precondition "ML estimator = sample average" necessitates a Gaussian sampling distribution.
- * For more, see chapter 7 of: [Probability theory: the logic of science](https://books.google.com/books/about/Probability_Theory.html?id=tTN4HuUNXjgC) (Edwin T. Jaynes), which is an excellent book for understanding probability and statistics.
+ * The central limit theorem (CLT) and all its implications.
+ * Pragmatism: Yields "least-squares problems", whose optima is given by a linear systems of equations.  
+ * Self-conjugate: Gaussian prior and likelihood yields Gaussian posterior.
+ * Among pdfs with independent components (2 or more),
+   the Gaussian is uniquely (up to scaling) rotation-invariant (symmetric).
+ * Uniquely for Gaussian sampling distribution: maximizing the likelihood for the mean simply yields the sample average.
+ * For more, see [Wikipedia](https://en.wikipedia.org/wiki/Normal_distribution#Properties)
+   and Chapter 7 of: [Probability theory: the logic of science (Edwin T. Jaynes)](https://books.google.com/books/about/Probability_Theory.html?id=tTN4HuUNXjgC).
 """]
 
 
