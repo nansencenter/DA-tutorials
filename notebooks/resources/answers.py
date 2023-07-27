@@ -125,30 +125,44 @@ DAGs. Formalises the concept of hidden variables (states).
 # Tut: Bayesian inference & Gaussians
 ###########################################
 answers['pdf_G1'] = ['MD', r'''
-    const = 1/np.sqrt(2*np.pi*B)
-    pdf_values = const * np.exp(-0.5*(x - b)**2/B)
+    const = 1/np.sqrt(2*np.pi*sigma2)
+    pdf_values = const * np.exp(-0.5*(x - mu)**2/sigma2)
 ''']
 
 answers['Gauss integrals'] = ['MD', r'''
 (i) $$\begin{align} \Expect[x]
-&= \int x \, c \, e^{-(x-b)^2 / 2 B} \,d x \tag{by definition} \\\
-&= \int (u + b) \, c \, e^{-u^2 / 2 B} \,d u \tag{$u = x-b$}\\\
-&= \int u \, c \, e^{-u^2 / 2 B}
-+       b \, c \, e^{-u^2 / 2 B} \,d u \\\
-&= [-B \, c \, e^{-u^2 / 2 B}]^{+\infty}_{-\infty}
-+ b \, \Expect[1]
+&= \int x \, c \, e^{-(x-\mu)^2 / 2 \sigma^2} \,d x \tag{by definition} \\\
+&= \int (u + \mu) \, c \, e^{-u^2 / 2 \sigma^2} \,d u \tag{$u = x-\mu$}\\\
+&= \int u \, c \, e^{-u^2 / 2 \sigma^2}
++       \mu \, c \, e^{-u^2 / 2 \sigma^2} \,d u \\\
+&= [-\sigma^2 \, c \, e^{-u^2 / 2 \sigma^2}]^{+\infty}_{-\infty}
++ \mu \, \Expect[1]
 \end{align}
 $$
-The first term is zero. The second leaves only $b$, since $\Expect[1] = 1$.
+The first term is zero. The second leaves only $\mu$, since $\Expect[1] = 1$.
 
-(ii) $$\begin{align} \Expect[(x - b)^2]
-&= \int (x - b)^2 \, c \, e^{-(x-b)^2 / 2 B} \,d x \tag{by definition} \\\
-&= \int u^2 \, c \, e^{-u^2 / 2 B} \,d u \tag{$u = x-b$}\\\
-&= \int u \, u \, c \, e^{-u^2 / 2 B} \,d u \\\
-&= 0 - \int (1) (-B) \, c \, e^{-u^2 / 2 B} \,d u  \tag{Integrate by parts} \\\
+(ii) $$\begin{align} \Expect[(x - \mu)^2]
+&= \int (x - \mu)^2 \, c \, e^{-(x-\mu)^2 / 2 \sigma^2} \,d x \tag{by definition} \\\
+&= \int u^2 \, c \, e^{-u^2 / 2 \sigma^2} \,d u \tag{$u = x-\mu$}\\\
+&= \int u \, u \, c \, e^{-u^2 / 2 \sigma^2} \,d u \\\
+&= 0 - \int (1) (-\sigma^2) \, c \, e^{-u^2 / 2 \sigma^2} \,d u \,,  \tag{Integrate by parts} \\\
 \end{align}
 $$
+where the first term was zero for the same raeson as above,
+and the second can again be expressed in terms of $\Expect[1] = 1$.
 ''']
+
+answers['Why Gaussian'] =  ['MD', r"""
+ * The central limit theorem (CLT) and all its implications.
+ * Pragmatism: Yields "least-squares problems", whose optima is given by a linear systems of equations.  
+ * Self-conjugate: Gaussian prior and likelihood yields Gaussian posterior.
+ * Among pdfs with independent components (2 or more),
+   the Gaussian is uniquely (up to scaling) rotation-invariant (symmetric).
+ * Uniquely for Gaussian sampling distribution: maximizing the likelihood for the mean simply yields the sample average.
+ * For more, see [Wikipedia](https://en.wikipedia.org/wiki/Normal_distribution#Properties)
+   and Chapter 7 of: [Probability theory: the logic of science (Edwin T. Jaynes)](https://books.google.com/books/about/Probability_Theory.html?id=tTN4HuUNXjgC).
+"""]
+
 
 
 answers['BR'] = ['MD', r'''
@@ -273,18 +287,6 @@ answers['Posterior cov'] =  ['MD', r"""
   * It probably won't have decreased. Maybe you will just discard the new information entirely, in which case your certainty will remain the same.  
     I.e. humans are capable of thinking hierarchically, which effectively leads to other distributions than the Gaussian one.
 """]
-
-answers['Why Gaussian'] =  ['MD', r"""
- * The central limit theorem (CLT) and all its implications.
- * Pragmatism: Yields "least-squares problems", whose optima is given by a linear systems of equations.  
- * Self-conjugate: Gaussian prior and likelihood yields Gaussian posterior.
- * Among pdfs with independent components (2 or more),
-   the Gaussian is uniquely (up to scaling) rotation-invariant (symmetric).
- * Uniquely for Gaussian sampling distribution: maximizing the likelihood for the mean simply yields the sample average.
- * For more, see [Wikipedia](https://en.wikipedia.org/wiki/Normal_distribution#Properties)
-   and Chapter 7 of: [Probability theory: the logic of science (Edwin T. Jaynes)](https://books.google.com/books/about/Probability_Theory.html?id=tTN4HuUNXjgC).
-"""]
-
 
 ###########################################
 # Tut: Univariate Kalman filtering
