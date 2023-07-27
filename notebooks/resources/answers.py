@@ -127,9 +127,6 @@ DAGs. Formalises the concept of hidden variables (states).
 answers['pdf_G1'] = ['MD', r'''
     const = 1/np.sqrt(2*np.pi*B)
     pdf_values = const * np.exp(-0.5*(x - b)**2/B)
-    # Version using the scipy (sp) library:
-    # import scipy as sp
-    # pdf_values = sp.stats.norm.pdf(x, loc=b, scale=np.sqrt(B))
 ''']
 
 answers['Gauss integrals'] = ['MD', r'''
