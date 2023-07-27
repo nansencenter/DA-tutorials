@@ -169,12 +169,17 @@ answers['BR derivation'] = ['MD', r'''
 ''']
 
 answers['inverse'] = ['MD', r'''
-Because estimation (i.e. inference) is seen as reasoning backwards from the "outcome" to the "cause".
-In physics, causality is a difficult notion.
-Still, we use it to define the direction "backward", or "inverse",
-which we associate with the symolism $f^{-1}$.
-Since $y = f(x)$ is common symbolisism,
+Because estimation/inference/inverse problems
+are looking for the "cause" from the "outcomes".
+Of course, causality is a tricky notion.
+Anyway, these problems tend to be harder,
+generally because they involve solving (possibly approximately) a set of equations
+rather than just computing a formula (corresponding to a forward problem).
+Since $y = f(x)$ is common symbolisism for formulae,
 it makes sense to use the symobls $x = f^{-1}(y)$ for the estimation problem.
+Note that, despite the "glorious" ideas invoked by language such as "inverse/inversion",
+all techniques (known to author) still essentially come down to
+some form of *fitting* to data/observations.
 ''']
 
 answers['Posterior behaviour'] = ['MD', r'''
