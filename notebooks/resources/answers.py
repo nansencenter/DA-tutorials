@@ -205,24 +205,6 @@ $$\texttt{sum(pp)*dx}
 = p(y) \, .$$
 ''']
 
-answers['pdf_U1'] = ['MD', r'''
-    def pdf_U1(x, b, B):
-        # Univariate (scalar), Uniform pdf
-
-        pdf_values = np.ones((x-b).shape)
-
-        a = b - np.sqrt(3*B)
-        b = b + np.sqrt(3*B)
-
-        pdf_values[x<a] = 0
-        pdf_values[x>b] = 0
-
-        height = 1/(b-a)
-        pdf_values *= height
-
-        return pdf_values
-''']
-
 answers['BR U1'] = ['MD', r'''
  - Because of the discretization.
  - The problem (of computing the posterior) is ill-posed:  
