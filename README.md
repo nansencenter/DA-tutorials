@@ -8,8 +8,8 @@ Jump right in using one of these cloud computing providers:
 - [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/nansencenter/DA-tutorials/master)
   (no login but can be slow to start)
 
-*Prerequisites*: some familiarity with matrices (e.g. inverses),
-random variables, basic Python (numpy).
+*Prerequisites*: basics of calculus, matrices (e.g. inverses),
+random variables, Python (numpy).
 
 <br>
 <br>
