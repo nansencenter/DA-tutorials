@@ -188,6 +188,7 @@ answers['Posterior behaviour'] = ['MD', r'''
  - Likelihood becomes a delta function.  
  Posterior is dominated by the likelihood, and becomes superimposed on it.
  - It's located halfway between the prior/likelihood $\forall y$.
+ - It's always higher than the height of the prior and the likelihood.
  - No.  
    But, information-wise,
    the "expected" posterior entropy (and variance) is always smaller than that of the prior.
