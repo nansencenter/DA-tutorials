@@ -96,18 +96,19 @@ answers = {}
 # Tut: DA & EnKF
 ###########################################
 answers['thesaurus 1'] = ["TXT", r"""
-Ensemble      Stochastic     Data        
+Ensemble      Stochastic     Data
 Sample        Random         Measurements
 Set of draws  Monte-Carlo    Observations
 """]
 
 answers['thesaurus 2'] = ["TXT", r"""
-Statistical inference    Ensemble member     Quantitative belief    Recursive 
+Statistical inference    Ensemble member     Quantitative belief    Recursive
 Inverse problems         Sample point        Probability            Sequential
-Inversion                Realization         Relative frequency     Iterative 
-Estimation               Single draw                                Serial    
-Regression               Particle
-Fitting                  
+Inversion                Realization         Relative frequency     Iterative
+Estimation               Single draw         Estimate               Serial
+Regression               Particle            Information
+Fitting                                      Uncertainty
+                                             Knowledge
 """]
 
 answers['Discussion topics 1'] = ['MD', r'''
