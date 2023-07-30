@@ -165,14 +165,9 @@ answers['Why Gaussian'] =  ['MD', r"""
 """]
 
 
-
-answers['BR'] = ['MD', r'''
- - You believe the temperature $(x)$ in the room is $22°C \pm 2°C$;  
-more specifically, your prior is: $p(x) = \mathcal{N}(x \mid 22, 4)$.  
- - A thermometer yields the observation $y = 24°C \pm 2°C$;  
-more specifically, the likelihood is: $p(y|x) = \mathcal{N}(24 \mid x, 4)$.  
- - Your updated, posterior belief is then $p(x|y) = \mathcal{N}(x \mid 23, 2)$.  
-(exactly how these numbers are calculated will be shown below).
+answers['GG BR example'] = ['MD', r'''
+- Eqn. (5) yields $P = \frac{1}{1/4 + 1/4} = \frac{1}{2/4} = 2$.
+- Eqn. (6) yields $\hat{x} = 2 \cdot (20/4 + 18/4) = \frac{20 + 18}{2} = 19$
 ''']
 
 answers['BR derivation'] = ['MD', r'''
