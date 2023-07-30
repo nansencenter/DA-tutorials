@@ -1,7 +1,7 @@
 # You can edit answers here and preview in notebook by using
 #
-# >>> import importlib
 # >>> from resources import answers
+# >>> import importlib
 # >>> importlib.reload(answers)
 
 from markdown import markdown as md2html # better than markdown2 ?
