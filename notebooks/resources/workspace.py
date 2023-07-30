@@ -39,14 +39,15 @@ def axes_with_marginals():
     ax.set_aspect('equal')
     return fig, (ax, yax, xax)
 
-def get_jointplotter(grid1d, dx2=1):
+def get_jointplotter(grid1d):
     fig, (ax, yax, xax) = axes_with_marginals()
+    dx = grid1d[1] - grid1d[0]
     def plotter(Z, colors=None):
-        Z = Z / Z.sum() / dx2
+        Z = Z / Z.sum() / dx**2
         lvls = np.logspace(-3, 3, 21)
         h = ax.contour(grid1d, grid1d, Z, colors=colors, levels=lvls)
-        xax.plot(grid1d, Z.sum(0))
-        yax.plot(Z.sum(1), grid1d)
+        xax.plot(grid1d, dx * Z.sum(0))
+        yax.plot(dx * Z.sum(1), grid1d)
         return h.legend_elements()[0][0]
     return ax, plotter
 
