@@ -26,6 +26,41 @@ from .answers import answers, show_answer, show_example
 # Load widgets
 from ipywidgets import interact, Image, interactive, VBox, IntSlider, SelectMultiple
 
+def axes_with_marginals():
+    from matplotlib import pyplot as plt
+    fig, ((ax, yax), (xax, _)) = plt.subplots(
+        2, 2, sharex='col', sharey='row',
+        figsize=(6, 6),
+        gridspec_kw={'height_ratios':[5,1],
+                     'width_ratios' :[5,1],
+                     'wspace': .1,
+                     'hspace': .1})
+    _.set_visible(False)
+    ax.set_aspect('equal')
+    return fig, (ax, yax, xax)
+
+def get_jointplotter(grid1d, dx2=1):
+    fig, (ax, yax, xax) = axes_with_marginals()
+    def plotter(Z, colors=None):
+        Z = Z / Z.sum() / dx2
+        lvls = np.logspace(-3, 3, 21)
+        h = ax.contour(grid1d, grid1d, Z, colors=colors, levels=lvls)
+        xax.plot(grid1d, Z.sum(0))
+        yax.plot(Z.sum(1), grid1d)
+        return h.legend_elements()[0][0]
+    return ax, plotter
+
+# TODO:
+# @ws.interactive_fig(
+#     right=True,
+#     right=['corr', 'y2', 'R2']
+#     vert=['y2'],
+#     corr=(-1, 1, .1),
+#     y1=bounds,
+#     y2=bounds,
+#     R1=(0.01, 20, 0.2),
+#     R2=(0.01, 20, 0.2))
+
 
 ####################################
 # DA video
