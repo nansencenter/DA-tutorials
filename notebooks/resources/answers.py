@@ -9,11 +9,19 @@ from IPython.display import HTML, display
 
 from .macros import include_macros
 
-def show_answer (tag): formatted_display(*answers[tag], '#dbf9ec') #d8e7ff
-def show_example(tag): formatted_display(*answers[tag], '#ffed90')
+def show_answer(tag, *subtags):
+    """Display answer corresponding to 'tag' and any 'subtags'."""
+
+    # Homogenize, e.g. 'a, b cd' --> 'abcd'
+    subtags = ", ".join(subtags)
+    subtags.translate(str.maketrans('', '', ' ,'))  # 
+
+    for key in filter(lambda key: key.startswith(tag), answers):
+        if not subtags or any(key.endswith(" "+ch) for ch in subtags):
+            formatted_display(*answers[key], '#dbf9ec') #d8e7ff
+
 
 def formatted_display(TYPE, content, bg_color):
-
     # Remove 1st linebreak
     content = content[1:]
 
@@ -23,6 +31,7 @@ def formatted_display(TYPE, content, bg_color):
     elif TYPE == "MD"  : content = md2html(include_macros(content))
 
     # Make bg style
+    bg_color = '#dbf9ec'  # 'd8e7ff'
     bg_color = 'background-color:'+ bg_color + ';' #d8e7ff #e2edff
 
     # Compose string
@@ -34,6 +43,8 @@ def formatted_display(TYPE, content, bg_color):
     # Display
     display(HTML(content))
 
+
+# TODO: obsolete?
 def setup_typeset():
     """MathJax initialization for the current cell.
 
@@ -154,6 +165,8 @@ and the second can again be expressed in terms of $\Expect[1] = 1$.
 ''']
 
 answers['Why Gaussian'] =  ['MD', r"""
+What's not to love? Consider
+
  * The central limit theorem (CLT) and all its implications.
  * Pragmatism: Yields "least-squares problems", whose optima is given by a linear systems of equations.  
  * Self-conjugate: Gaussian prior and likelihood yields Gaussian posterior.
@@ -190,19 +203,31 @@ some form of *fitting* to data/observations.
 ''']
 
 answers['Posterior behaviour'] = ['MD', r'''
- - Likelihood becomes flat.  
- Posterior is dominated by the prior, and becomes (in the limit) superimposed on it.
- - Likelihood becomes a delta function.  
- Posterior is dominated by the likelihood, and becomes superimposed on it.
- - It's located halfway between the prior/likelihood $\forall y$.
- - It's always higher than the height of the prior and the likelihood.
- - No.  
-   But, information-wise,
-   the "expected" posterior entropy (and variance) is always smaller than that of the prior.
- - No (in fact, we'll see later that it remains Gaussian,
- and is therefore fully characterized by its mean and its variance).
- - It would seem we only need to compute its location and scale
- (otherwise, the shape remains unchanged).
+- Likelihood becomes flat.  
+  Thus, the posterior is dominated by the prior,
+  and becomes (in the limit) superimposed on it.
+- Likelihood becomes a delta function.  
+  Posterior gets dominated by the likelihood, and superimposed on it.
+- It's located halfway between the prior/likelihood $\forall y$.
+- It's always higher than the height of the prior and the likelihood.
+  This even holds true for some interval in the mixed Gaussian-uniform cases.
+- "Information-wise", the "expected" posterior entropy (and variance)
+  is always smaller than that of the prior,
+  but in practice (i.e. without averaging over the observations)
+  we can observe that it is not necessarily the case.
+    - For the uniform-uniform case, yes.
+    - For the mixed case, it's not clear what scale/width means,
+      but for most (any reasonable?) definitions the answer will be yes.
+    - For the Gaussian-Gaussian case, no.
+- In the mixed cases: Yes. Otherwise: No.
+- In fact, we'll see later that the Gaussian-Gaussian posterior is Gaussian,
+  and is therefore fully characterized by its mean and its variance.
+  So we only need to compute its location and scale.
+- The problem (of computing the posterior) is ill-posed:  
+  The prior says there's zero probability of the truth being 
+  in the region where the likelihood is not zero.
+- This of course depends on the definition of "sufficient",
+  but in the authors opinion $N \geq 40$ seems necessary.
 ''']
 
 answers['BR normalization'] = ['MD', r'''
@@ -213,13 +238,6 @@ $$\texttt{sum(pp)*dx}
 = p(y) \, .$$
 ''']
 
-answers['BR U1'] = ['MD', r'''
- - Because of the discretization.
- - The problem (of computing the posterior) is ill-posed:  
-   The prior says there's zero probability of the truth being 
-   in the region where the likelihood is not zero.
-''']
-
 answers['Dimensionality a'] = ['MD', r'''
 $N^M$
 ''']
@@ -228,6 +246,82 @@ $15 * 360 * 180 = 972'000 \approx 10^6$
 ''']
 answers['Dimensionality c'] = ['MD', r'''
 $20^{10^6}$
+''']
+
+answers['BR Gauss, a.k.a. completing the square a'] = ['MD', r'''
+Expanding the squares of the left hand side (LHS),
+and gathering terms in powers of $x$ yields
+$$
+    \frac{(x-b)^2}{B} + \frac{(x-y)^2}{R}
+    =  x^2 (1/B + 1/R)
+    - 2 x (b/B + y/R)
+    + c_1
+    \,, \tag{a1}
+$$
+with $c_1 = b^2/B + y^2/R$.
+Meanwhile
+$$
+    \frac{(x-\hat{x})^2}{B}
+    = x^2 / P
+    - 2 x \hat{x}/P
+    + \hat{x}^2/P
+    \,.
+\tag{a2}
+$$
+Both (a1) and (a2) are quadratics in $x$,
+so we can equate them by setting
+$$ \begin{align}
+1/P = 1/B + 1/R \,, \tag{a3} \\\
+\hat{x}/P = b/B + y/R \,, \tag{a4}
+\end{align} $$
+whereupon we immediately recover $P$ and $\hat{x}$ of eqns. (5) and (6).
+
+*PS: The above process is called "completing the square"
+since it involves writing a quadratic polynomial as a single squared term
+plus a "constant" that we add and subtract.*
+''']
+
+answers['BR Gauss, a.k.a. completing the square b'] = ['MD', r'''
+From part (a),
+$$
+    \frac{(x-b)^2}{B} + \frac{(x-y)^2}{R}
+    =
+    \frac{(x-\hat{x})^2}{B} + c_2
+    \,,
+\tag{a5}
+$$
+with $c_2 = c_1 - \hat{x}^2/P$.
+Substituting in the formulae for $c_1$ and $\hat{x}$ produces
+$$
+c_2 = b^2/B + y^2/R - P (b/B + y/R)^2
+= y^2 ( 1/R - P/R^2 ) - 2 y b \frac{P}{B R} + \frac{b^2}{B} - P \frac{b^2}{B^2}  
+\tag{a6}
+$$
+Now, multiplying eqn. (a3) with $B R$, it can be seen that
+
+- $\frac{P}{B R} = \frac{1}{B + R}$, whence
+- $\frac{P}{B} = \frac{R}{B + R}$, and
+- $\frac{P}{R} = \frac{B}{B + R}$ so that
+- $1/R - P/R^2 = \frac{1}{R}(1 - \frac{P}{R} ) = \frac{1}{R} \frac{R}{B + R} = \frac{1}{B + R}$.
+
+Thus eqn. (a6) simplifies to
+$$ \begin{align}
+c_2
+&= y^2 \frac{1}{B + R}  - 2 y b \frac{1}{B + R} + \frac{b^2}{B} - \frac{b^2}{B}\frac{R}{B + R} \\\
+&= \frac{1}{B + R} \Bigl[ y^2 - 2 y b + b^2 \bigl( \frac{B + R}{B} - \frac{R}{B}\bigr ) \Bigr ] \\\
+&= \frac{(y - b)^2}{B + R}
+\tag{a7}
+\end{align} $$
+''']
+
+answers['BR Gauss, a.k.a. completing the square c'] = ['MD', r'''
+\begin{align}
+p(x|y)
+&\propto p(x) \, p(y|x) \\\
+&=       N(x \mid b, B) \, N(y \mid x, R) \\\
+&\propto \exp \Big( \frac{-1}{2} \big[ (x-b)^2/B + (x-y)^2/R \big] \Big) \,.
+\end{align}
+The rest follows by eqn. (S2) and identification with $N(x \mid \hat{x}, P)$.
 ''']
 
 answers['BR Gauss'] = ['MD', r'''
@@ -256,6 +350,17 @@ answers['BR Kalman1'] = ['MD', r'''
 ''']
 
 answers['KG intuition'] = ['MD', r'''
+Consider eqn. (9). Both nominator and denominator are strictly larger than $0$,
+hence $K > 0$. Meanwhile $B + R > B$, hence $K<1$.
+
+Since $0<K<1$, eqn. (8) yields $P<R$,
+while eqn. (10) yields $P<B$.
+
+From eqn. (11), $\hat{x} = (1-K) b + K y$.
+Since $0<K<1$, we can see that $\hat{x}$
+is a 'convex combination' or 'weighted average'.
+*For even more detail, consider the case $b<y$ and then case $y<b$.*
+
 Because it describes how much the esimate is "dragged" from $b$ "towards" $y$.  
 I.e. it is a multiplification (amplification) factor,
 which French (signal processing) people like to call "gain".  
@@ -264,13 +369,10 @@ Relatedly, note that $K$ weights the observation uncertainty $(R)$ vs. the total
 and so is always between 0 and 1.
 ''']
 
-answers['BR Gauss code'] = ['MD', r'''
-    P    = 1/(1/B+1/R)
-    xhat = P*(b/B+y/R)
-    # Gain version:
-    #     KG   = B/(B+R)
-    #     P    = (1-KG)*B
-    #     xhat = b + KG*(y-b)
+answers['BR Kalman1 code'] = ['MD', r'''
+    KG   = B/(B+R)
+    P    = (1-KG)*B
+    xhat = b + KG*(y-b)
 ''']
 
 answers['Posterior cov'] =  ['MD', r"""

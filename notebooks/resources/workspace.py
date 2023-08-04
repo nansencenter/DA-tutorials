@@ -2,26 +2,27 @@
 
 import numpy as np
 import matplotlib as mpl
+
+# Should PRECEDE plt.ion()
 try:
+    # Note: Colab only supports `%matplotlib inline` ⇒ no point loading other.
     import google.colab  # type: ignore
-    # Colab only supports mpl inline backend => no point loading other.
+    # Colab only supports mpl inline backend 
 
     # Make figures and fonts larger.
-    # Must NOT be in 1st cell of the notebook, because Colab does
-    # %matplotlib inline at startup (I think), resetting rcParams.
     mpl.rcParams.update({'font.size': 15})
     mpl.rcParams.update({'figure.figsize': [10,6]})
-
 except ImportError:
-    # Should PRECEDE plt.ion()
+    # NB: `nbAgg` steals focus from interactive sliders,
+    # and re-generates entire figure (not just canvas).
     mpl.use('nbAgg') # = %matplotlib notebook
 
-    # Note: `%matplotlib inline` is used in tutorials which include `@interact`.
-    # because `nbAgg` steals focus from sliders,
-    # and re-generates entire figure (not just canvas).
+# Must NOT be in 1st cell of the notebook,
+# because Colab does %matplotlib inline at startup (I think), resetting rcParams.
+mpl.rcParams.update({'lines.linewidth': 2.5})
 
 # Load answers
-from .answers import answers, show_answer, show_example
+from .answers import show_answer
 
 # Load widgets
 from ipywidgets import interact, Image, interactive, VBox, IntSlider, SelectMultiple
@@ -42,12 +43,16 @@ def axes_with_marginals():
 def get_jointplotter(grid1d):
     fig, (ax, yax, xax) = axes_with_marginals()
     dx = grid1d[1] - grid1d[0]
-    def plotter(Z, colors=None):
+    def plotter(Z, colors=None, alpha=.3):
         Z = Z / Z.sum() / dx**2
+        margx = dx * Z.sum(0)
+        margy = dx * Z.sum(1)
         lvls = np.logspace(-3, 3, 21)
-        h = ax.contour(grid1d, grid1d, Z, colors=colors, levels=lvls)
-        xax.plot(grid1d, dx * Z.sum(0))
-        yax.plot(dx * Z.sum(1), grid1d)
+        # h = ax.contourf(grid1d, grid1d, Z, colors=colors,  levels=lvls, alpha=alpha)
+        # _ = ax.contour (grid1d, grid1d, Z, colors='black', levels=lvls, linewidths=.7, alpha=alpha)
+        h = ax.contour (grid1d, grid1d, Z, colors=colors,  levels=lvls)
+        xax.fill_between(grid1d, margx, color=colors, alpha=alpha)
+        yax.fill_betweenx(grid1d, 0, margy, color=colors, alpha=alpha)
         return h.legend_elements()[0][0]
     return ax, plotter
 
