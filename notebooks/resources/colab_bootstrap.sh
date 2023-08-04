@@ -1,25 +1,26 @@
 #!/usr/bin/env bash
 
-# Colab doesn't provide functionality for
-# working with full packages/repos, including
-# - defining python environments (e.g. requirements.txt)
-# - pre-loading data/scripts other than what's in the notebook.
-# We therefore make this script for bootstrapping the notebooks
-# by cloning the full repo.
+# This script provides functionality for working with full repos on Colab
+# - Installing packages/dependencies from requirements.txt
+# - Loading data/scripts other than what's in the notebook.
+
+# Warning: This will ALWAYS give you the **'master'** branch of the repo.
+# Reasons:
+# - Script gets run from a notebook which doesn't know its branch.
+# - If script always checks out 'Colab' branch,
+#   that might be surprising if on a 'Colab-dev' branch.
+# - Maybe in future there won't be a 'Colab' branch (we can use instead an
+#   `import google.colab` guard, or telling user to manually run script).
+
 
 #############
 #  WARNING  #
 #############
-# This will ALWAYS give you the current master version of the repo,
-# something which can be a source of confusion, e.g.:
 # - When bug hunting by checking out previous commits.
 # - When working on Colab branch, and changing something other than
 #   the notebook or script. This change won't be used on Colab
 #   until it's merged into master. Of course, we could point the
 #   below download to the Colab branch, but that won't fix the previous item,
-#   and also assumes that we make the choice of maintaining a separate branch
-#   for Colab (instead of using the check `import google.colab`, or telling
-#   user to insert the appropriate code when running on colab).
 
 
 # Install requirements
