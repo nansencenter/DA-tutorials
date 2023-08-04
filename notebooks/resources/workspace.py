@@ -7,7 +7,7 @@ import matplotlib as mpl
 try:
     # Note: Colab only supports `%matplotlib inline` ⇒ no point loading other.
     import google.colab  # type: ignore
-    # Colab only supports mpl inline backend 
+    # Colab only supports mpl inline backend
 
     # Make figures and fonts larger.
     mpl.rcParams.update({'font.size': 15})
@@ -25,7 +25,108 @@ mpl.rcParams.update({'lines.linewidth': 2.5})
 from .answers import show_answer
 
 # Load widgets
-from ipywidgets import interact, Image, interactive, VBox, IntSlider, SelectMultiple
+from ipywidgets import Image, interactive, HBox, VBox, IntSlider, SelectMultiple
+from IPython.display import display
+
+
+def interact(layout=None, vertical=None,
+             top=None, right=None, bottom=None, left=None,
+             **kwargs):
+    """Like `widgets.interact(**kwargs)` but with layout options.
+
+    Use nested lists to re-group/order/orient controls around the output (central pane).
+    NB: using 'wrap' in `layout` can override this.
+
+    Only tested with "inline" backend (Colab and locally).
+    Also see `~/P/HistoryMatching/tools/plotting.py`
+
+    Example:
+    >>> kws = dict(a=(1., 6.),
+    ...            b=(1., 7.),
+    ...            top='c',
+    ...            right=[['a', 'b', dict(justify_content='center')]],
+    ...            )
+    ... @interact(**kws)
+    ... def f(a=3.0, b=4, c=True):
+    ...     plt.figure(figsize=(5, 3))
+    ...     xx = np.linspace(0, 3, 21)
+    ...     if c: plt.plot(xx, b + xx**a)
+    ...     else: plt.plot(xx, b + xx)
+    ...     plt.show()
+    """
+    sides = dict(top=top, right=right, bottom=bottom, left=left)
+    layout=layout or {}
+    vertical=vertical or []
+    def decorator(fun):
+        # Parse kwargs, add observers
+        linked = interactive(fun, **kwargs)
+        *ww, out = linked.children
+        # display(HBox([out, VBox(ww)]))
+
+        # Styling
+        for w in ww:
+            w.style.description_width = "max-content"
+            if w.description in vertical:
+                w.orientation = "vertical"
+                w.layout.width = "2em"
+                w.layout.height = "100%"
+                w.layout.padding = "0"
+
+        def pop_widgets(labels):
+            """Pop, recursively (nesting specifies additional HBox/VBox config)."""
+            # Validate
+            if not labels:
+                return []
+            elif labels == True:
+                cp = ww.copy()
+                ww.clear()
+                return cp
+            elif isinstance(labels, str):
+                labels = [labels]
+            # ww2 = [ww.pop(i) for i, w in enumerate(ww) if w.description == lbl]
+            # #      !but if w is a list, then recurse!
+            ww2 = []
+            for lbl in labels:
+                if isinstance(lbl, dict):
+                    w = lbl  # 'layout' dict just gets forwarded
+                elif isinstance(lbl, list):
+                    w = pop_widgets(lbl)
+                else:
+                    i = [i for i, w in enumerate(ww) if w.description == lbl][0]
+                    w = ww.pop(i)
+                ww2.append(w)
+            return ww2
+
+        on = {side: pop_widgets(labels) for side, labels in sides.items()}
+        on['right'].extend(ww)  # put remainder on the right
+
+        def boxit(ww, horizontal=True):
+            """Apply appropriate box, recursively alternating between `HBox` and `VBox`."""
+            layout_here = layout.copy()
+            if ww and isinstance(ww[-1], dict):
+                layout_here.update(ww[-1])
+                ww = ww[:-1]
+
+            for i, w in enumerate(ww):
+                if hasattr(w, '__iter__'):
+                    ww[i] = boxit(w, not horizontal)
+
+            return (HBox(ww, layout=layout_here) if horizontal else
+                    VBox(ww, layout=layout_here))
+
+        # Dashbord composition
+        # I considered AppLayout, but was more comfortable with combining boxes
+        left = boxit(on['left'], False)
+        right = boxit(on['right'], False)
+        top = boxit(on['top'], True)
+        bottom = boxit(on['bottom'], True)
+
+        dashboard = VBox([top, HBox([left, out, right]), bottom])
+
+        display(dashboard);
+        linked.update()  # necessary on Colab
+    return decorator
+
 
 def axes_with_marginals():
     from matplotlib import pyplot as plt
@@ -40,58 +141,24 @@ def axes_with_marginals():
     ax.set_aspect('equal')
     return fig, (ax, yax, xax)
 
+
 def get_jointplotter(grid1d):
     fig, (ax, yax, xax) = axes_with_marginals()
     dx = grid1d[1] - grid1d[0]
-    def plotter(Z, colors=None, alpha=.3):
+    def plotter(Z, colors=None, alpha=.3, linewidths=1, **kwargs):
         Z = Z / Z.sum() / dx**2
-        margx = dx * Z.sum(0)
-        margy = dx * Z.sum(1)
         lvls = np.logspace(-3, 3, 21)
         # h = ax.contourf(grid1d, grid1d, Z, colors=colors,  levels=lvls, alpha=alpha)
-        # _ = ax.contour (grid1d, grid1d, Z, colors='black', levels=lvls, linewidths=.7, alpha=alpha)
-        h = ax.contour (grid1d, grid1d, Z, colors=colors,  levels=lvls)
+        # _ = ax.contour(grid1d, grid1d, Z, colors='black', levels=lvls, linewidths=.7, alpha=alpha)
+        h = ax.contour(grid1d, grid1d, Z, colors=colors,  levels=lvls, linewidths=linewidths, **kwargs)
+
+        margx = dx * Z.sum(0)
+        margy = dx * Z.sum(1)
         xax.fill_between(grid1d, margx, color=colors, alpha=alpha)
         yax.fill_betweenx(grid1d, 0, margy, color=colors, alpha=alpha)
+
         return h.legend_elements()[0][0]
     return ax, plotter
-
-# TODO:
-# @ws.interactive_fig(
-#     right=True,
-#     right=['corr', 'y2', 'R2']
-#     vert=['y2'],
-#     corr=(-1, 1, .1),
-#     y1=bounds,
-#     y2=bounds,
-#     R1=(0.01, 20, 0.2),
-#     R2=(0.01, 20, 0.2))
-
-from ipywidgets import interact, interactive, interactive_output, Box, VBox, HBox
-from IPython.display import clear_output, display
-import ipywidgets as widgets
-
-def intr(**kws):
-    def decorator(fun):
-        # interactive()
-        # - Like interact(), creates control widgets from simple kwargs.
-        # - Like interactive_output(), delays display() until manually called.
-        linked = interactive(fun, **kws)
-        *ww, out = linked.children
-        # - display(linked)                # Automatic dashboard layout
-        # - display(out)                   # Plot only
-        # - display(HBox([out, VBox(ww)])) # Manual dashboard layout
-
-        # Adjust controls styles. More in ~/P/HistoryMatching/tools/plotting.py:layout1
-        for w in ww:
-            w.style.description_width = "max-content"
-
-        # Layout
-        dashboard = HBox([out, VBox(ww)])
-        #dashboard = VBox([HBox(ww), out])
-
-        display(dashboard)
-    return decorator
 
 
 ####################################
