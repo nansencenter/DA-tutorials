@@ -67,6 +67,32 @@ def get_jointplotter(grid1d):
 #     R1=(0.01, 20, 0.2),
 #     R2=(0.01, 20, 0.2))
 
+from ipywidgets import interact, interactive, interactive_output, Box, VBox, HBox
+from IPython.display import clear_output, display
+import ipywidgets as widgets
+
+def intr(**kws):
+    def decorator(fun):
+        # interactive()
+        # - Like interact(), creates control widgets from simple kwargs.
+        # - Like interactive_output(), delays display() until manually called.
+        linked = interactive(fun, **kws)
+        *ww, out = linked.children
+        # - display(linked)                # Automatic dashboard layout
+        # - display(out)                   # Plot only
+        # - display(HBox([out, VBox(ww)])) # Manual dashboard layout
+
+        # Adjust controls styles. More in ~/P/HistoryMatching/tools/plotting.py:layout1
+        for w in ww:
+            w.style.description_width = "max-content"
+
+        # Layout
+        dashboard = HBox([out, VBox(ww)])
+        #dashboard = VBox([HBox(ww), out])
+
+        display(dashboard)
+    return decorator
+
 
 ####################################
 # DA video
