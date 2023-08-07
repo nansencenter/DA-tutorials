@@ -535,23 +535,28 @@ for the "weighted average" form.
 # Tut: Multivariate Kalman
 ###########################################
 
-answers['Likelihood derivation'] = ['MD', r'''
+answers['Likelihood for additive noise'] = ['MD', r'''
 Start by assuming (in place of eqn 2) that $\y=\br$;
 then $\y$ would have the same distribution as $\br$.
-Adding $\bH \x$ just shifts (translates) the distribution,
-i.e. changes its mean,
-hence $\mathcal{N}(\y \mid \bH \x, \R)$
+Adding $\ObsMod(\x)$ just shifts (translates) the distribution.
+More formally, one can use the fact that the pdf $p(\y)$
+can be defined by the CDF as $\frac{\partial}{\partial \y} \mathbb{P}(\\{Y_i \leq y_i\\})$,
+and insert eqn. (2) for $\mathbf{Y}$.
+In summary, the addition of $\ObsMod(\x)$ merely changes the mean,
+hence $\mathcal{N}(\y \mid \ObsMod(\x), \R)$.
 
-A more formal (but not really more rigorous) explanation is as follows:
+One can also derive the likelihood using only pdfs.
+The problem with this derivation is that one first needs to justify
+the use of delta functions to descrie deterministic relationships.
 $$
 \begin{align}
 p(\y|\x)
 &= \int p(\y, \br|\x) \, d \br \tag{by law of total proba.}  \\\
 &= \int p(\y|\br, \x) \, p(\br|\x) \, d \br \tag{by def. of conditional proba.} \\\
-&= \int \delta\big(\y-(\bH \x + \br)\big) \, p(\br|\x) \, d \br \tag{$\y$ is fully determined by $\x$ and $\br$} \\\
-&= \int \delta\big(\y-(\bH \x + \br)\big) \, \mathcal{N}(\br \mid \\bvec{0}, \R) \, d \br \tag{the draw of $\br$ does not depened on $\x$} \\\
-&= \mathcal{N}(\y - \bH \x \mid \\bvec{0}, \R) \tag{by def. of Dirac Delta} \\\
-&= \mathcal{N}(\y \mid \bH \x, \R) \tag{by reformulation} \, .
+&= \int \delta\big(\y-(\ObsMod(\x) + \br)\big) \, p(\br|\x) \, d \br \tag{$\y$ is fully determined by $\x$ and $\br$} \\\
+&= \int \delta\big(\y-(\ObsMod(\x) + \br)\big) \, \mathcal{N}(\br \mid \\bvec{0}, \R) \, d \br \tag{the draw of $\br$ does not depened on $\x$} \\\
+&= \mathcal{N}(\y - \ObsMod(\x) \mid \\bvec{0}, \R) \tag{by def. of Dirac Delta} \\\
+&= \mathcal{N}(\y \mid \ObsMod(\x), \R) \tag{by reformulation} \, .
 \end{align}
 $$
 ''']
