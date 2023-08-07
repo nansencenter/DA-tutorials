@@ -685,8 +685,6 @@ answers["predictability cases"] = ["MD", r"""
 * (2). No.
       A balance is always reached between
       the uncertainty reduction $(1-K)$ and growth $F^2$.  
-      Also recall the asymptotic value of $P_k$ computed in
-      [T3](T3 - Univariate Kalman filtering.ipynb#Exc-3.14:).
 """]
 answers["saturation term"] = ["MD", r"""
 [link](https://en.wikipedia.org/wiki/Logistic_function#Logistic_differential_equation)
