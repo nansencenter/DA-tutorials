@@ -161,38 +161,34 @@ def get_jointplotter(grid1d):
     return ax, plotter
 
 
-####################################
-# DA video
-####################################
-import io
-import base64
-from IPython.display import HTML
 def envisat_video():
-  caption = """Illustration of DA for the ozone layer in 2002.
-  <br><br>
-  LEFT: Satellite data (i.e. all that is observed).
-  RIGHT: Simulation model with assimilated data.
-  <br><br>
-  Could you have perceived the <a href='http://dx.doi.org/10.1175/JAS-3337.1'>splitting of the ozone hole.</a> only from the satellite data?
-  <br><br>
-  Attribution: William A. Lahoz, DARC.
-  """
-  video = io.open('./resources/darc_envisat_analyses.mp4', 'r+b').read()
-  encoded = base64.b64encode(video)
-  vid = HTML(data='''
-  <figure style="width:580px;">
-  <video alt="{1}" controls style="width:550px;">
-  <source src="data:video/mp4;base64,{0}" type="video/mp4" />
-  </video>
-  <figcaption style="background-color:#d9e7ff;">{1}</figcaption>
-  </figure>
-  '''.format(encoded.decode('ascii'),caption))
-  return vid
+    caption = """Illustration of DA for the ozone layer in 2002.
+    <br><br>
+    LEFT: Satellite data (i.e. all that is observed).
+    RIGHT: Simulation model with assimilated data.
+    <br><br>
+    Could you have perceived the <a href='http://dx.doi.org/10.1175/JAS-3337.1'>splitting of the ozone hole.</a> only from the satellite data?
+    <br><br>
+    Attribution: William A. Lahoz, DARC.
+    """
+
+    import io
+    import base64
+    from IPython.display import HTML
+
+    video = io.open('./resources/darc_envisat_analyses.mp4', 'r+b').read()
+    encoded = base64.b64encode(video)
+    vid = HTML(data='''
+    <figure style="width:580px;">
+    <video alt="{1}" controls style="width:550px;">
+    <source src="data:video/mp4;base64,{0}" type="video/mp4" />
+    </video>
+    <figcaption style="background-color:#d9e7ff;">{1}</figcaption>
+    </figure>
+    '''.format(encoded.decode('ascii'),caption))
+    return vid
 
 
-####################################
-# Misc
-####################################
 def EnKF_animation():
     # Initialize
     image = Image(
