@@ -191,31 +191,25 @@ def envisat_video():
 
 
 ####################################
-# EnKF animation
-####################################
-# Init image
-wI = Image(
-    value=open("./resources/illust_EnKF/illust_EnKF_0.png", "rb").read(),
-    format='png',
-    width=800,
-    height=600,
-)
-
-# Update
-def set_image(i=0):
-    img = "./resources/illust_EnKF/illust_EnKF_"+str(i)+".png"
-    wI.value=open(img, "rb").read()
-
-# Slider
-wS = interactive(set_image,i=(0,7,1))
-
-# Stack elements
-EnKF_animation = VBox([wS,wI])
-
-
-####################################
 # Misc
 ####################################
+def EnKF_animation():
+    # Initialize
+    image = Image(
+        value=open("./resources/illust_EnKF/illust_EnKF_0.png", "rb").read(),
+        format='png',
+        width=800,
+        height=600,
+    )
+
+    def update_image(i=0):
+        path = "./resources/illust_EnKF/illust_EnKF_"+str(i)+".png"
+        image.value=open(path, "rb").read()
+
+    slider = interactive(update_image, i=(0, 7, 1))
+    return VBox([slider, image])
+
+
 def weave_fa(xf,xa=None):
     "Make piece-wise graph for plotting f/a lines together"
     if xa is None:
