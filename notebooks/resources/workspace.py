@@ -36,91 +36,125 @@ from ipywidgets import Image, interactive, HBox, VBox, IntSlider, SelectMultiple
 from IPython.display import display
 
 
-def interact(layout=None, vertical=None,
-             top=None, right=None, bottom=None, left=None,
-             **kwargs):
-    """Like `widgets.interact(**kwargs)` but with layout options.
+def interact(top=None, right=None, bottom=None, left=None, **kwargs):
+    """Like `ipywidgets.interact(**kwargs)` but with layout shortcuts.
 
-    Use nested lists to re-group/order/orient controls around the output (central pane).
-    NB: using 'wrap' in `layout` can override this.
+    Set `bottom` or any other `side` argument to `True` to place all controls there,
+    relative to the central output (typically figure).
+    Otherwise, use a list (or comma-separated string) to select which controls to place there.
+    Use *nested* lists to re-group/order them.
+    The underlying mechanism is CSS flex box (typically without "wrap").
+
+    If the last element of a `side` is a dict, then it will be written as attributes
+    to the CSS `layout` attribute, ref [1].
+    Support for the `style` attribute [2] is not yet implemented.
+
+    Similarly, if the last element of any `kwargs` is a dict, then it will be written as attributes
+    (e.g. `description (str)`, 'readout (bool)', `continuous_update (bool)`, `orientation (str)`)
+    to the widget, ref [3].
 
     Only tested with "inline" backend (Colab and locally).
     Also see `~/P/HistoryMatching/tools/plotting.py`
 
+    [1]: https://ipywidgets.readthedocs.io/en/latest/examples/Widget%20Layout.html
+    [2]: https://ipywidgets.readthedocs.io/en/latest/examples/Widget%20Styling.html
+    [3]: https://ipywidgets.readthedocs.io/en/latest/examples/Widget%20List.html#
+
     Example:
-    >>> kws = dict(a=(1., 6.),
-    ...            b=(1., 7.),
-    ...            top='c',
-    ...            right=[['a', 'b', dict(justify_content='center')]],
-    ...            )
-    ... @interact(**kws)
-    ... def f(a=3.0, b=4, c=True):
+
+    >>> @interact(a=(1., 6., dict(orientation='vertical')),
+    ...           b=(1., 7.),
+    ...           # bottom=True,  # put rest here
+    ...           top='b,c',
+    ...           right=[['a', dict(justify_content='center')],['e']])
+    ... def f(a=3.0, b=4, c=True, d=5, e=6):
     ...     plt.figure(figsize=(5, 3))
     ...     xx = np.linspace(0, 3, 21)
-    ...     if c: plt.plot(xx, b + xx**a)
+    ...     if c: plt.plot(xx, e*d/a + xx**b)
     ...     else: plt.plot(xx, b + xx)
     ...     plt.show()
     """
+
+    def get_dict(iterable):
+        if iterable and isinstance(iterable[-1], dict):
+            return iterable[-1]
+        else:
+            return {}
+
+    def boxit(ww, horizontal=True):
+        """Apply box to lists, recursively (alternating between `HBox` and `VBox`)."""
+        if (layout := get_dict(ww)):
+            ww = ww[:-1]
+
+        for i, w in enumerate(ww):
+            if hasattr(w, '__iter__'):
+                ww[i] = boxit(w, not horizontal)
+
+        box = HBox if horizontal else VBox
+        return box(ww, layout=layout)
+
+    def pop_widgets(ww, labels):
+        """Replace items in nested list `labels` by matching elements from `ww`.
+
+        Essentially `[ww.pop(i) for i, w in enumerate(ww) if w.description == lbl]`
+        but if `w` is a list, then recurse.
+        """
+        # Validate
+        if not labels:
+            return []
+        elif labels == True:
+            cp = ww.copy()
+            ww.clear()
+            return cp
+        elif isinstance(labels, str):
+            labels = labels.split(',')
+
+        # Main
+        ww2 = []
+        for lbl in labels:
+            if isinstance(lbl, dict):
+                # Forward as is
+                w = lbl
+            elif isinstance(lbl, list):
+                # Recurse
+                w = pop_widgets(ww, lbl)
+            else:
+                # Pop
+                i = [i for i, w in enumerate(ww) if w.description == lbl]
+                try:
+                    i = i[0]
+                except IndexError:
+                    raise IndexError(f'Did you specify {lbl} twice in the layout?')
+                w = ww.pop(i)
+            ww2.append(w)
+        return ww2
+
     sides = dict(top=top, right=right, bottom=bottom, left=left)
-    layout=layout or {}
-    vertical=vertical or []
+
+    # Pop attributes (if any) for controls
+    attrs = {}
+    for key, iterable in kwargs.items():
+        if (dct := get_dict(iterable)):
+            attrs[key] = dct
+            kwargs[key] = type(iterable)(iterable[:-1])  # preserve list or tuple
 
     def decorator(fun):
-        # Parse kwargs, add observers
+        # Auto-parse kwargs, add 'observers'
         linked = interactive(fun, **kwargs)
         *ww, out = linked.children
         # display(HBox([out, VBox(ww)]))
 
-        # Styling
+        # Styling of individual control widgets
         for w in ww:
+            for attr, val in attrs.get(w.description, {}).items():
+                setattr(w, attr, val)
+            # Defaults
             w.style.description_width = "max-content"
-            if w.description in vertical:
-                w.orientation = "vertical"
+            if getattr(w, 'orientation', '') == "vertical":
                 w.layout.width = "2em"
-                w.layout.height = "100%"
-                w.layout.padding = "0"
 
-        def pop_widgets(labels):
-            """Pop, recursively (nesting specifies additional HBox/VBox config)."""
-            # Validate
-            if not labels:
-                return []
-            elif labels == True:
-                cp = ww.copy()
-                ww.clear()
-                return cp
-            elif isinstance(labels, str):
-                labels = [labels]
-            # ww2 = [ww.pop(i) for i, w in enumerate(ww) if w.description == lbl]
-            # #      !but if w is a list, then recurse!
-            ww2 = []
-            for lbl in labels:
-                if isinstance(lbl, dict):
-                    w = lbl  # 'layout' dict just gets forwarded
-                elif isinstance(lbl, list):
-                    w = pop_widgets(lbl)
-                else:
-                    i = [i for i, w in enumerate(ww) if w.description == lbl][0]
-                    w = ww.pop(i)
-                ww2.append(w)
-            return ww2
-
-        on = {side: pop_widgets(labels) for side, labels in sides.items()}
-        on['right'].extend(ww)  # put remainder on the right
-
-        def boxit(ww, horizontal=True):
-            """Apply appropriate box, recursively alternating between `HBox` and `VBox`."""
-            layout_here = layout.copy()
-            if ww and isinstance(ww[-1], dict):
-                layout_here.update(ww[-1])
-                ww = ww[:-1]
-
-            for i, w in enumerate(ww):
-                if hasattr(w, '__iter__'):
-                    ww[i] = boxit(w, not horizontal)
-
-            return (HBox(ww, layout=layout_here) if horizontal else
-                    VBox(ww, layout=layout_here))
+        on = {side: pop_widgets(ww, labels) for side, labels in sides.items()}
+        on['right'] = ww + on['right']  # put any remainder on the right (before any dict)
 
         # Dashbord composition
         # I considered AppLayout, but was more comfortable with combining boxes
