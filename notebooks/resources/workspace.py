@@ -2,6 +2,8 @@
 
 import numpy as np
 import matplotlib as mpl
+import mpl_tools
+
 
 # Should PRECEDE plt.ion()
 try:
@@ -13,9 +15,14 @@ try:
     mpl.rcParams.update({'font.size': 15})
     mpl.rcParams.update({'figure.figsize': [10,6]})
 except ImportError:
-    # NB: `nbAgg` steals focus from interactive sliders,
-    # and re-generates entire figure (not just canvas).
-    mpl.use('nbAgg') # = %matplotlib notebook
+    if mpl_tools.is_notebook_or_qt:
+        # NB: `nbAgg` steals focus from interactive sliders,
+        # and re-generates entire figure (not just canvas).
+        # mpl.use('nbAgg') # = %matplotlib notebook
+        pass # all notebooks use `%matplotlib inline` anyway
+    else:
+        # Regular python (or ipython) session
+        pass
 
 # Must NOT be in 1st cell of the notebook,
 # because Colab does %matplotlib inline at startup (I think), resetting rcParams.
@@ -57,6 +64,7 @@ def interact(layout=None, vertical=None,
     sides = dict(top=top, right=right, bottom=bottom, left=left)
     layout=layout or {}
     vertical=vertical or []
+
     def decorator(fun):
         # Parse kwargs, add observers
         linked = interactive(fun, **kwargs)
@@ -125,7 +133,12 @@ def interact(layout=None, vertical=None,
 
         display(dashboard);
         linked.update()  # necessary on Colab
-    return decorator
+
+    # Return decorator or dummy (to plot without interactivity)
+    if mpl_tools.is_notebook_or_qt:
+        return decorator
+    else:
+        return (lambda fun: fun())
 
 
 def axes_with_marginals():
