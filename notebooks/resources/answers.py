@@ -407,7 +407,7 @@ answers['AR1'] = ['MD', r'''
     - `1`: $\\{x_k\\}$ becomes a [(Gaussian) random walk](https://en.wikipedia.org/wiki/Random_walk#Gaussian_random_walk),
       a.k.a. Brownian motion a.k.a. Wiener process.  
       But if $Q=0$ it just becomes the constant $x_0$.
-    - As `DynMod` approaches 1 (from below), the process becomes more and more auto-correlated.  
+    - As `M` approaches 1 (from below), the process becomes more and more auto-correlated.  
       Its variance (at any given time index) also increases.  
       But if $Q=0$ then the process just decays (geometrically/exponentially) to $0$.
     - `>1`: The process becomes a divergent geometric sequence, and blows up (for any value of $Q$).
@@ -428,7 +428,7 @@ answers['KF behaviour'] = ['MD', r'''
 
 answers['KF with bias'] = ['MD', r'''
 -   - If `logR_bias` $\rightarrow -\infty$ then the KF "trusts" the observations too much,
-    always jumping to lie right on top of them (also assuming `ObsMod=1`).
+    always jumping to lie right on top of them (also assuming `H=1`).
     - The same happens for `logQ_bias` $\rightarrow +\infty$
     since then the KF has no "faith" in its predictions
     (easier to see if you comment out the line that plots the uncertainty which is now humongous).
