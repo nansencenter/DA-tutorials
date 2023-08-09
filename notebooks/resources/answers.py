@@ -3,6 +3,14 @@
 # >>> from resources import answers
 # >>> import importlib
 # >>> importlib.reload(answers)
+#
+# Alternatively you can edit them in the notebook as follows.
+#
+# >>> import resources.answers as aaa
+# >>> aaa.answers['name'] = ['MD', r'''
+# >>> ...
+# >>> ''']
+# >>> ws.show_answer('name')
 
 from markdown import markdown as md2html # better than markdown2 ?
 from IPython.display import HTML, display
@@ -14,7 +22,7 @@ def show_answer(tag, *subtags):
 
     # Homogenize, e.g. 'a, b cd' --> 'abcd'
     subtags = ", ".join(subtags)
-    subtags.translate(str.maketrans('', '', ' ,'))  # 
+    subtags.translate(str.maketrans('', '', ' ,'))
 
     for key in filter(lambda key: key.startswith(tag), answers):
         if not subtags or any(key.endswith(" "+ch) for ch in subtags):
@@ -390,6 +398,52 @@ answers['Posterior cov'] =  ['MD', r"""
 # Tut: Univariate Kalman filtering
 ###########################################
 
+answers['AR1'] = ['MD', r'''
+- The seed controls the random numbers generated via `numpy.random`
+  (imported as `rnd`) that are used to generate the stochastic processes,
+  i.e. the `truth` $\\{x_k\\}$ and `obsrvs` $\\{y_k\\}$.
+-   - `0`: $\\{x_k\\}$ becomes [(Gaussian) white noise](https://en.wikipedia.org/wiki/White_noise#Discrete-time_white_noise).  
+      But if $Q = 0$, it just becomes the constant $0$.
+    - `1`: $\\{x_k\\}$ becomes a [(Gaussian) random walk](https://en.wikipedia.org/wiki/Random_walk#Gaussian_random_walk),
+      a.k.a. Brownian motion a.k.a. Wiener process.  
+      But if $Q=0$ it just becomes the constant $x_0$.
+    - As `DynMod` approaches 1 (from below), the process becomes more and more auto-correlated.  
+      Its variance (at any given time index) also increases.  
+      But if $Q=0$ then the process just decays (geometrically/exponentially) to $0$.
+    - `>1`: The process becomes a divergent geometric sequence, and blows up (for any value of $Q$).
+- The observations become exact (infinitely precise and accurate).
+- The observations become useless, carrying no information.  
+  Their variance dominates in the plot, so that it **looks** like $\\{x_k\\}$ becomes flat.
+''']
+
+answers['KF behaviour'] = ['MD', r'''
+- The uncertainty never reaches 0 (but decays geometrically in time).
+- The dynamics always produces 0 at the next time step
+  (also since there is almost no noise).
+  Therefore, regardless of initial variance or observation precision,
+  the KF knows exactly where the state is: at 0.
+  Happily, this is reflected in its uncertainty estimate,
+  i.e. variance, which is also 0.
+''']
+
+answers['KF with bias'] = ['MD', r'''
+-   - If `logR_bias` $\rightarrow -\infty$ then the KF "trusts" the observations too much,
+    always jumping to lie right on top of them (also assuming `ObsMod=1`).
+    - The same happens for `logQ_bias` $\rightarrow +\infty$
+    since then the KF has no "faith" in its predictions
+    (easier to see if you comment out the line that plots the uncertainty which is now humongous).
+    - If `logR_bias` $\rightarrow +\infty$ then the KF attributes no weight to the observations,
+    so that only the mean model prediction matters, which is zero.
+    - The same happens for `logQ_bias` $\rightarrow -\infty$, except for an initial transitory
+    period during which the initial uncertainty of the KF quickly attenuates,
+    after which it only trusts its mean prediction.
+    - *PS: it may appear that $R$ and $Q$ simply play the opposite role
+    (while adding to the complexity of the KF). However, this is only approximately true,
+    and less so in more complex settings.*
+- Not very long? But longer for larger $R$ or smaller $Q$.
+- Even longer.
+''']
+
 # Also see 'Gaussian sampling a'
 answers['RV sums'] = ['MD', r'''
 By the [linearity of the expected value](https://en.wikipedia.org/wiki/Expected_value#Linearity),
@@ -488,32 +542,39 @@ which concludes the induction.
 The proof for $\hat{x}_k$ is similar.
 ''']
 
-answers['Asymptotic P when M>1'] = ['MD', r'''
-The fixed point $P_\infty$ should satisfy
-$P_\infty = 1/\big(1/R + 1/[\\DynMod^2 P_\infty]\big)$.
-This yields $P_\infty = R (1-1/\\DynMod^2)$.  
-Interestingly, this means that the asymptotic state uncertainty ($P$)
-is directly proportional to the observation uncertainty ($R$).
-''']
+answers['Asymptotic Riccati a'] = ['MD', r'''
+Merging forecast and analysis equations for $P_k$,
+and focusing on their inverses (called "precisions")
+we find
+$$ 1/P_k^a = 1/(M^2 P_{k-1}^a) + H^2/R \,,$$
 
-answers['Asymptotic P when M=1'] = ['MD', r'''
-Since
-$ P_k^{-1} = P_{k-1}^{-1} + R^{-1} \, , $
-it follows that
-$ P_k^{-1} = P_0^{-1} + k R^{-1} \, , $
-and hence
-$$ P_k = \frac{1}{1/P_0 + k/R} \xrightarrow[k \rightarrow \infty]{} 0 \, .
-$$
-''']
-
-answers['Asymptotic P when M<1'] = ['MD', r'''
-Note that $P_k < B_k$ for each $k$
-(c.f. the Gaussian-Gaussian Bayes rule from tutorial 2.)
+Note that $P^a_k < P^f_k$ for each $k$
+(c.f. the Gaussian-Gaussian Bayes rule from T3.)
 Thus,
 $$
-P_k < B_k = \\DynMod^2 P_{k-1}
+P^a_k < P^f_k = \\DynMod^2 P^a_{k-1}
 \xrightarrow[k \rightarrow \infty]{} 0 \, .
 $$
+''']
+
+answers['Asymptotic Riccati b'] = ['MD', r'''
+Since
+$ 1/P_k^a = 1/P_{k-1}^a + 1/R \,,$
+it follows that
+$ 1/P_k^a = 1/P_0^a + k / R \xrightarrow[k \rightarrow \infty]{} +\infty \,,\quad$
+i.e.
+$ P^a_k \rightarrow 0 \,.$
+''']
+
+answers['Asymptotic Riccati c'] = ['MD', r'''
+The fixed point $P^a_\infty$ should satisfy
+$P^a_\infty = 1/\big(1/R + 1/[\\DynMod^2 P^a_\infty]\big)$,
+yielding $P^a_\infty = R (1-1/\\DynMod^2)$.  
+Note that this is **not 0**!
+In other words, even though the KF keeps gaining observational data/information,
+this gets balanced out by the growth in error/uncertainty during the forecast.
+Also note that the asymptotic state uncertainty ($P^a_\infty$)
+is directly proportional to the observation uncertainty ($R$).
 ''']
 
 answers['KG fail'] = ['MD', r'''
