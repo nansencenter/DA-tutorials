@@ -11,12 +11,9 @@ import sys
 
 import nbformat
 
-# Cannot contain slash coz then Colab doesnt process
-filename = Path(__file__).name
 
 macros=r'''$
-% START OF MACRO DEF
-% DO NOT EDIT IN INDIVIDUAL NOTEBOOKS, BUT IN '''+filename+r'''
+{HEADER}
 %
 \newcommand{\Reals}{\mathbb{R}}
 \newcommand{\Expect}[0]{\mathbb{E}}
@@ -73,8 +70,13 @@ macros=r'''$
 \newcommand{\ones}[0]{\bvec{1}} % ALWAYS
 \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 %
-% END OF MACRO DEF
+{FOOTER}
 $'''
+
+HEADER = r'''% Loading TeX (MathJax)... Please wait'''
+FOOTER = r'''% END OF MACRO DEF'''
+macros = macros.replace('{HEADER}', HEADER)
+macros = macros.replace('{FOOTER}', FOOTER)
 
 _macros = macros.split("\n")
 
@@ -122,14 +124,11 @@ def broadcast_macros():
     # Strip % ALWAYS
     macros = [m.replace("% ALWAYS","").rstrip() for m in _macros]
 
-    HEADER = macros[1]
-    FOOTER = macros[-2]
-
     def update(nb):
         for cell in nb["cells"]:
             if cell["cell_type"] == "markdown":
                 lines = cell["source"].split("\n")
-                if not any("START OF MACRO DEF" in ln for ln in lines):
+                if not any(HEADER in ln for ln in lines):
                     continue
 
                 try:
@@ -150,14 +149,11 @@ def broadcast_macros():
                     cell["source"] = "\n".join(macros + lines)
                     return True # indicate that changes were made
 
-
-
     for f in sorted(find_notebooks()):
-
         try:
             nb = nbformat.read(f, as_version=4)
 
-            print(f)
+            print(f.ljust(50), end=": ")
             if update(nb):
                 print("Updated!")
                 nbformat.write(nb, f)
