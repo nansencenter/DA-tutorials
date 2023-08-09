@@ -247,7 +247,7 @@ $$\texttt{sum(pp)*dx}
 ''']
 
 answers['Dimensionality a'] = ['MD', r'''
-$N^M$
+$N^{D_x}$
 ''']
 answers['Dimensionality b'] = ['MD', r'''
 $15 * 360 * 180 = 972'000 \approx 10^6$
@@ -654,11 +654,11 @@ Eqns (5) and (6) follow by identification.
 answers['Cov memory'] = ['MD', r'''
 
 
- - (a). $M$-by-$M$
+ - (a). ${D_x}$-by-${D_x}$
  - (b). Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
-    at least 2 times $M^3/3$.
+    at least 2 times ${D_x}^3/3$.
  - (c). Assume $\B$ stored as float (double). Then it's 8 bytes/element.
-        And the number of elements in $\B$: $M^2$. So the total memory is $8 M^2$.
+        And the number of elements in $\B$: ${D_x}^2$. So the total memory is $8 {D_x}^2$.
  - (d). 8 trillion bytes. I.e. 8 million MB.
 ''']
 
@@ -669,12 +669,12 @@ $$
 \begin{align}
   &\left(\B^{-1}+\V\tr \R^{-1} \U \right)
   \left[ \B - \B \V\tr \left(\R+\U \B \V\tr \right)^{-1} \U \B \right] \\\
-  & \quad = \I_M + \V\tr \R^{-1}\U \B -
+  & \quad = \I_{D_x} + \V\tr \R^{-1}\U \B -
   (\V\tr + \V\tr \R^{-1} \U \B \V\tr)(\R + \U \B \V\tr)^{-1}\U \B \\\
-  & \quad = \I_M + \V\tr \R^{-1}\U \B -
+  & \quad = \I_{D_x} + \V\tr \R^{-1}\U \B -
   \V\tr \R^{-1}(\R+ \U \B \V\tr)(\R + \U \B \V\tr)^{-1} \U \B \\\
-  & \quad = \I_M + \V\tr \R^{-1} \U \B - \V\tr \R^{-1} \U \B \\\
-  & \quad = \I_M
+  & \quad = \I_{D_x} + \V\tr \R^{-1} \U \B - \V\tr \R^{-1} \U \B \\\
+  & \quad = \I_{D_x}
 \end{align}
 $$
 ''']
@@ -686,7 +686,7 @@ by replacing $\V, \U$ by $\bH$,
 In other words,
 we need to show the existence of the left hand side.
 
-Now, for all $\x \in \Reals^M$, $\x\tr \B^{-1} \x > 0$ (since $\B$ is SPD).
+Now, for all $\x \in \Reals^{D_x}$, $\x\tr \B^{-1} \x > 0$ (since $\B$ is SPD).
 Similarly, $\x\tr \bH\tr \R^{-1} \bH \x\geq 0$,
 implying that the left hand side is SPD:
 $\x\tr (\bH\tr \R^{-1} \bH + \B^{-1})\x > 0$,
@@ -723,16 +723,16 @@ Hint: what's its time-derivative?
 answers["Lorenz energy"] = ["MD", r'''
 \begin{align}
 \frac{d}{dt}
-\sum_m
-x_m^2
+\sum_i
+x_i^2
 &=
-2 \sum_m
-x_m \dot{x}_m
+2 \sum_i
+x_i \dot{x}_i
 \end{align}
 
 Next, insert the quadratic terms from the ODE,
 $
-\dot x_m = (x_{m+1} − x_{m-2}) x_{m-1}
+\dot x_i = (x_{i+1} − x_{i-2}) x_{i-1}
 \, .
 $
 
@@ -807,15 +807,15 @@ answers['Gaussian sampling a'] = ['MD', r'''
 Type `rnd.randn??` in a code cell and execute it.
 ''']
 answers['Gaussian sampling b'] = ['MD', r'''
-    z = rnd.randn(M, 1)
+    z = rnd.randn(xDim, 1)
     x = b + L @ z
 ''']
 
 answers['Gaussian sampling c'] = ['MD', r'''
-    E = b[:, None] + L @ rnd.randn(M, N)
+    E = b[:, None] + L @ rnd.randn(xDim, N)
     # Alternatives:
     # E = np.random.multivariate_normal(b, B, N).T
-    # E = ( b + rnd.randn(N, M) @ L.T ).T
+    # E = ( b + rnd.randn(N, xDim) @ L.T ).T
 ''']
 
 answers['Average sampling error'] = ['MD', r'''
@@ -828,7 +828,7 @@ Procedure:
 
 answers['ensemble moments'] = ['MD', r'''
     x_bar = np.sum(E, axis=1)/N
-    B_bar = np.zeros((M, M))
+    B_bar = np.zeros((xDim, xDim))
     for n in range(N):
         xc = (E[:, n] - x_bar)[:, None] # x_centered
         B_bar += xc @ xc.T
@@ -974,9 +974,9 @@ Substituting eqns. (9) into eqn. (A3) yields
 $$\begin{align}
 	\barP
 	&=  \barB  + \barK \bH \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr - \barK \bH \barB  + \barK \R \barK{}\tr \tag{A4} \\\
-	&=  (\I_M - \barK \bH) \barB + \barK(\bH \barB \bH\tr + \R)\barK{}\tr -  \barB \bH\tr \barK{}\tr \tag{regrouped.} \\\
-	&=  (\I_M - \barK \bH) \barB + \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr \, , \tag{inserted eqn. (5a).} \\\
-    &=  (\I_M - \barK \bH) \barB \, . \tag{10}
+	&=  (\I_{D_x} - \barK \bH) \barB + \barK(\bH \barB \bH\tr + \R)\barK{}\tr -  \barB \bH\tr \barK{}\tr \tag{regrouped.} \\\
+	&=  (\I_{D_x} - \barK \bH) \barB + \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr \, , \tag{inserted eqn. (5a).} \\\
+    &=  (\I_{D_x} - \barK \bH) \barB \, . \tag{10}
     \end{align}$$
 Thus the covariance of the EnKF update "conforms" to the KF covariance update.
 
@@ -993,7 +993,7 @@ answers["EnKF_without_perturbations"] = ['MD', r'''
 If $\Dobs = \bvec{0}$, then eqn. (A3) from the previous answer becomes
 $$\begin{align}
     \barP
-	&= (\I_M-\barK \bH)\barB(\I_M-\bH\tr \barK{}\tr) \tag{A5} \, ,
+	&= (\I_{D_x}-\barK \bH)\barB(\I_{D_x}-\bH\tr \barK{}\tr) \tag{A5} \, ,
 \end{align}$$
 which shows that the updated covariance would be too small.
 ''']
@@ -1001,12 +1001,12 @@ which shows that the updated covariance would be too small.
 
 answers['EnKF v1'] = ['MD', r'''
     def my_EnKF(N):
-        E = mu0[:, None] + P0_chol @ rnd.randn(M, N)
+        E = mu0[:, None] + P0_chol @ rnd.randn(xDim, N)
         for k in range(1, K+1):
             # Forecast
             t   = k*dt
             E   = Dyn(E, t-dt, dt)
-            E  += Q_chol @ rnd.randn(M, N)
+            E  += Q_chol @ rnd.randn(xDim, N)
             if k%dko == 0:
                 # Analysis
                 y        = yy[k//dko-1] # current obs
@@ -1061,7 +1061,7 @@ answers['Rank hist'] = ['MD', r'''
 # The "butterfly" is contained within a certain box (limits for $x$, $y$ and $z$).
 answers['RMSE vs inf error'] = ['MD', r'''
 It follows from [the fact that](https://en.wikipedia.org/wiki/Lp_space#Relations_between_p-norms)
-$ \newcommand{\x}{\x} \|\x\|_2 \leq M^{1/2} \|\x\|\_\infty \text{and}  \|\x\|_1 \leq M^{1/2} \|\x\|_2$
+$ \newcommand{\x}{\x} \|\x\|_2 \leq {D_x}^{1/2} \|\x\|\_\infty \text{and}  \|\x\|_1 \leq {D_x}^{1/2} \|\x\|_2$
 that
 $$ 
 \text{RMSE} 
@@ -1069,7 +1069,7 @@ $$
 \leq \| \text{RMSE}\_{0:k} \|\_\infty
 $$
 and
-$$ \text{RMSE}_k = \| \text{Error}_k \|\_2 / \sqrt{M} \leq \| \text{Error}_k \|\_\infty$$
+$$ \text{RMSE}_k = \| \text{Error}_k \|\_2 / \sqrt{{D_x}} \leq \| \text{Error}_k \|\_\infty$$
 ''']
 
 answers['Twin Climatology'] = ['MD', r'''
