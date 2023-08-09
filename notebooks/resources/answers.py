@@ -528,6 +528,18 @@ which concludes the induction.
 The proof for $x^a_k$ is similar.
 ''']
 
+
+answers['KF1 code'] = ['MD', r'''
+
+            # Forecast step
+            xf = M * xa
+            Pf = M**2 * Pa + Q
+            # Analysis update step
+            Pa = 1 / (1/Pf + H**2/R)
+            xa = Pa * (xf/Pf + H*obsrvs[k]/R)
+
+''']
+
 answers['Asymptotic Riccati a'] = ['MD', r'''
 Merging forecast and analysis equations for $P^a_k$,
 and focusing on their inverses (called "precisions")
@@ -563,15 +575,21 @@ Also note that the asymptotic state uncertainty ($P^a_\infty$)
 is directly proportional to the observation uncertainty ($R$).
 ''']
 
-answers['KG fail'] = ['MD', r'''
-Because `PP[0]` is infinite.
-And while the limit (as `BB` goes to +infinity) of
-`KG = BB / (BB + R)` is 1,
-its numerical evaluation fails (as it should).
-Note that the infinity did not cause any problems numerically
-for the "weighted average" form.
+answers['signal processing a'] = ['MD', r'''
+    sigproc['Wiener']   = sig.wiener(obsrvs)
 ''']
-
+answers['signal processing b'] = ['MD', r'''
+    sigproc['Hamming']  = sig.convolve(obsrvs, nrmlz(sig.windows.hamming(10)), 'same')
+''']
+answers['signal processing c'] = ['MD', r'''
+    sigproc['Low-pass'] = np.fft.irfft(trunc(np.fft.rfft(obsrvs), len(obsrvs)//4))
+''']
+answers['signal processing d'] = ['MD', r'''
+    sigproc['Butter']   = sig.filtfilt(*sig.butter(4, .5), obsrvs, padlen=10)
+''']
+answers['signal processing e'] = ['MD', r'''
+    sigproc['Spline']   = sp.interpolate.UnivariateSpline(kk, obsrvs, s=1e2)(kk)
+''']
 
 ###########################################
 # Tut: Time series analysis
