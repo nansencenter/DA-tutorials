@@ -187,7 +187,7 @@ What's not to love? Consider
 
 
 answers['GG BR example'] = ['MD', r'''
-- Eqn. (5) yields $P = \frac{1}{1/4 + 1/4} = \frac{1}{2/4} = 2$.
+- Eqn. (5) yields $P^a = \frac{1}{1/4 + 1/4} = \frac{1}{2/4} = 2$.
 - Eqn. (6) yields $\hat{x} = 2 \cdot (20/4 + 18/4) = \frac{20 + 18}{2} = 19$
 ''']
 
@@ -260,29 +260,29 @@ answers['BR Gauss, a.k.a. completing the square a'] = ['MD', r'''
 Expanding the squares of the left hand side (LHS),
 and gathering terms in powers of $x$ yields
 $$
-    \frac{(x-b)^2}{B} + \frac{(x-y)^2}{R}
-    =  x^2 (1/B + 1/R)
-    - 2 x (b/B + y/R)
+    \frac{(x-x^f)^2}{P^f} + \frac{(x-y)^2}{R}
+    =  x^2 (1/P^f + 1/R)
+    - 2 x (x^f/P^f + y/R)
     + c_1
     \,, \tag{a1}
 $$
-with $c_1 = b^2/B + y^2/R$.
+with $c_1 = (x^f)^2/P^f + y^2/R$.
 Meanwhile
 $$
-    \frac{(x-\hat{x})^2}{B}
-    = x^2 / P
-    - 2 x \hat{x}/P
-    + \hat{x}^2/P
+    \frac{(x-\hat{x})^2}{P^f}
+    = x^2 / P^a
+    - 2 x \hat{x}/P^a
+    + \hat{x}^2/P^a
     \,.
 \tag{a2}
 $$
 Both (a1) and (a2) are quadratics in $x$,
 so we can equate them by setting
 $$ \begin{align}
-1/P = 1/B + 1/R \,, \tag{a3} \\\
-\hat{x}/P = b/B + y/R \,, \tag{a4}
+1/P^a = 1/P^f + 1/R \,, \tag{a3} \\\
+\hat{x}/P^a = x^f/P^f + y/R \,, \tag{a4}
 \end{align} $$
-whereupon we immediately recover $P$ and $\hat{x}$ of eqns. (5) and (6).
+whereupon we immediately recover $P^a$ and $\hat{x}$ of eqns. (5) and (6).
 
 *PS: The above process is called "completing the square"
 since it involves writing a quadratic polynomial as a single squared term
@@ -292,32 +292,32 @@ plus a "constant" that we add and subtract.*
 answers['BR Gauss, a.k.a. completing the square b'] = ['MD', r'''
 From part (a),
 $$
-    \frac{(x-b)^2}{B} + \frac{(x-y)^2}{R}
+    \frac{(x-x^f)^2}{P^f} + \frac{(x-y)^2}{R}
     =
-    \frac{(x-\hat{x})^2}{B} + c_2
+    \frac{(x-\hat{x})^2}{P^f} + c_2
     \,,
 \tag{a5}
 $$
-with $c_2 = c_1 - \hat{x}^2/P$.
+with $c_2 = c_1 - \hat{x}^2/P^a$.
 Substituting in the formulae for $c_1$ and $\hat{x}$ produces
 $$
-c_2 = b^2/B + y^2/R - P (b/B + y/R)^2
-= y^2 ( 1/R - P/R^2 ) - 2 y b \frac{P}{B R} + \frac{b^2}{B} - P \frac{b^2}{B^2}  
+c_2 = (x^f)^2/P^f + y^2/R - P^a (x^f/P^f + y/R)^2
+= y^2 ( 1/R - P^a/R^2 ) - 2 y x^f \frac{P^a}{P^f R} + \frac{(x^f)^2}{P^f} - P^a \frac{(x^f)^2}{P^f^2}  
 \tag{a6}
 $$
-Now, multiplying eqn. (a3) with $B R$, it can be seen that
+Now, multiplying eqn. (a3) with $P^f R$, it can be seen that
 
-- $\frac{P}{B R} = \frac{1}{B + R}$, whence
-- $\frac{P}{B} = \frac{R}{B + R}$, and
-- $\frac{P}{R} = \frac{B}{B + R}$ so that
-- $1/R - P/R^2 = \frac{1}{R}(1 - \frac{P}{R} ) = \frac{1}{R} \frac{R}{B + R} = \frac{1}{B + R}$.
+- $\frac{P^a}{P^f R} = \frac{1}{P^f + R}$, whence
+- $\frac{P^a}{P^f} = \frac{R}{P^f + R}$, and
+- $\frac{P^a}{R} = \frac{P^f}{P^f + R}$ so that
+- $1/R - P^a/R^2 = \frac{1}{R}(1 - \frac{P^a}{R} ) = \frac{1}{R} \frac{R}{P^f + R} = \frac{1}{P^f + R}$.
 
 Thus eqn. (a6) simplifies to
 $$ \begin{align}
 c_2
-&= y^2 \frac{1}{B + R}  - 2 y b \frac{1}{B + R} + \frac{b^2}{B} - \frac{b^2}{B}\frac{R}{B + R} \\\
-&= \frac{1}{B + R} \Bigl[ y^2 - 2 y b + b^2 \bigl( \frac{B + R}{B} - \frac{R}{B}\bigr ) \Bigr ] \\\
-&= \frac{(y - b)^2}{B + R}
+&= y^2 \frac{1}{P^f + R}  - 2 y x^f \frac{1}{P^f + R} + \frac{(x^f)^2}{P^f} - \frac{(x^f)^2}{P^f}\frac{R}{P^f + R} \\\
+&= \frac{1}{P^f + R} \Bigl[ y^2 - 2 y x^f + (x^f)^2 \bigl( \frac{P^f + R}{P^f} - \frac{R}{P^f}\bigr ) \Bigr ] \\\
+&= \frac{(y - x^f)^2}{P^f + R}
 \tag{a7}
 \end{align} $$
 ''']
@@ -326,10 +326,10 @@ answers['BR Gauss, a.k.a. completing the square c'] = ['MD', r'''
 \begin{align}
 p(x|y)
 &\propto p(x) \, p(y|x) \\\
-&=       N(x \mid b, B) \, N(y \mid x, R) \\\
-&\propto \exp \Big( \frac{-1}{2} \big[ (x-b)^2/B + (x-y)^2/R \big] \Big) \,.
+&=       N(x \mid x^f, P^f) \, N(y \mid x, R) \\\
+&\propto \exp \Big( \frac{-1}{2} \big[ (x-x^f)^2/P^f + (x-y)^2/R \big] \Big) \,.
 \end{align}
-The rest follows by eqn. (S2) and identification with $N(x \mid \hat{x}, P)$.
+The rest follows by eqn. (S2) and identification with $N(x \mid \hat{x}, P^a)$.
 ''']
 
 answers['BR Gauss'] = ['MD', r'''
@@ -339,48 +339,48 @@ We can ignore factors that do not depend on $x$.
 p(x|y)
 &= \frac{p(x) \, p(y|x)}{p(y)} \\\
 &\propto p(x) \, p(y|x) \\\
-&=       N(x \mid b, B) \, N(y \mid x, R) \\\
-&\propto \exp \Big( \frac{-1}{2} \Big( (x-b)^2/B + (x-y)^2/R \Big) \Big) \\\
-&\propto \exp \Big( \frac{-1}{2} \Big( (1/B + 1/R)x^2 - 2(b/B + y/R)x \Big) \Big) \\\
-&\propto \exp \Big( \frac{-1}{2} \Big( x - \frac{b/B + y/R}{1/B + 1/R} \Big)^2 \cdot (1/B + 1/R) \Big) \, .
+&=       N(x \mid x^f, P^f) \, N(y \mid x, R) \\\
+&\propto \exp \Big( \frac{-1}{2} \Big( (x-x^f)^2/P^f + (x-y)^2/R \Big) \Big) \\\
+&\propto \exp \Big( \frac{-1}{2} \Big( (1/P^f + 1/R)x^2 - 2(x^f/P^f + y/R)x \Big) \Big) \\\
+&\propto \exp \Big( \frac{-1}{2} \Big( x - \frac{x^f/P^f + y/R}{1/P^f + 1/R} \Big)^2 \cdot (1/P^f + 1/R) \Big) \, .
 \end{align}
 
-Identifying the last line with $N(x \mid \hat{x}, P)$ yields eqns (5) and (6).
+Identifying the last line with $N(x \mid \hat{x}, P^a)$ yields eqns (5) and (6).
 ''']
 
 answers['BR Kalman1'] = ['MD', r'''
-- Multiplying eqn. (5) by $1 = \frac{B R}{B R}$ yields
-  $P = \frac{B R}{B + R} = \frac{B}{B + R} R$, i.e. eqn. (8).
-- Alternatively, $P = \frac{R}{B + R} B$.
-  Adding $0 = B - B$ to the numerator yields eqn. (10).
-- Applying formulae (8) and (10) for $P$
+- Multiplying eqn. (5) by $1 = \frac{P^f R}{P^f R}$ yields
+  $P^a = \frac{P^f R}{P^f + R} = \frac{P^f}{P^f + R} R$, i.e. eqn. (8).
+- Alternatively, $P^a = \frac{R}{P^f + R} P^f$.
+  Adding $0 = P^f - P^f$ to the numerator yields eqn. (10).
+- Applying formulae (8) and (10) for $P^a$
   in eqn. (6) immediately produces eqn. (11).
 ''']
 
 answers['KG intuition'] = ['MD', r'''
 Consider eqn. (9). Both nominator and denominator are strictly larger than $0$,
-hence $K > 0$. Meanwhile $B + R > B$, hence $K<1$.
+hence $K > 0$. Meanwhile $P^f + R > P^f$, hence $K<1$.
 
-Since $0<K<1$, eqn. (8) yields $P<R$,
-while eqn. (10) yields $P<B$.
+Since $0<K<1$, eqn. (8) yields $P^a < R$,
+while eqn. (10) yields $P^a < P^f$.
 
-From eqn. (11), $\hat{x} = (1-K) b + K y$.
+From eqn. (11), $\hat{x} = (1-K) x^f + K y$.
 Since $0<K<1$, we can see that $\hat{x}$
 is a 'convex combination' or 'weighted average'.
-*For even more detail, consider the case $b<y$ and then case $y<b$.*
+*For even more detail, consider the case $x^f<y$ and then case $y<x^f$.*
 
-Because it describes how much the esimate is "dragged" from $b$ "towards" $y$.  
+Because it describes how much the esimate is "dragged" from $x^f$ "towards" $y$.  
 I.e. it is a multiplification (amplification) factor,
 which French (signal processing) people like to call "gain".  
 
-Relatedly, note that $K$ weights the observation uncertainty $(R)$ vs. the total uncertainty $(B+R)$,
+Relatedly, note that $K$ weights the observation uncertainty $(R)$ vs. the total uncertainty $(P^f + R)$,
 and so is always between 0 and 1.
 ''']
 
 answers['BR Kalman1 code'] = ['MD', r'''
-    KG   = B/(B+R)
-    P    = (1-KG)*B
-    xhat = b + KG*(y-b)
+    KG   = Pf / (Pf + R)
+    Pa   = (1 - KG) * Pf
+    xhat = xf + KG * (y - xf)
 ''']
 
 answers['Posterior cov'] =  ['MD', r"""
@@ -455,7 +455,7 @@ Moreover, by independence,
 $ \\text{Var}(\\DynMod x+q) = \\text{Var}(\\DynMod x) + \\text{Var}(q) $,
 and so
 the variance parameter becomes:
-$$ \\text{Var}(\\DynMod x+q) = \\DynMod^2 P + Q \, .  $$
+$$ \\text{Var}(\\DynMod x+q) = \\DynMod^2 P^a + Q \, .  $$
 ''']
 
 answers['LinReg deriv a'] = ['MD', r'''
@@ -518,14 +518,14 @@ $ \hat{x}_K = K \hat{a}_K \, . $
 answers['x_KF == x_LinReg'] = ['MD', r'''
 We'll proceed by induction.  
 
-With $B_1 = \infty$, we get $P_1 = R$,
+With $P^f_1 = \infty$, we get $P^a_1 = R$,
 which initializes (13).  
 
 Now, inserting (13) in (12) yields:
 
 $$
 \begin{align}
-P_{K+1} &= 1\Big/\big(1/R + \textstyle (\frac{K}{K+1})^2 / P_K\big)
+P^a_{K+1} &= 1\Big/\big(1/R + \textstyle (\frac{K}{K+1})^2 / P^a_K\big)
 \\\
 &= R\Big/\big(1 + \textstyle (\frac{K}{K+1})^2 \frac{\sum_{k=1}^K k^2}{K^2}\big)
 \\\
@@ -543,10 +543,10 @@ The proof for $\hat{x}_k$ is similar.
 ''']
 
 answers['Asymptotic Riccati a'] = ['MD', r'''
-Merging forecast and analysis equations for $P_k$,
+Merging forecast and analysis equations for $P^a_k$,
 and focusing on their inverses (called "precisions")
 we find
-$$ 1/P_k^a = 1/(M^2 P_{k-1}^a) + H^2/R \,,$$
+$$ 1/P^a_k = 1/(M^2 P^a_{k-1}) + H^2/R \,,$$
 
 Note that $P^a_k < P^f_k$ for each $k$
 (c.f. the Gaussian-Gaussian Bayes rule from T3.)
@@ -559,9 +559,9 @@ $$
 
 answers['Asymptotic Riccati b'] = ['MD', r'''
 Since
-$ 1/P_k^a = 1/P_{k-1}^a + 1/R \,,$
+$ 1/P^a_k = 1/P^a_{k-1} + 1/R \,,$
 it follows that
-$ 1/P_k^a = 1/P_0^a + k / R \xrightarrow[k \rightarrow \infty]{} +\infty \,,\quad$
+$ 1/P^a_k = 1/P^a_0 + k / R \xrightarrow[k \rightarrow \infty]{} +\infty \,,\quad$
 i.e.
 $ P^a_k \rightarrow 0 \,.$
 ''']
@@ -626,7 +626,7 @@ answers['KF precision'] = ['MD', r'''
 By Bayes' rule:
 $$\begin{align}
 - 2 \log p(\x|\y) =
-\|\bH \x-\y \|\_\R^2 + \| \x - \bb \|\_\B^2
+\|\bH \x-\y \|\_\R^2 + \| \x - \bb \|\_{\bP^f}^2
  + \text{const}_1
 \, .
 \end{align}$$
@@ -657,8 +657,8 @@ answers['Cov memory'] = ['MD', r'''
  - (a). ${D_x}$-by-${D_x}$
  - (b). Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
     at least 2 times ${D_x}^3/3$.
- - (c). Assume $\B$ stored as float (double). Then it's 8 bytes/element.
-        And the number of elements in $\B$: ${D_x}^2$. So the total memory is $8 {D_x}^2$.
+ - (c). Assume ${\bP^f}$ stored as float (double). Then it's 8 bytes/element.
+        And the number of elements in ${\bP^f}$: ${D_x}^2$. So the total memory is $8 {D_x}^2$.
  - (d). 8 trillion bytes. I.e. 8 million MB.
 ''']
 
