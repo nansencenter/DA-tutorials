@@ -188,7 +188,7 @@ What's not to love? Consider
 
 answers['GG BR example'] = ['MD', r'''
 - Eqn. (5) yields $P^a = \frac{1}{1/4 + 1/4} = \frac{1}{2/4} = 2$.
-- Eqn. (6) yields $\hat{x} = 2 \cdot (20/4 + 18/4) = \frac{20 + 18}{2} = 19$
+- Eqn. (6) yields $x^a = 2 \cdot (20/4 + 18/4) = \frac{20 + 18}{2} = 19$
 ''']
 
 answers['BR derivation'] = ['MD', r'''
@@ -269,10 +269,10 @@ $$
 with $c_1 = (x^f)^2/P^f + y^2/R$.
 Meanwhile
 $$
-    \frac{(x-\hat{x})^2}{P^f}
+    \frac{(x-x^a)^2}{P^f}
     = x^2 / P^a
-    - 2 x \hat{x}/P^a
-    + \hat{x}^2/P^a
+    - 2 x x^a/P^a
+    + x^a^2/P^a
     \,.
 \tag{a2}
 $$
@@ -280,9 +280,9 @@ Both (a1) and (a2) are quadratics in $x$,
 so we can equate them by setting
 $$ \begin{align}
 1/P^a = 1/P^f + 1/R \,, \tag{a3} \\\
-\hat{x}/P^a = x^f/P^f + y/R \,, \tag{a4}
+x^a/P^a = x^f/P^f + y/R \,, \tag{a4}
 \end{align} $$
-whereupon we immediately recover $P^a$ and $\hat{x}$ of eqns. (5) and (6).
+whereupon we immediately recover $P^a$ and $x^a$ of eqns. (5) and (6).
 
 *PS: The above process is called "completing the square"
 since it involves writing a quadratic polynomial as a single squared term
@@ -294,12 +294,12 @@ From part (a),
 $$
     \frac{(x-x^f)^2}{P^f} + \frac{(x-y)^2}{R}
     =
-    \frac{(x-\hat{x})^2}{P^f} + c_2
+    \frac{(x-x^a)^2}{P^f} + c_2
     \,,
 \tag{a5}
 $$
-with $c_2 = c_1 - \hat{x}^2/P^a$.
-Substituting in the formulae for $c_1$ and $\hat{x}$ produces
+with $c_2 = c_1 - x^a^2/P^a$.
+Substituting in the formulae for $c_1$ and $x^a$ produces
 $$
 c_2 = (x^f)^2/P^f + y^2/R - P^a (x^f/P^f + y/R)^2
 = y^2 ( 1/R - P^a/R^2 ) - 2 y x^f \frac{P^a}{P^f R} + \frac{(x^f)^2}{P^f} - P^a \frac{(x^f)^2}{P^f^2}  
@@ -329,7 +329,7 @@ p(x|y)
 &=       N(x \mid x^f, P^f) \, N(y \mid x, R) \\\
 &\propto \exp \Big( \frac{-1}{2} \big[ (x-x^f)^2/P^f + (x-y)^2/R \big] \Big) \,.
 \end{align}
-The rest follows by eqn. (S2) and identification with $N(x \mid \hat{x}, P^a)$.
+The rest follows by eqn. (S2) and identification with $N(x \mid x^a, P^a)$.
 ''']
 
 answers['BR Gauss'] = ['MD', r'''
@@ -345,7 +345,7 @@ p(x|y)
 &\propto \exp \Big( \frac{-1}{2} \Big( x - \frac{x^f/P^f + y/R}{1/P^f + 1/R} \Big)^2 \cdot (1/P^f + 1/R) \Big) \, .
 \end{align}
 
-Identifying the last line with $N(x \mid \hat{x}, P^a)$ yields eqns (5) and (6).
+Identifying the last line with $N(x \mid x^a, P^a)$ yields eqns (5) and (6).
 ''']
 
 answers['BR Kalman1'] = ['MD', r'''
@@ -364,8 +364,8 @@ hence $K > 0$. Meanwhile $P^f + R > P^f$, hence $K<1$.
 Since $0<K<1$, eqn. (8) yields $P^a < R$,
 while eqn. (10) yields $P^a < P^f$.
 
-From eqn. (11), $\hat{x} = (1-K) x^f + K y$.
-Since $0<K<1$, we can see that $\hat{x}$
+From eqn. (11), $x^a = (1-K) x^f + K y$.
+Since $0<K<1$, we can see that $x^a$
 is a 'convex combination' or 'weighted average'.
 *For even more detail, consider the case $x^f<y$ and then case $y<x^f$.*
 
@@ -378,9 +378,9 @@ and so is always between 0 and 1.
 ''']
 
 answers['BR Kalman1 code'] = ['MD', r'''
-    KG   = Pf / (Pf + R)
-    Pa   = (1 - KG) * Pf
-    xhat = xf + KG * (y - xf)
+    KG = Pf / (Pf + R)
+    Pa = (1 - KG) * Pf
+    xa = xf + KG * (y - xf)
 ''']
 
 answers['Posterior cov'] =  ['MD', r"""
@@ -449,7 +449,7 @@ answers['RV sums'] = ['MD', r'''
 By the [linearity of the expected value](https://en.wikipedia.org/wiki/Expected_value#Linearity),
 and that of (Dyn),
 the mean parameter becomes:
-$$ \\Expect(\\DynMod x+q) =  \\DynMod \\Expect(x) + \\Expect(q) = \\DynMod \hat{x} \, . $$
+$$ \\Expect(\\DynMod x+q) =  \\DynMod \\Expect(x) + \\Expect(q) = \\DynMod x^a \, . $$
 
 Moreover, by independence,
 $ \\text{Var}(\\DynMod x+q) = \\text{Var}(\\DynMod x) + \\text{Var}(q) $,
@@ -492,27 +492,13 @@ this is so restrictive that one does not usually think
 of the methods as belonging to the same class at all.
 ''']
 
-answers['KF_k'] = ['MD', r'''
-    ...
-        else:
-            BB[k] = Mod(k-1)*PP[k-1]*Mod(k-1) + Q
-            bb[k] = Mod(k-1)*xxhat[k-1]
-        # Analysis
-        PP[k]    = 1/(1/BB[k] + 1/R)
-        xxhat[k] = PP[k] * (bb[k]/BB[k] + yy[k]/R)
-        # Kalman gain form:
-        # KG       = BB[k] / (BB[k] + R)
-        # PP[k]    = (1-KG)*BB[k]
-        # xxhat[k] = bb[k]+KG*(yy[k]-bb[k])
-''']
-
 answers['LinReg compare'] = ['MD', r'''
 
 Let $\hat{a}_K$ denote the linear regression estimates of the slope $a$
 based on the observations $y_1, \ldots, y_K$.  
-Let $\hat{x}_K$ denote the KF estimate of $\hat{x}_K$ based on the same set of obs.  
+Let $x^a_K$ denote the KF estimate of $x^a_K$ based on the same set of obs.  
 It can bee seen in the plot that
-$ \hat{x}_K = K \hat{a}_K \, . $
+$ x^a_K = K \hat{a}_K \, . $
 ''']
 
 answers['x_KF == x_LinReg'] = ['MD', r'''
@@ -539,7 +525,7 @@ P^a_{K+1} &= 1\Big/\big(1/R + \textstyle (\frac{K}{K+1})^2 / P^a_K\big)
 $$
 which concludes the induction.
 
-The proof for $\hat{x}_k$ is similar.
+The proof for $x^a_k$ is similar.
 ''']
 
 answers['Asymptotic Riccati a'] = ['MD', r'''
@@ -1016,11 +1002,11 @@ answers['EnKF v1'] = ['MD', r'''
                 Perturb  = R_chol @ rnd.randn(p, N)
                 KG       = divide_1st_by_2nd(BH, HBH+R)
                 E       += KG @ (y[:, None] - Perturb - Eo)
-            xxhat[k] = np.mean(E, axis=1)
+            xa[k] = np.mean(E, axis=1)
 ''']
 
 answers['rmse'] = ['MD', r'''
-    rmses = np.sqrt(np.mean((xx-xxhat)**2, axis=1))
+    rmses = np.sqrt(np.mean((xx-xa)**2, axis=1))
     average = np.mean(rmses)
 ''']
 
