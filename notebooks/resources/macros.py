@@ -112,7 +112,7 @@ def include_macros(content):
     return content
 
 
-def broadcast_macros():
+def update_ipynbs():
     """Insert macros in notebooks (1st markdown cell)."""
 
     def find_notebooks():
@@ -124,37 +124,32 @@ def broadcast_macros():
     # Strip % ALWAYS
     macros = [m.replace("% ALWAYS","").rstrip() for m in _macros]
 
-    def update(nb):
+    def update1(nb):
         for cell in nb["cells"]:
             if cell["cell_type"] == "markdown":
                 lines = cell["source"].split("\n")
                 if not any(HEADER in ln for ln in lines):
                     continue
+                print("Found pre-existing macros.", end=" ")
 
-                try:
-                    # Find line indices of macros section.
-                    # +/-1 is used to include surrounding dollar signs.
-                    L1 = lines.index(HEADER)-1
-                    L2 = lines.index(FOOTER)+1
-                    assert lines[L1]=="$", "Macros in nb could not be parsed."
-                    assert lines[L2]=="$", "Macros in nb could not be parsed."
+                # Find line indices of macros section.
+                # +/-1 is used to include surrounding dollar signs.
+                L1 = lines.index(HEADER)-1
+                L2 = lines.index(FOOTER)+1
+                assert lines[L1]=="$", "Macros in nb could not be parsed."
+                assert lines[L2]=="$", "Macros in nb could not be parsed."
 
-                    if lines[L1:L2+1] != macros:
-                        lines = lines[:L1] + macros + lines[L2+1:]
-                        cell["source"] = "\n".join(lines)
-                        return True # indicate that changes were made
-
-                except ValueError as e:
-                    # Macros not found. Insert on top.
-                    cell["source"] = "\n".join(macros + lines)
-                    return True # indicate that changes were made
+                if lines[L1:L2+1] != macros:
+                    lines = lines[:L1] + macros + lines[L2+1:]
+                    cell["source"] = "\n".join(lines)
+                    return True # signal that changes were made
 
     for f in sorted(find_notebooks()):
         try:
             nb = nbformat.read(f, as_version=4)
 
             print(f.ljust(50), end=": ")
-            if update(nb):
+            if update1(nb):
                 print("Updated!")
                 nbformat.write(nb, f)
             else:
@@ -165,4 +160,4 @@ def broadcast_macros():
 
 
 if __name__ == "__main__" and any("update" in arg for arg in sys.argv):
-    broadcast_macros()
+    update_ipynbs()
