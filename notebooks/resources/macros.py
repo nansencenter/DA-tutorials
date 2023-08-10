@@ -30,6 +30,7 @@ macros=r'''$
 \newcommand{\tr}{^{\trsign}} % ALWAYS
 \newcommand{\tn}[1]{#1} % ALWAYS
 \newcommand{\ceq}[0]{\mathrel{≔}}
+\newcommand{\xDim}[0]{D_x}
 %
 \newcommand{\I}[0]{\mat{I}} % ALWAYS
 \newcommand{\K}[0]{\mat{K}}
