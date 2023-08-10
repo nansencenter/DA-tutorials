@@ -66,13 +66,14 @@ def interact(top=None, right=None, bottom=None, left=None, **kwargs):
 
     Example:
 
-    >>> @interact(a=(1., 6., dict(orientation='vertical')),
-    ...           b=(1., 7.),
-    ...           # bottom=True,  # put rest here
-    ...           top='b,c',
-    ...           right=[['a', dict(justify_content='center')],['e']])
+    >>> v = dict(orientation="vertical", layout=dict(height="80%"))
+    ... @ws.interact(a=(1., 6., v),
+    ...              b=(1., 7.),
+    ...              bottom=True,  # put rest here
+    ...              top='b,c',
+    ...              right=[['a', dict(height="100%", align_items="center")],['e']])
     ... def f(a=3.0, b=4, c=True, d=5, e=6):
-    ...     plt.figure(figsize=(5, 3))
+    ...     plt.figure(figsize=(4, 5))
     ...     xx = np.linspace(0, 3, 21)
     ...     if c: plt.plot(xx, e*d/a + xx**b)
     ...     else: plt.plot(xx, b + xx)
