@@ -687,7 +687,7 @@ $$
 $$
 ''']
 
-answers['Woodbury C1'] = ['MD', r'''
+answers['inv(SPD + SPD)'] = ['MD', r'''
 The corollary follows from the Woodbury identity
 by replacing $\V, \U$ by $\bH$,
 *provided that everything is still well-defined*.
