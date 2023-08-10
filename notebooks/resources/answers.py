@@ -30,13 +30,19 @@ def show_answer(tag, *subtags):
 
 
 def formatted_display(TYPE, content, bg_color):
-    # Remove 1st linebreak
+    # ALWAYS remove 1st linebreak -- my convention
     content = content[1:]
 
     # Convert from TYPE to HTML
-    if   TYPE == "HTML": content = content
-    elif TYPE == "TXT" : content = '<pre><code>'+content+'</code></pre>'
-    elif TYPE == "MD"  : content = md2html(include_macros(content))
+    if TYPE == "TXT":
+        content = '<pre><code>'+content+'</code></pre>'
+    elif TYPE == "MD":
+        # For some reason, rendering list-only content requires newline padding
+        if any(content.lstrip().startswith(bullet) for bullet in "-*"):
+            content = "\n\n" + content
+        content = md2html(include_macros(content))
+    else:
+        pass # assume already html
 
     # Make bg style
     bg_color = '#dbf9ec'  # 'd8e7ff'
@@ -495,7 +501,6 @@ of the methods as belonging to the same class at all.
 ''']
 
 answers['LinReg compare'] = ['MD', r'''
-
 Let $\hat{a}_K$ denote the linear regression estimates of the slope $a$
 based on the observations $y_1, \ldots, y_K$.  
 Let $x\supa_K$ denote the KF estimate of $x\supa_K$ based on the same set of obs.  
@@ -656,10 +661,7 @@ Eqns (5) and (6) follow by identification.
 
 
 # Also comment on CFL condition (when resolution is increased)?
-# Excessive spacing needed for Colab to make list.
 answers['nD-covars are big'] = ['MD', r'''
-
-
  - (a). ${\\xDim}$-by-${\\xDim}$
  - (b). Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
     at least 2 times ${\\xDim}^3/3$.
@@ -809,7 +811,6 @@ answers['KDE'] = ['MD', r'''
 ''']
 
 answers['Gaussian sampling a'] = ['MD', r'''
-
 Type `rnd.randn??` in a code cell and execute it.
 ''']
 answers['Gaussian sampling b'] = ['MD', r'''
@@ -853,8 +854,6 @@ as well as inflation and localisation.*
 ''']
 
 answers['variance estimate statistics'] = ['MD', r'''
-
-
  * Visibly, the expected value (mean) of $1/\barB$ is not $1$,
    so $1/\barB$ is not unbiased. This is to be expected,
    since taking the reciprocal is a *nonlinear* operation.
@@ -867,8 +866,6 @@ answers['variance estimate statistics'] = ['MD', r'''
 
 
 answers['ensemble moments vectorized'] = ['MD', r'''
-
-
  * (a). Note that $\E \ones / N = \bx$.  
  And that $\bx \ones^T = \begin{bmatrix} \bx, & \ldots & \bx \end{bmatrix} \, .$  
  Use this to write out $\E \AN$.

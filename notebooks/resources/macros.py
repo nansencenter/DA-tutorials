@@ -107,7 +107,7 @@ def include_macros(content):
         mm = [m.replace("_","\\_") for m in mm]
         # Include surrounding dollar signs
         mm = _macros[:1] + mm + _macros[-1:]
-        # Insert space if needed
+        # Avoid accidental $$
         space = " " if content.startswith("$") else ""
         # Collect
         content = "\n".join(mm) + space + content
