@@ -356,7 +356,7 @@ p(x|y)
 Identifying the last line with $N(x \mid x\supa, P\supa)$ yields eqns (5) and (6).
 ''']
 
-answers['BR Kalman1'] = ['MD', r'''
+answers['BR Kalman1 algebra'] = ['MD', r'''
 - Multiplying eqn. (5) by $1 = \frac{P\supf R}{P\supf R}$ yields
   $P\supa = \frac{P\supf R}{P\supf + R} = \frac{P\supf}{P\supf + R} R$, i.e. eqn. (8).
 - Alternatively, $P\supa = \frac{R}{P\supf + R} P\supf$.
