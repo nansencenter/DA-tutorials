@@ -28,9 +28,10 @@ macros=r'''$
 %
 \newcommand{\trsign}{{\mathsf{T}}} % ALWAYS
 \newcommand{\tr}{^{\trsign}} % ALWAYS
-\newcommand{\tn}[1]{#1} % ALWAYS
 \newcommand{\ceq}[0]{\mathrel{≔}}
 \newcommand{\xDim}[0]{D}
+\newcommand{\supa}[0]{^\text{a}}
+\newcommand{\supf}[0]{^\text{f}}
 %
 \newcommand{\I}[0]{\mat{I}} % ALWAYS
 \newcommand{\K}[0]{\mat{K}}
