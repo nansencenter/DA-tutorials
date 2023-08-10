@@ -5,6 +5,10 @@ import matplotlib as mpl
 import mpl_tools
 
 
+import matplotlib.pyplot as plt
+plt.style.use(['seaborn'])
+
+
 # Should PRECEDE plt.ion()
 try:
     # Note: Colab only supports `%matplotlib inline` ⇒ no point loading other.
