@@ -191,12 +191,12 @@ answers['GG BR example'] = ['MD', r'''
 - Eqn. (6) yields $x^a = 2 \cdot (20/4 + 18/4) = \frac{20 + 18}{2} = 19$
 ''']
 
-answers['BR derivation'] = ['MD', r'''
+answers['symmetry of conditioning'] = ['MD', r'''
 <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem#For_continuous_random_variables" target="_blank">Wikipedia</a>
 
 ''']
 
-answers['inverse'] = ['MD', r'''
+answers["what's forward?"] = ['MD', r'''
 Because estimation/inference/inverse problems
 are looking for the "cause" from the "outcomes".
 Of course, causality is a tricky notion.
@@ -238,7 +238,7 @@ answers['Posterior behaviour'] = ['MD', r'''
   but in the authors opinion $N \geq 40$ seems necessary.
 ''']
 
-answers['BR normalization'] = ['MD', r'''
+answers['quadrature marginalisation'] = ['MD', r'''
 $$\texttt{sum(pp)*dx}
 \approx \int \texttt{pp}(x) \, dx
 = \int p(x) \, p(y|x) \, dx
@@ -246,14 +246,16 @@ $$\texttt{sum(pp)*dx}
 = p(y) \, .$$
 ''']
 
-answers['Dimensionality a'] = ['MD', r'''
+answers['nD-space is big a'] = ['MD', r'''
 $N^{D_x}$
 ''']
-answers['Dimensionality b'] = ['MD', r'''
+answers['nD-space is big b'] = ['MD', r'''
 $15 * 360 * 180 = 972'000 \approx 10^6$
 ''']
-answers['Dimensionality c'] = ['MD', r'''
+answers['nD-space is big c'] = ['MD', r'''
 $20^{10^6}$
+
+For comparison, there are about $10^82$ atoms in the universe.
 ''']
 
 answers['BR Gauss, a.k.a. completing the square a'] = ['MD', r'''
@@ -547,7 +549,7 @@ we find
 $$ 1/P^a_k = 1/(M^2 P^a_{k-1}) + H^2/R \,,$$
 
 Note that $P^a_k < P^f_k$ for each $k$
-(c.f. the Gaussian-Gaussian Bayes rule from T3.)
+(c.f. [Gaussian-Gaussian Bayes rule](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes))
 Thus,
 $$
 P^a_k < P^f_k = \\DynMod^2 P^a_{k-1}
@@ -655,7 +657,7 @@ Eqns (5) and (6) follow by identification.
 
 # Also comment on CFL condition (when resolution is increased)?
 # Excessive spacing needed for Colab to make list.
-answers['Cov memory'] = ['MD', r'''
+answers['nD-covars are big'] = ['MD', r'''
 
 
  - (a). ${D_x}$-by-${D_x}$
