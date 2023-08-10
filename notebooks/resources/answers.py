@@ -187,8 +187,8 @@ What's not to love? Consider
 
 
 answers['GG BR example'] = ['MD', r'''
-- Eqn. (5) yields $P^a = \frac{1}{1/4 + 1/4} = \frac{1}{2/4} = 2$.
-- Eqn. (6) yields $x^a = 2 \cdot (20/4 + 18/4) = \frac{20 + 18}{2} = 19$
+- Eqn. (5) yields $P^\text{a} = \frac{1}{1/4 + 1/4} = \frac{1}{2/4} = 2$.
+- Eqn. (6) yields $x^\text{a} = 2 \cdot (20/4 + 18/4) = \frac{20 + 18}{2} = 19$
 ''']
 
 answers['symmetry of conditioning'] = ['MD', r'''
@@ -262,29 +262,29 @@ answers['BR Gauss, a.k.a. completing the square a'] = ['MD', r'''
 Expanding the squares of the left hand side (LHS),
 and gathering terms in powers of $x$ yields
 $$
-    \frac{(x-x^f)^2}{P^f} + \frac{(x-y)^2}{R}
-    =  x^2 (1/P^f + 1/R)
-    - 2 x (x^f/P^f + y/R)
+    \frac{(x-x^\text{f})^2}{P^\text{f}} + \frac{(x-y)^2}{R}
+    =  x^2 (1/P^\text{f} + 1/R)
+    - 2 x (x^\text{f}/P^\text{f} + y/R)
     + c_1
     \,, \tag{a1}
 $$
-with $c_1 = (x^f)^2/P^f + y^2/R$.
+with $c_1 = (x^\text{f})^2/P^\text{f} + y^2/R$.
 Meanwhile
 $$
-    \frac{(x-x^a)^2}{P^f}
-    = x^2 / P^a
-    - 2 x x^a/P^a
-    + x^a^2/P^a
+    \frac{(x-x^\text{a})^2}{P^\text{f}}
+    = x^2 / P^\text{a}
+    - 2 x x^\text{a}/P^\text{a}
+    + x^\text{a}^2/P^\text{a}
     \,.
 \tag{a2}
 $$
 Both (a1) and (a2) are quadratics in $x$,
 so we can equate them by setting
 $$ \begin{align}
-1/P^a = 1/P^f + 1/R \,, \tag{a3} \\\
-x^a/P^a = x^f/P^f + y/R \,, \tag{a4}
+1/P^\text{a} = 1/P^\text{f} + 1/R \,, \tag{a3} \\\
+x^\text{a}/P^\text{a} = x^\text{f}/P^\text{f} + y/R \,, \tag{a4}
 \end{align} $$
-whereupon we immediately recover $P^a$ and $x^a$ of eqns. (5) and (6).
+whereupon we immediately recover $P^\text{a}$ and $x^\text{a}$ of eqns. (5) and (6).
 
 *PS: The above process is called "completing the square"
 since it involves writing a quadratic polynomial as a single squared term
@@ -294,32 +294,32 @@ plus a "constant" that we add and subtract.*
 answers['BR Gauss, a.k.a. completing the square b'] = ['MD', r'''
 From part (a),
 $$
-    \frac{(x-x^f)^2}{P^f} + \frac{(x-y)^2}{R}
+    \frac{(x-x^\text{f})^2}{P^\text{f}} + \frac{(x-y)^2}{R}
     =
-    \frac{(x-x^a)^2}{P^f} + c_2
+    \frac{(x-x^\text{a})^2}{P^\text{f}} + c_2
     \,,
 \tag{a5}
 $$
-with $c_2 = c_1 - x^a^2/P^a$.
-Substituting in the formulae for $c_1$ and $x^a$ produces
+with $c_2 = c_1 - x^\text{a}^2/P^\text{a}$.
+Substituting in the formulae for $c_1$ and $x^\text{a}$ produces
 $$
-c_2 = (x^f)^2/P^f + y^2/R - P^a (x^f/P^f + y/R)^2
-= y^2 ( 1/R - P^a/R^2 ) - 2 y x^f \frac{P^a}{P^f R} + \frac{(x^f)^2}{P^f} - P^a \frac{(x^f)^2}{P^f^2}  
+c_2 = (x^\text{f})^2/P^\text{f} + y^2/R - P^\text{a} (x^\text{f}/P^\text{f} + y/R)^2
+= y^2 ( 1/R - P^\text{a}/R^2 ) - 2 y x^\text{f} \frac{P^\text{a}}{P^\text{f} R} + \frac{(x^\text{f})^2}{P^\text{f}} - P^\text{a} \frac{(x^\text{f})^2}{P^\text{f}^2}  
 \tag{a6}
 $$
-Now, multiplying eqn. (a3) with $P^f R$, it can be seen that
+Now, multiplying eqn. (a3) with $P^\text{f} R$, it can be seen that
 
-- $\frac{P^a}{P^f R} = \frac{1}{P^f + R}$, whence
-- $\frac{P^a}{P^f} = \frac{R}{P^f + R}$, and
-- $\frac{P^a}{R} = \frac{P^f}{P^f + R}$ so that
-- $1/R - P^a/R^2 = \frac{1}{R}(1 - \frac{P^a}{R} ) = \frac{1}{R} \frac{R}{P^f + R} = \frac{1}{P^f + R}$.
+- $\frac{P^\text{a}}{P^\text{f} R} = \frac{1}{P^\text{f} + R}$, whence
+- $\frac{P^\text{a}}{P^\text{f}} = \frac{R}{P^\text{f} + R}$, and
+- $\frac{P^\text{a}}{R} = \frac{P^\text{f}}{P^\text{f} + R}$ so that
+- $1/R - P^\text{a}/R^2 = \frac{1}{R}(1 - \frac{P^\text{a}}{R} ) = \frac{1}{R} \frac{R}{P^\text{f} + R} = \frac{1}{P^\text{f} + R}$.
 
 Thus eqn. (a6) simplifies to
 $$ \begin{align}
 c_2
-&= y^2 \frac{1}{P^f + R}  - 2 y x^f \frac{1}{P^f + R} + \frac{(x^f)^2}{P^f} - \frac{(x^f)^2}{P^f}\frac{R}{P^f + R} \\\
-&= \frac{1}{P^f + R} \Bigl[ y^2 - 2 y x^f + (x^f)^2 \bigl( \frac{P^f + R}{P^f} - \frac{R}{P^f}\bigr ) \Bigr ] \\\
-&= \frac{(y - x^f)^2}{P^f + R}
+&= y^2 \frac{1}{P^\text{f} + R}  - 2 y x^\text{f} \frac{1}{P^\text{f} + R} + \frac{(x^\text{f})^2}{P^\text{f}} - \frac{(x^\text{f})^2}{P^\text{f}}\frac{R}{P^\text{f} + R} \\\
+&= \frac{1}{P^\text{f} + R} \Bigl[ y^2 - 2 y x^\text{f} + (x^\text{f})^2 \bigl( \frac{P^\text{f} + R}{P^\text{f}} - \frac{R}{P^\text{f}}\bigr ) \Bigr ] \\\
+&= \frac{(y - x^\text{f})^2}{P^\text{f} + R}
 \tag{a7}
 \end{align} $$
 ''']
@@ -328,10 +328,10 @@ answers['BR Gauss, a.k.a. completing the square c'] = ['MD', r'''
 \begin{align}
 p(x|y)
 &\propto p(x) \, p(y|x) \\\
-&=       N(x \mid x^f, P^f) \, N(y \mid x, R) \\\
-&\propto \exp \Big( \frac{-1}{2} \big[ (x-x^f)^2/P^f + (x-y)^2/R \big] \Big) \,.
+&=       N(x \mid x^\text{f}, P^\text{f}) \, N(y \mid x, R) \\\
+&\propto \exp \Big( \frac{-1}{2} \big[ (x-x^\text{f})^2/P^\text{f} + (x-y)^2/R \big] \Big) \,.
 \end{align}
-The rest follows by eqn. (S2) and identification with $N(x \mid x^a, P^a)$.
+The rest follows by eqn. (S2) and identification with $N(x \mid x^\text{a}, P^\text{a})$.
 ''']
 
 answers['BR Gauss'] = ['MD', r'''
@@ -341,41 +341,41 @@ We can ignore factors that do not depend on $x$.
 p(x|y)
 &= \frac{p(x) \, p(y|x)}{p(y)} \\\
 &\propto p(x) \, p(y|x) \\\
-&=       N(x \mid x^f, P^f) \, N(y \mid x, R) \\\
-&\propto \exp \Big( \frac{-1}{2} \Big( (x-x^f)^2/P^f + (x-y)^2/R \Big) \Big) \\\
-&\propto \exp \Big( \frac{-1}{2} \Big( (1/P^f + 1/R)x^2 - 2(x^f/P^f + y/R)x \Big) \Big) \\\
-&\propto \exp \Big( \frac{-1}{2} \Big( x - \frac{x^f/P^f + y/R}{1/P^f + 1/R} \Big)^2 \cdot (1/P^f + 1/R) \Big) \, .
+&=       N(x \mid x^\text{f}, P^\text{f}) \, N(y \mid x, R) \\\
+&\propto \exp \Big( \frac{-1}{2} \Big( (x-x^\text{f})^2/P^\text{f} + (x-y)^2/R \Big) \Big) \\\
+&\propto \exp \Big( \frac{-1}{2} \Big( (1/P^\text{f} + 1/R)x^2 - 2(x^\text{f}/P^\text{f} + y/R)x \Big) \Big) \\\
+&\propto \exp \Big( \frac{-1}{2} \Big( x - \frac{x^\text{f}/P^\text{f} + y/R}{1/P^\text{f} + 1/R} \Big)^2 \cdot (1/P^\text{f} + 1/R) \Big) \, .
 \end{align}
 
-Identifying the last line with $N(x \mid x^a, P^a)$ yields eqns (5) and (6).
+Identifying the last line with $N(x \mid x^\text{a}, P^\text{a})$ yields eqns (5) and (6).
 ''']
 
 answers['BR Kalman1'] = ['MD', r'''
-- Multiplying eqn. (5) by $1 = \frac{P^f R}{P^f R}$ yields
-  $P^a = \frac{P^f R}{P^f + R} = \frac{P^f}{P^f + R} R$, i.e. eqn. (8).
-- Alternatively, $P^a = \frac{R}{P^f + R} P^f$.
-  Adding $0 = P^f - P^f$ to the numerator yields eqn. (10).
-- Applying formulae (8) and (10) for $P^a$
+- Multiplying eqn. (5) by $1 = \frac{P^\text{f} R}{P^\text{f} R}$ yields
+  $P^\text{a} = \frac{P^\text{f} R}{P^\text{f} + R} = \frac{P^\text{f}}{P^\text{f} + R} R$, i.e. eqn. (8).
+- Alternatively, $P^\text{a} = \frac{R}{P^\text{f} + R} P^\text{f}$.
+  Adding $0 = P^\text{f} - P^\text{f}$ to the numerator yields eqn. (10).
+- Applying formulae (8) and (10) for $P^\text{a}$
   in eqn. (6) immediately produces eqn. (11).
 ''']
 
 answers['KG intuition'] = ['MD', r'''
 Consider eqn. (9). Both nominator and denominator are strictly larger than $0$,
-hence $K > 0$. Meanwhile $P^f + R > P^f$, hence $K<1$.
+hence $K > 0$. Meanwhile $P^\text{f} + R > P^\text{f}$, hence $K<1$.
 
-Since $0<K<1$, eqn. (8) yields $P^a < R$,
-while eqn. (10) yields $P^a < P^f$.
+Since $0<K<1$, eqn. (8) yields $P^\text{a} < R$,
+while eqn. (10) yields $P^\text{a} < P^\text{f}$.
 
-From eqn. (11), $x^a = (1-K) x^f + K y$.
-Since $0<K<1$, we can see that $x^a$
+From eqn. (11), $x^\text{a} = (1-K) x^\text{f} + K y$.
+Since $0<K<1$, we can see that $x^\text{a}$
 is a 'convex combination' or 'weighted average'.
-*For even more detail, consider the case $x^f<y$ and then case $y<x^f$.*
+*For even more detail, consider the case $x^\text{f}<y$ and then case $y<x^\text{f}$.*
 
-Because it describes how much the esimate is "dragged" from $x^f$ "towards" $y$.  
+Because it describes how much the esimate is "dragged" from $x^\text{f}$ "towards" $y$.  
 I.e. it is a multiplification (amplification) factor,
 which French (signal processing) people like to call "gain".  
 
-Relatedly, note that $K$ weights the observation uncertainty $(R)$ vs. the total uncertainty $(P^f + R)$,
+Relatedly, note that $K$ weights the observation uncertainty $(R)$ vs. the total uncertainty $(P^\text{f} + R)$,
 and so is always between 0 and 1.
 ''']
 
@@ -451,13 +451,13 @@ answers['RV sums'] = ['MD', r'''
 By the [linearity of the expected value](https://en.wikipedia.org/wiki/Expected_value#Linearity),
 and that of (Dyn),
 the mean parameter becomes:
-$$ \\Expect(\\DynMod x+q) =  \\DynMod \\Expect(x) + \\Expect(q) = \\DynMod x^a \, . $$
+$$ \\Expect(\\DynMod x+q) =  \\DynMod \\Expect(x) + \\Expect(q) = \\DynMod x^\text{a} \, . $$
 
 Moreover, by independence,
 $ \\text{Var}(\\DynMod x+q) = \\text{Var}(\\DynMod x) + \\text{Var}(q) $,
 and so
 the variance parameter becomes:
-$$ \\text{Var}(\\DynMod x+q) = \\DynMod^2 P^a + Q \, .  $$
+$$ \\text{Var}(\\DynMod x+q) = \\DynMod^2 P^\text{a} + Q \, .  $$
 ''']
 
 answers['LinReg deriv a'] = ['MD', r'''
@@ -498,22 +498,22 @@ answers['LinReg compare'] = ['MD', r'''
 
 Let $\hat{a}_K$ denote the linear regression estimates of the slope $a$
 based on the observations $y_1, \ldots, y_K$.  
-Let $x^a_K$ denote the KF estimate of $x^a_K$ based on the same set of obs.  
+Let $x^\text{a}_K$ denote the KF estimate of $x^\text{a}_K$ based on the same set of obs.  
 It can bee seen in the plot that
-$ x^a_K = K \hat{a}_K \, . $
+$ x^\text{a}_K = K \hat{a}_K \, . $
 ''']
 
 answers['x_KF == x_LinReg'] = ['MD', r'''
 We'll proceed by induction.  
 
-With $P^f_1 = \infty$, we get $P^a_1 = R$,
+With $P^\text{f}_1 = \infty$, we get $P^\text{a}_1 = R$,
 which initializes (13).  
 
 Now, inserting (13) in (12) yields:
 
 $$
 \begin{align}
-P^a_{K+1} &= 1\Big/\big(1/R + \textstyle (\frac{K}{K+1})^2 / P^a_K\big)
+P^\text{a}_{K+1} &= 1\Big/\big(1/R + \textstyle (\frac{K}{K+1})^2 / P^\text{a}_K\big)
 \\\
 &= R\Big/\big(1 + \textstyle (\frac{K}{K+1})^2 \frac{\sum_{k=1}^K k^2}{K^2}\big)
 \\\
@@ -527,7 +527,7 @@ P^a_{K+1} &= 1\Big/\big(1/R + \textstyle (\frac{K}{K+1})^2 / P^a_K\big)
 $$
 which concludes the induction.
 
-The proof for $x^a_k$ is similar.
+The proof for $x^\text{a}_k$ is similar.
 ''']
 
 
@@ -543,37 +543,37 @@ answers['KF1 code'] = ['MD', r'''
 ''']
 
 answers['Asymptotic Riccati a'] = ['MD', r'''
-Merging forecast and analysis equations for $P^a_k$,
+Merging forecast and analysis equations for $P^\text{a}_k$,
 and focusing on their inverses (called "precisions")
 we find
-$$ 1/P^a_k = 1/(M^2 P^a_{k-1}) + H^2/R \,,$$
+$$ 1/P^\text{a}_k = 1/(M^2 P^\text{a}_{k-1}) + H^2/R \,,$$
 
-Note that $P^a_k < P^f_k$ for each $k$
+Note that $P^\text{a}_k < P^\text{f}_k$ for each $k$
 (c.f. [Gaussian-Gaussian Bayes rule](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes))
 Thus,
 $$
-P^a_k < P^f_k = \\DynMod^2 P^a_{k-1}
+P^\text{a}_k < P^\text{f}_k = \\DynMod^2 P^\text{a}_{k-1}
 \xrightarrow[k \rightarrow \infty]{} 0 \, .
 $$
 ''']
 
 answers['Asymptotic Riccati b'] = ['MD', r'''
 Since
-$ 1/P^a_k = 1/P^a_{k-1} + 1/R \,,$
+$ 1/P^\text{a}_k = 1/P^\text{a}_{k-1} + 1/R \,,$
 it follows that
-$ 1/P^a_k = 1/P^a_0 + k / R \xrightarrow[k \rightarrow \infty]{} +\infty \,,\quad$
+$ 1/P^\text{a}_k = 1/P^\text{a}_0 + k / R \xrightarrow[k \rightarrow \infty]{} +\infty \,,\quad$
 i.e.
-$ P^a_k \rightarrow 0 \,.$
+$ P^\text{a}_k \rightarrow 0 \,.$
 ''']
 
 answers['Asymptotic Riccati c'] = ['MD', r'''
-The fixed point $P^a_\infty$ should satisfy
-$P^a_\infty = 1/\big(1/R + 1/[\\DynMod^2 P^a_\infty]\big)$,
-yielding $P^a_\infty = R (1-1/\\DynMod^2)$.  
+The fixed point $P^\text{a}_\infty$ should satisfy
+$P^\text{a}_\infty = 1/\big(1/R + 1/[\\DynMod^2 P^\text{a}_\infty]\big)$,
+yielding $P^\text{a}_\infty = R (1-1/\\DynMod^2)$.  
 Note that this is **not 0**!
 In other words, even though the KF keeps gaining observational data/information,
 this gets balanced out by the growth in error/uncertainty during the forecast.
-Also note that the asymptotic state uncertainty ($P^a_\infty$)
+Also note that the asymptotic state uncertainty ($P^\text{a}_\infty$)
 is directly proportional to the observation uncertainty ($R$).
 ''']
 
@@ -632,7 +632,7 @@ answers['KF precision'] = ['MD', r'''
 By Bayes' rule:
 $$\begin{align}
 - 2 \log p(\x|\y) =
-\|\bH \x-\y \|\_\R^2 + \| \x - \bb \|\_{\bP^f}^2
+\|\bH \x-\y \|\_\R^2 + \| \x - \bb \|\_{\bP^\text{f}}^2
  + \text{const}_1
 \, .
 \end{align}$$
@@ -663,8 +663,8 @@ answers['nD-covars are big'] = ['MD', r'''
  - (a). ${D_x}$-by-${D_x}$
  - (b). Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
     at least 2 times ${D_x}^3/3$.
- - (c). Assume ${\bP^f}$ stored as float (double). Then it's 8 bytes/element.
-        And the number of elements in ${\bP^f}$: ${D_x}^2$. So the total memory is $8 {D_x}^2$.
+ - (c). Assume ${\bP^\text{f}}$ stored as float (double). Then it's 8 bytes/element.
+        And the number of elements in ${\bP^\text{f}}$: ${D_x}^2$. So the total memory is $8 {D_x}^2$.
  - (d). 8 trillion bytes. I.e. 8 million MB.
 ''']
 
@@ -920,7 +920,7 @@ Residual: discrepancy from explained to observed data.
 answers["EnKF_nobias_a"] = ['MD', r'''
 Let $\ones$ be the vector of ones of length $N$. Then
 $$\begin{align}
-    \bx^a
+    \bx^\text{a}
     &= \frac{1}{N} \E^\tn{a} \ones \tag{because $\sum_{n=1}^N \x^\tn{a}_n = \E^\tn{a} \ones$.} \\\
     &= \frac{1}{N} \E^\tn{f} \ones + \frac{1}{N} \barK
     \left(\y\ones\tr - \Dobs - \bH \E^\tn{f} \right) \ones \tag{inserting eqn. (4).}
@@ -944,11 +944,11 @@ However, this is only when $\E^\tn{f}$ is considered fixed, and its moments assu
 ''']
 
 answers["EnKF_nobias_b"] = ['MD', r'''
-First, compute the updated anomalies, $\X^\tn{a}$, by inserting  eqn. (4) for $\E^a$:
+First, compute the updated anomalies, $\X^\tn{a}$, by inserting  eqn. (4) for $\E^\text{a}$:
 $$\begin{align}
 	\X^\tn{a}
-	&= \E^a \AN \\\
-	%&= {\X} + \barK\left(\y \ones\tr - \D - \bH \E^f\right) \AN \\\
+	&= \E^\text{a} \AN \\\
+	%&= {\X} + \barK\left(\y \ones\tr - \D - \bH \E^\text{f}\right) \AN \\\
 	&= {\X} - \barK \left[\D + \bH \X\right] \, , \tag{A1}
 \end{align}$$
 where the definition of $\D$ has been used.
