@@ -247,7 +247,7 @@ $$\texttt{sum(pp)*dx}
 ''']
 
 answers['nD-space is big a'] = ['MD', r'''
-$N^{D_x}$
+$N^{\\xDim}$
 ''']
 answers['nD-space is big b'] = ['MD', r'''
 $15 * 360 * 180 = 972'000 \approx 10^6$
@@ -660,11 +660,11 @@ Eqns (5) and (6) follow by identification.
 answers['nD-covars are big'] = ['MD', r'''
 
 
- - (a). ${D_x}$-by-${D_x}$
+ - (a). ${\\xDim}$-by-${\\xDim}$
  - (b). Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
-    at least 2 times ${D_x}^3/3$.
+    at least 2 times ${\\xDim}^3/3$.
  - (c). Assume ${\bP^\text{f}}$ stored as float (double). Then it's 8 bytes/element.
-        And the number of elements in ${\bP^\text{f}}$: ${D_x}^2$. So the total memory is $8 {D_x}^2$.
+        And the number of elements in ${\bP^\text{f}}$: ${\\xDim}^2$. So the total memory is $8 {\\xDim}^2$.
  - (d). 8 trillion bytes. I.e. 8 million MB.
 ''']
 
@@ -675,12 +675,12 @@ $$
 \begin{align}
   &\left(\B^{-1}+\V\tr \R^{-1} \U \right)
   \left[ \B - \B \V\tr \left(\R+\U \B \V\tr \right)^{-1} \U \B \right] \\\
-  & \quad = \I_{D_x} + \V\tr \R^{-1}\U \B -
+  & \quad = \I_{\\xDim} + \V\tr \R^{-1}\U \B -
   (\V\tr + \V\tr \R^{-1} \U \B \V\tr)(\R + \U \B \V\tr)^{-1}\U \B \\\
-  & \quad = \I_{D_x} + \V\tr \R^{-1}\U \B -
+  & \quad = \I_{\\xDim} + \V\tr \R^{-1}\U \B -
   \V\tr \R^{-1}(\R+ \U \B \V\tr)(\R + \U \B \V\tr)^{-1} \U \B \\\
-  & \quad = \I_{D_x} + \V\tr \R^{-1} \U \B - \V\tr \R^{-1} \U \B \\\
-  & \quad = \I_{D_x}
+  & \quad = \I_{\\xDim} + \V\tr \R^{-1} \U \B - \V\tr \R^{-1} \U \B \\\
+  & \quad = \I_{\\xDim}
 \end{align}
 $$
 ''']
@@ -692,7 +692,7 @@ by replacing $\V, \U$ by $\bH$,
 In other words,
 we need to show the existence of the left hand side.
 
-Now, for all $\x \in \Reals^{D_x}$, $\x\tr \B^{-1} \x > 0$ (since $\B$ is SPD).
+Now, for all $\x \in \Reals^{\\xDim}$, $\x\tr \B^{-1} \x > 0$ (since $\B$ is SPD).
 Similarly, $\x\tr \bH\tr \R^{-1} \bH \x\geq 0$,
 implying that the left hand side is SPD:
 $\x\tr (\bH\tr \R^{-1} \bH + \B^{-1})\x > 0$,
@@ -980,9 +980,9 @@ Substituting eqns. (9) into eqn. (A3) yields
 $$\begin{align}
 	\barP
 	&=  \barB  + \barK \bH \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr - \barK \bH \barB  + \barK \R \barK{}\tr \tag{A4} \\\
-	&=  (\I_{D_x} - \barK \bH) \barB + \barK(\bH \barB \bH\tr + \R)\barK{}\tr -  \barB \bH\tr \barK{}\tr \tag{regrouped.} \\\
-	&=  (\I_{D_x} - \barK \bH) \barB + \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr \, , \tag{inserted eqn. (5a).} \\\
-    &=  (\I_{D_x} - \barK \bH) \barB \, . \tag{10}
+	&=  (\I_{\\xDim} - \barK \bH) \barB + \barK(\bH \barB \bH\tr + \R)\barK{}\tr -  \barB \bH\tr \barK{}\tr \tag{regrouped.} \\\
+	&=  (\I_{\\xDim} - \barK \bH) \barB + \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr \, , \tag{inserted eqn. (5a).} \\\
+    &=  (\I_{\\xDim} - \barK \bH) \barB \, . \tag{10}
     \end{align}$$
 Thus the covariance of the EnKF update "conforms" to the KF covariance update.
 
@@ -999,7 +999,7 @@ answers["EnKF_without_perturbations"] = ['MD', r'''
 If $\Dobs = \bvec{0}$, then eqn. (A3) from the previous answer becomes
 $$\begin{align}
     \barP
-	&= (\I_{D_x}-\barK \bH)\barB(\I_{D_x}-\bH\tr \barK{}\tr) \tag{A5} \, ,
+	&= (\I_{\\xDim}-\barK \bH)\barB(\I_{\\xDim}-\bH\tr \barK{}\tr) \tag{A5} \, ,
 \end{align}$$
 which shows that the updated covariance would be too small.
 ''']
@@ -1067,7 +1067,7 @@ answers['Rank hist'] = ['MD', r'''
 # The "butterfly" is contained within a certain box (limits for $x$, $y$ and $z$).
 answers['RMSE vs inf error'] = ['MD', r'''
 It follows from [the fact that](https://en.wikipedia.org/wiki/Lp_space#Relations_between_p-norms)
-$ \newcommand{\x}{\x} \|\x\|_2 \leq {D_x}^{1/2} \|\x\|\_\infty \text{and}  \|\x\|_1 \leq {D_x}^{1/2} \|\x\|_2$
+$ \newcommand{\x}{\x} \|\x\|_2 \leq {\\xDim}^{1/2} \|\x\|\_\infty \text{and}  \|\x\|_1 \leq {\\xDim}^{1/2} \|\x\|_2$
 that
 $$ 
 \text{RMSE} 
@@ -1075,7 +1075,7 @@ $$
 \leq \| \text{RMSE}\_{0:k} \|\_\infty
 $$
 and
-$$ \text{RMSE}_k = \| \text{Error}_k \|\_2 / \sqrt{{D_x}} \leq \| \text{Error}_k \|\_\infty$$
+$$ \text{RMSE}_k = \| \text{Error}_k \|\_2 / \sqrt{{\\xDim}} \leq \| \text{Error}_k \|\_\infty$$
 ''']
 
 answers['Twin Climatology'] = ['MD', r'''
