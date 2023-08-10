@@ -175,6 +175,17 @@ def interact(top=None, right=None, bottom=None, left=None, **kwargs):
         return (lambda fun: fun())
 
 
+def cInterval(mu, sigma2, flat=True):
+    """Compute +/- 1-sigma (std.dev.) confidence/credible intervals (CI)."""
+    s1 = np.sqrt(sigma2)
+    a = mu - s1
+    b = mu + s1
+    if flat:
+        return a.flatten(), b.flatten()
+    else:
+        return a, b
+
+
 def axes_with_marginals():
     from matplotlib import pyplot as plt
     fig, ((ax, yax), (xax, _)) = plt.subplots(
