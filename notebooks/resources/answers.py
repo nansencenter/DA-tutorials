@@ -178,6 +178,54 @@ where the first term was zero for the same raeson as above,
 and the second can again be expressed in terms of $\Expect[1] = 1$.
 ''']
 
+answers['CVar in proba a'] = ['MD', r'''
+[Link](https://stats.stackexchange.com/a/239594)
+''']
+
+answers['CVar in proba b'] = ['MD', r'''
+The answer is in the link in the question.
+
+But why is the result so intuitive?
+Because the formal proof is a lot of ado for nothing;
+it actually involves applying integral change-of-variables twice, thereby cancelling itself out:
+
+- [Once](https://en.wikipedia.org/wiki/Integration_by_substitution#Application_in_probability) to derive $p_z$,
+- A second time when substituting $z$ by $\phi(x)$ in the integral for the expectation.
+''']
+
+answers['Sum of Gaussians a'] = ['MD', r'''
+We could show this by letting $z = \phi(x) = \DynMod x + b$ and computing $\Expect z$
+using $p_z(z) = p_x\big(\phi^{-1}(z)\big) \,/\, |\phi'(z)|$,
+ref part (a) of [this question](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Probability-and-Change-of-variables).
+
+But it is much easier to just apply part (b). Then
+$\Expect [ \DynMod  x + b ] = \int ( \DynMod  x + b ) \, p(x) \,d x $,
+from which the result follows from the linearity of the integral and the fact that $p(x)$ sums to 1.
+''']
+
+answers['Sum of Gaussians b'] = ['MD', r'''
+$$\begin{align}
+\mathbb{Var}[z] &= \Expect\Big[\big(z - \Expect(z)\big)^2 \Big] \\\
+&= \Expect\Big[\big(\DynMod x + b - \Expect(\DynMod x + b) \big)^2 \Big] \\\
+&= \Expect\Big[\DynMod^2 \big( x - \Expect(x) \big)^2 \Big] \\\
+&= \DynMod^2 \Expect\Big[ \big( x - \Expect(x) \big)^2 \Big] \\\
+&= \DynMod^2 \mathbb{Var}[x]\end{align}$$
+''']
+
+answers['Sum of Gaussians c'] = ['MD', r'''
+Start with eqn. (G1) for the Gaussian pdf.
+Their product again produces the sum of squares in the exponential.
+Now, the second term on the right hand side is constant in $x$,
+and so factors out of the integral, which can be identified
+as the integral of a Gaussian, and so reduces to a constant.
+Subsequently, the first term can be identified:
+its shape is Guassian and its parameters are the ones we are looking for!
+
+If you want, you can check that the normalising constants work out,
+but this is not necessary, since we know they must.
+''']
+
+
 answers['Why Gaussian'] =  ['MD', r"""
 What's not to love? Consider
 
