@@ -1005,7 +1005,7 @@ which shows that the updated covariance would be too small.
 answers['EnKF v1'] = ['MD', r'''
     def my_EnKF(N):
         E = mu0[:, None] + P0_chol @ rnd.randn(xDim, N)
-        for k in range(1, K+1):
+        for k in range(1, nTime+1):
             # Forecast
             t   = k*dt
             E   = Dyn(E, t-dt, dt)
