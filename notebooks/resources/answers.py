@@ -763,19 +763,19 @@ answers["predictability cases"] = ["MD", r"""
 answers["saturation term"] = ["MD", r"""
 [link](https://en.wikipedia.org/wiki/Logistic_function#Logistic_differential_equation)
 """]
-answers["liner growth"] = ["MD", r"""
+answers["linear growth"] = ["MD", r"""
 $\frac{d \varepsilon}{dt} \approx F \varepsilon + (f-g)$
 """]
 
 answers["doubling time"] = ["MD", r"""
-    xx   = output_63[0][:, -1]     # Ensemble of particles at the end of integration
-    v    = np.var(xx, axis=0)      # Variance (spread^2) of final ensemble
-    v    = np.mean(v)              # homogenize
-    d    = np.sqrt(v)              # std. dev.
-    eps  = [FILL IN SLIDER VALUE]  # initial spread
-    T    = [FILL IN SLIDER VALUE]  # integration time
-    rate = np.log(d/eps)/T         # assuming d = eps*exp(rate*T)
-    print("Doubling time (approx):", log(2)/rate)
+    ens     = output_63[0][:, -1]      # Ensemble of particles at the end of integration
+    vr      = np.var(ens, axis=0)      # Variance (spread^2) of final ensemble
+    vr      = np.mean(vr)              # Homogenize
+    spread  = np.sqrt(vr)              # Std. dev.
+    eps     = [FILL IN SLIDER VALUE]   # Initial spread
+    nTime   = [FILL IN SLIDER VALUE]   # Integration time
+    relrate = np.log(spread/eps)/nTime # Assumes `spread = eps * exp(relrate * nTime)`
+    print("Doubling time (approx):", np.log(2)/relrate)
 """]
 
 
