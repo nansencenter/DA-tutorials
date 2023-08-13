@@ -606,38 +606,87 @@ answers['KF1 code'] = ['MD', r'''
 ''']
 
 answers['Asymptotic Riccati a'] = ['MD', r'''
-Merging forecast and analysis equations for $P\supa_k$,
-and focusing on their inverses (called "precisions")
-we find
-$$ 1/P\supa_k = 1/(M^2 P\supa_{k-1}) + H^2/R \,,$$
-
-Note that $P\supa_k < P\supf_k$ for each $k$
-(c.f. [Gaussian-Gaussian Bayes rule](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes))
-Thus,
-$$
-P\supa_k < P\supf_k = \\DynMod^2 P\supa_{k-1}
-\xrightarrow[k \rightarrow \infty]{} 0 \, .
-$$
+Follows directly from eqn. (6) from both this tutorial and
+[the previous one](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes).
 ''']
 
 answers['Asymptotic Riccati b'] = ['MD', r'''
-Since
-$ 1/P\supa_k = 1/P\supa_{k-1} + 1/R \,,$
-it follows that
-$ 1/P\supa_k = 1/P\supa_0 + k / R \xrightarrow[k \rightarrow \infty]{} +\infty \,,\quad$
-i.e.
-$ P\supa_k \rightarrow 0 \,.$
+From the previous part of the exercise,
+if $\DynMod = 1$ then
+$1/P\supa_k = 1/P\supa_{k-1} + 1/R$
+and so the difference $1/P\supa_k - 1/P\supa_{k-1}$
+is always $1/R$.
+In other words, $1/P\supa_k$ grows linearly with $1/R$,
+starting from $1/P\supa_0$.
 ''']
 
 answers['Asymptotic Riccati c'] = ['MD', r'''
+From the previous part of the exercise,
+$1/P\supa_k \xrightarrow[k \rightarrow \infty]{} +\infty$
+''']
+
+answers['Asymptotic Riccati d'] = ['MD', r'''
+Since $1\DynMod^2 > 1$,
+$1/P\supa_k$ now grows quicker than
+in the previous parts of the exercise,
+whence the result.
+
+Note that since this is just an inequality,
+it holds also for time-dependent $\DynMod_k$
+as long as they're less than 1.
+''']
+
+answers['Asymptotic Riccati e'] = ['MD', r'''
 The fixed point $P\supa_\infty$ should satisfy
 $P\supa_\infty = 1/\big(1/R + 1/[\\DynMod^2 P\supa_\infty]\big)$,
-yielding $P\supa_\infty = R (1-1/\\DynMod^2)$.  
-Note that this is **not 0**!
+yielding the answer.
+
+Note that this asymptote is **not 0**!
 In other words, even though the KF keeps gaining observational data/information,
 this gets balanced out by the growth in error/uncertainty during the forecast.
 Also note that the asymptotic state uncertainty ($P\supa_\infty$)
 is directly proportional to the observation uncertainty ($R$).
+''']
+
+answers['Asymptotes when Q>0 a'] = ['MD', r'''
+Again by merging the forecast and analysis steps, we get
+$
+1/P^a = 1/Q + 1/R
+$
+which immediately yields
+$P^a = 1/ (1/Q + 1/R)$.
+''']
+
+answers['Asymptotes when Q>0 b'] = ['MD', r'''
+Multiply
+$$
+1/P^a = \frac{1}{P^a + Q} + 1/R
+$$
+by all of the denominators.
+Cancel $P^a R$ from both sides.
+''']
+
+answers['Asymptotes when Q>0 c'] = ['MD', r'''
+As the terms including $Q$ come to dominate,
+the equation tends to $P = R - \varepsilon$
+with $\varepsilon \rightarrow 0^+$.
+
+This means that if the model error is practically infinite,
+then previous information is worthless,
+and the uncertainty after each analysis step
+equals that of the single observation.
+''']
+
+answers['Asymptotes when Q>0 d'] = ['MD', r'''
+If $Q \rightarrow 0$
+then $P \rightarrow 0$,
+so the middle term $Q P$ can be neglected,
+leaving $P^2 = Q R$.
+
+Thus, $P$ tends to zero if the model error vanishes
+(as we also found previously),
+but also note that $\sqrt{Q R}$ is perfectly symmetric in $R$ and $Q$.
+Indeed, we'd find the same asymptote if we let $R \rightarrow +\infty$.
 ''']
 
 answers['signal processing a'] = ['MD', r'''
