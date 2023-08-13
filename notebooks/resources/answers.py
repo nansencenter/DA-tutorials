@@ -186,13 +186,16 @@ answers['CVar in proba a'] = ['MD', r'''
 ''']
 
 answers['CVar in proba b'] = ['MD', r'''
-The answer is in the link in the question.
+The answer is in the link in the question,
+more precisely [here](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician#Continuous_case).
 
 But why is the result so intuitive?
 Because the formal proof is a lot of ado for nothing;
-it actually involves applying integral change-of-variables twice, thereby cancelling itself out:
+it actually involves applying (integral) change-of-variables *twice*,
+thereby cancelling itself out:
 
-- [Once](https://en.wikipedia.org/wiki/Integration_by_substitution#Application_in_probability) to derive $p_z$,
+- Once to derive $p_z$ from $p_x$, although [differently](https://en.wikipedia.org/wiki/Integration_by_substitution#Application_in_probability)
+  than from part (a).
 - A second time when substituting $z$ by $\phi(x)$ in the integral for the expectation.
 ''']
 
