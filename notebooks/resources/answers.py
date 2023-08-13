@@ -598,6 +598,10 @@ answers['KF1 code'] = ['MD', r'''
             # Analysis update step
             Pa = 1 / (1/Pf + H**2/R)
             xa = Pa * (xf/Pf + H*obsrvs[k]/R)
+            # Alternatively:
+            # KG = H*Pf / (H**2*Pf + R)
+            # Pa = (1 - KG*H) * Pf
+            # xa = xf + KG * (y - H*xf)
 
 ''']
 
