@@ -121,30 +121,33 @@ answers = {}
 # Tut: DA & EnKF
 ###########################################
 answers['thesaurus 1'] = ["TXT", r"""
-Ensemble      Stochastic     Data
-Sample        Random         Measurements
-Set of draws  Monte-Carlo    Observations
+- Ensemble, Sample, Set of draws
+- Stochastic, Random, Monte-Carlo
+- Data, Measurements, Observations
+- Filtering, Forecast initialisation
 """]
 
 answers['thesaurus 2'] = ["TXT", r"""
-Statistical inference    Ensemble member     Quantitative belief    Recursive
-Inverse problems         Sample point        Probability            Sequential
-Inversion                Realization         Relative frequency     Iterative
-Estimation               Single draw         Estimate               Serial
-Regression               Particle            Information
-Fitting                                      Uncertainty
-                                             Knowledge
+- Statistical inference, Inverse problems, Inversion, Estimation, Regression, Fitting
+- Ensemble member, Sample point, Realization, Single draw, Particle
+- Quantitative belief, Probability, Relative frequency, Estimate, Information, Uncertainty, Knowledge
+- Recursive, Sequential, Iterative, Serial
 """]
 
 answers['Discussion topics 1'] = ['MD', r'''
- * (a). State estimation for large systems.
- * (b). States are (unknown) variables that change in time.  
- For a given dynamical system, the chosen parameterisation  
- should contain all prognostic variables, and be fairly non-redundant.
- * (c). Stuff that changes in time.
- * (d). In principle it's a science. In practice...
- * (e). Abstract concept to break the problem down into smaller, recursive, problems.  
-DAGs. Formalises the concept of hidden variables (states).
+ * (a) Stuff that changes in time.
+ * (b) "State" variables are (potentially unknown) variables that change in time.
+   By contrast, "parameters" are constant-in-time (but potentially unknown) variables.
+   Arguably, the state vector should also be chosen (by parameterisation) so as to be
+   prognostic and non-redundant.
+ * (c) Variables that are *essential* for the prediction of the dynamical system.
+   By contrast, "diagnostic" variables can be computed from the prognostic (state) variables,
+   such as momentum and energy (in case the state contains the velocity),
+   or precipitation (in case the state contains pressure, humidity, salinity, ...).
+ * (d) State estimation for large systems.
+ * (e) In principle it's a science. In practice...
+ * (f) Abstract concept to break the problem down into smaller, recursive, problems.  
+   DAGs. Formalises the concept of hidden variables (states).
 ''']
 
 ###########################################
