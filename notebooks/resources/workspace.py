@@ -224,6 +224,19 @@ def get_jointplotter(grid1d):
     return ax, plotter
 
 
+def frame(data, ax, zoom=1):
+    """Do `ax.set_{x/y/z}lim()` based on `data`, using given `zoom` (power of 10)."""
+    zoom = 10**(zoom - 1)
+    for ens, dim in zip(data.T, 'xyz'):
+        a = ens.min()
+        b = ens.max()
+        m = (a + b)/2
+        w = b - a
+        setter = getattr(ax, f'set_{dim}lim')
+        setter([m - w/2/zoom,
+                m + w/2/zoom])
+
+
 def envisat_video():
     caption = """Illustration of DA for the ozone layer in 2002.
     <br><br>

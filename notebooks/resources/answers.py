@@ -820,15 +820,17 @@ starting by right-multiplying by $\bH\tr$.
 # Tut: Dynamical systems, chaos, Lorenz
 ###########################################
 
-answers["Ergodicity a"] = ["MD", r'''
-For asymptotically large $T$, the answer is "yes";
-however, this is difficult to distinguish if $T<60$ or $N<400$,
-which takes a very long time with the integrator used in the above.
-''']
+answers["rk4"] = ["MD", r'''
 
-answers["Ergodicity b"] = ["MD", r'''
-It doesn't matter
-(provided the initial conditions for each experiment is "cropped out" before averaging).
+    ens = initial_states
+    integrated = [initial_states]
+    for k, t in enumerate(time_steps):
+        ens = rk4(dxdt_fixed, ens.T, t, dt).T
+        integrated.append(ens)
+    return np.swapaxes(integrated, 0, 1), time_steps
+
+Note that such double transposing is not the only way to vectorise.
+It is often better to do [something else](https://nansencenter.github.io/DAPPER/dapper/mods.html).
 ''']
 
 answers["Hint: Lorenz energy"] = ["MD", r'''
@@ -874,15 +876,75 @@ answers["linear growth"] = ["MD", r"""
 $\frac{d \varepsilon}{dt} \approx F \varepsilon + (f-g)$
 """]
 
+answers["Bifurcations63 a"] = ["MD", r"""
+The origin, i.e. $(0, 0, 0)$
+"""]
+
+answers["Bifurcations63 b"] = ["MD", r"""
+At $\rho=1$.
+To detect it visually, zoom in and increase `Time`.
+"""]
+
+answers["Bifurcations63 c"] = ["MD", r"""
+At $\rho = 1.3456$.
+However, it's can be hard to visually detect for $\rho < 10$.
+"""]
+
+answers["Bifurcations63 d"] = ["MD", r"""
+The difference is that for $\rho < 13.926$
+no transition between the lobes/wings takes place
+(apart from trajectories that are not yet on the attractor).
+
+For larger $\rho$ this is possible, though not frequent.
+"""]
+
+answers["Bifurcations63 e"] = ["MD", r"""
+Chaos requires $\rho > 24.74$.
+It is visible in 3D by the hollowing out of the centres of the lobes.
+It is more clear in 2D: there is no longer any convergence
+(even for very long time integration).
+"""]
+
+answers["Bifurcations63 f"] = ["MD", r"""
+
+Setting eqn. (1) to zero immediately yields
+$y = x$
+and
+$$\\left\\{\begin{align}
+    0 &= x (\rho - 1 - z)  \,, \\\
+    \beta z &= x^2 \,,
+\end{align}\\right.$$
+which has solution $x = z = 0$
+or
+$$\\left\\{\begin{align}
+z&=\rho - 1 \,, \\\
+x&=\pm \sqrt{\beta z}
+\end{align}\\right.$$
+which only exists if $\rho>1$.
+
+For more mathematical analysis,
+in particular the stability of these stable points
+(defined by the characteristic polynomials of the Jacobian)
+see [here](https://web.math.ucsb.edu/~jhateley/paper/lorenz.pdf).
+"""]
+
+answers['Guesstimate 63'] = ["MD", r"""
+It is arguably around 0.7, since
+the largest Lyapunov exponent is 0.9.
+
+However, as discussed by [Anderson and Hubeny 1997](https://www.gfdl.noaa.gov/bibliography/related_files/jla9702.pdf),
+there are several ways to define the doubling time, with differing numerical answers.
+"""]
+
 answers["doubling time"] = ["MD", r"""
-    ens     = output_63[0][:, -1]      # Ensemble of particles at the end of integration
+    ens     = trajectories96[:, -1]    # Ensemble of particles at the end of integration
     vr      = np.var(ens, axis=0)      # Variance (spread^2) of final ensemble
     vr      = np.mean(vr)              # Homogenize
     spread  = np.sqrt(vr)              # Std. dev.
     eps     = [FILL IN SLIDER VALUE]   # Initial spread
-    nTime   = [FILL IN SLIDER VALUE]   # Integration time
-    relrate = np.log(spread/eps)/nTime # Assumes `spread = eps * exp(relrate * nTime)`
-    print("Doubling time (approx):", np.log(2)/relrate)
+    Time    = [FILL IN SLIDER VALUE]   # Integration time
+    lyap    = np.log(spread/eps)/Time  # Assumes `spread = eps * exp(lyap * Time)`
+    print("Doubling time (approx):", np.log(2)/lyap)
 """]
 
 
