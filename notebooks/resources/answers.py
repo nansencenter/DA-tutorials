@@ -194,8 +194,9 @@ Because the formal proof is a lot of ado for nothing;
 it actually involves applying (integral) change-of-variables *twice*,
 thereby cancelling itself out:
 
-- Once to derive $p_z$ from $p_x$, although [differently](https://en.wikipedia.org/wiki/Integration_by_substitution#Application_in_probability)
-  than from part (a).
+- Once to derive $p_z$ from $p_x$, although
+  [differently](https://en.wikipedia.org/wiki/Integration_by_substitution#Application_in_probability)
+  than in part (a).
 - A second time when substituting $z$ by $\phi(x)$ in the integral for the expectation.
 ''']
 
@@ -297,6 +298,24 @@ answers['Posterior behaviour'] = ['MD', r'''
 - This of course depends on the definition of "sufficient",
   but in the authors opinion $N \geq 40$ seems necessary.
 ''']
+
+answers['Likelihood'] = ['MD', r'''
+Start by assuming [in place of eqn. (Obs)] that $\ObsMod(x) = 0$;
+then $y = r$, i.e. the observation would have the same distribution as $r$.
+Adding $\ObsMod(x)$ just shifts (translates) its distribution by $\ObsMod(x)$,
+in which case the mean is $\ObsMod(x)$.
+
+For more general algebra, for example $y = x r$ (multiplicative noise),
+the likelihood can be derived by applying the
+[change-of-variables formula](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Probability-and-Change-of-variables).
+The example results in $p(y|x) = \NormDist(y | 0, x^2 R)$.
+''']
+
+
+answers['Observation models a'] = ['MD', r'''
+Test
+''']
+
 
 answers['quadrature marginalisation'] = ['MD', r'''
 $$\texttt{sum(pp)*dx}
@@ -683,32 +702,6 @@ answers['signal processing e'] = ['MD', r'''
 ###########################################
 # Tut: Multivariate Kalman
 ###########################################
-
-answers['Likelihood for additive noise'] = ['MD', r'''
-Start by assuming (in place of eqn 2) that $\y=\br$;
-then $\y$ would have the same distribution as $\br$.
-Adding $\ObsMod(\x)$ just shifts (translates) the distribution.
-More formally, one can use the fact that the pdf $p(\y)$
-can be defined by the CDF as $\frac{\partial}{\partial \y} \mathbb{P}(\\{Y_i \leq y_i\\})$,
-and insert eqn. (2) for $\mathbf{Y}$.
-In summary, the addition of $\ObsMod(\x)$ merely changes the mean,
-hence $\mathcal{N}(\y \mid \ObsMod(\x), \R)$.
-
-One can also derive the likelihood using only pdfs.
-The problem with this derivation is that one first needs to justify
-the use of delta functions to descrie deterministic relationships.
-$$
-\begin{align}
-p(\y|\x)
-&= \int p(\y, \br|\x) \, d \br \tag{by law of total proba.}  \\\
-&= \int p(\y|\br, \x) \, p(\br|\x) \, d \br \tag{by def. of conditional proba.} \\\
-&= \int \delta\big(\y-(\ObsMod(\x) + \br)\big) \, p(\br|\x) \, d \br \tag{$\y$ is fully determined by $\x$ and $\br$} \\\
-&= \int \delta\big(\y-(\ObsMod(\x) + \br)\big) \, \mathcal{N}(\br \mid \\bvec{0}, \R) \, d \br \tag{the draw of $\br$ does not depened on $\x$} \\\
-&= \mathcal{N}(\y - \ObsMod(\x) \mid \\bvec{0}, \R) \tag{by def. of Dirac Delta} \\\
-&= \mathcal{N}(\y \mid \ObsMod(\x), \R) \tag{by reformulation} \, .
-\end{align}
-$$
-''']
 
 answers['KF precision'] = ['MD', r'''
 By Bayes' rule:
