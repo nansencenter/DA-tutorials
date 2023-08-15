@@ -17,7 +17,7 @@ txts  += ['The ensemble $\{\mathbf{x}_n^{\text{a}}\}_{n=1..N}$ is (assumed) samp
         'this distribution.']
 txts  += ['The ensemble is forecasted from time $(k-1)$ to $k$ '
         'using the dynamical\n'
-        'model $\mathcal{M}$. We now denote it using the superscript $f$.']
+        'model $\mathscr{M}$. We now denote it using the superscript $f$.']
 txts  += ['Now we consider the analysis at time $k$. The ensemble is used\n'
         'to compute the estimates $\mathbf{\\bar{b}}_k$ and $\mathbf{\\bar{B}}_k$, '
         'hence the new contour curves.']

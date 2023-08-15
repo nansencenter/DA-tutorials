@@ -263,7 +263,7 @@ Of course, causality is a tricky notion.
 Anyway, these problems tend to be harder,
 generally because they involve solving (possibly approximately) a set of equations
 rather than just computing a formula (corresponding to a forward problem).
-Since $y = f(x)$ is common symbolisism for formulae,
+Since $y = f(x)$ is common symbolism for formulae,
 it makes sense to use the symobls $x = f^{-1}(y)$ for the estimation problem.
 Note that, despite the "glorious" ideas invoked by language such as "inverse/inversion",
 all techniques (known to author) still essentially come down to
