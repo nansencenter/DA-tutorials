@@ -345,6 +345,16 @@ This is similar to the previous part of the exercise,
 except without the skewing (the posterior is still not Gaussian though).
 ''']
 
+
+answers['Multivariate Observations'] = ['MD', r'''
+- $\bH = \begin{bmatrix} 1 & 0 \\\ 0 & 1 \end{bmatrix}$
+- $\bH = $ N/A
+- $\bH = \begin{bmatrix} 1 & 0 \end{bmatrix}$
+- $\bH = \begin{bmatrix} 1 & \ldots & 1 \end{bmatrix}/D$
+- $\bH = \begin{bmatrix} -1 & 1 \end{bmatrix}$
+- $\bH = $ N/A
+''']
+
 answers['quadrature marginalisation'] = ['MD', r'''
 $$\texttt{sum(pp)*dx}
 \approx \int \texttt{pp}(x) \, dx
