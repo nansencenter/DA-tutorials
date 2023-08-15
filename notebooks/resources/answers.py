@@ -306,6 +306,7 @@ Adding $\ObsMod(x)$ just shifts (translates) its distribution by $\ObsMod(x)$,
 in which case the mean is $\ObsMod(x)$.
 
 For more general algebra, for example $y = x r$ (multiplicative noise),
+or even more complicated combinations of $r$ and $x$,
 the likelihood can be derived by applying the
 [change-of-variables formula](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Probability-and-Change-of-variables).
 The example results in $p(y|x) = \NormDist(y | 0, x^2 R)$.
