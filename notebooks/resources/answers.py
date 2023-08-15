@@ -823,10 +823,11 @@ starting by right-multiplying by $\bH\tr$.
 answers["rk4"] = ["MD", r'''
 
     ens = initial_states
-    integrated = [initial_states]
-    for k, t in enumerate(time_steps):
+    integrated.append(ens)
+    for k, t in enumerate(time_steps[:-1]):
         ens = rk4(dxdt_fixed, ens.T, t, dt).T
         integrated.append(ens)
+    integrated = np.swapaxes(integrated, 0, 1)  # (len(ens), len(time_steps)) make axis=0 for the realisations
     return np.swapaxes(integrated, 0, 1), time_steps
 
 Note that such double transposing is not the only way to vectorise.
@@ -869,6 +870,11 @@ answers["predictability cases"] = ["MD", r"""
       A balance is always reached between
       the uncertainty reduction $(1-K)$ and growth $F^2$.  
 """]
+answers["doubling time, Lyapunov"] = ["MD", r"""
+Since we want
+$\varepsilon(t) = 2 \varepsilon(0)$
+we need $2 = e^{F t}$, i.e. $t = \log(2) / F$.
+"""]
 answers["saturation term"] = ["MD", r"""
 [link](https://en.wikipedia.org/wiki/Logistic_function#Logistic_differential_equation)
 """]
@@ -906,6 +912,10 @@ It is more clear in 2D: there is no longer any convergence
 """]
 
 answers["Bifurcations63 f"] = ["MD", r"""
+It is periodic.
+"""]
+
+answers["Bifurcations63 f"] = ["MD", r"""
 
 Setting eqn. (1) to zero immediately yields
 $y = x$
@@ -934,6 +944,18 @@ the largest Lyapunov exponent is 0.9.
 
 However, as discussed by [Anderson and Hubeny 1997](https://www.gfdl.noaa.gov/bibliography/related_files/jla9702.pdf),
 there are several ways to define the doubling time, with differing numerical answers.
+"""]
+
+answers["Bifurcations96 a"] = ["MD", r"""
+$F<0.895$.
+"""]
+
+answers["Bifurcations96 b"] = ["MD", r"""
+$F<4$.
+"""]
+
+answers["Bifurcations96 c"] = ["MD", r"""
+$F \geq 4$.
 """]
 
 answers["doubling time"] = ["MD", r"""
