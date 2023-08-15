@@ -312,11 +312,38 @@ the likelihood can be derived by applying the
 The example results in $p(y|x) = \NormDist(y | 0, x^2 R)$.
 ''']
 
-
 answers['Observation models a'] = ['MD', r'''
-Test
+The likelihood simply shifts/translates towards lower values by $15$.
+Apart from the noise corruption, Bayes' rule (BR) effectively inverts $\ObsMod$
+which consists in adding $15$.
 ''']
+answers['Observation models b'] = ['MD', r'''
+The distance from the origin to the likelihood (any point on it) gets halved.  
+In addition, its width/spread gets halved.
+Again, BR effectively inverts $\ObsMod$
+but now with twice the precision (for the same amount of noise),
+since $\ObsMod$ effectively magnifies (stretches out) the domain of $x$.
 
+Note that the likelihood height remains unchanged.  
+Thus, it no longer integrates to $1$. But this is not a problem,
+since only densities need integrate to $1$,
+and the likelihood merely *updates* our belief densities.
+*PS: However, from the perspective of $y$, the likelihood _is_ indeed a density*.
+The posterior remains Gaussian.
+''']
+answers['Observation models c'] = ['MD', r'''
+The likelihood now has 2 peaks. Providing they're far enough apart, so does the posterior.
+The posterior may look like it's composed of 2 Gaussians,
+but it is also contains some "skewing" on each peak, due to the squaring.
+
+Note that a true inverse of $\ObsMod$ does not exist.
+Yet BR gives us the next best thing: the two options, weighted.
+A daring person might call it a "statistically generalized inverse".
+''']
+answers['Observation models d'] = ['MD', r'''
+This is similar to the previous part of the exercise,
+except without the skewing (the posterior is still not Gaussian though).
+''']
 
 answers['quadrature marginalisation'] = ['MD', r'''
 $$\texttt{sum(pp)*dx}
