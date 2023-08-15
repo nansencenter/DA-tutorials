@@ -532,36 +532,6 @@ Taking the logarithm is a monotonic transformation, so it does not change the lo
 Neither does diving by $c$. Multiplying by $-2 R$ means that the maximum becomes the minimum.
 ''']
 
-answers['LinReg deriv b'] = ['MD', r'''
-$$ \frac{d J_K}{d \hat{a}} = 0 = \ldots $$
-''']
-
-answers['LinReg_k'] = ['MD', r'''
-    kk = 1+np.arange(k)
-    a = sum(kk*yy[kk]) / sum(kk**2)
-''']
-
-answers['Sequential 2 Recursive'] = ['MD', r'''
-    (k+1)/k
-''']
-
-answers['LinReg ⊂ KF'] = ['MD', r'''
-Linear regression is only optimal if the truth is a straight line,
-i.e. if $\\DynMod_k = (k+1)/k$.  
-
-Compared to the KF, which accepts a general $\\DynMod_k$,
-this is so restrictive that one does not usually think
-of the methods as belonging to the same class at all.
-''']
-
-answers['LinReg compare'] = ['MD', r'''
-Let $\hat{a}_K$ denote the linear regression estimates of the slope $a$
-based on the observations $y_1, \ldots, y_K$.  
-Let $x\supa_K$ denote the KF estimate of $x\supa_K$ based on the same set of obs.  
-It can bee seen in the plot that
-$ x\supa_K = K \hat{a}_K \, . $
-''']
-
 answers['x_KF == x_LinReg'] = ['MD', r'''
 We'll proceed by induction.  
 
@@ -744,7 +714,7 @@ answers['KF precision'] = ['MD', r'''
 By Bayes' rule:
 $$\begin{align}
 - 2 \log p(\x|\y) =
-\|\bH \x-\y \|\_\R^2 + \| \x - \bb \|\_{\bP\supf}^2
+\|\ObsMod \x-\y \|\_\R^2 + \| \x - \x\supf \|\_{\bP\supf}^2
  + \text{const}_1
 \, .
 \end{align}$$
@@ -752,31 +722,41 @@ Expanding, and gathering terms of equal powers in $\x$ yields:
 $$\begin{align}
 - 2 \log p(\x|\y)
 &=
-\x\tr \left( \bH\tr \Ri \bH + \Bi  \right)\x
-- 2\x\tr \left[\bH\tr \Ri \y + \Bi \bb\right] + \text{const}_2
+\x\tr \left( \ObsMod\tr \Ri \ObsMod + (\bP\supf)^{-1}  \right)\x
+- 2\x\tr \left[\ObsMod\tr \Ri \y + (\bP\supf)^{-1} \x\supf\right] + \text{const}_2
 \, .
 \end{align}$$
 Meanwhile
 $$\begin{align}
-\| \x-\hat{\x} \|\_\bP^2
+\| \x-\x\supa \|\_{\bP\supa}^2
 &=
-\x\tr \bP^{-1} \x - 2 \x\tr \bP^{-1} \hat{\x} + \text{const}_3
+\x\tr (\bP\supa)^{-1} \x - 2 \x\tr (\bP\supa)^{-1} \x\supa + \text{const}_3
 \, .
 \end{align}$$
 Eqns (5) and (6) follow by identification.
 ''']
 
-
-# Also comment on CFL condition (when resolution is increased)?
-answers['nD-covars are big'] = ['MD', r'''
- - (a). ${\\xDim}$-by-${\\xDim}$
- - (b). Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
-    at least 2 times ${\\xDim}^3/3$.
- - (c). Assume ${\bP\supf}$ stored as float (double). Then it's 8 bytes/element.
-        And the number of elements in ${\bP\supf}$: ${\\xDim}^2$. So the total memory is $8 {\\xDim}^2$.
- - (d). 8 trillion bytes. I.e. 8 million MB.
+answers['nD-covars are big a'] = ['MD', r'''
+${\\xDim}$-by-${\\xDim}$
 ''']
+answers['nD-covars are big b'] = ['MD', r'''
+Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
+at least 2 times ${\\xDim}^3/3$.
+''']
+answers['nD-covars are big c'] = ['MD', r'''
+Assume ${\bP\supf}$ stored as float (double). Then it's 8 bytes/element.
+And the number of elements in ${\bP\supf}$: ${\\xDim}^2$. So the total memory is $8 {\\xDim}^2$.
+''']
+answers['nD-covars are big d'] = ['MD', r'''
+8 trillion bytes. I.e. 8 million MB.
+''']
+answers['nD-covars are big e'] = ['MD', r'''
+$(2^3)^2 = 64$ times more.
 
+*PS: In addition, note that the CFL condition may require
+you to forecast the dynamics $2^o$ times slower,
+where $o$ is the highest order of temporal derivatives in your PDEs.
+''']
 
 answers['Woodbury'] = ['MD', r'''
 We show that they cancel:
@@ -796,15 +776,15 @@ $$
 
 answers['inv(SPD + SPD)'] = ['MD', r'''
 The corollary follows from the Woodbury identity
-by replacing $\V, \U$ by $\bH$,
+by replacing $\V, \U$ by $\ObsMod$,
 *provided that everything is still well-defined*.
 In other words,
 we need to show the existence of the left hand side.
 
 Now, for all $\x \in \Reals^{\\xDim}$, $\x\tr \B^{-1} \x > 0$ (since $\B$ is SPD).
-Similarly, $\x\tr \bH\tr \R^{-1} \bH \x\geq 0$,
+Similarly, $\x\tr \ObsMod\tr \R^{-1} \ObsMod \x\geq 0$,
 implying that the left hand side is SPD:
-$\x\tr (\bH\tr \R^{-1} \bH + \B^{-1})\x > 0$,
+$\x\tr (\ObsMod\tr \R^{-1} \ObsMod + \B^{-1})\x > 0$,
 and hence invertible.
 ''']
 
@@ -812,7 +792,7 @@ answers['Woodbury C2'] = ['MD', r'''
 A straightforward validation of (C2)
 is obtained by cancelling out one side with the other.
 A more satisfying exercise is to derive it from (C1)
-starting by right-multiplying by $\bH\tr$.
+starting by right-multiplying by $\ObsMod\tr$.
 ''']
 
 
