@@ -12,6 +12,7 @@ plt.style.use(['seaborn'])
 # Should PRECEDE plt.ion()
 try:
     # Note: Colab only supports `%matplotlib inline` ⇒ no point loading other.
+    # NOTE: Colab: must use plt.show() to avoid duplicate figures.
     import google.colab  # type: ignore
     # Colab only supports mpl inline backend
 
