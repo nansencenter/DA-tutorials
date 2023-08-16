@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,scripts//py
+#     formats: ipynb,py
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -19,66 +19,8 @@
 # But before discussing *Bayes' rule*,
 # we should review the most useful of probability distributions.
 # $
-# % Loading TeX (MathJax)... Please wait
-# %
-# \newcommand{\Reals}{\mathbb{R}}
-# \newcommand{\Expect}[0]{\mathbb{E}}
-# \newcommand{\NormDist}{\mathcal{N}}
-# %
-# \newcommand{\DynMod}[0]{\mathscr{M}}
-# \newcommand{\ObsMod}[0]{\mathscr{H}}
-# %
-# \newcommand{\mat}[1]{{\mathbf{{#1}}}}
-# %\newcommand{\mat}[1]{{\pmb{\mathsf{#1}}}}
-# \newcommand{\bvec}[1]{{\mathbf{#1}}}
-# %
-# \newcommand{\trsign}{{\mathsf{T}}}
-# \newcommand{\tr}{^{\trsign}}
-# \newcommand{\ceq}[0]{\mathrel{≔}}
-# \newcommand{\xDim}[0]{D}
-# \newcommand{\supa}[0]{^\text{a}}
-# \newcommand{\supf}[0]{^\text{f}}
-# %
-# \newcommand{\I}[0]{\mat{I}}
-# \newcommand{\K}[0]{\mat{K}}
-# \newcommand{\bP}[0]{\mat{P}}
-# \newcommand{\bH}[0]{\mat{H}}
-# \newcommand{\bF}[0]{\mat{F}}
-# \newcommand{\R}[0]{\mat{R}}
-# \newcommand{\Q}[0]{\mat{Q}}
-# \newcommand{\B}[0]{\mat{B}}
-# \newcommand{\C}[0]{\mat{C}}
-# \newcommand{\Ri}[0]{\R^{-1}}
-# \newcommand{\Bi}[0]{\B^{-1}}
-# \newcommand{\X}[0]{\mat{X}}
-# \newcommand{\A}[0]{\mat{A}}
-# \newcommand{\Y}[0]{\mat{Y}}
-# \newcommand{\E}[0]{\mat{E}}
-# \newcommand{\U}[0]{\mat{U}}
-# \newcommand{\V}[0]{\mat{V}}
-# %
-# \newcommand{\x}[0]{\bvec{x}}
-# \newcommand{\y}[0]{\bvec{y}}
-# \newcommand{\z}[0]{\bvec{z}}
-# \newcommand{\q}[0]{\bvec{q}}
-# \newcommand{\br}[0]{\bvec{r}}
-# \newcommand{\bb}[0]{\bvec{b}}
-# %
-# \newcommand{\bx}[0]{\bvec{\bar{x}}}
-# \newcommand{\by}[0]{\bvec{\bar{y}}}
-# \newcommand{\barB}[0]{\mat{\bar{B}}}
-# \newcommand{\barP}[0]{\mat{\bar{P}}}
-# \newcommand{\barC}[0]{\mat{\bar{C}}}
-# \newcommand{\barK}[0]{\mat{\bar{K}}}
-# %
-# \newcommand{\D}[0]{\mat{D}}
-# \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}}
-# \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}}
-# %
-# \newcommand{\ones}[0]{\bvec{1}}
-# \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
-# %
-# % END OF MACRO DEF
+# % ######################################## Loading TeX (MathJax)... Please wait ########################################
+# \newcommand{\Reals}{\mathbb{R}} \newcommand{\Expect}[0]{\mathbb{E}} \newcommand{\NormDist}{\mathcal{N}} \newcommand{\DynMod}[0]{\mathscr{M}} \newcommand{\ObsMod}[0]{\mathscr{H}} \newcommand{\mat}[1]{{\mathbf{{#1}}}} \newcommand{\bvec}[1]{{\mathbf{#1}}} \newcommand{\trsign}{{\mathsf{T}}} \newcommand{\tr}{^{\trsign}} \newcommand{\ceq}[0]{\mathrel{≔}} \newcommand{\xDim}[0]{D} \newcommand{\supa}[0]{^\text{a}} \newcommand{\supf}[0]{^\text{f}} \newcommand{\I}[0]{\mat{I}} \newcommand{\K}[0]{\mat{K}} \newcommand{\bP}[0]{\mat{P}} \newcommand{\bH}[0]{\mat{H}} \newcommand{\bF}[0]{\mat{F}} \newcommand{\R}[0]{\mat{R}} \newcommand{\Q}[0]{\mat{Q}} \newcommand{\B}[0]{\mat{B}} \newcommand{\C}[0]{\mat{C}} \newcommand{\Ri}[0]{\R^{-1}} \newcommand{\Bi}[0]{\B^{-1}} \newcommand{\X}[0]{\mat{X}} \newcommand{\A}[0]{\mat{A}} \newcommand{\Y}[0]{\mat{Y}} \newcommand{\E}[0]{\mat{E}} \newcommand{\U}[0]{\mat{U}} \newcommand{\V}[0]{\mat{V}} \newcommand{\x}[0]{\bvec{x}} \newcommand{\y}[0]{\bvec{y}} \newcommand{\z}[0]{\bvec{z}} \newcommand{\q}[0]{\bvec{q}} \newcommand{\br}[0]{\bvec{r}} \newcommand{\bb}[0]{\bvec{b}} \newcommand{\bx}[0]{\bvec{\bar{x}}} \newcommand{\by}[0]{\bvec{\bar{y}}} \newcommand{\barB}[0]{\mat{\bar{B}}} \newcommand{\barP}[0]{\mat{\bar{P}}} \newcommand{\barC}[0]{\mat{\bar{C}}} \newcommand{\barK}[0]{\mat{\bar{K}}} \newcommand{\D}[0]{\mat{D}} \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}} \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}} \newcommand{\ones}[0]{\bvec{1}} \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 # $
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"

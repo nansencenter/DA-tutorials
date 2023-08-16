@@ -12,27 +12,26 @@ import sys
 import nbformat
 
 
-macros=r'''$
-{HEADER}
-%
+HEADER = r'''% ######################################## Loading TeX (MathJax)... Please wait ########################################'''
+macros=r'''
 \newcommand{\Reals}{\mathbb{R}}
 \newcommand{\Expect}[0]{\mathbb{E}}
 \newcommand{\NormDist}{\mathcal{N}}
-%
+
 \newcommand{\DynMod}[0]{\mathscr{M}}
 \newcommand{\ObsMod}[0]{\mathscr{H}}
-%
+
 \newcommand{\mat}[1]{{\mathbf{{#1}}}} % ALWAYS
 %\newcommand{\mat}[1]{{\pmb{\mathsf{#1}}}}
 \newcommand{\bvec}[1]{{\mathbf{#1}}} % ALWAYS
-%
+
 \newcommand{\trsign}{{\mathsf{T}}} % ALWAYS
 \newcommand{\tr}{^{\trsign}} % ALWAYS
 \newcommand{\ceq}[0]{\mathrel{≔}}
 \newcommand{\xDim}[0]{D}
 \newcommand{\supa}[0]{^\text{a}}
 \newcommand{\supf}[0]{^\text{f}}
-%
+
 \newcommand{\I}[0]{\mat{I}} % ALWAYS
 \newcommand{\K}[0]{\mat{K}}
 \newcommand{\bP}[0]{\mat{P}}
@@ -50,42 +49,36 @@ macros=r'''$
 \newcommand{\E}[0]{\mat{E}}
 \newcommand{\U}[0]{\mat{U}}
 \newcommand{\V}[0]{\mat{V}}
-%
+
 \newcommand{\x}[0]{\bvec{x}}
 \newcommand{\y}[0]{\bvec{y}}
 \newcommand{\z}[0]{\bvec{z}}
 \newcommand{\q}[0]{\bvec{q}}
 \newcommand{\br}[0]{\bvec{r}}
 \newcommand{\bb}[0]{\bvec{b}}
-%
+
 \newcommand{\bx}[0]{\bvec{\bar{x}}}
 \newcommand{\by}[0]{\bvec{\bar{y}}}
 \newcommand{\barB}[0]{\mat{\bar{B}}}
 \newcommand{\barP}[0]{\mat{\bar{P}}}
 \newcommand{\barC}[0]{\mat{\bar{C}}}
 \newcommand{\barK}[0]{\mat{\bar{K}}}
-%
+
 \newcommand{\D}[0]{\mat{D}}
 \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}}
 \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}}
-%
+
 \newcommand{\ones}[0]{\bvec{1}} % ALWAYS
 \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
-%
-{FOOTER}
-$'''
-
-HEADER = r'''% Loading TeX (MathJax)... Please wait'''
-FOOTER = r'''% END OF MACRO DEF'''
-macros = macros.replace('{HEADER}', HEADER)
-macros = macros.replace('{FOOTER}', FOOTER)
-
-_macros = macros.split("\n")
+'''
+macros = [ln for ln in macros.splitlines() if ln and not ln.startswith('%')]
+always = [i for i, ln in enumerate(macros) if "ALWAYS" in ln]
+macros = [m.replace("% ALWAYS","").rstrip() for m in macros]
 
 # Convert to {macro_name: macro_lineno}
 declaration = re.compile(r'''^\\newcommand{(.+?)}''')
 lineno_by_name = {}
-for i, ln in enumerate(_macros):
+for i, ln in enumerate(macros):
     match = declaration.match(ln)
     if match: lineno_by_name[match.group(1)] = i
 
@@ -97,16 +90,16 @@ delimit = lambda m: re.compile( no_escape(m) + r'(_|\b)' )
 def include_macros(content):
     """Include macros in answers. Only those that are required."""
     # Find macros present in content
-    ii = [i for macro, i in lineno_by_name.items() if delimit(macro).search(content)]
+    necessary = [i for macro, i in lineno_by_name.items() if delimit(macro).search(content)]
     # Include in content
-    if ii:
-        mm = [_macros[i] for i in ii]
+    if necessary:
+        mm = [macros[i] for i in necessary]
         # PRE-pend those that should always be there
-        mm = [m for m in _macros if ("ALWAYS" in m) and (m not in mm)] + mm
+        mm = [macros[i] for i in always if (macros[i] not in mm)] + mm
         # Escape underscore coz md2html sometimes interprets it as <em>.
         mm = [m.replace("_","\\_") for m in mm]
         # Include surrounding dollar signs
-        mm = _macros[:1] + mm + _macros[-1:]
+        mm = ["$"] + mm + ["$"]
         # Avoid accidental $$
         space = " " if content.startswith("$") else ""
         # Collect
@@ -114,52 +107,32 @@ def include_macros(content):
     return content
 
 
-def update_ipynbs():
-    """Insert macros in notebooks (1st markdown cell)."""
+def update_1nbscript(f: Path):
+    """Update the macros of a notebook script (synced with `jupytext`)."""
+    print(f.name.ljust(40), end=": ")
+    lines = f.read_text().splitlines()
+    mLine = "# " + " ".join(macros)
 
-    def find_notebooks():
-        ff = [str(f) for f in Path().glob("notebooks/T*.ipynb")]
-        ff = [f for f in ff if "_checkpoint" not in f]
-        assert len(ff), "Must have notebooks dir in PWD."
-        return ff
+    try:
+        iHeader = lines.index("# " + HEADER)
+    except (ValueError, AssertionError):
+        print("Could not locate pre-existing macros")
+        return
 
-    # Strip % ALWAYS
-    macros = [m.replace("% ALWAYS","").rstrip() for m in _macros]
+    if not (lines[iHeader-1] == "# $" and
+            lines[iHeader+2] == "# $"):
+        print("Could not parse macros")
 
-    def update1(nb):
-        for cell in nb["cells"]:
-            if cell["cell_type"] == "markdown":
-                lines = cell["source"].split("\n")
-                if not any(HEADER in ln for ln in lines):
-                    continue
-                print("Found pre-existing macros.", end=" ")
+    # elif lines[iHeader+1] == mLine:
+    #     print("Macros already up to date.")
 
-                # Find line indices of macros section.
-                # +/-1 is used to include surrounding dollar signs.
-                L1 = lines.index(HEADER)-1
-                L2 = lines.index(FOOTER)+1
-                assert lines[L1]=="$", "Macros in nb could not be parsed."
-                assert lines[L2]=="$", "Macros in nb could not be parsed."
-
-                if lines[L1:L2+1] != macros:
-                    lines = lines[:L1] + macros + lines[L2+1:]
-                    cell["source"] = "\n".join(lines)
-                    return True # signal that changes were made
-
-    for f in sorted(find_notebooks()):
-        try:
-            nb = nbformat.read(f, as_version=4)
-
-            print(f.ljust(50), end=": ")
-            if update1(nb):
-                print("Updated!")
-                nbformat.write(nb, f)
-            else:
-                print("No change")
-
-        except nbformat.reader.NotJSONError as e:
-            print("Could not read file", f)
+    else:
+        # lines[iHeader] = "# % ##### NEW HEADER ######"
+        lines[iHeader+1] = mLine
+        f.write_text("\n".join(lines))
+        print("Macros updated!")
 
 
 if __name__ == "__main__" and any("update" in arg for arg in sys.argv):
-    update_ipynbs()
+    for f in sorted((Path(__file__).parents[1] / "scripts").glob("T*.py")):
+        update_1nbscript(f)
