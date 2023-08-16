@@ -24,7 +24,7 @@ main () {
 
     # Put repo contents in PWD
     cp -r REPO/notebooks/resources ./
-    cp REPO/notebooks/dpr_config.ini ./
+    cp REPO/notebooks/dpr_config.yaml ./
 }
 
 # Only run if we're on colab
