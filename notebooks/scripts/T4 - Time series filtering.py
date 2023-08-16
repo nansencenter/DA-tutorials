@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,py
+#     formats: ipynb,scripts//py
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -364,3 +364,5 @@ def trunc(x, n):
 # As a subset of state estimation we can do time series estimation
 # [(wherein state-estimation is called state-space approach)](https://www.google.com/search?q="We+now+demonstrate+how+to+put+these+models+into+state+space+form").
 # Moreover, DA methods produce uncertainty quantification, something which is usually more obscure with time series analysis methods.
+#
+# ### Next: [T5 - Multivariate Kalman filter](T5%20-%20Multivariate%20Kalman%20filter.ipynb)

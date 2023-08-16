@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,py
+#     formats: ipynb,scripts//py
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -433,5 +433,5 @@ def Bayes_rule_G1(xf, Pf, y, R):
 #   such as it being the best linear-unibased estimator (BLUE).*
 #
 # In summary, the intuitive idea of **considering the mean of $p(x)$ as the point estimate** has good theoretical foundations.
-
+#
 # ### Next: [T4 - Filtering & time series](T4%20-%20Filtering%20%26%20time%20series.ipynb)

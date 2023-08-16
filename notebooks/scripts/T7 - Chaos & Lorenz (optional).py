@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,py
+#     formats: ipynb,scripts//py
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -383,5 +383,5 @@ def plot_pendulum2(k=0, N=2):
 # Therefore it is crucial to minimize the initial error as much as possible. This is a task for DA.
 #
 # Also see this [book on chaos and predictability](https://kuiper2000.github.io/chaos_and_predictability/intro.html).
-
+#
 # ### Next: [T8 - Monte-Carlo & ensembles](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb)
