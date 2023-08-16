@@ -24,7 +24,10 @@ def show_answer(tag, *subtags):
     subtags = ", ".join(subtags)
     subtags.translate(str.maketrans('', '', ' ,'))
 
-    for key in filter(lambda key: key.startswith(tag), answers):
+    matching = list(filter(lambda key: key.startswith(tag), answers))
+    if not matching:
+        raise KeyError(f"No answer found for {tag=!r}")
+    for key in matching:
         if not subtags or any(key.endswith(" "+ch) for ch in subtags):
             formatted_display(*answers[key], '#dbf9ec') #d8e7ff
 
