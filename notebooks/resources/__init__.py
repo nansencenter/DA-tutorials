@@ -159,6 +159,12 @@ def interact(top=None, right=None, bottom=None, left=None, **kwargs):
             for attr, val in attrs.get(w.description, {}).items():
                 setattr(w, attr, val)
             # Defaults
+            try:
+                # Disable continuous_update on Colab
+                import google.colab  # type: ignore
+                w.continuous_update = False
+            except ImportError:
+                pass
             w.style.description_width = "max-content"
             if getattr(w, 'orientation', '') == "vertical":
                 w.layout.width = "2em"
