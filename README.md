@@ -54,3 +54,8 @@ This is a bit snappier than running them online.
     - Enter the folder `DA-tutorials/notebooks`, and click on a tutorial (`T1... .ipynb`).
 
 <!-- markdownlint-disable-file heading-increment no-inline-html -->
+
+
+## Developer notes
+
+*Please don't hesitate to submit issues or pull requests!*
