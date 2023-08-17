@@ -33,6 +33,15 @@ import scipy as sp
 import matplotlib.pyplot as plt
 plt.ion();
 
+# Computers generally represent functions *numerically* by their values on a grid
+# of points (nodes), an approach called ***discretisation***.
+# Don't hesitate to change the grid resolution as you go along!
+
+bounds = -20, 20
+N = 201                         # num of grid points
+grid1d = np.linspace(*bounds,N) # grid
+dx = grid1d[1] - grid1d[0]      # grid spacing
+
 
 # ## The univariate (a.k.a. 1-dimensional, scalar) case
 # Consider the Gaussian random variable $x \sim \mathcal{N}(\mu, \sigma^2)$.  
@@ -54,20 +63,11 @@ def pdf_G1(x, mu, sigma2):
     return pdf_values
 
 
-# Computers generally represent functions *numerically* by their values on a grid
-# of points (nodes), an approach called ***discretisation***.
-# Don't hesitate to change the grid resolution as you go along!
-
-bounds = -20, 20
-N = 201                         # num of grid points
-grid1d = np.linspace(*bounds,N) # grid
-dx = grid1d[1] - grid1d[0]      # grid spacing
-
 # The following code plots the Gaussian pdf.
 
 k, remembered = 10, []
 @ws.interact(mu=bounds, sigma2=(1, 100))
-def plot_pdf_G1(mu=0, sigma2=25):
+def plot_pdf(mu=0, sigma2=25):
     plt.figure(figsize=(6, 2))
     x = grid1d
     remembered.insert(0, pdf_G1(x, mu, sigma2))
@@ -85,7 +85,25 @@ def plot_pdf_G1(mu=0, sigma2=25):
 # ws.show_answer('pdf_G1')
 # -
 
-# **Exc -- parameter influence:** Play around with `mu` and `sigma2` to answer these questions:
+# **Exc -- The uniform pdf**:
+# Uncomment and fill in the dots in `pdf_U1` below to do your own implementation of the [uniform](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous))/flat/box pdf. Then replace `_G1` by `_U1` in the above interactive plot.
+
+def pdf_U1(x, meanval, variance):
+    lower = meanval - np.sqrt(3*variance)
+    upper = meanval + np.sqrt(3*variance)
+    # height = ...
+    # pdf_values = height * np.ones_like(x)
+    # pdf_values[x<lower] = 0
+    # pdf_values[x>upper] = 0
+    pdf_values = sp.stats.uniform(loc=lower, scale=(upper-lower)).pdf(x)
+    return pdf_values
+
+
+# +
+# ws.show_answer('pdf_U1')
+# -
+
+# **Exc -- parameter influence:** Play around with `mu` and `sigma2` (for both Gaussian and uniform distributions) to answer these questions:
 #  * How does the pdf curve change when `mu` changes?
 #  * How does the pdf curve change when you increase `sigma2`?
 #  * In a few words, describe the shape of the Gaussian pdf curve. Does this ring a bell for you? *Hint: it should be clear as a bell!*

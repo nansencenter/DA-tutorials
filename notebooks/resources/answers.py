@@ -161,6 +161,14 @@ answers['pdf_G1'] = ['MD', r'''
     pdf_values = const * np.exp(-0.5*(x - mu)**2/sigma2)
 ''']
 
+answers['pdf_U1'] = ['MD', r'''
+    height = 1/(upper - lower)
+    pdf_values = height * np.ones_like(x)
+    pdf_values[x<lower] = 0
+    pdf_values[x>upper] = 0
+    return pdf_values
+''']
+
 answers['Gauss integrals'] = ['MD', r'''
 (i) $$\begin{align} \Expect[x]
 &= \int x \, c \, e^{-(x-\mu)^2 / 2 \sigma^2} \,d x \tag{by definition} \\\

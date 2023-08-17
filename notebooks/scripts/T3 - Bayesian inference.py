@@ -39,42 +39,13 @@ plt.ion();
 # &=
 # |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM}
 # \end{align}$$
-# In this tutorial, we grab implentations straight from `scipy.stats`.
+# which we implemented and tested alongside the uniform distribution on a particular numerical grid:
 
-# +
-def pdf_G1(x, meanval, variance):
-    return sp.stats.norm.pdf(x, loc=meanval, scale=np.sqrt(variance))
+(pdf_G1, pdf_U1, grid1d, dx,
+ pdf_GM, bounds, grid2d) = ws.import_from_nb("T2", ("pdf_G1", "pdf_U1", "grid1d", "dx",
+                                                    "pdf_GM", "bounds", "grid2d"))
 
-def pdf_GM(points, mu, Sigma):
-    diff = points - mu  # ensures both get broadcast
-    zero = np.zeros(len(Sigma))
-    return sp.stats.multivariate_normal(zero, Sigma).pdf(diff)
-
-
-# -
-
-# In addition,
-# the following implements the the [uniform](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous))
-# (or "flat" or "box") pdf.
-
-def pdf_U1(x, meanval, variance):
-    # pdfx = sp.stats.uniform(loc=lower, scale=(upper-lower)).pdf(x)
-    lower = meanval - np.sqrt(3*variance)
-    upper = meanval + np.sqrt(3*variance)
-    height = 1/(upper - lower)
-    pdfx = height * np.ones_like(x)
-    pdfx[x<lower] = 0
-    pdfx[x>upper] = 0
-    return pdfx
-
-# We'll be playing with these distribution on the following numerical grid.
-
-bounds = -15, 15
-grid1d = np.linspace(*bounds, 201)
-grid2d = np.dstack(np.meshgrid(grid1d, grid1d))
-dx = grid1d[1] - grid1d[0]
-
-# This will help illustrate:
+# This will now help illustrate:
 #
 # # Bayes' rule
 # In the Bayesian approach, knowledge and uncertainty about the unknown ($x$)
@@ -138,7 +109,7 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
     R = 4**logR
     xf = 0
     Pf = 1
-    
+
     # (See exercise below)
     def H(x):
         return 1*x + 0
