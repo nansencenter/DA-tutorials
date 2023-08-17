@@ -21,7 +21,7 @@ import numpy as np
 import matplotlib as mpl
 import numpy.random as rnd
 import matplotlib.pyplot as plt
-from tqdm import tqdm
+from tqdm.auto import tqdm
 plt.ion();
 
 # # T9 - Writing your own EnKF
@@ -319,7 +319,7 @@ for i in range(3):
         axs[i].plot(dto*np.arange(1, Ko+2), obsrvs[:, i], 'g*')
     axs[i].set_ylabel(f"{'xyz'[i]}")
 axs[0].legend()
-plt.xlabel("Time (t)")
+plt.xlabel("Time (t)");
 
 
 # -
