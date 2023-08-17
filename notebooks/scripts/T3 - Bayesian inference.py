@@ -15,7 +15,7 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-from resources import show_answer, get_jointplotter
+from resources import show_answer, interact, import_from_nb, get_jointplotter
 
 # %matplotlib inline
 import numpy as np
@@ -43,9 +43,9 @@ plt.ion();
 
 (pdf_G1, grid1d, dx,
  pdf_GM, grid2d,
- pdf_U1, bounds) = ws.import_from_nb("T2", ("pdf_G1", "grid1d", "dx",
-                                            "pdf_GM", "grid2d",
-                                            "pdf_U1", "bounds"))
+ pdf_U1, bounds) = import_from_nb("T2", ("pdf_G1", "grid1d", "dx",
+                                         "pdf_GM", "grid2d",
+                                         "pdf_U1", "bounds"))
 
 # This will now help illustrate:
 #
@@ -106,7 +106,7 @@ def Bayes_rule(prior_values, lklhd_values, dx):
 #
 # The code below shows Bayes' rule in action.
 
-@ws.interact(y=(*bounds, 1), logR=(-9, 9), top=['y', 'logR'])
+@interact(y=(*bounds, 1), logR=(-9, 9), top=['y', 'logR'])
 def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
     R = 4**logR
     xf = 0
@@ -223,7 +223,7 @@ def H(x, kind="x"):
 H.kinds = ["(x_1, x_2)", "x^2", "x_1", "mean(x)", "diff(x)", "prod(x)"]
 
 v = dict(orientation="vertical"),
-@ws.interact(top=[['corr_B', 'corr_R']], bottom=[['y1', 'R1']], right=['variant', ['y2', 'R2']],
+@interact(top=[['corr_B', 'corr_R']], bottom=[['y1', 'R1']], right=['variant', ['y2', 'R2']],
              corr_R=(-.999, .999, .01), y1=bounds,     R1=(0.01, 36, 0.2),
              corr_B=(-.999, .999, .01), y2=bounds + v, R2=(0.01, 36, 0.2) + v, variant=H.kinds)
 def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,

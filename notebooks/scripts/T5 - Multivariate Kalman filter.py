@@ -15,7 +15,7 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-from resources import show_answer, cInterval
+from resources import show_answer, interact, cInterval
 
 # %matplotlib inline
 import numpy as np
@@ -177,7 +177,7 @@ for i, (ax, truth, estim) in enumerate(zip(axs, truths.T, estims.T)):
     kk2 = kk.repeat(2)
     ax.plot(kk, truth, c='k')
     ax.plot(kk2, estim.T.flatten())
-    ax.fill_between(kk2, cInterval(estim.T, covars[..., i, i]), alpha=.2)
+    ax.fill_between(kk2, *cInterval(estim.T, covars[..., i, i]), alpha=.2)
     if i == 0 and H[0, 0] == 1 and np.sum(np.abs(H)) == 1:
         ax.plot(kk, obsrvs, '.')
     ax.set_ylabel(f"$x_{i}$")
@@ -188,7 +188,7 @@ for i, (ax, truth, estim) in enumerate(zip(axs, truths.T, estims.T)):
 # - It converges in time to a fixed value, as we might expect from T4.
 # - There are no negative correlations in this case, which is perhaps a bit boring.
 
-@ws.interact(k=(1, nTime))
+@interact(k=(1, nTime))
 def plot_correlation_matrix(k=1, analysis=True):
     Pf, Pa = covars[k-1]
     covmat = Pa if analysis else Pf

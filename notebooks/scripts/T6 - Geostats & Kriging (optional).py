@@ -16,7 +16,7 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-import resources.workspace as ws
+from resources import interact
 
 # %matplotlib inline
 import numpy as np
@@ -68,7 +68,7 @@ def variogram(dists, Range=1, kind="Gauss", nugget=0):
 
 # #### Plot
 
-@ws.interact(Range=(.01, 4), nugget=(0.0, 1, .1))
+@interact(Range=(.01, 4), nugget=(0.0, 1, .1))
 def plot_variogram(Range=1, nugget=0):
     fig, ax = plt.subplots(figsize=(6, 3))
     ax.set_xlim(0, 1)
@@ -193,7 +193,7 @@ nearest_obs = np.zeros_like(truth, dtype=int)  ### FIX THIS ###
 estims["Nearest-n."] = observations[nearest_obs]
 
 # +
-# ws.show_answer('nearest neighbour interp')
+# show_answer('nearest neighbour interp')
 # -
 
 # #### Exc: Inverse distance weighting
@@ -205,7 +205,7 @@ with np.errstate(invalid='ignore', divide='ignore'):
     weights = np.zeros_like(dists_xy)  ### FIX THIS ###
 
 # +
-# ws.show_answer('inv-dist weight interp')
+# show_answer('inv-dist weight interp')
 # -
 
 # Apply weights
@@ -224,7 +224,7 @@ cross_xy = ...
 regression_coefficients = weights ### FIX THIS ### -- should be cross_xy / covar_yy
 
 # +
-# ws.show_answer('Kriging code')
+# show_answer('Kriging code')
 # -
 
 estims["Kriging"] = regression_coefficients @ observations
@@ -251,7 +251,7 @@ cbar = fig.colorbar(c1, cax=fig.add_axes([0.9, 0.15, 0.03, 0.7]))
 # - Run code to re-compute Kriging estimate.
 # - What does setting it to `0.1` cause? What about `100`?
 
-@ws.interact(Range=(.01, 40))
+@interact(Range=(.01, 40))
 def plot_krieged(Range=1):
     vg_params['Range'] = Range
     covar_yy = 1 - variogram(dists_yy, **vg_params)

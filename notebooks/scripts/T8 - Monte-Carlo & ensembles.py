@@ -15,7 +15,7 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-import resources.workspace as ws
+from resources import interact
 
 # %matplotlib inline
 import numpy as np
@@ -191,7 +191,7 @@ with np.printoptions(precision=1):
 # Note that the values of the true variance being used is 1, as is its inverse.
 # The histograms of the estimates is plotted, along with vertical lines displaying their mean values.
 
-@ws.interact(N=(2, 30))
+@interact(N=(2, 30))
 def var_and_precision_estimates(N=4):
     E = rnd.randn(10000, N)
     estims = np.var(E, ddof=1, axis=-1)

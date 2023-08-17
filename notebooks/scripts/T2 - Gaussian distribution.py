@@ -15,7 +15,7 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-import resources.workspace as ws
+from resources import interact
 
 # %matplotlib inline
 import numpy as np
@@ -66,7 +66,7 @@ def pdf_G1(x, mu, sigma2):
 # The following code plots the Gaussian pdf.
 
 k, remembered = 10, []
-@ws.interact(mu=bounds, sigma2=(1, 100))
+@interact(mu=bounds, sigma2=(1, 100))
 def plot_pdf(mu=0, sigma2=25):
     plt.figure(figsize=(6, 2))
     x = grid1d
@@ -196,7 +196,7 @@ def pdf_GM(points, mu, Sigma):
 # +
 grid2d = np.dstack(np.meshgrid(grid1d, grid1d))
 
-@ws.interact(corr=(-1, 1, .05), std_x=(1e-5, 10, 1))
+@interact(corr=(-1, 1, .05), std_x=(1e-5, 10, 1))
 def plot_pdf_G2(corr=0.7, std_x=1):
     # Form covariance matrix (C) from input and some constants
     var_x = std_x**2
