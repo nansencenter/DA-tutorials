@@ -282,15 +282,3 @@ def EnKF_animation():
 
     slider = interactive(update_image, i=(0, 7, 1))
     return VBox([slider, image])
-
-
-def weave_fa(xf,xa=None):
-    "Make piece-wise graph for plotting f/a lines together"
-    if xa is None:
-        xa = xf
-    else:
-        assert len(xf)==len(xa)
-    # Assemble piece-wise lines for plotting purposes
-    pw_f  = np.array([[xa[k  ], xf[k+1], np.nan] for k in range(len(xf)-1)]).ravel()
-    pw_a  = np.array([[xf[k+1], xa[k+1], np.nan] for k in range(len(xf)-1)]).ravel()
-    return pw_f, pw_a
