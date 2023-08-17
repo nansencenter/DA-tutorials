@@ -4,6 +4,7 @@ from pathlib import Path
 import numpy as np
 import matplotlib as mpl
 import mpl_tools
+import subprocess
 
 
 import matplotlib.pyplot as plt
@@ -175,11 +176,16 @@ def interact(top=None, right=None, bottom=None, left=None, **kwargs):
         display(dashboard);
         linked.update()  # necessary on Colab
 
-    # Return decorator or dummy (to plot without interactivity)
-    if mpl_tools.is_notebook_or_qt:
-        return decorator
-    else:
+    if interact.disabled:
+        # Used with hacky `import_from_nb`
+        return (lambda fun: (lambda _: None))
+    elif not mpl_tools.is_notebook_or_qt:
+        # Return dummy (to plot without interactivity)
         return (lambda fun: fun())
+    else:
+        return decorator
+
+interact.disabled = False
 
 
 def cInterval(mu, sigma2, flat=True):
@@ -282,3 +288,34 @@ def EnKF_animation():
 
     slider = interactive(update_image, i=(0, 7, 1))
     return VBox([slider, image])
+
+
+def import_from_nb(name: str, objs: list):
+    """Import from notebooks.
+
+    We don't want to do this because it is too dirty,
+    imposes the requirement that the notebook contain what we want to import
+    (as opposed to it being implemented by students)
+    and because a little repetition never hurt nobody.
+    """
+
+    # Paths
+    NBDIR = Path(__file__).parents[1]
+    nb = next(NBDIR.glob(name + "*.ipynb"))
+    script = (NBDIR / "resources" / "tmp_nbs" / name).with_suffix('.py')
+
+    # Convert nb --> py
+    cmd = ["jupytext", "--output", str(script), str(nb)]
+    opt = dict(capture_output=True, text=True, check=True)
+    subprocess.run(cmd, **opt)
+
+    # Insert sys.path to allow import `resources.workspace`
+    lines = ['import sys', f"""sys.path.insert(0, '{NBDIR}')"""]
+    script.write_text("\n".join(lines + script.read_text().splitlines()))
+
+    # Import
+    interact.disabled = True
+    script = str(script.relative_to(NBDIR).with_suffix("")).replace("/", ".")
+    script = getattr(__import__(script).tmp_nbs, name)
+    interact.disabled = False
+    return [getattr(script, name) for name in objs]
