@@ -104,7 +104,6 @@ def dxdt63(state, t0, σ, β, ρ):
 
 # The following illustrated the system.
 
-from time import time
 store = ['placeholder']
 @ws.interact(     σ=(0.,200), β=(0.,5), ρ=(0.,50),            N=(1,100), ε=(0.01,10), Time=(0.,100), zoom=(.1, 4))
 def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0.01,      Time=2.0,      zoom=1):
