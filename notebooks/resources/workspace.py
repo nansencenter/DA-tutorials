@@ -4,7 +4,6 @@ from pathlib import Path
 import numpy as np
 import matplotlib as mpl
 import mpl_tools
-import subprocess
 
 
 import matplotlib.pyplot as plt
@@ -290,32 +289,26 @@ def EnKF_animation():
     return VBox([slider, image])
 
 
+# TODO: use pre-commit setup suggested by jupytext to ensure nb's are synced?
 def import_from_nb(name: str, objs: list):
-    """Import from notebooks.
+    """Import `objs` from `notebooks/name*.py` (1st match).
 
-    We don't want to do this because it is too dirty,
-    imposes the requirement that the notebook contain what we want to import
-    (as opposed to it being implemented by students)
+    Might not want to do this because it uses `sys.path` manipulation,
+    imposes that the notebook contain
+
+    - only light computations (unless controlled by interact.disabled)
+    - the version we want (as opposed to it being implemented by students)
+
     and because a little repetition never hurt nobody.
     """
-
-    # Paths
     NBDIR = Path(__file__).parents[1]
-    nb = next(NBDIR.glob(name + "*.ipynb"))
-    script = (NBDIR / "resources" / "tmp_nbs" / name).with_suffix('.py')
+    notebk = next(NBDIR.glob(name + "*.ipynb"))
+    script = (NBDIR / "scripts" / notebk.relative_to(NBDIR)).with_suffix('.py')
 
-    # Convert nb --> py
-    cmd = ["jupytext", "--output", str(script), str(nb)]
-    opt = dict(capture_output=True, text=True, check=True)
-    subprocess.run(cmd, **opt)
-
-    # Insert sys.path to allow import `resources.workspace`
-    lines = ['import sys', f"""sys.path.insert(0, '{NBDIR}')"""]
-    script.write_text("\n".join(lines + script.read_text().splitlines()))
-
-    # Import
     interact.disabled = True
-    script = str(script.relative_to(NBDIR).with_suffix("")).replace("/", ".")
-    script = getattr(__import__(script).tmp_nbs, name)
-    interact.disabled = False
-    return [getattr(script, name) for name in objs]
+    try:
+        name = str(script.relative_to(NBDIR).with_suffix("")).replace("/", ".")
+        script = getattr(__import__(name), script.stem)  # works despite weird chars
+    finally:
+        interact.disabled = False
+    return [getattr(script, x) for x in objs]
