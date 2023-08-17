@@ -359,7 +359,7 @@ def plot_pendulum2(k=0, N=2):
 # - (d) What is the doubling time of the error?
 
 # +
-# ws.show_answer("doubling time, Lyapunov)
+# ws.show_answer("doubling time, Lyapunov")
 # -
 
 # * (e) Consider the ODE derived above.  

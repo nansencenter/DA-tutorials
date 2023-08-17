@@ -182,14 +182,14 @@ vmin=truth.min()
 vmax=truth.max()
 
 
-# The cells below contain snippets of different spatial interpolation methods
-# Complete the code snippets below.
-# Test your implementation by running the plotting code in the cell further below.
+# The cells below contain snippets of different spatial interpolation methods,
+# followed by a cell that plots the interpolants.
+# Complete the code snippets.
 
 # #### Exc: Nearest neighbour interpolation
 # Implement the method [(wikipedia)](https://en.wikipedia.org/wiki/Nearest-neighbor_interpolation).  
 
-nearest_obs = ... ### ANSWER HERE ###
+nearest_obs = np.zeros_like(truth, dtype=int)  ### FIX THIS ###
 estims["Nearest-n."] = observations[nearest_obs]
 
 # +
@@ -202,9 +202,7 @@ estims["Nearest-n."] = observations[nearest_obs]
 
 exponent = 3
 with np.errstate(invalid='ignore', divide='ignore'):
-    ### ANSWER HERE ###
-    weights = ...
-    weights = ...
+    weights = np.zeros_like(dists_xy)  ### FIX THIS ###
 
 # +
 # ws.show_answer('inv-dist weight interp')
@@ -223,7 +221,7 @@ estims["Inv-dist."][obs_idx] = observations
 ### ANSWER HERE ###
 covar_yy = ...
 cross_xy = ...
-regression_coefficients = ... # cross_xy / covar_yy
+regression_coefficients = weights ### FIX THIS ### -- should be cross_xy / covar_yy
 
 # +
 # ws.show_answer('Kriging code')

@@ -176,15 +176,12 @@ ws.EnKF_animation()
 # +
 xDim = 3
 
-def dxdt(x):
-    sig  = 10.0
-    rho  = 28.0
-    beta = 8.0/3
+def dxdt(x, sig=10, rho=28, beta=8/3):
     x,y,z = x
-    d     = np.zeros(3)
-    d[0]  = sig*(y - x)
-    d[1]  = rho*x - y - x*z
-    d[2]  = x*y - beta*z
+    d = np.zeros(3)
+    d[0] = sig*(y - x)
+    d[1] = rho*x - y - x*z
+    d[2] = x*y - beta*z
     return d
 
 
@@ -218,42 +215,41 @@ Q      = Q_chol @ Q_chol.T
 
 # The following are the time settings that we will use
 
-dt    = 0.01           # integrational time step
-dko   = 25             # number of steps between observations
-dto   = dko*dt         # time between observations
-Ko    = 60             # total number of observations
-nTime = dko*(Ko+1)     # total number of time steps
+dt = 0.01           # integrational time step
+dko = 25            # number of steps between observations
+dto = dko*dt        # time between observations
+Ko = 60             # total number of observations
+nTime = dko*(Ko+1)  # total number of time steps
 
 # Initial conditions
 
-mu0     = np.array([1.509, -1.531, 25.46])
+mu0 = np.array([1.509, -1.531, 25.46])
 P0_chol = np.eye(3)
-P0      = P0_chol @ P0_chol.T
+P0 = P0_chol @ P0_chol.T
 
 # Observation model settings
 
 # +
 p = 3 # ndim obs
 def Obs(E, t):
-    if E.ndim == 1: return E[:p]
-    else:           return E[:p, :]
+    return E[:p] if E.ndim == 1 else E[:p, :]
 
 R_chol = np.sqrt(2)*np.eye(p)
-R      = R_chol @ R_chol.T
+R = R_chol @ R_chol.T
 # -
 
 # Generate synthetic truth (`xx`) and observations (`yy`)
 
 # Init
-xx    = np.zeros((nTime+1 , xDim))
-yy    = np.zeros((Ko+1, p))
+xx = np.zeros((nTime+1, xDim))
+yy = np.zeros((Ko+1, p))
 xx[0] = mu0 + P0_chol @ rnd.randn(xDim)
 
 # Loop
 for k in range(1, nTime+1):
-    xx[k]  = Dyn(xx[k-1], (k-1)*dt, dt)
+    xx[k] = Dyn(xx[k-1], (k-1)*dt, dt)
     xx[k] += Q_chol @ rnd.randn(xDim)
-    if k%dko == 0:
+    if k % dko == 0:
         Ko = k//dko-1
         yy[Ko] = Obs(xx[k], np.nan) + R_chol @ rnd.randn(p)
 
@@ -276,28 +272,27 @@ def divide_1st_by_2nd(B, A):
     return nla.solve(A.T, B.T).T
 
 def my_EnKF(N):
-    # Init ensemble
-    ...
+    """My implementation of the EnKF."""
+    ### Init ###
+    E = np.zeros((xDim, N))
     for k in range(1, nTime+1):
-        # Forecast
-        t   = k*dt
-        # use model
-        E   = ...
-        # add noise
-        E  += ...
-        if k%dko == 0:
-            # Analysis
-            y        = yy[k//dko-1]   # current observation
-            Eo       = Obs(E, t)      # observed ensemble
+        t = k*dt
+        ### Forecast ##
+        # E = ... # use model
+        # E = ...  # add noise
+        if k % dko == 0:
+            ### Analysis ##
+            y = yy[k//dko-1]  # current observation
+            Eo = Obs(E, t)    # observed ensemble
             # Compute ensemble moments
-            BH       = ...
-            HBH      = ...
+            BH = ...
+            HBH = ...
             # Compute Kalman Gain
-            KG       = ...
+            KG = ...
             # Generate perturbations
-            Perturb  = ...
+            Perturb = ...
             # Update ensemble with KG
-            E       += ...
+            E = E # + ...
         # Save statistics
         xxhat[k] = np.mean(E, axis=1)
 
@@ -335,6 +330,7 @@ plt.xlabel("Time (t)")
 # +
 def average_rmse(xx, xxhat):
     ### INSERT ANSWER ###
+    average = ...
     return average
 
 # Test

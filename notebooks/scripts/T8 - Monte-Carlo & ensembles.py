@@ -133,7 +133,7 @@ print(B)
 # +
 N  = 100 # ensemble size
 
-E = ### INSERT ANSWER (c) ###
+E = np.zeros((xDim, N))
 
 # Use the code below to assess whether you got it right
 x_bar = np.mean(E, axis=1)
@@ -243,7 +243,8 @@ def var_and_precision_estimates(N=4):
 # Implement the cross-covariance estimator in the code-cell below.
 
 def estimate_cross_cov(Ex, Ey):
-    ### INSERT ANSWER ###
+    Cxy = np.zeros((len(Ex), len(Ey)))  ### INSERT ANSWER ###
+    return Cxy
 
 # +
 # ws.show_answer('estimate cross')

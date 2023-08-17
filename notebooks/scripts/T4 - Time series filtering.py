@@ -86,7 +86,7 @@ def simulate(nTime, xa, Pa, M, H, Q, R):
 @ws.interact(seed=(1, 12), M=(0, 1.03, .01), nTime=(0, 100),
              logR=(-9, 9), logR_bias=(-9, 9),
              logQ=(-9, 9), logQ_bias=(-9, 9))
-def exprmt(seed, nTime, M=0.97, logR=1, logQ=1, analyses_only=False, logR_bias=0, logQ_bias=0):
+def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_bias=0, logQ_bias=0):
     R, Q, Q_bias, R_bias = 4.0**np.array([logR, logQ, logQ_bias, logR_bias])
 
     rnd.seed(seed)
