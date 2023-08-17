@@ -1,5 +1,6 @@
 """Load tutorials workspace."""
 
+from pathlib import Path
 import numpy as np
 import matplotlib as mpl
 import mpl_tools
@@ -253,7 +254,7 @@ def envisat_video():
     import base64
     from IPython.display import HTML
 
-    video = io.open('./resources/darc_envisat_analyses.mp4', 'r+b').read()
+    video = io.open(Path(__file__).parent / 'darc_envisat_analyses.mp4', 'r+b').read()
     encoded = base64.b64encode(video)
     vid = HTML(data='''
     <figure style="width:580px;">
@@ -268,16 +269,16 @@ def envisat_video():
 
 def EnKF_animation():
     # Initialize
+    path_ = str(Path(__file__).parent / "illust_EnKF/illust_EnKF_")
     image = Image(
-        value=open("./resources/illust_EnKF/illust_EnKF_0.png", "rb").read(),
+        value=open(path_ + "0.png", "rb").read(),
         format='png',
         width=800,
         height=600,
     )
 
     def update_image(i=0):
-        path = "./resources/illust_EnKF/illust_EnKF_"+str(i)+".png"
-        image.value=open(path, "rb").read()
+        image.value=open(path_ + str(i) + ".png", "rb").read()
 
     slider = interactive(update_image, i=(0, 7, 1))
     return VBox([slider, image])

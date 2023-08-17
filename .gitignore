@@ -48,3 +48,17 @@ docs/_build/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+
+
+##########
+# Custom #
+##########
+tests/T1*.py
+tests/T2*.py
+tests/T3*.py
+tests/T4*.py
+tests/T5*.py
+tests/T6*.py
+tests/T7*.py
+tests/T8*.py
+tests/T9*.py
