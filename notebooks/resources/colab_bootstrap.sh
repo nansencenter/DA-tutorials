@@ -22,9 +22,9 @@ main () {
     # Install requirements
     pip install -r REPO/requirements.txt
 
-    # Put repo contents in PWD
-    cp -r REPO/notebooks/resources ./
-    cp REPO/notebooks/dpr_config.yaml ./
+    # Put notebook/ (including hidden files) in PWD
+    shopt -s dotglob
+    cp -r REPO/notebooks/* ./
 }
 
 # Only run if we're on colab
