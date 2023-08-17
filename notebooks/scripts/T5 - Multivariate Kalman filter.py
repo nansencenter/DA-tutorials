@@ -73,7 +73,7 @@ Q = 0.01**2 * np.diag(1+np.arange(xDim))
 
 # #### Observing system
 # Note that will generate a $\xDim$-dimensional time series.
-# But we will only observe the 1st (0th in Python) element/component of the state vector.
+# But we will only observe the 1st (`0`th in Python) element/component of the state vector.
 # We say that the other components are **hidden**.
 
 # +
@@ -86,6 +86,7 @@ R = 30**2 * np.identity(1)
 
 # #### Simulation
 # The following simulates a synthetic truth (x) time series and observations (y).
+# In particular, note the use of `@` for matrix/vector algebra, in place of `*` as in the [scalar case of the previous tutorial](T4%20-%20Time%20series%20filtering.ipynb#Example-problem:-AR(1)).
 
 # +
 rnd.seed(4)
@@ -93,13 +94,13 @@ rnd.seed(4)
 # Initial condition
 xa = np.zeros(xDim)
 Pa = 0.1**2 * np.diag(np.arange(xDim))
-x = xa + np.sqrt(Pa)@rnd.randn(xDim)
+x = xa + np.sqrt(Pa) @ rnd.randn(xDim)
 
 truths = np.zeros((nTime, xDim))
 obsrvs = np.zeros((nTime, len(H)))
 for k in range(nTime):
-    x = M @ x + np.sqrt(Q)@rnd.randn(xDim)
-    y = H @ x + np.sqrt(R)@rnd.randn(1)
+    x = M @ x + np.sqrt(Q) @ rnd.randn(xDim)
+    y = H @ x + np.sqrt(R) @ rnd.randn(1)
     truths[k] = x
     obsrvs[k] = y
 
