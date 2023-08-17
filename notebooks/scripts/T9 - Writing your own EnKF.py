@@ -30,6 +30,7 @@ import numpy as np
 import matplotlib as mpl
 import numpy.random as rnd
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 plt.ion();
 
 # This presentation follows the traditional template, presenting the EnKF as the "the Monte Carlo version of the KF
@@ -207,8 +208,8 @@ def Dyn(E, t0, dt):
 
     return E
 
-Q_chol = np.zeros((xDim, xDim))
-Q      = Q_chol @ Q_chol.T
+Q12 = np.zeros((xDim, xDim))
+Q = Q12 @ Q12.T
 # -
 
 # Notice the loop over each ensemble member. For better performance, this should be vectorized, if possible. Or, if the forecast model is computationally demanding (as is typically the case in real applications), the loop should be parallelized: i.e. the forecast simulations should be distributed to separate computers.
@@ -223,9 +224,8 @@ nTime = dko*(Ko+1)  # total number of time steps
 
 # Initial conditions
 
-mu0 = np.array([1.509, -1.531, 25.46])
-P0_chol = np.eye(3)
-P0 = P0_chol @ P0_chol.T
+xa = np.array([1.509, -1.531, 25.46])
+Pa12 = np.eye(3)
 
 # Observation model settings
 
@@ -234,24 +234,24 @@ p = 3 # ndim obs
 def Obs(E, t):
     return E[:p] if E.ndim == 1 else E[:p, :]
 
-R_chol = np.sqrt(2)*np.eye(p)
-R = R_chol @ R_chol.T
+R12 = np.sqrt(2)*np.eye(p)
+R = R12 @ R12.T
 # -
 
-# Generate synthetic truth (`xx`) and observations (`yy`)
+# Generate synthetic truth and observations
 
 # Init
-xx = np.zeros((nTime+1, xDim))
-yy = np.zeros((Ko+1, p))
-xx[0] = mu0 + P0_chol @ rnd.randn(xDim)
+truths = np.zeros((nTime+1, xDim))
+obsrvs = np.zeros((Ko+1, p))
+truths[0] = xa + Pa12 @ rnd.randn(xDim)
 
 # Loop
 for k in range(1, nTime+1):
-    xx[k] = Dyn(xx[k-1], (k-1)*dt, dt)
-    xx[k] += Q_chol @ rnd.randn(xDim)
+    truths[k] = Dyn(truths[k-1], (k-1)*dt, dt)
+    truths[k] += Q12 @ rnd.randn(xDim)
     if k % dko == 0:
         Ko = k//dko-1
-        yy[Ko] = Obs(xx[k], np.nan) + R_chol @ rnd.randn(p)
+        obsrvs[Ko] = Obs(truths[k], np.nan) + R12 @ rnd.randn(p)
 
 # ## EnKF implementation
 
@@ -264,42 +264,41 @@ for k in range(1, nTime+1):
 # **Exc -- EnKF implementation:** Complete the code below
 
 # +
-xxhat = np.zeros((nTime+1, xDim))
-
 # Useful linear algebra: compute B/A
 import numpy.linalg as nla
-def divide_1st_by_2nd(B, A):
-    return nla.solve(A.T, B.T).T
+
+ens_means = np.zeros((nTime+1, xDim))
+ens_vrncs = np.zeros((nTime+1, xDim))
 
 def my_EnKF(N):
     """My implementation of the EnKF."""
     ### Init ###
     E = np.zeros((xDim, N))
-    for k in range(1, nTime+1):
+    for k in tqdm(range(1, nTime+1)):
         t = k*dt
         ### Forecast ##
-        # E = ... # use model
+        # E = ...  # use model
         # E = ...  # add noise
         if k % dko == 0:
             ### Analysis ##
-            y = yy[k//dko-1]  # current observation
-            Eo = Obs(E, t)    # observed ensemble
+            y = obsrvs[[k//dko-1]].T  # current observation
+            Eo = Obs(E, t)            # observed ensemble
             # Compute ensemble moments
-            BH = ...
-            HBH = ...
+            PH = ...
+            HPH = ...
             # Compute Kalman Gain
             KG = ...
             # Generate perturbations
             Perturb = ...
             # Update ensemble with KG
-            E = E # + ...
+            # E = ...
         # Save statistics
-        xxhat[k] = np.mean(E, axis=1)
-
-
+        ens_means[k] = np.mean(E, axis=1)
+        ens_vrncs[k] = np.var(E, axis=1, ddof=1)
 # -
 
-# Notice that we only store some stats (`xxhat`). This is because in large systems, keeping the entire ensemble in memory is probably too much.
+# Notice that we only store some stats (`ens_means`). This is because in large systems,
+# keeping the entire ensemble (or its covariance) in memory is probably too much.
 
 # +
 # ws.show_answer('EnKF v1')
@@ -313,28 +312,28 @@ my_EnKF(10)
 
 # Plot
 fig, axs = plt.subplots(nrows=3, sharex=True)
-for m in range(3):
-    axs[m].plot(dt*np.arange(nTime+1), xx   [:, m], 'k', label="Truth")
-    axs[m].plot(dt*np.arange(nTime+1), xxhat[:, m], 'b', label="Estimate")
-    if m<p:
-        axs[m].plot(dto*np.arange(1, Ko+2), yy[:, m], 'g*')
-    axs[m].set_ylabel("Dim %d"%m)
+for i in range(3):
+    axs[i].plot(dt*np.arange(nTime+1), truths   [:, i], 'k', label="Truth")
+    axs[i].plot(dt*np.arange(nTime+1), ens_means[:, i], 'b', label="Estimate")
+    if i<p:
+        axs[i].plot(dto*np.arange(1, Ko+2), obsrvs[:, i], 'g*')
+    axs[i].set_ylabel(f"{'xyz'[i]}")
 axs[0].legend()
 plt.xlabel("Time (t)")
 
 
 # -
 
-# **Exc -- Diagnostics:** The visuals of the plots are nice. But it would be good to have a summary statistic of the accuracy performance of the filter. Make a function `average_rmse(xx, xxhat)` that computes $ \frac{1}{K+1} \sum_{k=0}^K \sqrt{\frac{1}{\xDim} \| \bx_k - \x_k \|_2^2} \, .$
+# **Exc -- Diagnostics:** The visuals of the plots are nice. But it would be good to have a summary statistic of the accuracy performance of the filter. Make a function `average_rmse(truths, means)` that computes $ \frac{1}{K+1} \sum_{k=0}^K \sqrt{\frac{1}{\xDim} \| \bx_k - \x_k \|_2^2} \, .$
 
 # +
-def average_rmse(xx, xxhat):
+def average_rmse(truth, estimates):
     ### INSERT ANSWER ###
     average = ...
     return average
 
 # Test
-average_rmse(xx, xxhat)
+average_rmse(truths, ens_means)
 
 # +
 # ws.show_answer('rmse')

@@ -1208,27 +1208,39 @@ which shows that the updated covariance would be too small.
 
 
 answers['EnKF v1'] = ['MD', r'''
+
     def my_EnKF(N):
+        """My implementation of the EnKF."""
+        ### Init ###
         E = mu0[:, None] + P0_chol @ rnd.randn(xDim, N)
-        for k in range(1, nTime+1):
-            # Forecast
-            t   = k*dt
-            E   = Dyn(E, t-dt, dt)
-            E  += Q_chol @ rnd.randn(xDim, N)
-            if k%dko == 0:
-                # Analysis
-                y        = yy[k//dko-1] # current obs
-                Eo       = Obs(E, t)
-                BH       = estimate_cross_cov(E, Eo)
-                HBH      = estimate_mean_and_cov(Eo)[1]
-                Perturb  = R_chol @ rnd.randn(p, N)
-                KG       = divide_1st_by_2nd(BH, HBH+R)
-                E       += KG @ (y[:, None] - Perturb - Eo)
-            xa[k] = np.mean(E, axis=1)
+        for k in tqdm(range(1, nTime+1)):
+            t = k*dt
+            ### Forecast ##
+            E = Dyn(E, t-dt, dt)
+            E += Q12 @ rnd.randn(xDim, N)
+            if k % dko == 0:
+                ### Analysis ##
+                y = obsrvs[[k//dko-1]].T  # current observation
+                Eo = Obs(E, t)            # observed ensemble
+                # Compute ensemble moments
+                Y = Eo - Eo.mean(keepdims=True)
+                X = E - E.mean(keepdims=True)
+                PH = X @ Y.T / (N-1)
+                HPH = Y @ Y.T / (N-1)
+                # Compute Kalman Gain
+                KG = nla.solve(HPH + R, PH.T).T
+                # Generate perturbations
+                Perturbs = R12 @ rnd.randn(p, N)
+                # Update ensemble with KG
+                E += KG @ (y - Eo - Perturbs)
+            # Save statistics
+            ens_means[k] = np.mean(E, axis=1)
+            ens_vrncs[k] = np.var(E, axis=1, ddof=1)
+
 ''']
 
 answers['rmse'] = ['MD', r'''
-    rmses = np.sqrt(np.mean((xx-xa)**2, axis=1))
+    rmses = np.sqrt(np.mean((truth - estimates)**2, axis=1))
     average = np.mean(rmses)
 ''']
 
