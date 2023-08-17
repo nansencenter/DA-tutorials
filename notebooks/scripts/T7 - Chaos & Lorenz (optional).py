@@ -15,7 +15,7 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-from resources import show_answer, frame
+from resources import show_answer, interact, frame
 
 # %matplotlib inline
 import numpy as np
@@ -105,7 +105,7 @@ def dxdt63(state, t0, σ, β, ρ):
 # The following illustrated the system.
 
 store = ['placeholder']
-@ws.interact(     σ=(0.,200), β=(0.,5), ρ=(0.,50),            N=(1,100), ε=(0.01,10), Time=(0.,100), zoom=(.1, 4))
+@interact(        σ=(0.,200), β=(0.,5), ρ=(0.,50),            N=(1,100), ε=(0.01,10), Time=(0.,100), zoom=(.1, 4))
 def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0.01,      Time=2.0,      zoom=1):
     rnd.seed(23)
     initial_states = [-6.1, 1.2, 32.5] + ε*rnd.randn(N, 3)
@@ -242,7 +242,7 @@ bounds = -10, 20
 # -
 
 store = ["placeholder"]
-@ws.interact(     xDim=(4,60,1), N=(1,30), Force=(0,15.), ε=(0.01,3,0.1), Time=(0.05,90,0.04))
+@interact(        xDim=(4,60,1), N=(1,30), Force=(0,15.), ε=(0.01,3,0.1), Time=(0.05,90,0.04))
 def plot_lorenz96(xDim=40,       N=2,      Force=8,       ε=0.01,         Time=3):
     rnd.seed(23)
     initial_states = np.zeros((N, xDim))
@@ -307,7 +307,7 @@ simulator = modelling.with_recursion(step)
 nTime = 2000
 EE = simulator(initial_states, k=nTime, t0=0, dt=dt)
 
-@ws.interact(k=(0, nTime, 10), N=(1, len(initial_states)))
+@interact(k=(0, nTime, 10), N=(1, len(initial_states)))
 def plot_pendulum2(k=0, N=2):
     fig, ax = plt.subplots()
     ax.set(xlim=(-2, 2), ylim=(-2, 2), aspect="equal")

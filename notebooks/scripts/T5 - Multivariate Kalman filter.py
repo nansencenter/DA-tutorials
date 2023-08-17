@@ -15,7 +15,7 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-from resources import show_answer, cInterval
+from resources import show_answer, interact, cInterval
 
 # %matplotlib inline
 import numpy as np
@@ -188,7 +188,7 @@ for i, (ax, truth, estim) in enumerate(zip(axs, truths.T, estims.T)):
 # - It converges in time to a fixed value, as we might expect from T4.
 # - There are no negative correlations in this case, which is perhaps a bit boring.
 
-@ws.interact(k=(1, nTime))
+@interact(k=(1, nTime))
 def plot_correlation_matrix(k=1, analysis=True):
     Pf, Pa = covars[k-1]
     covmat = Pa if analysis else Pf
