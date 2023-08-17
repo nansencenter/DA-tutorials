@@ -15,7 +15,7 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-import resources.workspace as ws
+from resources import show_answer, frame
 
 # %matplotlib inline
 import numpy as np
@@ -76,7 +76,7 @@ def integrate(dxdt, initial_states, final_time, **params):
 # Replace `odeint` in the code above by `rk4` (which does not care about the size/shape of the input, thereby allowing for matrices, i.e. ensembles). Note that the call signature of `rk4` is similar to `odeint`, except that `time_steps` must be replaced by `t` and `dt`. I.e. it only computes a single time step, `t + dt`, so you must loop over `time_steps` yourself. *Hint: `dxdt(x, t, ...)` generally expect axis-0 (i.e. rows) of `x` to be the dimensions of the state vector -- not independent realisations of the states.*
 
 # +
-# ws.show_answer('rk4')
+# show_answer('rk4')
 # -
 
 # ## The Lorenz (1963) attractor
@@ -117,7 +117,7 @@ def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0
             line, = ax.plot(*(orbit.T), lw=1, alpha=.5)
             ax.scatter3D(*orbit[-1], s=40, color=line.get_color())
         ax.axis('off')
-        ws.frame(trajectories, ax, zoom)
+        frame(trajectories, ax, zoom)
     else:
         fig, axs = plt.subplots(3, sharex=True, figsize=(5, 4))
         for dim, ax, orbits in zip('xyz', axs, trajectories.T):
@@ -148,7 +148,7 @@ def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0
 # In conclusion, while a dynamical system naturally depends on its paramater values (almost by definition), the way in which its behaviour/character depend on it could come as a surprise.
 
 # +
-# ws.show_answer("Bifurcations63")
+# show_answer("Bifurcations63")
 # -
 
 # #### Exc -- Doubling time
@@ -156,7 +156,7 @@ def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0
 # Visually investigate the system's (i.e. the trajectories') **sensitivity to initial conditions** by moving `Time`, `N` and `ε`. What do you reckon is the "doubling time" of the perturbations? I.e. how long do you think it takes (on average) for two trajectories to grow twice as far apart as they started (alternatives: 0.03, 0.3, 3, 30)? What are the implications for any prediction/forecasting we might attempt?
 
 # +
-# ws.show_answer('Guesstimate 63')
+# show_answer('Guesstimate 63')
 # -
 
 # ### Averages
@@ -226,7 +226,7 @@ plt.legend();
 # *Hint: consider its time derivative.*
 
 # +
-# ws.show_answer("Lorenz energy")
+# show_answer("Lorenz energy")
 # -
 
 # The model is animated below.
@@ -270,7 +270,7 @@ plt.contourf(store[0][0], cmap="viridis", vmin=bounds[0], vmax=bounds[1])
 plt.colorbar();
 
 # +
-# ws.show_answer('Bifurcations96', 'a')
+# show_answer('Bifurcations96', 'a')
 # -
 
 # #### Exc -- Doubling time
@@ -281,7 +281,7 @@ trajectories96 = store[0]
 ens = trajectories96[:, -1]
 
 # +
-# ws.show_answer("doubling time")
+# show_answer("doubling time")
 # -
 
 # ## The double pendulum
@@ -334,13 +334,13 @@ def plot_pendulum2(k=0, N=2):
 # $$\frac{d \varepsilon}{dt} \approx F \varepsilon \, .$$
 
 # +
-# ws.show_answer("error evolution")
+# show_answer("error evolution")
 # -
 
 # * (b) Suppose $F$ is constant. Show that the error grows exponentially: $\varepsilon(t) = \varepsilon(0) e^{F t} $.
 
 # +
-# ws.show_answer("anti-deriv")
+# show_answer("anti-deriv")
 # -
 
 # * (c)
@@ -352,13 +352,13 @@ def plot_pendulum2(k=0, N=2):
 #      can we ever hope to estimate $x(t)$ with 0 uncertainty?
 
 # +
-# ws.show_answer("predictability cases")
+# show_answer("predictability cases")
 # -
 
 # - (d) What is the doubling time of the error?
 
 # +
-# ws.show_answer("doubling time, Lyapunov")
+# show_answer("doubling time, Lyapunov")
 # -
 
 # * (e) Consider the ODE derived above.  
@@ -366,14 +366,14 @@ def plot_pendulum2(k=0, N=2):
 # Can you solve this equation?
 
 # +
-# ws.show_answer("saturation term")
+# show_answer("saturation term")
 # -
 
 # * (f) Now suppose $z(t)$ evolves according to $\frac{dz}{dt} = g(z)$, with $g \neq f$.  
 # What is now the differential equation governing the evolution of the error, $\varepsilon$?
 
 # +
-# ws.show_answer("linear growth")
+# show_answer("linear growth")
 # -
 
 # ## In summary:

@@ -33,8 +33,8 @@ def assert_show_answer_in_comments(lines, fname):
 
 def uncomment_show_answer(lines):
     for i, ln in enumerate(lines):
-        OLD = "# ws.show_answer"
-        NEW = "ws.show_answer"
+        OLD = "# show_answer"
+        NEW = "show_answer"
         if ln.startswith(OLD):
             lines[i] = ln.replace(OLD, NEW)
     return lines

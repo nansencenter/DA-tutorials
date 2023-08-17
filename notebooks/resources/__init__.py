@@ -1,4 +1,7 @@
-"""Load tutorials workspace."""
+"""Additional styles and resources for tutorials.
+
+Our didactic goal is to put as little as possible in here.
+"""
 
 from pathlib import Path
 import numpy as np
@@ -69,7 +72,7 @@ def interact(top=None, right=None, bottom=None, left=None, **kwargs):
     Example:
 
     >>> v = dict(orientation="vertical", layout=dict(height="80%"))
-    ... @ws.interact(a=(1., 6., v),
+    ... @interact(a=(1., 6., v),
     ...              b=(1., 7.),
     ...              bottom=True,  # put rest here
     ...              top='b,c',

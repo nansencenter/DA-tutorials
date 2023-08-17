@@ -15,7 +15,7 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-import resources.workspace as ws
+from resources import show_answer, cInterval
 
 # %matplotlib inline
 import numpy as np
@@ -101,11 +101,11 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
         estimates, variances = KF(nTime, xa, Pa, M, H, Q*Q_bias, R*R_bias, obsrvs)
         if analyses_only:
             plt.plot(kk, estimates[:, 1], label='Kalman$\supa$ ± 1$\sigma$')
-            plt.fill_between(kk, *ws.cInterval(estimates[:, 1], variances[:, 1]), alpha=.2)
+            plt.fill_between(kk, *cInterval(estimates[:, 1], variances[:, 1]), alpha=.2)
         else:
             kk2 = kk.repeat(2)
             plt.plot(kk2, estimates.flatten(), label='Kalman ± 1$\sigma$')
-            plt.fill_between(kk2, *ws.cInterval(estimates, variances), alpha=.2)
+            plt.fill_between(kk2, *cInterval(estimates, variances), alpha=.2)
     except NameError:
         pass
 
@@ -133,7 +133,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # - What happens when $R \rightarrow \infty$ ?
 
 # +
-# ws.show_answer('AR1')
+# show_answer('AR1')
 # -
 
 # ## The (univariate) Kalman filter (KF)
@@ -166,7 +166,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 #       If you get stuck, you can also view the excellent [3blue1brown](https://www.youtube.com/watch?v=d_qvLDhkg00&t=266s&ab_channel=3Blue1Brown) on the topic.*
 
 # +
-# ws.show_answer('Sum of Gaussians', 'a')
+# show_answer('Sum of Gaussians', 'a')
 # -
 
 # Formulae (5) and (6) are called the **forecast step** of the KF.
@@ -223,7 +223,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 
 
 # +
-# ws.show_answer('KF1 code')
+# show_answer('KF1 code')
 # -
 
 # #### Exc -- KF behaviour
@@ -234,7 +234,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # - What is the KF uncertainty variance in the case of `M=0`?
 
 # +
-# ws.show_answer('KF behaviour')
+# show_answer('KF behaviour')
 # -
 
 # #### Exc -- Temporal convergence
@@ -254,7 +254,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 #   *Hint: Look for the fixed point of the recursion of part (a).*
 
 # +
-# ws.show_answer('Asymptotic Riccati')
+# show_answer('Asymptotic Riccati')
 # -
 
 # **Exc (optional) -- Temporal CV, part 2:**
@@ -267,7 +267,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 #     - (d) $P\supa_\infty \rightarrow \sqrt{ Q R}$ (from above) if $Q \rightarrow 0^+$.
 
 # +
-# ws.show_answer('Asymptotes when Q>0')
+# show_answer('Asymptotes when Q>0')
 # -
 
 # #### Exc -- Impact of biases
@@ -287,7 +287,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 #   Try the same, but dividing `M` by 2.
 
 # +
-# ws.show_answer('KF with bias')
+# show_answer('KF with bias')
 # -
 
 # ## Alternative methods
@@ -340,7 +340,7 @@ def trunc(x, n):
 # The answers should be considered examples, not the uniquely right way.
 
 # +
-# ws.show_answer('signal processing', 'a')
+# show_answer('signal processing', 'a')
 # -
 
 # #### Exc (optional) -- Analytic simplification in the case of an unknown constant

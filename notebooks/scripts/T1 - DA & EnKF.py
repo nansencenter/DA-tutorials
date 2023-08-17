@@ -45,7 +45,7 @@ for i, c in enumerate(name):
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-import resources.workspace as ws
+from resources import show_answer, envisat_video
 
 # ### Python
 #
@@ -115,7 +115,7 @@ plt.legend();
 #
 # Some of these challenges may be recognized in the video below. Can you spot them?
 
-ws.envisat_video()
+envisat_video()
 
 # ### The EnKF
 # The EnKF an ensemble (Monte-Carlo) formulation of the KF
@@ -193,7 +193,7 @@ if False:
 #
 
 # +
-# ws.show_answer('thesaurus 1')
+# show_answer('thesaurus 1')
 # -
 
 # * "The answer" is given from the perspective of DA. Do you agree with it?
@@ -210,7 +210,7 @@ if False:
 # - Recursive, x, x, x
 
 # +
-# ws.show_answer('thesaurus 2')
+# show_answer('thesaurus 2')
 # -
 
 # **Exc (optional) -- intro discussion:** Prepare to discuss the following questions. Use any tool at your disposal.
@@ -222,7 +222,7 @@ if False:
 # * (f) What is the point of "Hidden Markov Models"?
 
 # +
-# ws.show_answer('Discussion topics 1')
+# show_answer('Discussion topics 1')
 # -
 
 # ### Next: [T2 - Gaussian distribution](T2%20-%20Gaussian%20distribution.ipynb)

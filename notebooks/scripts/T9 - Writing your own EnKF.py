@@ -15,7 +15,7 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-import resources.workspace as ws
+from resources import show_answer, EnKF_animation
 
 import numpy as np
 import matplotlib as mpl
@@ -96,7 +96,7 @@ plt.ion();
 #
 # The EnKF is summarized in the animation below.
 
-ws.EnKF_animation()
+EnKF_animation()
 
 # #### Exc -- Woodbury for the ensemble subspace
 # (a) Use the Woodbury identity (C2) of [T5](T5%20-%20Kalman%20filter%20(multivariate).ipynb) to show that eqn. (5) can also be written
@@ -128,7 +128,7 @@ ws.EnKF_animation()
 # What does this mean?
 
 # +
-# ws.show_answer("EnKF_nobias_a")
+# show_answer("EnKF_nobias_a")
 # -
 
 # #### Exc (optional) -- EnKF nobias (b)
@@ -158,14 +158,14 @@ ws.EnKF_animation()
 # \end{align}$$
 
 # +
-# ws.show_answer("EnKF_nobias_b")
+# show_answer("EnKF_nobias_b")
 # -
 
 # #### Exc (optional) -- EnKF bias (c)
 # Show that, if no observation perturbations are used in eqn. (4), then $\barP$ would be too small.
 
 # +
-# ws.show_answer("EnKF_without_perturbations")
+# show_answer("EnKF_without_perturbations")
 # -
 
 # ## Experimental setup
@@ -301,7 +301,7 @@ def my_EnKF(N):
 # keeping the entire ensemble (or its covariance) in memory is probably too much.
 
 # +
-# ws.show_answer('EnKF v1')
+# show_answer('EnKF v1')
 # -
 
 # Now let's try out its capabilities
@@ -336,24 +336,24 @@ def average_rmse(truth, estimates):
 average_rmse(truths, ens_means)
 
 # +
-# ws.show_answer('rmse')
+# show_answer('rmse')
 # -
 
 # **Exc -- Experiment variations:**
 #  * (a). Repeat the above experiment, but now observing only the first (0th) component of the state.
 
 # +
-# ws.show_answer('Repeat experiment a')
+# show_answer('Repeat experiment a')
 # -
 
 #  * (b). Put a `seed()` command in the right place so as to be able to recreate exactly the same results from an experiment.
 
 # +
-# ws.show_answer('Repeat experiment b')
+# show_answer('Repeat experiment b')
 # -
 
 #  * (c). Use $N=5$, and repeat the experiments. This is quite a small ensemble size, and quite often it will yield divergence: the EnKF "definitely loses track" of the truth, typically because of strong nonlinearity in the forecast models, and underestimation (by $\barP)$ of the actual errors. Repeat the experiment with different seeds until you observe in the plots that divergence has happened.
 #  * (d). Implement "multiplicative inflation" to remedy the situation; this is a factor that should spread the ensemble further apart; a simple version is to inflate the perturbations. Implement it, and tune its value to try to avoid divergence.
 
 # +
-# ws.show_answer('Repeat experiment cd')
+# show_answer('Repeat experiment cd')

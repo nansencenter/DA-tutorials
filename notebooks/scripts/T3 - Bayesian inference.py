@@ -15,7 +15,7 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-import resources.workspace as ws
+from resources import show_answer, get_jointplotter
 
 # %matplotlib inline
 import numpy as np
@@ -74,7 +74,7 @@ plt.ion();
 # **Exc -- Bayes' rule derivation:** Derive eqn. (BR) from the definition of [conditional pdf's](https://en.wikipedia.org/wiki/Conditional_probability_distribution#Conditional_continuous_distributions).
 
 # +
-# ws.show_answer('symmetry of conditioning')
+# show_answer('symmetry of conditioning')
 # -
 
 # Bayes' rule, eqn. (BR), involves functions (the densities), but applies for any/all values of $x$ (and $y$).
@@ -92,7 +92,7 @@ def Bayes_rule(prior_values, lklhd_values, dx):
 # Show that the normalization in `Bayes_rule()` amounts to (approximately) the same as dividing by $p(y)$.
 
 # +
-# ws.show_answer('quadrature marginalisation')
+# show_answer('quadrature marginalisation')
 # -
 
 # In fact, since $p(y)$ is thusly implicitly known,
@@ -157,7 +157,7 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 #  * Play around with the grid resolution (see the cell above). What is in your opinion a "sufficient" grid resolution?
 
 # +
-# ws.show_answer('Posterior behaviour')
+# show_answer('Posterior behaviour')
 # -
 
 # ## With forward (observation) models
@@ -173,7 +173,7 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 # **Exc (optional) -- The likelihood:** Derive the expression (Lklhd) for the likelihood.
 
 # +
-# ws.show_answer('Likelihood')
+# show_answer('Likelihood')
 # -
 
 
@@ -198,13 +198,13 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 #     - Is the resulting posterior Gaussian?
 
 # +
-# ws.show_answer('Observation models', 'a')
+# show_answer('Observation models', 'a')
 # -
 
 # **Exc (optional) -- "why inverse":** Laplace called "statistical inference" the reasoning of "inverse probability" (1774). You may also have heard of "inverse problems" in reference to similar problems, but without a statistical framing. In view of this, why do you think we use $x$ for the unknown, and $y$ for the known/given data?
 
 # +
-# ws.show_answer("what's forward?")
+# show_answer("what's forward?")
 # -
 
 # ## Multivariate Bayes (interlude)
@@ -250,7 +250,7 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
     prior = pdf_GM(x, mu, B)
     postr = Bayes_rule(prior, lklhd, dx**2)
 
-    ax, jplot = ws.get_jointplotter(grid1d)
+    ax, jplot = get_jointplotter(grid1d)
     contours = [jplot(prior, 'blue'),
                 jplot(lklhd, 'green'),
                 jplot(postr, 'red', linewidths=2)]
@@ -279,7 +279,7 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
 #       find the (possibly rectangular) matrix $\bH$ such that $\ObsMod(\x) = \bH \x$.
 
 # +
-# ws.show_answer('Multivariate Observations')
+# show_answer('Multivariate Observations')
 # -
 
 # As simple as it is, the amount of computations done by `Bayes_rule` quickly becomes a difficulty in higher dimensions. This is hammered home in the following exercise.
@@ -292,7 +292,7 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
 #  * (c) Suppose each variable is has a pdf represented with a grid using only $N=20$ points. How many multiplications are necessary to calculate Bayes rule (jointly) for all variables on our Earth model?
 
 # +
-# ws.show_answer('nD-space is big', 'a')
+# show_answer('nD-space is big', 'a')
 # -
 
 # ## Gaussian-Gaussian Bayes' rule (1D)
@@ -329,7 +329,7 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
 #   *Hint: you can temporarily "hide" $\ObsMod$ by astutely multiplying by $1$ somewhere.*
 
 # +
-# ws.show_answer('BR Gauss, a.k.a. completing the square', 'a')
+# show_answer('BR Gauss, a.k.a. completing the square', 'a')
 # -
 
 # **Exc -- Temperature example:**
@@ -341,7 +341,7 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
 # Show that your posterior is $p(x|y) = \mathcal{N}(x \mid 19, 2)$
 
 # +
-# ws.show_answer('GG BR example')
+# show_answer('GG BR example')
 # -
 
 # The following implements a Gaussian-Gaussian Bayes' rule (eqns 5 and 6).
@@ -372,7 +372,7 @@ def Bayes_rule_G1(xf, Pf, y, R):
 # \end{align}$$
 
 # +
-# ws.show_answer('BR Kalman1 algebra')
+# show_answer('BR Kalman1 algebra')
 # -
 
 # #### Exc (optional) -- Gain intuition
@@ -382,13 +382,13 @@ def Bayes_rule_G1(xf, Pf, y, R):
 # - (d) Why do you think $K$ is called a "gain"?
 
 # +
-# ws.show_answer('KG intuition')
+# show_answer('KG intuition')
 # -
 
 # **Exc -- BR with Gain:** Re-define `Bayes_rule_G1` so to as to use eqns. 9-11. Remember to re-run the cell. Verify that you get the same plots as before.
 
 # +
-# ws.show_answer('BR Kalman1 code')
+# show_answer('BR Kalman1 code')
 # -
 
 # #### Exc (optional) -- optimality of the mean

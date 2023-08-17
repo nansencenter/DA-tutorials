@@ -82,7 +82,7 @@ def plot_pdf(mu=0, sigma2=25):
 # *Hint: `**` is the exponentiation/power operator, but $e^x$ is also available as `np.exp(x)`*
 
 # +
-# ws.show_answer('pdf_G1')
+# show_answer('pdf_G1')
 # -
 
 # **Exc -- The uniform pdf**:
@@ -100,7 +100,7 @@ def pdf_U1(x, meanval, variance):
 
 
 # +
-# ws.show_answer('pdf_U1')
+# show_answer('pdf_U1')
 # -
 
 # **Exc -- parameter influence:** Play around with `mu` and `sigma2` (for both Gaussian and uniform distributions) to answer these questions:
@@ -129,7 +129,7 @@ def pdf_U1(x, meanval, variance):
 # *Hint: while the proof is convoluted, the result should be [pretty intuitive](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician).*
 
 # +
-# ws.show_answer('CVar in proba')
+# show_answer('CVar in proba')
 # -
 
 # #### Exc (optional) -- Integrals
@@ -146,7 +146,7 @@ def pdf_U1(x, meanval, variance):
 #    For more (visual) help, watch [3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
 
 # +
-# ws.show_answer('Gauss integrals')
+# show_answer('Gauss integrals')
 # -
 
 # ## The multivariate (i.e. vector) case
@@ -236,7 +236,7 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # **Exc (optional) -- Gaussian ubuiqity:** Why are we so fond of the Gaussian assumption?
 
 # +
-# ws.show_answer('Why Gaussian')
+# show_answer('Why Gaussian')
 # -
 
 # ### Next: [T3 - Bayesian inference](T3%20-%20Bayesian%20inference.ipynb)

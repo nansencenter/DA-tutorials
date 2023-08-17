@@ -15,7 +15,7 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-import resources.workspace as ws
+from resources import show_answer, cInterval
 
 # %matplotlib inline
 import numpy as np
@@ -141,7 +141,7 @@ plt.legend();
 # *Hint: similar to the [univariate case](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes), the main part lies in "completing the square" in $\x$.*
 
 # +
-# ws.show_answer('KF precision')
+# show_answer('KF precision')
 # -
 
 # ## Implementation & illustration
@@ -177,7 +177,7 @@ for i, (ax, truth, estim) in enumerate(zip(axs, truths.T, estims.T)):
     kk2 = kk.repeat(2)
     ax.plot(kk, truth, c='k')
     ax.plot(kk2, estim.T.flatten())
-    ax.fill_between(kk2, *ws.cInterval(estim.T, covars[..., i, i]), alpha=.2)
+    ax.fill_between(kk2, cInterval(estim.T, covars[..., i, i]), alpha=.2)
     if i == 0 and H[0, 0] == 1 and np.sum(np.abs(H)) == 1:
         ax.plot(kk, obsrvs, '.')
     ax.set_ylabel(f"$x_{i}$")
@@ -214,7 +214,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 #  * (e) How many times more MB or flops are needed if you double the resolution (in all 3 dimensions) ?
 
 # +
-# ws.show_answer('nD-covars are big')
+# show_answer('nD-covars are big')
 # -
 
 # This is one of the principal reasons why basic extended KF is infeasible for DA. In the following we derive the "gain" form of the KF analysis update, which should help at least a little bit.
@@ -233,7 +233,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # Prove the identity. *Hint: don't derive it, just prove it!*
 
 # +
-# ws.show_answer('Woodbury')
+# show_answer('Woodbury')
 # -
 
 # #### Exc (optional) -- Matrix shape compatibility
@@ -257,7 +257,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # \end{align}$$
 
 # +
-# ws.show_answer('inv(SPD + SPD)')
+# show_answer('inv(SPD + SPD)')
 # -
 
 # #### Exc (optional) -- Corollary 2
@@ -270,7 +270,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # \end{align}$$
 
 # +
-# ws.show_answer('Woodbury C2')
+# show_answer('Woodbury C2')
 # -
 
 # #### Exc -- The "Gain" form of the KF

@@ -87,7 +87,7 @@ ax.legend();
 # `gaussian_kde`  
 
 # +
-# ws.show_answer("KDE")
+# show_answer("KDE")
 # -
 
 # **Exc (optional) -- Rank histograms:** Suppose the histogram bars get normalized (divided) by the value of the pdf at their location.  
@@ -111,7 +111,7 @@ ax.legend();
 #  Hint: matrix-vector multiplication can be done using the symbol `@`.
 
 # +
-# ws.show_answer('Gaussian sampling', 'a')
+# show_answer('Gaussian sampling', 'a')
 
 # +
 xDim = 3
@@ -152,7 +152,7 @@ plt.matshow(B_bar, cmap="Blues"); plt.colorbar();
 # **Exc (optional) -- Sampling error:** How erroneous are the ensemble estimates on average?
 
 # +
-# ws.show_answer('Average sampling error')
+# show_answer('Average sampling error')
 # -
 
 # **Exc -- Moment estimation code:** Above, we used numpy's (`np`) functions to compute the sample-estimated mean and covariance matrix,
@@ -178,13 +178,13 @@ with np.printoptions(precision=1):
 
 
 # +
-# ws.show_answer('ensemble moments')
+# show_answer('ensemble moments')
 # -
 
 # **Exc -- An obsession?:** Why do we normalize by $(N-1)$ for the covariance computation?
 
 # +
-# ws.show_answer('Why (N-1)')
+# show_answer('Why (N-1)')
 # -
 
 # The following computes many $\barB$ and $1/\barB$ estimated with a given ensemble size.
@@ -211,7 +211,7 @@ def var_and_precision_estimates(N=4):
 # - What are the theoretical distributions of $\barB$ and $1/\barB$ ?
 
 # +
-# ws.show_answer('variance estimate statistics')
+# show_answer('variance estimate statistics')
 # -
 
 # **Exc -- Vectorization:** Like Matlab, Python (numpy) is quicker if you "vectorize" loops.
@@ -226,7 +226,7 @@ def var_and_precision_estimates(N=4):
 #  * (c). Code up this, latest, formula for $\barB$ and insert it in `estimate_mean_and_cov(E)`
 
 # +
-# ws.show_answer('ensemble moments vectorized')
+# show_answer('ensemble moments vectorized')
 # -
 
 # **Exc -- Moment estimation code, part 2:** The cross-covariance between two random vectors, $\bx$ and $\by$, is given by
@@ -247,7 +247,7 @@ def estimate_cross_cov(Ex, Ey):
     return Cxy
 
 # +
-# ws.show_answer('estimate cross')
+# show_answer('estimate cross')
 # -
 
 # **Exc (optional) -- Error notions:**
@@ -256,7 +256,7 @@ def estimate_cross_cov(Ex, Ey):
 #  * (c). Show `MSE = RMSE^2 = Bias^2 + Var`
 
 # +
-# ws.show_answer('errors')
+# show_answer('errors')
 # -
 
 # ### Next: [T9 - Writing your own EnKF](T9%20-%20Writing%20your%20own%20EnKF.ipynb)

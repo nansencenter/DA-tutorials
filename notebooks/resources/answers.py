@@ -10,7 +10,7 @@
 # >>> aaa.answers['name'] = ['MD', r'''
 # >>> ...
 # >>> ''']
-# >>> ws.show_answer('name')
+# >>> show_answer('name')
 
 from markdown import markdown as md2html # better than markdown2 ?
 from IPython.display import HTML, display
