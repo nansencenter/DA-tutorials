@@ -153,17 +153,17 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 #
 # #### Exc -- linear algebra of Gaussian random variables
 # - (a) Show the linearity of the expectation operator:
-#       $\Expect [ \DynMod  x + b ] = \DynMod \Expect[x] + b$, for some constant $b$.
+#   $\Expect [ \DynMod  x + b ] = \DynMod \Expect[x] + b$, for some constant $b$.
 # - (b) Thereby, show that $\mathbb{Var}[ \DynMod  x + b ] = \DynMod^2 \mathbb{Var} [x]$.
 # - (c) *Optional*: Now let $z = x + q$, with $x$ and $q$ independent and Guassian.
-#       Then the pdf of this sum of random variables, $p_z(z)$, is given by convolution
-#       (hopefully this makes intuitive sense, at least in the discrete case):
-#       $$ p_z(z) = \int p_x(x) \, p_q(z - x) \, d x \,.$$
-#       Show that $z$ is also Gaussian,
-#       whose mean and variance are the sum of the means and variances (respectively).  
-#       *Hint: you will need the result on [completing the square](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes),
-#       specifically the part that we did not make use of for Bayes' rule.  
-#       If you get stuck, you can also view the excellent [3blue1brown](https://www.youtube.com/watch?v=d_qvLDhkg00&t=266s&ab_channel=3Blue1Brown) on the topic.*
+#   Then the pdf of this sum of random variables, $p_z(z)$, is given by convolution
+#   (hopefully this makes intuitive sense, at least in the discrete case):
+#   $$ p_z(z) = \int p_x(x) \, p_q(z - x) \, d x \,.$$
+#   Show that $z$ is also Gaussian,
+#   whose mean and variance are the sum of the means and variances (respectively).  
+#   *Hint: you will need the result on [completing the square](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes),
+#   specifically the part that we did not make use of for Bayes' rule.  
+#   If you get stuck, you can also view the excellent [3blue1brown](https://www.youtube.com/watch?v=d_qvLDhkg00&t=266s&ab_channel=3Blue1Brown) on the topic.*
 
 # +
 # show_answer('Sum of Gaussians', 'a')
