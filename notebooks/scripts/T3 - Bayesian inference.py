@@ -41,9 +41,11 @@ plt.ion();
 # \end{align}$$
 # which we implemented and tested alongside the uniform distribution on a particular numerical grid:
 
-(pdf_G1, pdf_U1, grid1d, dx,
- pdf_GM, bounds, grid2d) = ws.import_from_nb("T2", ("pdf_G1", "pdf_U1", "grid1d", "dx",
-                                                    "pdf_GM", "bounds", "grid2d"))
+(pdf_G1, grid1d, dx,
+ pdf_GM, grid2d,
+ pdf_U1, bounds) = ws.import_from_nb("T2", ("pdf_G1", "grid1d", "dx",
+                                            "pdf_GM", "grid2d",
+                                            "pdf_U1", "bounds"))
 
 # This will now help illustrate:
 #
