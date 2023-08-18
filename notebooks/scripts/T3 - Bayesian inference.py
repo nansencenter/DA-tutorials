@@ -106,11 +106,11 @@ def Bayes_rule(prior_values, lklhd_values, dx):
 #
 # The code below shows Bayes' rule in action.
 
-@interact(y=(*bounds, 1), logR=(-9, 9), top=['y', 'logR'])
+@interact(y=(*bounds, 1), logR=(-3, 5, .5), top=['y', 'logR'])
 def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
     R = 4**logR
-    xf = 0
-    Pf = 1
+    xf = 10
+    Pf = 4**2
 
     # (See exercise below)
     def H(x):
@@ -131,7 +131,7 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 
     try:
         # (See exercise below)
-        xa, Pa = Bayes_rule_G1(xf, Pf, y, R)
+        xa, Pa = Bayes_rule_G1(xf, Pf, y, H(xf)/xf, R)
         label = f'Postr, parametric\nN(x | {xa:.4g}, {Pa:.4g})'
         postr_vals_G1 = pdf_G1(x, xa, Pa)
         plt.plot(x, postr_vals_G1, 'purple', label=label)
@@ -139,7 +139,7 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
         pass
 
     plt.ylim(0, 0.6)
-    plt.legend(loc="upper right", prop={'family': 'monospace'})
+    plt.legend(loc="upper left", prop={'family': 'monospace'})
     plt.show()
 
 
@@ -192,8 +192,9 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 # - (b) $\ObsMod(x) = 2 x$.
 #     *PS: The word "magnifying" might come to mind.*
 #     - Does the likelihood integrate (in $x$) to 1? Should we care (also see [above](#Exc-(optional)----BR-normalization)) ?
-# - (c) $\ObsMod(x) = x^2/4$. *PS: We're now doing "nonlinear regression"*.
+# - (c) $\ObsMod(x) = (x-5)^2$. *PS: We're now doing "nonlinear regression"*.
 #     - Is the resulting posterior Gaussian?
+#     - Explain why negative values of $y$ don't seemt be an impossibility (the likelihod is not uniformly $0$).
 # - (d) Try $\ObsMod(x) = |x|$.
 #     - Is the resulting posterior Gaussian?
 
@@ -300,9 +301,9 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
 # In response to this computational difficulty, we try to be smart and do something more analytical ("pen-and-paper"): we only compute the parameters (mean and (co)variance) of the posterior pdf.
 #
 # This is doable and quite simple in the Gaussian-Gaussian case, when $\ObsMod$ is linear (i.e. just a number):  
-# - With a prior $p(x) = \mathcal{N}(x \mid x\supf, P\supf)$ and  
-# - a likelihood $p(y|x) = \mathcal{N}(y \mid \ObsMod x,R)$,  
-# - the posterior is
+# - Given the prior of $p(x) = \mathcal{N}(x \mid x\supf, P\supf)$
+# - and a likelihood $p(y|x) = \mathcal{N}(y \mid \ObsMod x,R)$,  
+# - $\implies$ posterior
 # $
 # p(x|y)
 # = \mathcal{N}(x \mid x\supa, P\supa) \,,
@@ -314,19 +315,19 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
 #   x\supa &= P\supa (x\supf/P\supf + \ObsMod y/R) \, .  \tag{6}
 # \end{align}$$
 #
-# *There are a lot of sub/super-scripts. Please take a moment to somewhat digest the formulae.*
+# *There are a lot of sub/super-scripts -- a necessary evil for later purposes. Please take a moment to start to digest the formulae.*
 #
 # #### Exc -- GG Bayes
 # Consider the following identity, where $P\supa$ and $x\supa$ are given by eqns. (5) and (6).
-# $$\frac{(x-x\supf)^2}{P\supf} + \frac{(x-y)^2}{R} \quad
-# =\quad \frac{(x - x\supa)^2}{P\supa} + \frac{(y - x\supf)^2}{R + P\supf} \,, \tag{S2}$$
+# $$\frac{(x-x\supf)^2}{P\supf} + \frac{(\ObsMod x-y)^2}{R} \quad
+# =\quad \frac{(x - x\supa)^2}{P\supa} + \frac{(y - \ObsMod x\supf)^2}{R + P\supf} \,, \tag{S2}$$
 # Notice that the left hand side (LHS) is the sum of two squares with $x$,
 # but the RHS only contains one square with $x$.
-# - (a) Derive the first term of the RHS, i.e. eqns. (5) and (6).
+# - (a) Derive the first term of the RHS, i.e. eqns. (5) and (6).  
+#   *Hint: you can simplify the task by first "hiding" $\ObsMod$ by astutely multiplying by $1$ somewhere.*
 # - (b) *Optional*: Derive the full RHS (i.e. also the second term).
 # - (c) Derive $p(x|y) = \mathcal{N}(x \mid x\supa, P\supa)$ from eqns. (5) and (6)
-#   using part (a), Bayes' rule (BR2), and the Gaussian pdf (G1).  
-#   *Hint: you can temporarily "hide" $\ObsMod$ by astutely multiplying by $1$ somewhere.*
+#   using part (a), Bayes' rule (BR2), and the Gaussian pdf (G1).
 
 # +
 # show_answer('BR Gauss, a.k.a. completing the square', 'a')
@@ -345,17 +346,19 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
 # -
 
 # The following implements a Gaussian-Gaussian Bayes' rule (eqns 5 and 6).
-# *Note that its inputs and outputs are not discretised density values (as for `Bayes_rule()`), but simply 2 numbers: the mean and the variance.*
+# Note that its inputs and outputs are not discretised density values (as for `Bayes_rule()`), but simply 5 numbers: the means, variances and $\ObsMod$.
 
-def Bayes_rule_G1(xf, Pf, y, R):
-    Pa = 1 / (1/Pf + 1/R)
-    xa = Pa * (xf/Pf + y/R)
+def Bayes_rule_G1(xf, Pf, y, H, R):
+    Pa = 1 / (1/Pf + H**2/R)
+    xa = Pa * (xf/Pf + H*y/R)
     return xa, Pa
 
 
 # #### Exc -- Gaussianity as an approximation
-# Restore $y = x$ and re-run/execute the interactive animation code cell up above.
-# - (a) Under what conditions does `Bayes_rule_G1()` provide a good approximation to `Bayes_rule()`?
+# Re-run/execute the interactive animation code cell up above.
+# - (a) Under what conditions does `Bayes_rule_G1()` provide a good approximation to `Bayes_rule()`?  
+#   *Hint: Also note that the plotting code converts the generic function $\ObsMod$ to just a number,
+#   before feeding it to `Bayes_rule_G1`.*
 # - (b) *Optional*. Try using one or more of the other [distributions readily available in `scipy`](https://stackoverflow.com/questions/37559470/) in the above animation.
 #
 # **Exc -- Gain algebra:** Show that eqn. (5) can be written as
@@ -376,6 +379,7 @@ def Bayes_rule_G1(xf, Pf, y, R):
 # -
 
 # #### Exc (optional) -- Gain intuition
+# Let $\ObsMod = 1$ for simplicity.
 # - (a) Show that $0 < K < 1$ since $0 < P\supf, R$.
 # - (b) Show that $P\supa < P\supf, R$.
 # - (c) Show that $x\supa \in (x\supf, y)$.

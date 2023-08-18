@@ -508,9 +508,9 @@ and so is always between 0 and 1.
 ''']
 
 answers['BR Kalman1 code'] = ['MD', r'''
-    KG = Pf / (Pf + R)
-    Pa = (1 - KG) * Pf
-    xa = xf + KG * (y - xf)
+    KG = H*Pf / (H**2*Pf + R)
+    Pa = (1 - KG*H) * Pf
+    xa = xf + KG * (y - H*xf)
 ''']
 
 answers['Posterior cov'] =  ['MD', r"""
