@@ -59,3 +59,8 @@ This is a bit snappier than running them online.
 ## Developer notes
 
 *Please don't hesitate to submit issues or pull requests!*
+
+#### Why `scripts/` dir?
+
+- Easier to read git diffs
+- Enable importing from notebook (script mirrors)

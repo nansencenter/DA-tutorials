@@ -300,7 +300,6 @@ def EnKF_animation():
     return VBox([slider, image])
 
 
-# TODO: use pre-commit setup suggested by jupytext to ensure nb's are synced?
 def import_from_nb(name: str, objs: list):
     """Import `objs` from `notebooks/name*.py` (1st match).
 
