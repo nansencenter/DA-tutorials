@@ -95,7 +95,7 @@ def integrate(dxdt, initial_states, final_time, **params):
 #
 # where the "dot" represents the time derivative, $\frac{d}{dt}$. The state vector is $\x = (x,y,z)$, and the parameters are typically set to $\sigma = 10, \beta=8/3, \rho=28$. The ODEs can be coded as follows (yes, Python supports Unicode, but it might be cumbersome to type out!)
 
-def dxdt63(state, t0, σ, β, ρ):
+def dxdt63(state, time, σ, β, ρ):
     x, y, z = state
     return np.asarray([σ * (y - x),
                        x * (ρ - z) - y,
@@ -178,20 +178,19 @@ def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0
 # Do you think the samples behind the histograms are drawn from the same distribution?
 # In other words, is the Lorenz system ergodic?
 
-# +
-fig, axs = plt.subplots(ncols=3, sharey=True, figsize=(9, 3))
-def hist(ax, sample, lbl):
-    ax.hist(sample, density=1, bins=20, label=lbl, alpha=.5)
+@interact()
+def histograms():
+    fig, axs = plt.subplots(ncols=3, sharey=True, figsize=(9, 3))
+    def hist(ax, sample, lbl):
+        ax.hist(sample, density=1, bins=20, label=lbl, alpha=.5)
 
-trajectories63 = store[0]
-for i, (ax, lbl) in enumerate(zip(axs, "xyz")):
-    hist(ax, trajectories63[:, -1, i],            "at final time")
-    hist(ax, trajectories63[-1, ::int(.2/dt), i], "of final member")
-    ax.set_title(f"Component {lbl}")
-plt.legend();
+    trajectories63 = store[0]
+    for i, (ax, lbl) in enumerate(zip(axs, "xyz")):
+        hist(ax, trajectories63[:, -1, i],            "at final time")
+        hist(ax, trajectories63[-1, ::int(.2/dt), i], "of final member")
+        ax.set_title(f"Component {lbl}")
+    plt.legend();
 
-
-# -
 
 # The long-run distribution of a system may be called its **climatology**.
 # A somewhat rudimentary weather forecasting initialisation (i.e. DA) technique,
@@ -232,13 +231,11 @@ plt.legend();
 # The model is animated below.
 
 # +
-def s(x, n):
-    return np.roll(x, -n)
+def s(vector, n):
+    return np.roll(vector, -n)
 
-def dxdt96(x, t, Force):
+def dxdt96(x, time, Force):
     return (s(x, 1) - s(x, -2)) * s(x, -1) - x + Force
-
-bounds = -10, 20
 # -
 
 store = ["placeholder"]
@@ -252,9 +249,8 @@ def plot_lorenz96(xDim=40,       N=2,      Force=8,       ε=0.01,         Time=
 
     plt.figure(figsize=(7, 4))
     plt.plot(np.arange(xDim), trajectories[:, -1].T)
-    plt.ylim(*bounds)
+    plt.ylim(-10, 20)
     plt.show()
-
 
 # #### Exc -- Bifurcation hunting 96
 # Investigate by moving the sliders (but keep `xDim=40`): Under which settings of the force `F`
@@ -266,19 +262,20 @@ def plot_lorenz96(xDim=40,       N=2,      Force=8,       ε=0.01,         Time=
 #
 # *PS: another way to visualise spatially 1D systems (or cross-sections) over time is the [Hovmöller diagram](https://en.wikipedia.org/wiki/Hovm%C3%B6ller_diagram), here represented for 1 realisation of the simulations.*
 
-plt.contourf(store[0][0], cmap="viridis", vmin=bounds[0], vmax=bounds[1])
-plt.colorbar();
+@interact()
+def Hovmoller():
+    plt.contourf(store[0][0], cmap="viridis", vmin=bounds[0], vmax=bounds[1])
+    plt.colorbar();
+    plt.show()
+
 
 # +
 # show_answer('Bifurcations96', 'a')
 # -
 
-# #### Exc -- Doubling time
-# Maximise `N` (for a large sample), minimise `ε` (to approach linear conditions) and set `Time=1` (a reasonable first guess). Compute a rough estimate of the doubling time in the cell below (`ens` holds the `N` final states).
+# #### Exc (optional) -- Doubling time
+# Maximise `N` (for a large sample), minimise `ε` (to approach linear conditions) and set `Time=1` (a reasonable first guess). Compute a rough estimate of the doubling time in the cell below from the data in `store[0]`, which holds the trajectories, and has shape `(N, len(times))`.
 # *Hint: The theory for these questions will be described in further detail in the following section.*
-
-trajectories96 = store[0]
-ens = trajectories96[:, -1]
 
 # +
 # show_answer("doubling time")
@@ -296,22 +293,19 @@ ens = trajectories96[:, -1]
 
 # +
 from numpy import cos, sin, pi
-import dapper.mods as modelling
-from dapper.mods.DoublePendulum import L1, L2, step, x0
+from dapper.mods.DoublePendulum import L1, L2, x0, dxdt
 def x012(x): return (0 , L1*sin(x[0]) , L1*sin(x[0]) + L2*sin(x[2]))
 def y012(x): return (0, -L1*cos(x[0]), -L1*cos(x[0]) - L2*cos(x[2]))
 
 x0 = [.9*pi, 0, 0, 0] # Angular pos1, vel1, pos2, vel2
 initial_states = x0 + 0.01*np.random.randn(20, 4)
-simulator = modelling.with_recursion(step)
-nTime = 2000
-EE = simulator(initial_states, k=nTime, t0=0, dt=dt)
+trajectories, times = integrate(lambda x, t: dxdt(x), initial_states, 10)
 
-@interact(k=(0, nTime, 10), N=(1, len(initial_states)))
-def plot_pendulum2(k=0, N=2):
+@interact(k=(0, len(times)-1, 4), N=(1, len(initial_states)))
+def plot_pendulum2(k=1, N=2):
     fig, ax = plt.subplots()
     ax.set(xlim=(-2, 2), ylim=(-2, 2), aspect="equal")
-    for x in EE[k, :N]:
+    for x in trajectories[:N, k]:
         ax.plot(x012(x), y012(x), '-o')
     plt.show()
 # -

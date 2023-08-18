@@ -48,6 +48,8 @@ from IPython.display import display
 def interact(top=None, right=None, bottom=None, left=None, **kwargs):
     """Like `ipywidgets.interact(**kwargs)` but with layout shortcuts.
 
+    Also provides `disable` function to help importing notebooks.
+
     Set `bottom` or any other `side` argument to `True` to place all controls there,
     relative to the central output (typically figure).
     Otherwise, use a list (or comma-separated string) to select which controls to place there.
