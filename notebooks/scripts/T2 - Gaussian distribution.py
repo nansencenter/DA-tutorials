@@ -23,16 +23,15 @@ import scipy as sp
 import matplotlib.pyplot as plt
 plt.ion();
 
-# # T2 - The Gaussian (Normal) distribution
 # Before discussing sequential, time-dependent inference,
 # we need to know how to estimate unknowns based on a single data/observations (vector).
 # But before discussing *Bayes' rule*,
 # we should review the most useful of probability distributions.
+# # T2 - The Gaussian (Normal) distribution
 # $
 # % ######################################## Loading TeX (MathJax)... Please wait ########################################
 # \newcommand{\Reals}{\mathbb{R}} \newcommand{\Expect}[0]{\mathbb{E}} \newcommand{\NormDist}{\mathcal{N}} \newcommand{\DynMod}[0]{\mathscr{M}} \newcommand{\ObsMod}[0]{\mathscr{H}} \newcommand{\mat}[1]{{\mathbf{{#1}}}} \newcommand{\bvec}[1]{{\mathbf{#1}}} \newcommand{\trsign}{{\mathsf{T}}} \newcommand{\tr}{^{\trsign}} \newcommand{\ceq}[0]{\mathrel{≔}} \newcommand{\xDim}[0]{D} \newcommand{\supa}[0]{^\text{a}} \newcommand{\supf}[0]{^\text{f}} \newcommand{\I}[0]{\mat{I}} \newcommand{\K}[0]{\mat{K}} \newcommand{\bP}[0]{\mat{P}} \newcommand{\bH}[0]{\mat{H}} \newcommand{\bF}[0]{\mat{F}} \newcommand{\R}[0]{\mat{R}} \newcommand{\Q}[0]{\mat{Q}} \newcommand{\B}[0]{\mat{B}} \newcommand{\C}[0]{\mat{C}} \newcommand{\Ri}[0]{\R^{-1}} \newcommand{\Bi}[0]{\B^{-1}} \newcommand{\X}[0]{\mat{X}} \newcommand{\A}[0]{\mat{A}} \newcommand{\Y}[0]{\mat{Y}} \newcommand{\E}[0]{\mat{E}} \newcommand{\U}[0]{\mat{U}} \newcommand{\V}[0]{\mat{V}} \newcommand{\x}[0]{\bvec{x}} \newcommand{\y}[0]{\bvec{y}} \newcommand{\z}[0]{\bvec{z}} \newcommand{\q}[0]{\bvec{q}} \newcommand{\br}[0]{\bvec{r}} \newcommand{\bb}[0]{\bvec{b}} \newcommand{\bx}[0]{\bvec{\bar{x}}} \newcommand{\by}[0]{\bvec{\bar{y}}} \newcommand{\barB}[0]{\mat{\bar{B}}} \newcommand{\barP}[0]{\mat{\bar{P}}} \newcommand{\barC}[0]{\mat{\bar{C}}} \newcommand{\barK}[0]{\mat{\bar{K}}} \newcommand{\D}[0]{\mat{D}} \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}} \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}} \newcommand{\ones}[0]{\bvec{1}} \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 # $
-
 # Computers generally represent functions *numerically* by their values on a grid
 # of points (nodes), an approach called ***discretisation***.
 # Don't hesitate to change the grid resolution as you go along!
@@ -45,15 +44,14 @@ dx = grid1d[1] - grid1d[0]      # grid spacing
 
 # ## The univariate (a.k.a. 1-dimensional, scalar) case
 # Consider the Gaussian random variable $x \sim \mathcal{N}(\mu, \sigma^2)$.  
-# Equivalently, we may also write
-# $\begin{align}
+# Its probability density function (**pdf**),
+# $
 # p(x) = \mathcal{N}(x \mid \mu, \sigma^2)
-# \end{align}$
-# for its probability density function (**pdf**), which is given by
+# $ for $x \in (-\infty, +\infty)$,
+# is given by
 # $$\begin{align}
-# \mathcal{N}(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \, , \tag{G1}
+# \mathcal{N}(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \,. \tag{G1}
 # \end{align}$$
-# for $x \in (-\infty, +\infty)$.
 #
 # Run the cell below to define a function to compute the pdf (G1) using the `scipy` library.
 
@@ -65,20 +63,26 @@ def pdf_G1(x, mu, sigma2):
 
 # The following code plots the Gaussian pdf.
 
-k, remembered = 10, []
-@interact(mu=bounds, sigma2=(1, 100))
-def plot_pdf(mu=0, sigma2=25):
+hist = []
+@interact(mu=bounds, sigma1=(.1, 10, 1))
+def plot_pdf(mu=0, sigma1=5):
     plt.figure(figsize=(6, 2))
-    x = grid1d
-    remembered.insert(0, pdf_G1(x, mu, sigma2))
-    for i, density_values in enumerate(remembered[:k]):
-        plt.plot(x, density_values, c=plt.get_cmap('jet')(i/k))
+    colors = plt.get_cmap('hsv')([(k-len(hist))%8/9 for k in range(9)])
     plt.xlim(*bounds)
     plt.ylim(0, .2)
+    hist.insert(0, pdf_G1(grid1d, mu, sigma1**2))
+    for density_values, color in zip(hist, colors):
+        plt.plot(grid1d, density_values, c=color)
     plt.show()
 
+# #### Exc -- parameter influence
+# Play around with `mu` and `sigma2` to answer these questions:
+#  * How does the pdf curve change when `mu` changes?
+#  * How does the pdf curve change when you increase `sigma2`?
+#  * In a few words, describe the shape of the Gaussian pdf curve.
+#    Does this ring a bell? *Hint: it should be clear as a bell!*
 
-# **Exc -- Implementation:** Change the definition of `pdf_G1` so as to not use `scipy`, but your own implementation instead (using `numpy` only). Re-run all of the above cells and check that you get the same plots as before.
+# **Exc -- Implementation:** Change the implementation of `pdf_G1` so as to not use `scipy`, but your own code (using `numpy` only). Re-run all of the above cells and check that you get the same plots as before.
 # *Hint: `**` is the exponentiation/power operator, but $e^x$ is also available as `np.exp(x)`*
 
 # +
@@ -86,27 +90,24 @@ def plot_pdf(mu=0, sigma2=25):
 # -
 
 # **Exc -- The uniform pdf**:
-# Uncomment and fill in the dots in `pdf_U1` below to do your own implementation of the [uniform](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous))/flat/box pdf. Then replace `_G1` by `_U1` in the above interactive plot.
+# Below is the pdf of the [uniform/flat/box distribution](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)).
+# Replace `_G1` by `_U1` in the above interactive plot. Repeat the previous exercises.
 
-def pdf_U1(x, meanval, variance):
-    lower = meanval - np.sqrt(3*variance)
-    upper = meanval + np.sqrt(3*variance)
+def pdf_U1(x, mu, sigma2):
+    a = mu - np.sqrt(3*sigma2)
+    b = mu + np.sqrt(3*sigma2)
+    pdf_values = sp.stats.uniform(loc=a, scale=(b-a)).pdf(x)
+    # Your own implementation:
     # height = ...
     # pdf_values = height * np.ones_like(x)
-    # pdf_values[x<lower] = 0
-    # pdf_values[x>upper] = 0
-    pdf_values = sp.stats.uniform(loc=lower, scale=(upper-lower)).pdf(x)
+    # pdf_values[x<a] = ...
+    # pdf_values[x>b] = ...
     return pdf_values
 
 
 # +
 # show_answer('pdf_U1')
 # -
-
-# **Exc -- parameter influence:** Play around with `mu` and `sigma2` (for both Gaussian and uniform distributions) to answer these questions:
-#  * How does the pdf curve change when `mu` changes?
-#  * How does the pdf curve change when you increase `sigma2`?
-#  * In a few words, describe the shape of the Gaussian pdf curve. Does this ring a bell for you? *Hint: it should be clear as a bell!*
 
 # **Exc -- Derivatives:** Recall $p(x) = \mathcal{N}(x \mid \mu, \sigma^2)$ from eqn (G1).  
 # Use pen, paper, and calculus to answer the following questions,  

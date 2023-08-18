@@ -162,10 +162,10 @@ answers['pdf_G1'] = ['MD', r'''
 ''']
 
 answers['pdf_U1'] = ['MD', r'''
-    height = 1/(upper - lower)
+    height = 1/(b - a)
     pdf_values = height * np.ones_like(x)
-    pdf_values[x<lower] = 0
-    pdf_values[x>upper] = 0
+    pdf_values[x<a] = 0
+    pdf_values[x>b] = 0
     return pdf_values
 ''']
 
