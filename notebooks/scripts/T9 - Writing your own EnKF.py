@@ -53,7 +53,7 @@ plt.ion();
 # The forecast step of the EnKF consists of a Monte Carlo simulation
 # of the forecast dynamics for each $\x_n\supa$:
 # $$
-# 	\forall n, \quad \x\supf_n = \DynMod(\x_n\supa) + \q_n  \, , \\
+# 	\forall n, \quad \x\supf_n = \DynMod(\x_n\supa) + \q_n  \,, \\
 # $$
 # where $\{\q_n\}_{n=1..N}$ are sampled iid. from $\NormDist(\bvec{0},\Q)$,
 # or whatever noise model is assumed,  
@@ -67,9 +67,9 @@ plt.ion();
 # of the ensemble is given by:
 # $$\begin{align}
 # 	\forall n, \quad \x\supa_n &= \x_n\supf + \barK \left\{\y - \br_n - \ObsMod(\x_n\supf) \right\}
-# 	\, , \\
+# 	\,, \\
 # 	\text{or,}\quad
-# 	\E\supa &=  \E\supf  + \barK \left\{\y\ones\tr - \Dobs - \ObsMod(\E\supf)  \right\} \, ,
+# 	\E\supa &=  \E\supf  + \barK \left\{\y\ones\tr - \Dobs - \ObsMod(\E\supf)  \right\} \,,
 #     \tag{4}
 # \end{align}
 # $$
@@ -84,7 +84,7 @@ plt.ion();
 # in the formula for $\K$, namely eqn. (K1) of [T5](T5%20-%20Kalman%20filter%20(multivariate).ipynb).
 # Using the estimators from [T8](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb) yields
 # $$\begin{align}
-# 	\barK &= \X \Y\tr ( \Y \Y\tr + (N{-}1) \R )^{-1} \, , \tag{5a}
+# 	\barK &= \X \Y\tr ( \Y \Y\tr + (N{-}1) \R )^{-1} \,, \tag{5a}
 # \end{align}
 # $$
 # where $\Y \in \Reals^{P \times N}$
@@ -92,7 +92,7 @@ plt.ion();
 # $\Y \ceq
 # \begin{bmatrix}
 # 		\y_1 -\by, & \ldots & \y_n -\by, & \ldots & \y_N -\by
-# 	\end{bmatrix} \, ,$ where $\y_n = \ObsMod(\x_n\supf)$.
+# 	\end{bmatrix} \,,$ where $\y_n = \ObsMod(\x_n\supf)$.
 #
 # The EnKF is summarized in the animation below.
 
@@ -101,7 +101,7 @@ EnKF_animation()
 # #### Exc -- Woodbury for the ensemble subspace
 # (a) Use the Woodbury identity (C2) of [T5](T5%20-%20Kalman%20filter%20(multivariate).ipynb) to show that eqn. (5) can also be written
 # $$\begin{align}
-# 	\barK &= \X ( \Y\tr \Ri \Y + (N{-}1)\I_N  )^{-1} \Y\tr \Ri \, . \tag{5b}
+# 	\barK &= \X ( \Y\tr \Ri \Y + (N{-}1)\I_N  )^{-1} \Y\tr \Ri \,. \tag{5b}
 # \end{align}
 # $$
 # (b) What is the potential benefit?
@@ -120,7 +120,7 @@ EnKF_animation()
 #
 # (a) Show that, in case $\ObsMod$ is linear (the matrix $\bH$),
 # $$\begin{align}
-# 	\Expect \bx\supa &=  \bx\supf  + \barK \left\{\y\ones\tr - \bH\bx\supf  \right\} \, , \tag{6}
+# 	\Expect \bx\supa &=  \bx\supf  + \barK \left\{\y\ones\tr - \bH\bx\supf  \right\} \,, \tag{6}
 # \end{align}
 # $$
 # where the expectation, $\Expect$, is taken with respect to $\Dobs$ only (i.e. not the sampling of the forecast ensemble, $\E\supf$ itself).
@@ -134,22 +134,22 @@ EnKF_animation()
 # #### Exc (optional) -- EnKF nobias (b)
 # Consider the ensemble covariance matrices:
 # $$\begin{align}
-# \barB &= \frac{1}{N-1} \X{\X}\tr \, , \tag{7a} \\\
-# \barP &= \frac{1}{N-1} \X\supa{\X\supa}\tr \, . \tag{7b}
+# \barB &= \frac{1}{N-1} \X{\X}\tr \,, \tag{7a} \\\
+# \barP &= \frac{1}{N-1} \X\supa{\X\supa}\tr \,. \tag{7b}
 # \end{align}$$
 #
 # Now, denote the centralized observation perturbations:
 # $$\begin{align}
 # \D &= \Dobs - \bar{\br}\ones\tr \\\
-# &= \Dobs\AN \, . \tag{8}
+# &= \Dobs\AN \,. \tag{8}
 # \end{align}$$
 # Note that $\D \ones = \bvec{0}$ and, with expectation over $\Dobs$,
 # $$
 # \begin{align}
 # 	\label{eqn:R_sample_cov_of_D}
-# 	\frac{1}{N-1}\D \D\tr = \R \, , \tag{9a} \\\
+# 	\frac{1}{N-1}\D \D\tr = \R \,, \tag{9a} \\\
 # 	\label{eqn:zero_AD_cov}
-# 	\X \D\tr = \bvec{0} \, . \tag{9b}
+# 	\X \D\tr = \bvec{0} \,. \tag{9b}
 # \end{align}
 # $$
 # Assuming eqns (8) and (9) hold true, show that
@@ -324,7 +324,7 @@ plt.xlabel("Time (t)");
 
 # -
 
-# **Exc -- Diagnostics:** The visuals of the plots are nice. But it would be good to have a summary statistic of the accuracy performance of the filter. Make a function `average_rmse(truths, means)` that computes $ \frac{1}{K+1} \sum_{k=0}^K \sqrt{\frac{1}{\xDim} \| \bx_k - \x_k \|_2^2} \, .$
+# **Exc -- Diagnostics:** The visuals of the plots are nice. But it would be good to have a summary statistic of the accuracy performance of the filter. Make a function `average_rmse(truths, means)` that computes $ \frac{1}{K+1} \sum_{k=0}^K \sqrt{\frac{1}{\xDim} \| \bx_k - \x_k \|_2^2} \,.$
 
 # +
 def average_rmse(truth, estimates):

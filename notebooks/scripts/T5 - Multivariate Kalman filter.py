@@ -46,18 +46,18 @@ plt.ion();
 # - Recall that $\{x_k\}$ became a (noisy) constant (horizontal) line when $\DynMod = 1$,
 #   which makes sense since then $\beta = 0$.
 # - Similarly, a straight (sloping) line would result from
-#   $\frac{d^2 x}{d t^2} = 0 \, .$
+#   $\frac{d^2 x}{d t^2} = 0 \,.$
 #
 # To make matters more interesting we're now going to consider the $\xDim$-th order model:
-#   $\displaystyle \frac{d^{\xDim} x}{d t^\xDim} = 0 \, .$
+#   $\displaystyle \frac{d^{\xDim} x}{d t^\xDim} = 0 \,.$
 # - This can be rewritten as a 1-st order *vector* (i.e. coupled system of) ODE:
-#   $\frac{d x_i}{d t} = x_{i+1} \, ,$ and $x_{{\xDim}+1} = 0$   
+#   $\frac{d x_i}{d t} = x_{i+1} \,,$ and $x_{{\xDim}+1} = 0$   
 #   where the subscript $i$ is now instead the *index* of the state vector element.
 # - Again we include noise, $\frac{d q_i}{d t}$,
 #   and damping (exponential decay), $- \beta x_i$, to each component.
 # - In total, $ \frac{d x_i}{d t} = x_{i+1} - \beta x_i + \frac{d q_i}{d t} \, .$
 # - Discretizing with time step $\Delta t=1$ produces
-#   $ x_{k+1, i} = x_{k, i+1} + 0.9 x_{k, i} + q_{k, i}\, ,$  
+#   $ x_{k+1, i} = x_{k, i+1} + 0.9 x_{k, i} + q_{k, i}\,,$  
 #   i.e. $\beta = 0.1$ or $\beta = -\log(0.9)$ depending on which scheme was used.
 #
 # Thus, $\x_{k+1} = \DynMod \x_k + \q_k$, with $\DynMod$ the matrix specified below.
@@ -115,9 +115,9 @@ plt.legend();
 # The only difference is that $\DynMod$ is now a *matrix*, as well as the use of the transpose ${}^T$ in the covariance equation:
 # $\begin{align}
 # \x\supf_k
-# &= \DynMod_{k-1} \x\supa_{k-1} \, , \tag{1a} \\\
+# &= \DynMod_{k-1} \x\supa_{k-1} \,, \tag{1a} \\\
 # \bP\supf_k
-# &= \DynMod_{k-1} \bP\supa_{k-1} \DynMod_{k-1}^T + \Q_{k-1} \, . \tag{1b}
+# &= \DynMod_{k-1} \bP\supa_{k-1} \DynMod_{k-1}^T + \Q_{k-1} \,. \tag{1b}
 # \end{align}$
 #
 # ## The KF analysis step
@@ -128,12 +128,12 @@ plt.legend();
 # \begin{align}
 # p(\x|\y)
 # &= \NormDist(\x \mid \x\supa, \bP\supa) \tag{4}
-# \, ,
+# \,,
 # \end{align}
 # where the posterior/analysis mean (vector) and covariance (matrix) are given by:
 # \begin{align}
-# 			\bP\supa &= \big(\ObsMod\tr \Ri \ObsMod + (\bP\supf)^{-1}\big)^{-1} \, , \tag{5} \\
-# 			\x\supa &= \bP\supa\left[\ObsMod\tr \Ri \y + (\bP\supf)^{-1} \x\supf\right] \tag{6} \, ,
+# 			\bP\supa &= \big(\ObsMod\tr \Ri \ObsMod + (\bP\supf)^{-1}\big)^{-1} \,, \tag{5} \\
+# 			\x\supa &= \bP\supa\left[\ObsMod\tr \Ri \y + (\bP\supf)^{-1} \x\supf\right] \tag{6} \,,
 # \end{align}
 # *PS: all of the above could be subscripted by a single time index ($k$), but that seems unnecessary.*
 #
@@ -224,7 +224,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # $$\begin{align}
 #     \bP = \left( \B^{-1} + \V\tr \R^{-1} \U \right)^{-1}
 #     =
-#     \B - \B \V\tr \left( \R + \U \B \V\tr \right)^{-1} \U \B \, ,
+#     \B - \B \V\tr \left( \R + \U \B \V\tr \right)^{-1} \U \B \,,
 #     \tag{W}
 # \end{align}$$
 # which holds for any (suitably shaped matrices)
@@ -253,7 +253,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 #  	\left(\ObsMod\tr \R^{-1} \ObsMod + \B^{-1}\right)^{-1}
 #     &=
 #     \B - \B \ObsMod\tr \left( \R + \ObsMod \B \ObsMod\tr \right)^{-1} \ObsMod \B \tag{C1}
-#     \, .
+#     \,.
 # \end{align}$$
 
 # +
@@ -278,16 +278,16 @@ def plot_correlation_matrix(k=1, analysis=True):
 #
 # Define the Kalman gain by:
 #  $$\begin{align}
-#     \K &= \bP\supf \ObsMod\tr \big(\ObsMod \bP\supf \ObsMod\tr + \R\big)^{-1} \, . \tag{K1}
+#     \K &= \bP\supf \ObsMod\tr \big(\ObsMod \bP\supf \ObsMod\tr + \R\big)^{-1} \,. \tag{K1}
 # \end{align}$$
 #  * (a) Apply (C1) to eqn (5) to obtain the Kalman gain form of analysis/posterior covariance matrix:
 # $$\begin{align}
-#     \bP\supa &= [\I_{\xDim} - \K \ObsMod]\bP\supf \, . \tag{8}
+#     \bP\supa &= [\I_{\xDim} - \K \ObsMod]\bP\supf \,. \tag{8}
 # \end{align}$$
 #
 # * (b) Apply (C2)  to (5) to obtain the identity
 # $$\begin{align}
-#     \K &= \bP\supa \ObsMod\tr \R^{-1}  \, . \tag{K2}
+#     \K &= \bP\supa \ObsMod\tr \R^{-1}  \,. \tag{K2}
 # \end{align}$$
 #
 # * (c) Show that $\bP\supa (\bP\supf)^{-1} = [\I_{\xDim} - \K \ObsMod]$.

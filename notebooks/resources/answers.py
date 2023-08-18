@@ -472,7 +472,7 @@ p(x|y)
 &=       N(x \mid x\supf, P\supf) \, N(y \mid x, R) \\\
 &\propto \exp \Big( \frac{-1}{2} \Big( (x-x\supf)^2/P\supf + (x-y)^2/R \Big) \Big) \\\
 &\propto \exp \Big( \frac{-1}{2} \Big( (1/P\supf + 1/R)x^2 - 2(x\supf/P\supf + y/R)x \Big) \Big) \\\
-&\propto \exp \Big( \frac{-1}{2} \Big( x - \frac{x\supf/P\supf + y/R}{1/P\supf + 1/R} \Big)^2 \cdot (1/P\supf + 1/R) \Big) \, .
+&\propto \exp \Big( \frac{-1}{2} \Big( x - \frac{x\supf/P\supf + y/R}{1/P\supf + 1/R} \Big)^2 \cdot (1/P\supf + 1/R) \Big) \,.
 \end{align}
 
 Identifying the last line with $N(x \mid x\supa, P\supa)$ yields eqns (5) and (6).
@@ -579,13 +579,13 @@ answers['RV sums'] = ['MD', r'''
 By the [linearity of the expected value](https://en.wikipedia.org/wiki/Expected_value#Linearity),
 and that of (Dyn),
 the mean parameter becomes:
-$$ \\Expect(\\DynMod x+q) =  \\DynMod \\Expect(x) + \\Expect(q) = \\DynMod x\supa \, . $$
+$$ \\Expect(\\DynMod x+q) =  \\DynMod \\Expect(x) + \\Expect(q) = \\DynMod x\supa \,. $$
 
 Moreover, by independence,
 $ \\text{Var}(\\DynMod x+q) = \\text{Var}(\\DynMod x) + \\text{Var}(q) $,
 and so
 the variance parameter becomes:
-$$ \\text{Var}(\\DynMod x+q) = \\DynMod^2 P\supa + Q \, .  $$
+$$ \\text{Var}(\\DynMod x+q) = \\DynMod^2 P\supa + Q \,.  $$
 ''']
 
 answers['LinReg deriv a'] = ['MD', r'''
@@ -619,7 +619,7 @@ P\supa_{K+1} &= 1\Big/\big(1/R + \textstyle (\frac{K}{K+1})^2 / P\supa_K\big)
 &= R(K+1)^2\Big/\big((K+1)^2 + \sum_{k=1}^K k^2\big)
 \\\
 &= R(K+1)^2\Big/\sum_{k=1}^{K+1} k^2
-\, ,
+\,,
 \end{align}
 $$
 which concludes the induction.
@@ -758,7 +758,7 @@ $$\begin{align}
 - 2 \log p(\x|\y) =
 \|\ObsMod \x-\y \|\_\R^2 + \| \x - \x\supf \|\_{\bP\supf}^2
  + \text{const}_1
-\, .
+\,.
 \end{align}$$
 Expanding, and gathering terms of equal powers in $\x$ yields:
 $$\begin{align}
@@ -1080,7 +1080,7 @@ answers['variance estimate statistics'] = ['MD', r'''
 
 answers['ensemble moments vectorized'] = ['MD', r'''
  * (a). Note that $\E \ones / N = \bx$.  
- And that $\bx \ones^T = \begin{bmatrix} \bx, & \ldots & \bx \end{bmatrix} \, .$  
+ And that $\bx \ones^T = \begin{bmatrix} \bx, & \ldots & \bx \end{bmatrix} \,.$  
  Use this to write out $\E \AN$.
  * (b). Show that element $(i, j)$ of the matrix product $\X^{} \Y^T$  
  equals element $(i, j)$ of the sum of the outer product of their columns:
@@ -1159,7 +1159,7 @@ $$\begin{align}
 	\X\supa
 	&= \E\supa \AN \\\
 	%&= {\X} + \barK\left(\y \ones\tr - \D - \bH \E\supf\right) \AN \\\
-	&= {\X} - \barK \left[\D + \bH \X\right] \, , \tag{A1}
+	&= {\X} - \barK \left[\D + \bH \X\right] \,, \tag{A1}
 \end{align}$$
 where the definition of $\D$ has been used.
 
@@ -1191,8 +1191,8 @@ $$\begin{align}
 	\barP
 	&=  \barB  + \barK \bH \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr - \barK \bH \barB  + \barK \R \barK{}\tr \tag{A4} \\\
 	&=  (\I_{\\xDim} - \barK \bH) \barB + \barK(\bH \barB \bH\tr + \R)\barK{}\tr -  \barB \bH\tr \barK{}\tr \tag{regrouped.} \\\
-	&=  (\I_{\\xDim} - \barK \bH) \barB + \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr \, , \tag{inserted eqn. (5a).} \\\
-    &=  (\I_{\\xDim} - \barK \bH) \barB \, . \tag{10}
+	&=  (\I_{\\xDim} - \barK \bH) \barB + \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr \,, \tag{inserted eqn. (5a).} \\\
+    &=  (\I_{\\xDim} - \barK \bH) \barB \,. \tag{10}
     \end{align}$$
 Thus the covariance of the EnKF update "conforms" to the KF covariance update.
 
@@ -1209,7 +1209,7 @@ answers["EnKF_without_perturbations"] = ['MD', r'''
 If $\Dobs = \bvec{0}$, then eqn. (A3) from the previous answer becomes
 $$\begin{align}
     \barP
-	&= (\I_{\\xDim}-\barK \bH)\barB(\I_{\\xDim}-\bH\tr \barK{}\tr) \tag{A5} \, ,
+	&= (\I_{\\xDim}-\barK \bH)\barB(\I_{\\xDim}-\bH\tr \barK{}\tr) \tag{A5} \,,
 \end{align}$$
 which shows that the updated covariance would be too small.
 ''']

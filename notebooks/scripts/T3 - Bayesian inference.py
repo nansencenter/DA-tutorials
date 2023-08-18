@@ -56,13 +56,13 @@ plt.ion();
 # For *continuous* "random variables", $x$ and $y$, it reads:
 #
 # $$\begin{align}
-# p(x|y) &= \frac{p(x) \, p(y|x)}{p(y)} \, , \tag{BR} \\[1em]
+# p(x|y) &= \frac{p(x) \, p(y|x)}{p(y)} \,, \tag{BR} \\[1em]
 # \text{i.e.} \qquad \texttt{posterior}\,\text{[pdf of $x$ given $y$]}
 # \; &= \;
 # \frac{\texttt{prior}\,\text{[pdf of $x$]}
 # \; \times \;
 # \texttt{likelihood}\,\text{[pdf of $y$ given $x$]}}
-# {\texttt{normalisation}\,\text{[pdf of $y$]}} \, ,
+# {\texttt{normalisation}\,\text{[pdf of $y$]}} \,,
 # \end{align}
 # $$
 
@@ -98,7 +98,7 @@ def Bayes_rule(prior_values, lklhd_values, dx):
 # In fact, since $p(y)$ is thusly implicitly known,
 # we often don't bother to write it down, simplifying Bayes' rule (eqn. BR) to
 # $$\begin{align}
-# p(x|y) \propto p(x) \, p(y|x) \, .  \tag{BR2}
+# p(x|y) \propto p(x) \, p(y|x) \,.  \tag{BR2}
 # \end{align}$$
 # Actually, do we even need to care about $p(y)$ at all? All we really need to know is how much more likely some value of $x$ (or an interval around it) is compared to any other $x$.
 # The normalisation is only necessary because of the *convention* that all densities integrate to $1$.
@@ -165,7 +165,7 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 # Suppose the observation, $y$, is related to the true state, $x$,
 #   via some "observation (forward) model", $\ObsMod$:
 #   \begin{align*}
-#   y &= \ObsMod(x) + r \, , \;\; \qquad \tag{Obs}
+#   y &= \ObsMod(x) + r \,, \;\; \qquad \tag{Obs}
 #   \end{align*}
 #   where the corrupting additive noise has law $r \sim \NormDist(0, R)$ for some variance $R>0$.
 # Then the likelihood is $$p(y|x) = \NormDist(y| \ObsMod(x), R) \,. \tag{Lklhd}$$
@@ -311,8 +311,8 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
 # where, in the 1-dimensional/univariate/scalar (multivariate is discussed in [T5](T5%20-%20Kalman%20filter%20(multivariate).ipynb)) case:
 #
 # $$\begin{align}
-#     P\supa &= 1/(1/P\supf + \ObsMod^2/R) \, , \tag{5} \\\
-#   x\supa &= P\supa (x\supf/P\supf + \ObsMod y/R) \, .  \tag{6}
+#     P\supa &= 1/(1/P\supf + \ObsMod^2/R) \,, \tag{5} \\\
+#   x\supa &= P\supa (x\supf/P\supf + \ObsMod y/R) \,.  \tag{6}
 # \end{align}$$
 #
 # *There are a lot of sub/super-scripts -- a necessary evil for later purposes. Please take a moment to start to digest the formulae.*
@@ -370,8 +370,8 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
 #
 # Then shown that eqns (5) and (6) can be written as
 # $$\begin{align}
-#     P\supa &= (1-K \ObsMod) P\supf \, ,  \tag{10} \\\
-#   x\supa &= x\supf + K (y- \ObsMod x\supf) \tag{11} \, ,
+#     P\supa &= (1-K \ObsMod) P\supf \,,  \tag{10} \\\
+#   x\supa &= x\supf + K (y- \ObsMod x\supf) \tag{11} \,,
 # \end{align}$$
 
 # +

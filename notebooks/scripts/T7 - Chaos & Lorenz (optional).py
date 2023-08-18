@@ -207,9 +207,9 @@ plt.legend();
 # is given by the coupled set of ODEs,
 # $$
 # \frac{d \x_i}{dt} = (\x_{i+1} − \x_{i-2}) \x_{i-1} − \x_i + F
-# \, ,
+# \,,
 # \quad \quad i \in \{1,\ldots,\xDim\}
-# \, ,
+# \,,
 # $$
 # where the subscript indices apply periodically.
 #
@@ -322,7 +322,7 @@ def plot_pendulum2(k=0, N=2):
 # $$
 # \begin{align}
 # \frac{dx}{dt} &= f(x) \\
-# \frac{dz}{dt} &= f(z) \, .
+# \frac{dz}{dt} &= f(z) \,.
 # \end{align}
 # $$
 #
@@ -331,7 +331,7 @@ def plot_pendulum2(k=0, N=2):
 # Let $F = \frac{df}{dx}(x(t))$.  
 #
 # * (a) Show that the error evolves according to the ordinary differential equation (ODE)
-# $$\frac{d \varepsilon}{dt} \approx F \varepsilon \, .$$
+# $$\frac{d \varepsilon}{dt} \approx F \varepsilon \,.$$
 
 # +
 # show_answer("error evolution")

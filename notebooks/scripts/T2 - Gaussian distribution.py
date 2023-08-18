@@ -155,7 +155,7 @@ def pdf_U1(x, mu, sigma2):
 # $$\begin{align}
 # \NormDist(\x \mid  \mathbf{\mu}, \mathbf{\Sigma})
 # &=
-# |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \, , \tag{GM}
+# |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM}
 # \end{align}$$
 # where $|.|$ represents the matrix determinant,  
 # and $\|.\|_\mathbf{W}$ represents the norm with weighting: $\|\x\|^2_\mathbf{W} = \x^T \mathbf{W}^{-1} \x$.  

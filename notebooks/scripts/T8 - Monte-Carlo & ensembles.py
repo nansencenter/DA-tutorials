@@ -159,8 +159,8 @@ plt.matshow(B_bar, cmap="Blues"); plt.colorbar();
 # $\bx$ and $\barB$,
 # from the ensemble matrix $\E$.
 # Now, instead, implement these estimators yourself:
-# $$\begin{align}\bx &\ceq \frac{1}{N}   \sum_{n=1}^N \x_n \, , \\
-#    \barB &\ceq \frac{1}{N-1} \sum_{n=1}^N (\x_n - \bx) (\x_n - \bx)^T \, . \end{align}$$
+# $$\begin{align}\bx &\ceq \frac{1}{N}   \sum_{n=1}^N \x_n \,, \\
+#    \barB &\ceq \frac{1}{N-1} \sum_{n=1}^N (\x_n - \bx) (\x_n - \bx)^T \,. \end{align}$$
 
 # +
 # Don't use numpy's mean, cov, but rather a `for` loop.
@@ -219,7 +219,7 @@ def var_and_precision_estimates(N=4):
 # Let $\X \ceq
 # \begin{bmatrix}
 # 		\x_1 -\bx, & \ldots & \x_n -\bx, & \ldots & \x_N -\bx
-# 	\end{bmatrix} \, .$
+# 	\end{bmatrix} \,.$
 #  * (a). Show that $\X = \E \AN$, where $\ones$ is the column vector of length $N$ with all elements equal to $1$.
 #  Hint: consider column $n$ of $\X$.
 #  * (b). Show that $\barB = \X \X^T /(N-1)$.
