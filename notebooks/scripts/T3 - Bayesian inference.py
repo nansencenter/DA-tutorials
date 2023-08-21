@@ -212,43 +212,43 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 # The following illustrates Bayes' rule in the 2D, i.e. multivariate, case.
 
 # +
-def H(x, kind="x"):
-    y = x
-    if   kind == "x^2": y = x**2
-    elif kind == "x_1": y = x[:1]
-    elif kind == "mean(x)": y = x[:1] + x[1:]
-    elif kind == "diff(x)": y = x[:1] - x[1:]
-    elif kind == "prod(x)": y = x[:1] * x[1:]
+H_kinds = {
+    "x":       lambda x: x,
+    "x^2":     lambda x: x**2,
+    "x_1":     lambda x: x[:1],
+    "mean(x)": lambda x: x[:1] + x[1:],
+    "diff(x)": lambda x: x[:1] - x[1:],
+    "prod(x)": lambda x: x[:1] * x[1:],
     # OR np.mean/prod with `keepdims=True`
-    return y
-H.kinds = ["(x_1, x_2)", "x^2", "x_1", "mean(x)", "diff(x)", "prod(x)"]
+}
 
 v = dict(orientation="vertical"),
-@interact(top=[['corr_B', 'corr_R']], bottom=[['y1', 'R1']], right=['variant', ['y2', 'R2']],
-             corr_R=(-.999, .999, .01), y1=bounds,     R1=(0.01, 36, 0.2),
-             corr_B=(-.999, .999, .01), y2=bounds + v, R2=(0.01, 36, 0.2) + v, variant=H.kinds)
-def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
-             corr_B=.6,                 y2=-12,        R2=1,                   variant=H.kinds[0]):
+@interact(top=[['corr_Pf', 'corr_R']], bottom=[['y1', 'R1']], right=['H_kind', ['y2', 'R2']],
+             corr_R =(-.999, .999, .01), y1=bounds,     R1=(0.01, 36, 0.2),
+             corr_Pf=(-.999, .999, .01), y2=bounds + v, R2=(0.01, 36, 0.2) + v, H_kind=list(H_kinds))
+def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                H_kind="x",
+             corr_Pf=.6,                 y2=-12,        R2=1):
     # Prior
-    mu = np.zeros(2)
-    B = 25 * np.array([[1, corr_B],
-                       [corr_B, 1]])
+    xf = np.zeros(2)
+    Pf = 25 * np.array([[1, corr_Pf],
+                       [corr_Pf, 1]])
     # Likelihood
+    H = H_kinds[H_kind]
     cov_R = np.sqrt(R1*R2)*corr_R
     R = np.array([[R1, cov_R],
                   [cov_R, R2]])
     y = np.array([y1, y2])
 
     # Restrict dimensionality to that of output of H
-    if len(H(mu, variant)) == 1:
+    if len(H(xf)) == 1:
         i = slice(None, 1)
     else:
         i = slice(None)
 
     # Compute BR
     x = grid2d
-    lklhd = pdf_GM(y[i], H(x.T, variant)[i].T, R[i, i])
-    prior = pdf_GM(x, mu, B)
+    prior = pdf_GM(x, xf, Pf)
+    lklhd = pdf_GM(y[i], H(x.T)[i].T, R[i, i])
     postr = Bayes_rule(prior, lklhd, dx**2)
 
     ax, jplot = get_jointplotter(grid1d)
@@ -256,7 +256,7 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
                 jplot(lklhd, 'green'),
                 jplot(postr, 'red', linewidths=2)]
     ax.legend(contours, ['prior', 'lklhd', 'postr'], loc="upper left")
-    ax.set_title(r"$\mathscr{H}(\mathbf{x}) = " + variant + "$")
+    ax.set_title(r"Using $\mathscr{H}(x) = " + H_kind + "$")
     plt.show()
 
 
@@ -308,7 +308,7 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
 #   x\supa &= P\supa (x\supf/P\supf + \ObsMod y/R) \,.  \tag{6}
 # \end{align}$$
 #
-# *There are a lot of sub/super-scripts -- a necessary evil for later purposes. Please take a moment to start to digest the formulae.*
+# *There are a lot of sub/super-scripts (a necessary evil for later purposes). Please take a moment to start to digest the formulae.*
 #
 # #### Exc -- GG Bayes
 # Consider the following identity, where $P\supa$ and $x\supa$ are given by eqns. (5) and (6).
