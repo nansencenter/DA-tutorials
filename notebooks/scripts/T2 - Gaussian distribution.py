@@ -67,7 +67,7 @@ hist = []
 @interact(mu=bounds, sigma1=(.1, 10, 1))
 def plot_pdf(mu=0, sigma1=5):
     plt.figure(figsize=(6, 2))
-    colors = plt.get_cmap('hsv')([(k-len(hist))%8/9 for k in range(9)])
+    colors = plt.get_cmap('hsv')([(k-len(hist))%9/9 for k in range(9)])
     plt.xlim(*bounds)
     plt.ylim(0, .2)
     hist.insert(0, pdf_G1(grid1d, mu, sigma1**2))
