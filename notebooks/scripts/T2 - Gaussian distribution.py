@@ -115,8 +115,8 @@ def pdf_U1(x, mu, sigma2):
 #
 #  * (i) Find $x$ such that $p(x) = 0$.
 #  * (ii) Where is the location of the **mode (maximum)** of the density?  
-#     I.e. find $x$ such that $\frac{d p}{d x}(x) = 0$.  
-#     *Hint: it's easier to analyse $\log p(x)$ rather than $p(x)$ itself.*
+#    I.e. find $x$ such that $\frac{d p}{d x}(x) = 0$.  
+#    *Hint: it's easier to analyse $\log p(x)$ rather than $p(x)$ itself.*
 #  * (iii) Where is the inflection point? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
 #  * (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
 
@@ -125,7 +125,7 @@ def pdf_U1(x, mu, sigma2):
 # and $p_x$ and $p_z$ be their probability density functions (pdf).
 # - (a): Show that $p_z(z) = p_x\big(\phi^{-1}(z)\big) \,/\, |\phi'(z)|$,
 # - (b): Show that $\Expect[z]$ can indeed be computed as $\Expect[\phi(x)]$, i.e. that
-#        $$ \int  z \, p_z(z) \, d z = \int  \phi(x) \, p_x(x) \, d x \,,$$
+#   $$ \int  z \, p_z(z) \, d z = \int  \phi(x) \, p_x(x) \, d x \,,$$
 # where the integrals are over the whole domain of $z$ and $x$.
 # *Hint: while the proof is convoluted, the result should be [pretty intuitive](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician).*
 

@@ -256,7 +256,7 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
                 jplot(lklhd, 'green'),
                 jplot(postr, 'red', linewidths=2)]
     ax.legend(contours, ['prior', 'lklhd', 'postr'], loc="upper left")
-    ax.set_title(r"$\mathscr{H}(x_1, x_2) = " + variant + "$")
+    ax.set_title(r"$\mathscr{H}(\mathbf{x}) = " + variant + "$")
     plt.show()
 
 
@@ -264,20 +264,13 @@ def Bayes2(  corr_R=.6,                 y1=1,          R1=4**2,
 
 # #### Exc (optional) -- Multivariate observation models
 # - (a) Does the posterior (pdf) generally lie "between" the prior and likelihood?
-# - (b) Try the different observation models in the dropdown menu, corresponding to
-#     - $\ObsMod(\x) = \x$.
-#     - $\ObsMod(\x) = (\x_1^2, \x_2^2)$.
-#     - $\ObsMod(\x) = \x_1$.  
-#       Why do `y2`, `R2` and `corr_R` become inactive? Also for the next items.
-#     - $\ObsMod(\x) = \frac{1}{\xDim} \sum_{i=1}^\xDim \x_i$.
-#     - $\ObsMod(\x) = \x_2 - \x_1$.
-#     - $\ObsMod(\x) = \x_1 \x_2$.
-#   
-#   As [above](#Exc----Obs.-model-gallery), in each case,
-#     - Explain the impact on the likelihood (and thereby posterior).  
-#     - Consider to what extent it is reasonable to say that $\ObsMod$ gets "inverted".
-#     - For those of the above models that are linear,
-#       find the (possibly rectangular) matrix $\bH$ such that $\ObsMod(\x) = \bH \x$.
+# - (b) Try the different observation models in the dropdown menu.
+#   - Explain the impact on the likelihood (and thereby posterior).  
+#   - Consider to what extent it is reasonable to say that $\ObsMod$ gets "inverted".
+#   - For those of the above models that are linear,
+#     find the (possibly rectangular) matrix $\bH$ such that $\ObsMod(\x) = \bH \x$.
+#   - For those of the above models that only yield a single (scalar/1D) output,
+#     why do `y2`, `R2` and `corr_R` become inactive?
 
 # +
 # show_answer('Multivariate Observations')

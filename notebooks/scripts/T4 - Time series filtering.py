@@ -100,7 +100,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
     try:
         estimates, variances = KF(nTime, xa, Pa, M, H, Q*Q_bias, R*R_bias, obsrvs)
         if analyses_only:
-            plt.plot(kk, estimates[:, 1], label='Kalman$\supa$ ± 1$\sigma$')
+            plt.plot(kk, estimates[:, 1], label='Kalman$^a$ ± 1$\sigma$')
             plt.fill_between(kk, *cInterval(estimates[:, 1], variances[:, 1]), alpha=.2)
         else:
             kk2 = kk.repeat(2)
@@ -261,10 +261,10 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # Now we don't assume that $Q$ is zero. Instead
 # - (a) Suppose $\DynMod = 0$. What does $P\supa_k$ equal?
 # - (b) Suppose $\DynMod = 1$. Show that $P\supa_\infty$
-#       satisfies the quadratic equation: $0 = P^2 + Q P - Q R$.  
-#       Thereby, without solving the quadratic equation, show that
-#     - (c) $P\supa_\infty \rightarrow R$ (from below) if $Q \rightarrow +\infty$.
-#     - (d) $P\supa_\infty \rightarrow \sqrt{ Q R}$ (from above) if $Q \rightarrow 0^+$.
+#   satisfies the quadratic equation: $0 = P^2 + Q P - Q R$.  
+#   Thereby, without solving the quadratic equation, show that
+#   - (c) $P\supa_\infty \rightarrow R$ (from below) if $Q \rightarrow +\infty$.
+#   - (d) $P\supa_\infty \rightarrow \sqrt{ Q R}$ (from above) if $Q \rightarrow 0^+$.
 
 # +
 # show_answer('Asymptotes when Q>0')
@@ -328,13 +328,13 @@ def trunc(x, n):
 # with an appropriate name/key (this will automatically include it in the plotting).  
 # Use
 # - (a) [`sig.wiener`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html).  
-#       *PS: this is a direct ancestor of the KF*.
+#   *PS: this is a direct ancestor of the KF*.
 # - (b) a moving average, for example [`sig.windows.hamming`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.hamming.html).  
-#       *Hint: you may also want to use [`sig.convolve`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve)*.
+#   *Hint: you may also want to use [`sig.convolve`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.convolve.html#scipy.signal.convolve)*.
 # - (c) a low-pass filter using [`np.fft`](https://docs.scipy.org/doc/scipy/reference/fft.html#).  
-#       *Hint: you may also want to use the above `trunc` function.*
+#   *Hint: you may also want to use the above `trunc` function.*
 # - (d) The [`sig.butter`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.butter.html) filter.
-#       *Hint: apply with [`sig.filtfilt`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.filtfilt.html).*
+#   *Hint: apply with [`sig.filtfilt`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.filtfilt.html).*
 # - (e) not really a signal processing method: [`sp.interpolate.UniveriateSpline`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.UnivariateSpline.html)
 #
 # The answers should be considered examples, not the uniquely right way.
