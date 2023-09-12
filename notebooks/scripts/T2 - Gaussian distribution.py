@@ -82,18 +82,62 @@ def plot_pdf(mu=0, sigma1=5):
 #  * In a few words, describe the shape of the Gaussian pdf curve.
 #    Does this ring a bell? *Hint: it should be clear as a bell!*
 
-# **Exc -- Implementation:** Change the implementation of `pdf_G1` so as to not use `scipy`, but your own code (using `numpy` only). Re-run all of the above cells and check that you get the same plots as before.
-# *Hint: `**` is the exponentiation/power operator, but $e^x$ is also available as `np.exp(x)`*
+# **Exc -- Implementation:** Change the implementation of `pdf_G1` so as to not use `scipy`, but your own code (using `numpy` only). Re-run all of the above cells and check that you get the same plots as before.  
+# *Hint: `**` is the exponentiation/power operator, but $e^x$ is more efficiently computed with `np.exp(x)`*
 
 # +
 # show_answer('pdf_G1')
 # -
 
+# **Exc -- Derivatives:** Recall $p(x) = \mathcal{N}(x \mid \mu, \sigma^2)$ from eqn (G1).  
+# Use pen, paper, and calculus to answer the following questions,  
+# which derive some helpful mnemonics about the distribution.
+#
+#  * (i) Find $x$ such that $p(x) = 0$.
+#  * (ii) Where is the location of the **mode (maximum)** of the density?  
+#    I.e. find $x$ such that $\frac{d p}{d x}(x) = 0$.  
+#    *Hint: it's easier to analyse $\log p(x)$ rather than $p(x)$ itself.*
+#  * (iii) Where is the **inflection point**? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
+#  * (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
+
+# #### Exc (optional) -- Probability and Change of variables
+# Let $z = \phi(x)$ for some monotonic function $\phi$,
+# and $p_x$ and $p_z$ be their probability density functions (pdf).
+# - (a): Show that $p_z(z) = p_x\big(\phi^{-1}(z)\big) \frac{1}{|\phi'(z)|}$,
+# - (b): Recall the definition of the expectation, $ \Expect[x] ≔ \int  x \, p_x(x) \, d x $, where ***the integral is over the domain***
+#   (i.e. from $-\infty$ to $+\infty$ in the case of Gaussian distributions).
+#   Show that you don't need to derive the density of $z$ in order to compute its expectation, i.e. that
+#   $$ \Expect[z] = \int  \phi(x) \, p_x(x) \, d x ≕ \Expect[\phi(x)] \,,$$
+#   *Hint: while the proof is convoluted, the result itself is [pretty intuitive](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician).*
+
+# +
+# show_answer('CVar in proba')
+# -
+
+# #### Exc (optional) -- Integrals
+# Recall $p(x) = \mathcal{N}(x \mid \mu, \sigma^2)$ from eqn (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  
+# Use pen, paper, and calculus to show that
+#  - (i) the first parameter, $\mu$, indicates its **mean**, i.e. that $$\mu = \Expect[x] \,.$$
+#    *Hint: you can rely on the result of (iii)*
+#  - (ii) the second parameter, $\sigma^2>0$, indicates its **variance**,
+#    i.e. that $$\sigma^2 = \mathbb{Var}(x) \mathrel{≔} \Expect[(x-\mu)^2] \,.$$
+#    *Hint: use $x^2 = x x$ to enable integration by parts.*
+#  - (iii) $E[1] = 1$,  
+#    thus proving that (G1) indeed uses the right normalising constant.  
+#    *Hint: Neither Bernouilli and Laplace managed this,
+#    until Gauss did by first deriving $(E[1])^2$.  
+#    For more (visual) help, watch [3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
+
+# +
+# show_answer('Gauss integrals')
+# -
+
 # **Exc -- The uniform pdf**:
-# Below is the pdf of the [uniform/flat/box distribution](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)).
-# Replace `_G1` by `_U1` in the above interactive plot.
-# Why are the walls (ever so slightly) inclined?
-# Repeat the previous exercises.
+# Below is the pdf of the [uniform/flat/box distribution](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous))
+# for a given mean and variance.
+# - Replace `_G1` by `_U1` in the code generating the above interactive plot.
+# - Why are the walls (ever so slightly) inclined?
+# - Write your own implementation below, and check that it reproduces the `scipy` version already in place.
 
 def pdf_U1(x, mu, sigma2):
     a = mu - np.sqrt(3*sigma2)
@@ -111,47 +155,6 @@ def pdf_U1(x, mu, sigma2):
 # show_answer('pdf_U1')
 # -
 
-# **Exc -- Derivatives:** Recall $p(x) = \mathcal{N}(x \mid \mu, \sigma^2)$ from eqn (G1).  
-# Use pen, paper, and calculus to answer the following questions,  
-# which derive some helpful mnemonics about the distribution.
-#
-#  * (i) Find $x$ such that $p(x) = 0$.
-#  * (ii) Where is the location of the **mode (maximum)** of the density?  
-#    I.e. find $x$ such that $\frac{d p}{d x}(x) = 0$.  
-#    *Hint: it's easier to analyse $\log p(x)$ rather than $p(x)$ itself.*
-#  * (iii) Where is the inflection point? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
-#  * (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
-
-# #### Exc (optional) -- Probability and Change of variables
-# Let $z = \phi(x)$ for some monotonic function $\phi$,
-# and $p_x$ and $p_z$ be their probability density functions (pdf).
-# - (a): Show that $p_z(z) = p_x\big(\phi^{-1}(z)\big) \,/\, |\phi'(z)|$,
-# - (b): Show that $\Expect[z]$ can indeed be computed as $\Expect[\phi(x)]$, i.e. that
-#   $$ \int  z \, p_z(z) \, d z = \int  \phi(x) \, p_x(x) \, d x \,,$$
-#   where the integrals are over the whole domain of $z$ and $x$.  
-#   *Hint: while the proof is convoluted, the result should be [pretty intuitive](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician).*
-
-# +
-# show_answer('CVar in proba')
-# -
-
-# #### Exc (optional) -- Integrals
-# Recall $p(x) = \mathcal{N}(x \mid \mu, \sigma^2)$ from eqn (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  
-# Use pen, paper, and calculus to show that
-#  - (i) the first parameter, $\mu$, indicates its **mean**, i.e. that $$\mu = \Expect[x] \,.$$
-#    *Hint: you can rely on the result of (iii)*
-#  - (ii) the second parameter, $\sigma^2>0$, indicates its **variance**,
-#    i.e. that $$\sigma^2 = \mathbb{Var}(x) \mathrel{≔} \Expect[(x-\mu)^2] \,.$$
-#    *Hint: use $x^2 = x x$ to enable integration by parts.*
-#  - (iii) $E[1] = 1$ -- proving that (G1) indeed uses the right normalising constant.  
-#    *Hint: Neither Bernouilli and Laplace managed this,
-#    until Gauss did by first deriving $(E[1])^2$.  
-#    For more (visual) help, watch [3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
-
-# +
-# show_answer('Gauss integrals')
-# -
-
 # ## The multivariate (i.e. vector) case
 # Here's the pdf of the *multivariate* Gaussian (for any dimension $\ge 1$):
 # $$\begin{align}
@@ -161,6 +164,7 @@ def pdf_U1(x, mu, sigma2):
 # \end{align}$$
 # where $|.|$ represents the matrix determinant,  
 # and $\|.\|_\mathbf{W}$ represents the norm with weighting: $\|\x\|^2_\mathbf{W} = \x^T \mathbf{W}^{-1} \x$.  
+# *PS: The norm (quadratic form) is invariant to antisymmetry in $W$, so we take it to be symmetric. Further, the density (GM) is only valid if $\mathbf{W}$ is positive-definite.*
 #
 # Similar to the [univariate (scalar) case](#Exc-(optional)----Integrals),
 # it can be shown that
@@ -168,8 +172,7 @@ def pdf_U1(x, mu, sigma2):
 # - $\Sigma \mathrel{≔} \Expect[(x-\mu)(x-\mu)\tr]$,
 #   which is called the *covariance (matrix)*.
 #   
-# Note that $\Sigma_{i,j} = \Expect[(x_i-\mu_i)(x_j-\mu_j)]$,
-# which we also write as $\mathbb{Cov}(x_i, x_j)$.
+# Note that $\Sigma_{i,j} = \Expect[(x_i-\mu_i)(x_j-\mu_j)] = \mathbb{Cov}(x_i, x_j)$.
 # Moreover, the diagonal elements are plain variances, just as in the univariate case:
 # $\Sigma_{i,i} = \mathbb{Cov}(x_i, x_i) = \mathbb{Var}(x_i)$.
 # Therefore, in the following, we will focus on the effect of the off-diagonals.
@@ -199,7 +202,7 @@ def pdf_GM(points, mu, Sigma):
 # +
 grid2d = np.dstack(np.meshgrid(grid1d, grid1d))
 
-@interact(corr=(-1, 1, .05), std_x=(1e-5, 10, 1))
+@interact(corr=(-1, 1, .001), std_x=(1e-5, 10, 1))
 def plot_pdf_G2(corr=0.7, std_x=1):
     # Form covariance matrix (C) from input and some constants
     var_x = std_x**2
@@ -224,17 +227,20 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 #  * (c) correlation=0.5. (Note that we've used `plt.axis('equal')`).
 #  * (d) correlation=0.5, but with non-equal variances.
 #
-# Finally (optional): why does the code "crash" when `corr = +/- 1` ? Is this a good or a bad thing? *Hint: do you like playing with fire?*
+# Finally (optional): why does the code "crash" when `corr = +/- 1` ? Is this a good or a bad thing?  
+# *Hint: do you like playing with fire?*
 
-# **Exc Correlation game:** Play [here](http://guessthecorrelation.com/) until you get a score (gold coins) of 5 or more. *PS: you can probably tell that the samples are not drawn from Gaussian distributions. However, the quantitiy $\mathbb{Cov}(x_i, x_i)$ is well defined and can be estimated from the samples.*
+# **Exc Correlation game:** Play [here](http://guessthecorrelation.com/) until you get a score (gold coins) of 5 or more.  
+# *PS: you can probably tell that the samples are not drawn from Gaussian distributions. However, the quantitiy $\mathbb{Cov}(x_i, x_i)$ is well defined and can be estimated from the samples.*
 
 # **Exc -- Correlation disambiguation:**
 # * What's the difference between correlation and covariance?
 # * What's the difference between (C) correlation (or covariance) and (D) dependence?  
 #   *Hint: consider this [image](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#/media/File:Correlation_examples2.svg).
-#   Does $C \Rightarrow D$ or the converse? What about the negation?*
-# * Does correlation imply causation?
-# * Can you use correlation to in making predictions?
+#   Does $C \Rightarrow D$ or the converse? What about the negation, or its converse?*
+# * Does correlation (or dependence) imply causation?
+# * Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
+#   Does information about $y$ give you information about $x$?
 
 # **Exc (optional) -- Gaussian ubuiqity:** Why are we so fond of the Gaussian assumption?
 

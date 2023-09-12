@@ -104,7 +104,7 @@ def Bayes_rule(prior_values, lklhd_values, dx):
 # The normalisation is only necessary because of the *convention* that all densities integrate to $1$.
 # However, for large models, we usually can only afford to evaluate $p(y|x)$ at a few points (of $x$), so that the integral for $p(y)$ can only be roughly approximated. In such settings, estimation of the normalisation factor becomes an important question too.
 #
-# The code below shows Bayes' rule in action.
+# The code below shows Bayes' rule in action, for prior $p(x) = \NormDist(x|x^f, P^f)$ and likelihood, $p(y|x) = \NormDist(y|x, R)$. The parameters of the prior are fixed at $x^f= 10$, $P^f=4^2$ (this ugly mean & variance notation is a necessary evil for later). The parameters of the likelihood are controlled through the interactive sliders.
 
 @interact(y=(*bounds, 1), logR=(-3, 5, .5), top=['y', 'logR'])
 def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
@@ -194,7 +194,7 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 #     - Does the likelihood integrate (in $x$) to 1? Should we care (also see [above](#Exc-(optional)----BR-normalization)) ?
 # - (c) $\ObsMod(x) = (x-5)^2$. *PS: We're now doing "nonlinear regression"*.
 #     - Is the resulting posterior Gaussian?
-#     - Explain why negative values of $y$ don't seemt be an impossibility (the likelihod is not uniformly $0$).
+#     - Explain why negative values of $y$ don't seem to be an impossibility (the likelihod is not uniformly $0$).
 # - (d) Try $\ObsMod(x) = |x|$.
 #     - Is the resulting posterior Gaussian?
 

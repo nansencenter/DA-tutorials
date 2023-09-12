@@ -173,10 +173,10 @@ answers['Gauss integrals'] = ['MD', r'''
 (i) $$\begin{align} \Expect[x]
 &= \int x \, c \, e^{-(x-\mu)^2 / 2 \sigma^2} \,d x \tag{by definition} \\\
 &= \int (u + \mu) \, c \, e^{-u^2 / 2 \sigma^2} \,d u \tag{$u = x-\mu$}\\\
-&= \int u \, c \, e^{-u^2 / 2 \sigma^2}
-+       \mu \, c \, e^{-u^2 / 2 \sigma^2} \,d u \\\
-&= [-\sigma^2 \, c \, e^{-u^2 / 2 \sigma^2}]^{+\infty}_{-\infty}
-+ \mu \, \Expect[1]
+&= \int u \, c \, e^{-u^2 / 2 \sigma^2} \,d u
+\;+\;  \mu \int \, c \, e^{-u^2 / 2 \sigma^2} \,d u \\\
+&= \big[-\sigma^2 \, c \, e^{-u^2 / 2 \sigma^2}\big]^{+\infty}_{-\infty}
+\;+\; \mu \, \Expect[1]
 \end{align}
 $$
 The first term is zero. The second leaves only $\mu$, since $\Expect[1] = 1$.
@@ -184,11 +184,11 @@ The first term is zero. The second leaves only $\mu$, since $\Expect[1] = 1$.
 (ii) $$\begin{align} \Expect[(x - \mu)^2]
 &= \int (x - \mu)^2 \, c \, e^{-(x-\mu)^2 / 2 \sigma^2} \,d x \tag{by definition} \\\
 &= \int u^2 \, c \, e^{-u^2 / 2 \sigma^2} \,d u \tag{$u = x-\mu$}\\\
-&= \int u \, u \, c \, e^{-u^2 / 2 \sigma^2} \,d u \\\
-&= 0 - \int (1) (-\sigma^2) \, c \, e^{-u^2 / 2 \sigma^2} \,d u \,,  \tag{Integrate by parts} \\\
+&= \int u \, \big[ u \, c \, e^{-u^2 / 2 \sigma^2} \big] \,d u \\\
+&= 0 - \int (1) \big[-\sigma^2 \, c \, e^{-u^2 / 2 \sigma^2}\big] \,d u \,,  \tag{Integrate by parts} \\\
 \end{align}
 $$
-where the first term was zero for the same raeson as above,
+where the first term was zero for the same reason as above,
 and the second can again be expressed in terms of $\Expect[1] = 1$.
 ''']
 
