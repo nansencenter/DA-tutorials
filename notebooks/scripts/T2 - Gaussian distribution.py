@@ -91,7 +91,9 @@ def plot_pdf(mu=0, sigma1=5):
 
 # **Exc -- The uniform pdf**:
 # Below is the pdf of the [uniform/flat/box distribution](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous)).
-# Replace `_G1` by `_U1` in the above interactive plot. Repeat the previous exercises.
+# Replace `_G1` by `_U1` in the above interactive plot.
+# Why are the walls (ever so slightly) inclined?
+# Repeat the previous exercises.
 
 def pdf_U1(x, mu, sigma2):
     a = mu - np.sqrt(3*sigma2)
@@ -126,8 +128,8 @@ def pdf_U1(x, mu, sigma2):
 # - (a): Show that $p_z(z) = p_x\big(\phi^{-1}(z)\big) \,/\, |\phi'(z)|$,
 # - (b): Show that $\Expect[z]$ can indeed be computed as $\Expect[\phi(x)]$, i.e. that
 #   $$ \int  z \, p_z(z) \, d z = \int  \phi(x) \, p_x(x) \, d x \,,$$
-# where the integrals are over the whole domain of $z$ and $x$.
-# *Hint: while the proof is convoluted, the result should be [pretty intuitive](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician).*
+#   where the integrals are over the whole domain of $z$ and $x$.  
+#   *Hint: while the proof is convoluted, the result should be [pretty intuitive](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician).*
 
 # +
 # show_answer('CVar in proba')
