@@ -235,9 +235,11 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 
 # **Exc -- Correlation disambiguation:**
 # * What's the difference between correlation and covariance?
-# * What's the difference between (C) correlation (or covariance) and (D) dependence?  
-#   *Hint: consider this [image](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#/media/File:Correlation_examples2.svg).
-#   Does $C \Rightarrow D$ or the converse? What about the negation, or its converse?*
+# * What's the difference between non-zero (C) correlation (or covariance) and (D) dependence?
+#   *Hint: consider this [image](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#/media/File:Correlation_examples2.svg).  
+#   Does $C \Rightarrow D$ or the converse?  
+#   What about the negation, $\neg D \Rightarrow \neg C$, or its converse?*  
+#   What about the the (jointly) Gaussian case?
 # * Does correlation (or dependence) imply causation?
 # * Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
 #   Does information about $y$ give you information about $x$?
