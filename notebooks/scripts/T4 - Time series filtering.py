@@ -254,7 +254,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 #   *Hint: Look for the fixed point of the recursion of part (a).*
 
 # +
-# show_answer('Asymptotic Riccati')
+# show_answer('Asymptotic Riccati', 'a')
 # -
 
 # **Exc (optional) -- Temporal CV, part 2:**
