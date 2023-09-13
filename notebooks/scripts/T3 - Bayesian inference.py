@@ -161,6 +161,10 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 # -
 
 # ## With forward (observation) models
+# Likelihoods are not generally as simple as the ones we saw above.
+# That could be because the unknown to be estimated controls some other aspect
+# of the measurement sampling distribution than merely the location.
+# However, we are mainly interested in the case when the measurement is generated via some observation model.
 #
 # Suppose the observation, $y$, is related to the true state, $x$,
 #   via some "observation (forward) model", $\ObsMod$:
@@ -210,6 +214,7 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 
 # ## Multivariate Bayes (interlude)
 # The following illustrates Bayes' rule in the 2D, i.e. multivariate, case.
+# The likelihood is again defined as eqn. (Lklhd), but now all of the variables and parameters are vectors and matrices.
 
 # +
 H_kinds = {
@@ -316,7 +321,7 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 # =\quad \frac{(x - x\supa)^2}{P\supa} + \frac{(y - \ObsMod x\supf)^2}{R + P\supf} \,, \tag{S2}$$
 # Notice that the left hand side (LHS) is the sum of two squares with $x$,
 # but the RHS only contains one square with $x$.
-# - (a) Derive the first term of the RHS, i.e. eqns. (5) and (6).  
+# - (a) Actually derive the first term of the RHS, i.e. eqns. (5) and (6).  
 #   *Hint: you can simplify the task by first "hiding" $\ObsMod$ by astutely multiplying by $1$ somewhere.*
 # - (b) *Optional*: Derive the full RHS (i.e. also the second term).
 # - (c) Derive $p(x|y) = \mathcal{N}(x \mid x\supa, P\supa)$ from eqns. (5) and (6)
@@ -355,7 +360,7 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
 # - (b) *Optional*. Try using one or more of the other [distributions readily available in `scipy`](https://stackoverflow.com/questions/37559470/) in the above animation.
 #
 # **Exc -- Gain algebra:** Show that eqn. (5) can be written as
-# $$P\supa = K R \,,    \tag{8}$$
+# $$P\supa = K R / \ObsMod \,,    \tag{8}$$
 # where
 # $$K = \frac{\ObsMod P\supf}{\ObsMod^2 P\supf + R} \,,    \tag{9}$$
 # is called the "Kalman gain".  
@@ -404,4 +409,4 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
 #
 # In summary, the intuitive idea of **considering the mean of $p(x)$ as the point estimate** has good theoretical foundations.
 #
-# ### Next: [T4 - Filtering & time series](T4%20-%20Filtering%20%26%20time%20series.ipynb)
+# ### Next: [T4 - Filtering & time series](T4%20-%20Time%20series%20filtering.ipynb)

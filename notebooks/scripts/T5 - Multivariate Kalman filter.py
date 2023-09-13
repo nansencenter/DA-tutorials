@@ -308,4 +308,4 @@ def plot_correlation_matrix(k=1, analysis=True):
 # We have derived two forms of the multivariate KF analysis update step: the "precision matrix" form, and the "Kalman gain" form. The latter is especially practical when the number of observations is smaller than the length of the state vector. Still, the best is yet to come: the ability to handle very large and chaotic systems
 # (which are more fun than stochastically driven signals such as above).
 
-# ### Next: [T6 - Spatial statistics ("geostatistics") & Kriging](T6%20-%20Geostatistics%20%26%20Kriging.ipynb)
+# ### Next: [T6 - Spatial statistics ("geostatistics") & Kriging](T6%20-%20Geostats%20%26%20Kriging%20(optional).ipynb)

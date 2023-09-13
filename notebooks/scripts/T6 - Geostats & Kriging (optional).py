@@ -280,4 +280,4 @@ def plot_krieged(Range=1):
 # - GP regression is derived by conditioning (applying Bayes rule)
 #   to the (supposedly) Gaussian distribution of the random field.
 
-# ### Next: [T7 - Chaos & Lorenz](T7%20-%20Chaos%20%26%20Lorenz.ipynb)
+# ### Next: [T7 - Chaos & Lorenz](T7%20-%20Chaos%20%26%20Lorenz%20(optional).ipynb)

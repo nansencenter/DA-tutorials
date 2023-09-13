@@ -383,7 +383,7 @@ $15 * 360 * 180 = 972'000 \approx 10^6$
 answers['nD-space is big c'] = ['MD', r'''
 $20^{10^6}$
 
-For comparison, there are about $10^82$ atoms in the universe.
+For comparison, there are about $10^{82}$ atoms in the universe.
 ''']
 
 answers['BR Gauss, a.k.a. completing the square a'] = ['MD', r'''
@@ -481,15 +481,16 @@ Identifying the last line with $N(x \mid x\supa, P\supa)$ yields eqns (5) and (6
 answers['BR Kalman1 algebra'] = ['MD', r'''
 - Multiplying eqn. (5) by $1 = \frac{P\supf R}{P\supf R}$ yields
   $P\supa = \frac{P\supf R}{P\supf + R} = \frac{P\supf}{P\supf + R} R$, i.e. eqn. (8).
-- Alternatively, $P\supa = \frac{R}{P\supf + R} P\supf$.
+- We also get $P\supa = \frac{R}{P\supf + R} P\supf$.
   Adding $0 = P\supf - P\supf$ to the numerator yields eqn. (10).
 - Applying formulae (8) and (10) for $P\supa$
   in eqn. (6) immediately produces eqn. (11).
 ''']
 
 answers['KG intuition'] = ['MD', r'''
-Consider eqn. (9). Both nominator and denominator are strictly larger than $0$,
-hence $K > 0$. Meanwhile $P\supf + R > P\supf$, hence $K<1$.
+Consider eqn. (9). Both nominator and denominator are strictly larger than $0$, hence $K > 0$.
+Meanwhile, note that $K$ weights the observation uncertainty $(R)$
+vs. the total uncertainty $(P\supf + R)$, whence $P\supf + R > P\supf$, i.e. $K<1$.
 
 Since $0<K<1$, eqn. (8) yields $P\supa < R$,
 while eqn. (10) yields $P\supa < P\supf$.
@@ -502,9 +503,6 @@ is a 'convex combination' or 'weighted average'.
 Because it describes how much the esimate is "dragged" from $x\supf$ "towards" $y$.  
 I.e. it is a multiplification (amplification) factor,
 which French (signal processing) people like to call "gain".  
-
-Relatedly, note that $K$ weights the observation uncertainty $(R)$ vs. the total uncertainty $(P\supf + R)$,
-and so is always between 0 and 1.
 ''']
 
 answers['BR Kalman1 code'] = ['MD', r'''
