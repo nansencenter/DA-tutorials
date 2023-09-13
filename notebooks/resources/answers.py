@@ -662,7 +662,7 @@ $1/P\supa_k \xrightarrow[k \rightarrow \infty]{} +\infty$
 ''']
 
 answers['Asymptotic Riccati d'] = ['MD', r'''
-Since $1\DynMod^2 > 1$,
+Since $1 / \DynMod^2 > 1$,
 $1/P\supa_k$ now grows quicker than
 in the previous parts of the exercise,
 whence the result.
