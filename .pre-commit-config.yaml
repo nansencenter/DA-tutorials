@@ -23,4 +23,5 @@ repos:
   rev: 1.3.3  # Use `pre-commit autoupdate --bleeding-edge` to set to most recent version
   hooks:
   - id: nb-ensure-clean
-    args: [--meta, pin_output, lines_to_next_cell]  # Optional WHITELIST of metadata keys (you can use regex)
+    # Optional WHITELIST of metadata keys (you can use regex)
+    args: [--meta, pin_output, --meta, lines_to_next_cell, --meta, lines_to_end_of_cell_marker]
