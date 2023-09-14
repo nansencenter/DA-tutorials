@@ -357,3 +357,11 @@ average_rmse(truths, ens_means)
 
 # +
 # show_answer('Repeat experiment cd')
+# -
+
+# ## Summary
+# The EnKF is a simple algorithm for data assimilation (DA),
+# that is capable of handling some degree of nonlinearity and big data/problems.
+# It is a consistent approximation of the Kalman filter,
+# but also contains biases.
+# Succesful application requires tuning of some ad-hoc parameters.

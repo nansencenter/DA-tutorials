@@ -370,10 +370,12 @@ def plot_pendulum2(k=1, N=2):
 # show_answer("linear growth")
 # -
 
-# ## In summary:
-# Prediction (forecasting) with these systems is challenging because they are chaotic: small errors grow exponentially.
+# ## Summary
+# Prediction (forecasting) with these systems is challenging because they are chaotic:
+# small errors grow exponentially.
 # Therefore there is a limit to how far into the future we can make predictions (skillfully).
-# Therefore it is crucial to minimize the initial error as much as possible. This is a task for DA.
+# Therefore it is crucial to minimize the initial error as much as possible.
+# This is a task of DA (filtering).
 #
 # Also see this [book on chaos and predictability](https://kuiper2000.github.io/chaos_and_predictability/intro.html).
 #

@@ -263,21 +263,25 @@ def plot_krieged(Range=1):
     fig.colorbar(c1);
     plt.show()
 
-# # Comments on Kriging
-# Generalizations
+# #### Generalizations
+#
 # - Unknown mean (Ordinary Kriging)
 # - Co-Kriging (vector-valued fields)
 # - Trend surfaces (non-stationarity assumptions)
-#
-# Kriging estimators can typically also be derived
-# as **Radial basis function (RBF) interpolation**,
-# or **Gaussian process regression** (GP) regression,
-# providing alternative interpretations.
+
+
+# ## Summary
+# The covariances of random fields can sometimes be described by the autocorrelation function,
+# or equivalently, the (semi-)variogram.
+# Covariances form the basis of a family of (geo-)spatial interpolation and approximation
+# methods known as Kriging, which can also be called/interpreted as
+# **Radial basis function (RBF) interpolation**,
+# **Gaussian process regression** (GP) regression.
 #
 # - Kriging is derived by minimizing the variance of linear and unbiased estimators.
 # - RBF interpolation is derived by the explicit desire to fit
 #   N functions to N data points (observations).
 # - GP regression is derived by conditioning (applying Bayes rule)
 #   to the (supposedly) Gaussian distribution of the random field.
-
+#
 # ### Next: [T7 - Chaos & Lorenz](T7%20-%20Chaos%20%26%20Lorenz%20(optional).ipynb)

@@ -259,4 +259,8 @@ def estimate_cross_cov(Ex, Ey):
 # show_answer('errors')
 # -
 
+# ## Summary
+# Parametric assumptions (e.g. assuming Gaussianity) can be useful in approximating distributions.
+# Sample covariance estimates can be expressed and computed in a vectorized form.
+#
 # ### Next: [T9 - Writing your own EnKF](T9%20-%20Writing%20your%20own%20EnKF.ipynb)

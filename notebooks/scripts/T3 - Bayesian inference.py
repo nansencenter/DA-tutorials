@@ -409,4 +409,13 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
 #
 # In summary, the intuitive idea of **considering the mean of $p(x)$ as the point estimate** has good theoretical foundations.
 #
+# ## Summary
+# Bayesian inference quantifies uncertainty (in $x$) using the notion of probability.
+# Bayes' rule says how to condition/merge/assimilate/update this belief based on data/observation ($y$).
+# It is simply a re-formulation of the notion of conditional probability.
+# Observation can be "inverted" using Bayes' rule,
+# in the sense that all possibilities for $x$ are weighted.
+# While technically simple, Bayes' rule becomes expensive to compute in high dimensions,
+# but if Gaussianity can be assumed then it reduces to only 2 formulae.
+#
 # ### Next: [T4 - Filtering & time series](T4%20-%20Time%20series%20filtering.ipynb)

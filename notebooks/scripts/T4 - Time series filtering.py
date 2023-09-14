@@ -361,7 +361,13 @@ def trunc(x, n):
 # you will probably want to prove the mean using induction.*
 
 # ## Summary
-# As a subset of state estimation we can do time series estimation
+# The Kalman filter (KF) can be derived by applying linear-Gaussian assumptions
+# to a sequential inference problem.
+# Generally, the uncertainty never converges to 0,
+# and the performance of the filter is wholly contingent on
+# accurate system parameters (models and error covariance matrices).
+#
+# As a subset of state estimation (i.e. the KF) we can do time series estimation
 # [(wherein state-estimation is called state-space approach)](https://www.google.com/search?q="We+now+demonstrate+how+to+put+these+models+into+state+space+form").
 # Moreover, DA methods produce uncertainty quantification, something which is usually more obscure with time series analysis methods.
 #

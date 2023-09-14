@@ -250,4 +250,12 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # show_answer('Why Gaussian')
 # -
 
+# ## Summary
+# The Normal/Gaussian distribution is bell-shaped.
+# Its parameters are the mean and the variance.
+# In the multivariate case, the mean is a vector,
+# while the second parameter becomes a covariance *matrix*,
+# whose off-diagonal elements represent scaled correlation factors,
+# which measure *linear* dependence.
+#
 # ### Next: [T3 - Bayesian inference](T3%20-%20Bayesian%20inference.ipynb)
