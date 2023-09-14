@@ -26,3 +26,9 @@ repos:
   - id: nb-ensure-clean
     # Optional WHITELIST of metadata keys (you can use regex)
     args: [--meta, pin_output, --meta, lines_to_next_cell, --meta, lines_to_end_of_cell_marker]
+
+- repo: https://github.com/mwouts/jupytext
+  rev: v1.15.1
+  hooks:
+  - id: jupytext
+    args: [--sync]
