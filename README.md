@@ -11,10 +11,7 @@ Jump right in using one of these cloud computing providers:
 *Prerequisites*: basics of calculus, matrices (e.g. inverses),
 random variables, Python (numpy).
 
-<br>
-<br>
-<br>
-<br>
+![ToC](./intro-toc.png)
 
 ### Instructions for working locally
 
