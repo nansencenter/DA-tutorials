@@ -236,6 +236,8 @@ def s(vector, n):
 
 def dxdt96(x, time, Force):
     return (s(x, 1) - s(x, -2)) * s(x, -1) - x + Force
+
+ylims = -10, 20
 # -
 
 store = ["placeholder"]
@@ -264,7 +266,7 @@ def plot_lorenz96(xDim=40,       N=2,      Force=8,       ε=0.01,         Time=
 
 @interact()
 def Hovmoller():
-    plt.contourf(store[0][0], cmap="viridis", vmin=bounds[0], vmax=bounds[1])
+    plt.contourf(store[0][0], cmap="viridis", vmin=ylims[0], vmax=ylims[1])
     plt.colorbar();
     plt.show()
 
