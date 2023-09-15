@@ -15,8 +15,8 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-from resources import show_answer, interact, import_from_nb, get_jointplotter
 
+from resources import show_answer, interact, import_from_nb, get_jointplotter
 # %matplotlib inline
 import numpy as np
 import scipy as sp

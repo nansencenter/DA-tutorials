@@ -15,8 +15,8 @@
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
-from resources import show_answer, EnKF_animation
 
+from resources import show_answer, EnKF_animation
 import numpy as np
 import matplotlib as mpl
 import numpy.random as rnd
