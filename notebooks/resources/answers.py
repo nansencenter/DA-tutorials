@@ -54,69 +54,12 @@ def formatted_display(TYPE, content, bg_color):
     # Compose string
     content = '<div style="'+bg_color+'padding:0.5em;">'+str(content)+'</div>'
 
-    # Fix Colab - MathJax incompatibility
-    setup_typeset()
+    # Obsolete: fix Colab/MathJax, https://github.com/googlecolab/colabtools/issues/322
+    # setup_typeset()
 
     # Display
     display(HTML(content))
 
-
-# TODO: obsolete?
-def setup_typeset():
-    """MathJax initialization for the current cell.
-
-    This installs and configures MathJax for the current output.
-
-    Necessary in Google Colab. Ref:
-    https://github.com/googlecolab/colabtools/issues/322
-    """
-
-    # Only run in Colab
-    try:
-        import google.colab  # type: ignore
-    except ImportError:
-        return
-
-    # Note: The original function enabled \( math \) and \[ math \] style, with:
-    #    'inlineMath': [['$', '$'], ['\\(', '\\)']],
-    #    'displayMath': [['$$', '$$'], ['\\[', '\\]']],
-    # but I disabled this coz regular Jupyter does not support this,
-    # and it breaks MD rendering of regular parantheses and brackets.
-
-
-    URL = '''https://colab.research.google.com/static/mathjax/MathJax.js'''
-    URL += '''?config=TeX-AMS_HTML-full,Safe&delayStartupUntil=configured'''
-    script1 = '''<script src="%s"></script>'''%URL
-    # Alternative URL (also need config?):
-    # - https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js 
-    # - https://www.gstatic.com/external_hosted/mathjax/latest/MathJax.js
-
-    display(HTML(script1 + '''
-            <script>
-                (() => {
-                    const mathjax = window.MathJax;
-                    mathjax.Hub.Config({
-                    'tex2jax': {
-                        'inlineMath': [['$', '$']],
-                        'displayMath': [['$$', '$$']],
-                        'processEscapes': true,
-                        'processEnvironments': true,
-                        'skipTags': ['script', 'noscript', 'style', 'textarea', 'code'],
-                        'displayAlign': 'center',
-                    },
-                    'HTML-CSS': {
-                        'styles': {'.MathJax_Display': {'margin': 0}},
-                        'linebreaks': {'automatic': true},
-                        // Disable to prevent OTF font loading, which aren't part of our
-                        // distribution.
-                        'imageFont': null,
-                    },
-                    'messageStyle': 'none'
-                });
-                mathjax.Hub.Configured();
-            })();
-            </script>
-            '''))
 
 answers = {}
 
