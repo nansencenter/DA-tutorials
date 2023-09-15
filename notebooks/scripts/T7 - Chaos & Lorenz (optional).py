@@ -196,7 +196,7 @@ def histograms():
 # A somewhat rudimentary weather forecasting initialisation (i.e. DA) technique,
 # called **optimal interpolation**,
 # consists in using the climatology as the prior (as opposed to yesterday's forecast)
-# when applying Bayes' rule (in its [Gaussian guise](http://localhost:8888/notebooks/notebooks/T3%20-%20Bayesian%20inference.ipynb#Gaussian-Gaussian-Bayes'-rule-(1D)) to the observations of the day.
+# when applying Bayes' rule (in its [Gaussian guise](T3%20-%20Bayesian%20inference.ipynb#Gaussian-Gaussian-Bayes'-rule-(1D))) to the observations of the day.
 
 # ## The Lorenz-96 model
 #
@@ -219,7 +219,7 @@ def histograms():
 #     <li> there is energy-conserving advection, emulated by quadratic terms.</li>
 # </ul>
 #
-# [Further description in the very readable original article](http://eaps4.mit.edu/research/Lorenz/Predicability_a_Problem_2006.pdf).
+# [Further description in the very readable original article](https://www.ecmwf.int/sites/default/files/elibrary/1995/75462-predictability-problem-partly-solved_0.pdf).
 
 # **Exc (optional) -- Conservation of energy:** Show that the "total energy" $\sum_{i=1}^{\xDim} \x_i^2$ is preserved by the quadratic terms in the ODE.  
 # *Hint: consider its time derivative.*

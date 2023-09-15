@@ -516,8 +516,9 @@ answers['Posterior cov'] =  ['MD', r"""
       * It means that information is always gained.
       * No, not always.  
         But on average, yes:  
-        [the "expected" posterior entropy (and variance)
-        is always smaller than that of the prior.](https://www.quora.com/What-conditions-guarantee-that-the-posterior-variance-will-be-less-than-the-prior-variance#)
+        the "expected" posterior entropy (and variance)
+        is always smaller than that of the prior.
+        This follows from the [law of total variance](https://en.wikipedia.org/wiki/Law_of_total_variance).
   * It probably won't have decreased. Maybe you will just discard the new information entirely, in which case your certainty will remain the same.  
     I.e. humans are capable of thinking hierarchically, which effectively leads to other distributions than the Gaussian one.
 """]

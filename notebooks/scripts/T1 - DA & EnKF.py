@@ -103,7 +103,7 @@ plt.legend();
 # (climate, ocean, hydrology, petroleum)
 # state estimation is known as **data assimilation** (DA),
 # and is thought of as a "bridge" between data and models,
-# as illustrated on the right (source: <a href="http://www.aics.riken.jp">www.aics.riken.jp</a>)
+# as illustrated on the right (source: <a href="https://aics.riken.jp/en">https://aics.riken.jp/en</a>)
 # <img align="right" width="400" src="./resources/DA_bridges.jpg" alt='DA "bridges" data and models.'/>.
 # For example, in weather applications, the dynamical model is an atmospheric fluid-mechanical simulator, the state variable consists of the fields of pressure, humidity, and wind quanities discretized on a grid,
 # and the observations may come from satellite or weather stations.

@@ -81,7 +81,7 @@ plt.ion();
 #  * (i) $\B \bH\tr$: the cross-covariance between $\x\supf$ and $\ObsMod(\x\supf)$, and
 #  * (ii) $\bH \B \bH\tr$: the covariance matrix of $\ObsMod(\x\supf)$,
 #
-# in the formula for $\K$, namely eqn. (K1) of [T5](T5%20-%20Kalman%20filter%20(multivariate).ipynb).
+# in the formula for $\K$, namely eqn. (K1) of [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb).
 # Using the estimators from [T8](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb) yields
 # $$\begin{align}
 # 	\barK &= \X \Y\tr ( \Y \Y\tr + (N{-}1) \R )^{-1} \,, \tag{5a}
@@ -99,7 +99,7 @@ plt.ion();
 EnKF_animation()
 
 # #### Exc -- Woodbury for the ensemble subspace
-# (a) Use the Woodbury identity (C2) of [T5](T5%20-%20Kalman%20filter%20(multivariate).ipynb) to show that eqn. (5) can also be written
+# (a) Use the Woodbury identity (C2) of [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb) to show that eqn. (5) can also be written
 # $$\begin{align}
 # 	\barK &= \X ( \Y\tr \Ri \Y + (N{-}1)\I_N  )^{-1} \Y\tr \Ri \,. \tag{5b}
 # \end{align}
@@ -172,7 +172,7 @@ EnKF_animation()
 #
 # Before making the EnKF, we'll set up an experiment to test it with, so that you can check if you've implemented a working method or not.
 #
-# To that end, we'll use the Lorenz-63 model, from [T7](T7%20-%20Chaos%20%26%20Lorenz.ipynb). The coupled ODEs are recalled here, but with some of the parameters fixed.
+# To that end, we'll use the Lorenz-63 model, from [T7](T7%20-%20Chaos%20%26%20Lorenz%20(optional).ipynb). The coupled ODEs are recalled here, but with some of the parameters fixed.
 
 # +
 xDim = 3
