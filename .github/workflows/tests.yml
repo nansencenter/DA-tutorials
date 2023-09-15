@@ -5,6 +5,8 @@ on:
     branches: [ "master" ]
   pull_request:
     branches: [ "master", "dev" ]
+  schedule:
+    - cron:  '0 9 * * MON'
 
 permissions:
   contents: read
@@ -19,7 +21,15 @@ jobs:
     - name: Set up Python 3.10
       uses: actions/setup-python@v3
       with:
-        python-version: "3.10"
+        python-version: "3.10"  # try to keep similar to Colab
+
+    # Takes too long to run (>40min)
+    # Could use docker instead? https://github.com/wsvn53/docker-colab-runtime-local
+    # - name: Setup environment similar to Colab
+    #   run: |
+    #     python -m pip install --upgrade pip
+    #     wget https://raw.githubusercontent.com/googlecolab/backend-info/main/pip-freeze.txt -O colab-freeze.txt
+    #     cat colab-freeze.txt | grep -v '^#' | xargs -n 1 pip install  # 1-at-a-time ⇒ ignore errors
 
     - name: Install dependencies
       run: |
