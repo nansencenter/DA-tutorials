@@ -57,6 +57,8 @@ This is a bit snappier than running them online.
 
 *Please don't hesitate to submit issues or pull requests!*
 
+[![GitHub CI](https://github.com/nansencenter/DA-tutorials/actions/workflows/tests.yml/badge.svg)](https://github.com/nansencenter/DA-tutorials/actions)
+
 #### Why `scripts/` dir?
 
 - Easier to read git diffs
