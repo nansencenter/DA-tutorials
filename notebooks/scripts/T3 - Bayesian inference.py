@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.7
+#       jupytext_version: 1.15.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -306,7 +306,7 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 # p(x|y)
 # = \mathcal{N}(x \mid x\supa, P\supa) \,,
 # $
-# where, in the 1-dimensional/univariate/scalar (multivariate is discussed in [T5](T5%20-%20Kalman%20filter%20(multivariate).ipynb)) case:
+# where, in the 1-dimensional/univariate/scalar (multivariate is discussed in [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb)) case:
 #
 # $$\begin{align}
 #     P\supa &= 1/(1/P\supf + \ObsMod^2/R) \,, \tag{5} \\\

@@ -1,9 +1,7 @@
-# DAPPER is maintained for compatibility with Colab
-# and its deps https://github.com/nansencenter/DAPPER/issues/41#issuecomment-1381616971)
-# include most of the packages needed for the tutorial.
+# DAPPER is maintained for compatibility with Colab.
+# https://github.com/nansencenter/DAPPER/issues/41#issuecomment-1381616971
 dapper==1.5.1
-# -e ${HOME}/P/DAPPER
+# -e ${HOME}/path/DAPPER
 
 jupyter
 Markdown==3.1
-pre-commit

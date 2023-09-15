@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.14.7
+#       jupytext_version: 1.15.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -103,7 +103,7 @@ plt.legend();
 # (climate, ocean, hydrology, petroleum)
 # state estimation is known as **data assimilation** (DA),
 # and is thought of as a "bridge" between data and models,
-# as illustrated on the right (source: <a href="http://www.aics.riken.jp">www.aics.riken.jp</a>)
+# as illustrated on the right (source: <a href="https://aics.riken.jp/en">https://aics.riken.jp/en</a>)
 # <img align="right" width="400" src="./resources/DA_bridges.jpg" alt='DA "bridges" data and models.'/>.
 # For example, in weather applications, the dynamical model is an atmospheric fluid-mechanical simulator, the state variable consists of the fields of pressure, humidity, and wind quanities discretized on a grid,
 # and the observations may come from satellite or weather stations.
