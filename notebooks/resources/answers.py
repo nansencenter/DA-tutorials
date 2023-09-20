@@ -1220,7 +1220,7 @@ answers['EnKF v1'] = ['MD', r'''
     def my_EnKF(N):
         """My implementation of the EnKF."""
         ### Init ###
-        E = mu0[:, None] + P0_chol @ rnd.randn(xDim, N)
+        E = xa[:, None] + Pa12 @ rnd.randn(xDim, N)
         for k in tqdm(range(1, nTime+1)):
             t = k*dt
             ### Forecast ##
