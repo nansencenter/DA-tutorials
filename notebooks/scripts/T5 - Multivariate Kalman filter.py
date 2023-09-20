@@ -233,7 +233,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # Prove the identity. *Hint: don't derive it, just prove it!*
 
 # +
-# show_answer('Woodbury')
+# show_answer('Woodbury general')
 # -
 
 # #### Exc (optional) -- Matrix shape compatibility

@@ -781,8 +781,7 @@ answers['nD-covars are big a'] = ['MD', r'''
 ${\\xDim}$-by-${\\xDim}$
 ''']
 answers['nD-covars are big b'] = ['MD', r'''
-Using the [cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation),
-at least 2 times ${\\xDim}^3/3$.
+$2 {\\xDim}^3/3$.
 ''']
 answers['nD-covars are big c'] = ['MD', r'''
 Assume ${\bP\supf}$ stored as float (double). Then it's 8 bytes/element.
@@ -799,7 +798,7 @@ you to forecast the dynamics $2^o$ times slower,
 where $o$ is the highest order of temporal derivatives in your PDEs.*
 ''']
 
-answers['Woodbury'] = ['MD', r'''
+answers['Woodbury general'] = ['MD', r'''
 We show that the left hand side (LHS) -- without the surrounding inverse --
 gets "cancelled" by multiplication with the RHS.
 $$
@@ -849,7 +848,6 @@ answers["rk4"] = ["MD", r'''
     for k, t in enumerate(time_steps[:-1]):
         ens = rk4(dxdt_fixed, ens.T, t, dt).T
         integrated.append(ens)
-    integrated = np.swapaxes(integrated, 0, 1)  # (len(ens), len(time_steps)) make axis=0 for the realisations
     return np.swapaxes(integrated, 0, 1), time_steps
 
 Note that such double transposing is not the only way to vectorise.
