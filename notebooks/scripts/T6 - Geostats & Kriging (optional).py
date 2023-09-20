@@ -42,7 +42,7 @@ plt.ion();
 # Set some parameters
 
 rnd.seed(3000)
-grid1D = np.linspace(0, 1, 61)
+grid1D = np.linspace(0, 1, 21)
 N = 15  # ensemble size
 
 # ## Variograms
@@ -80,28 +80,38 @@ def plot_variogram(Range=1, nugget=0):
     plt.show()
 
 
-# ## Random fields (1D)
-
-# In order to apply the variogram we must be able to compute the distances between sets (A, B) of points. The following is a fairly efficient implementation.
+# In order to apply the variogram, we must first compute distances.
+# The following is a fairly efficient implementation.
 
 def dist_euclid(A, B):
-    """Compute $ d_ij = \| a_i - b_j \|_2 $ for `a_i in A` and `b_j in B`."""
+    """Compute the l2-norm between each point (row) of A and B"""
     diff = A[:, None, :] - B
     d2 = np.sum(diff**2, axis=-1)
     return np.sqrt(d2)
 
+# Now the full covariance (matrix) between any sets of points can be defined by the following.
+
+def covar(coords, **vg_params):
+    dists = dist_euclid(coords, coords)
+    return 1 - variogram(dists, **vg_params)
+
+
+fig, ax = freshfig("1D covar")
+C = covar(grid1D[:, None], Range=1, kind="Gauss", nugget=1e-3)
+ax.matshow(C, cmap="RdBu");
+
+
+# ## Random fields (1D)
+
 # Gaussian random variables (vectors) are fully specified by their mean and covariance.
-# We can use the above variogram function to define the covariance (matrix) between points,
-# by first computing the distances between them.
 # Once in posession of a covariance matrix, we can use it to sample random variables
 # by multiplying its cholesky factor (square root) onto standard normal variables.
 
 def gaussian_fields(coords, **vg_params):
     """Gen. random (Gaussian) fields at `coords` (no structure/ordering required)."""
-    dists = dist_euclid(coords, coords)
-    covar = 1 - variogram(dists, **vg_params)
-    cholL = sla.cholesky(covar).T
-    fields = cholL @ rnd.randn(len(coords), N)
+    C = covar(coords, **vg_params)
+    L = sla.cholesky(C)
+    fields = L.T @ rnd.randn(len(L.T), N)
     return fields
 
 # #### Exc
@@ -156,6 +166,13 @@ fig, axs = freshfig(num="2D random fields", figsize=(5, 4),
 for ax, field in zip(axs.ravel(), fields.T):
     contour_plot(ax, field, has_obs=False)
 # -
+
+# It might be interesting to inspect the covariance matrix in this 2D case.
+
+C = covar(grid2D, **vg_params)
+fig, ax = freshfig("2D covar")
+ax.matshow(C, cmap="RdBu", vmin=0, vmax=1);
+ax.grid(False)
 
 # ## Estimation problem
 
