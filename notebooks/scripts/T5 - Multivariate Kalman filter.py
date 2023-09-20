@@ -44,8 +44,8 @@ plt.ion();
 #   - such that $x_{k+1}$ equals the analytic solution requires $\DynMod = e^{- \beta\, \Delta t}$.
 #   - *PS: note that the 1-st order Taylor expansion of each scheme is the same.*
 # - Recall that $\{x_k\}$ became a (noisy) constant (horizontal) line when $\DynMod = 1$,
-#   which makes sense since then $\beta = 0$.
-# - Similarly, a straight (sloping) line would result from
+#   which makes sense since then $\beta = 0$.  
+#   Similarly, a straight (sloping) line would result from
 #   $\frac{d^2 x}{d t^2} = 0 \,.$
 #
 # To make matters more interesting we're now going to consider the $\xDim$-th order model:
@@ -72,7 +72,7 @@ Q = 0.01**2 * np.diag(1+np.arange(xDim))
 # -
 
 # #### Observing system
-# Note that will generate a $\xDim$-dimensional time series.
+# The above will generate a $\xDim$-dimensional time series.
 # But we will only observe the 1st (`0`th in Python) element/component of the state vector.
 # We say that the other components are **hidden**.
 
@@ -135,7 +135,7 @@ plt.legend();
 # 			\bP\supa &= \big(\ObsMod\tr \Ri \ObsMod + (\bP\supf)^{-1}\big)^{-1} \,, \tag{5} \\
 # 			\x\supa &= \bP\supa\left[\ObsMod\tr \Ri \y + (\bP\supf)^{-1} \x\supf\right] \tag{6} \,,
 # \end{align}
-# *PS: all of the above could be subscripted by a single time index ($k$), but that seems unnecessary.*
+# *PS: all of the objects in the analysis equations could also be subscripted by the time index ($k$), but that seems unnecessary (since it is the same one for all of the objects involved).*
 #
 # **Exc (optional) -- The 'precision' form of the KF:** Prove eqns (4-6).  
 # *Hint: similar to the [univariate case](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes), the main part lies in "completing the square" in $\x$.*
@@ -184,8 +184,8 @@ for i, (ax, truth, estim) in enumerate(zip(axs, truths.T, estims.T)):
     ax.set_xlim([0, nTime])
 
 
-# It is also about time that we have a look at how the state uncertainty/error covariance matrix looks. After all, it is the covariance that is used by the KF to update the hidden state estimates. But since the scales are so different between the components, it is more suitable to consider the correlation matrix. Run the cell below, and note that
-# - It converges in time to a fixed value, as we might expect from T4.
+# Note that the other, *unobserved* components also get updated. As you can tell from eqn. (5), the KF will update such *hidden* components as long as $\bP\supf$ is not diagonal (i.e. as long as there are correlations between the state components). Let us inspect this correlation matrix. Run the cell below, and note that
+# - It converges in time to a fixed value, as we might expect from [T4](T4%20-%20Time%20series%20filtering.ipynb#Exc----Temporal-convergence).
 # - There are no negative correlations in this case, which is perhaps a bit boring.
 
 @interact(k=(1, nTime))
