@@ -962,22 +962,22 @@ answers['Kriging code'] = ["MD", r"""
 
 answers['KDE'] = ['MD', r'''
     from scipy.stats import gaussian_kde
-    ax.plot(xx, gaussian_kde(E.ravel()).evaluate(xx), label="KDE estimate")
+    ax.plot(grid1d, gaussian_kde(E.ravel(), 10.**log_bw)(grid1d), label="KDE estimate")
 ''']
 
 answers['Gaussian sampling a'] = ['MD', r'''
-Type `rnd.randn??` in a code cell and execute it.
+TODO
 ''']
 answers['Gaussian sampling b'] = ['MD', r'''
     z = rnd.randn(xDim, 1)
-    x = b + L @ z
+    x = mu + L @ z
 ''']
 
 answers['Gaussian sampling c'] = ['MD', r'''
-    E = b[:, None] + L @ rnd.randn(xDim, N)
+    E = mu[:, None] + L @ rnd.randn(xDim, N)
     # Alternatives:
-    # E = np.random.multivariate_normal(b, B, N).T
-    # E = ( b + rnd.randn(N, xDim) @ L.T ).T
+    # E = np.random.multivariate_normal(mu, C, N).T
+    # E = ( mu + rnd.randn(N, xDim) @ L.T ).T
 ''']
 
 answers['Average sampling error'] = ['MD', r'''
@@ -985,17 +985,17 @@ Procedure:
 
  1. Repeat the experiment many times.
  2. Compute the average error ("bias") of $\bx$. Verify that it converges to 0 as $N$ is increased.
- 3. Compute the average *squared* error. Verify that it is approximately $\text{diag}(\B)/N$.
+ 3. Compute the average *squared* error. Verify that it is approximately $\text{diag}(\mat{C})/N$.
 ''']
 
 answers['ensemble moments'] = ['MD', r'''
     x_bar = np.sum(E, axis=1)/N
-    B_bar = np.zeros((xDim, xDim))
+    C_bar = np.zeros((xDim, xDim))
     for n in range(N):
         xc = (E[:, n] - x_bar)[:, None] # x_centered
-        B_bar += xc @ xc.T
-        #B_bar += np.outer(xc, xc)
-    B_bar /= (N-1)
+        C_bar += xc @ xc.T
+        #C_bar += np.outer(xc, xc)
+    C_bar /= (N-1)
 ''']
 
 answers['Why (N-1)'] = ['MD', r'''
@@ -1034,7 +1034,7 @@ answers['ensemble moments vectorized'] = ['MD', r'''
 
     x_bar = np.sum(E, axis=1, keepdims=True)/N
     X     = E - x_bar
-    B_bar = X @ X.T / (N-1)   
+    C_bar = X @ X.T / (N-1)   
 ''']
 
 # Skipped
