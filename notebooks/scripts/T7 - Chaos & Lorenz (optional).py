@@ -125,6 +125,7 @@ def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0
             ax.plot(times[-start:], orbits[-start:], lw=1, alpha=.5)
             ax.set_ylabel(dim)
         ax.set_xlabel('Time')
+    plt.show()
 
 
 # #### Exc -- Bifurcation hunting
@@ -188,7 +189,7 @@ def histograms():
         hist(ax, trajectories63[:, -1, i],            "at final time")
         hist(ax, trajectories63[-1, ::int(.2/dt), i], "of final member")
         ax.set_title(f"Component {lbl}")
-    plt.legend()
+    plt.legend();
 
 
 # The long-run distribution of a system may be called its **climatology**.
@@ -251,6 +252,7 @@ def plot_lorenz96(xDim=40,       N=2,      Force=8,       ε=0.01,         Time=
     plt.figure(figsize=(7, 4))
     plt.plot(np.arange(xDim), trajectories[:, -1].T)
     plt.ylim(-10, 20)
+    plt.show()
 
 # #### Exc -- Bifurcation hunting 96
 # Investigate by moving the sliders (but keep `xDim=40`): Under which settings of the force `F`
