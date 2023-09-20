@@ -800,7 +800,8 @@ where $o$ is the highest order of temporal derivatives in your PDEs.*
 ''']
 
 answers['Woodbury'] = ['MD', r'''
-We show that they cancel:
+We show that the left hand side (LHS) -- without the surrounding inverse --
+gets "cancelled" by multiplication with the RHS.
 $$
 \begin{align}
   &\left(\B^{-1}+\V\tr \R^{-1} \U \right)
