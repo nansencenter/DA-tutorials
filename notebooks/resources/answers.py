@@ -1025,26 +1025,19 @@ answers['Gaussian sampling a'] = ['MD', r'''
 TODO
 ''']
 answers['Gaussian sampling b'] = ['MD', r'''
-    z = rnd.randn(xDim, 1)
-    x = mu + L @ z
+
+    # Different versions
+    # -- You only really need to understand one of the first ones
+    E = mu[:, None] + L@Z               # broadcasting with a 2d mu
+    E = np.atleast_2d(mu).T + L@Z       # broadcasting with a 2d mu
+    E = (mu + (L@Z).T).T                # broadcasting with 1d mu
+    E = np.tile(mu, (N, 1)).T + L@Z     # no broadcasting
+    E = np.outer(mu, np.ones(N)) + L@Z  # like in Matlab
+    E = np.random.multivariate_normal(mu, C, N).T
+
 ''']
 
-answers['Gaussian sampling c'] = ['MD', r'''
-    E = mu[:, None] + L @ rnd.randn(xDim, N)
-    # Alternatives:
-    # E = np.random.multivariate_normal(mu, C, N).T
-    # E = ( mu + rnd.randn(N, xDim) @ L.T ).T
-''']
-
-answers['Average sampling error'] = ['MD', r'''
-Procedure:
-
- 1. Repeat the experiment many times.
- 2. Compute the average error ("bias") of $\bx$. Verify that it converges to 0 as $N$ is increased.
- 3. Compute the average *squared* error. Verify that it is approximately $\text{diag}(\mat{C})/N$.
-''']
-
-answers['ensemble moments'] = ['MD', r'''
+answers['ensemble moments, loop'] = ['MD', r'''
     x_bar = np.sum(E, axis=1)/N
     C_bar = np.zeros((xDim, xDim))
     for n in range(N):
@@ -1065,11 +1058,11 @@ as well as inflation and localisation.*
 ''']
 
 answers['variance estimate statistics'] = ['MD', r'''
- * Visibly, the expected value (mean) of $1/\barB$ is not $1$,
-   so $1/\barB$ is not unbiased. This is to be expected,
+ * Visibly, the expected value (mean) of $1/\barC$ is not $1$,
+   so $1/\barC$ is not unbiased. This is to be expected,
    since taking the reciprocal is a *nonlinear* operation.
- * The mean of $\barB$ is $1$ for any ensemble size.
- * The mean  of $1/\barB$ is infinite for $ N=2 $,
+ * The mean of $\barC$ is $1$ for any ensemble size.
+ * The mean  of $1/\barC$ is infinite for $ N=2 $,
    and decreases monotonically as $ N $ increases,
    tending to $1$ as $ N $ tends to $+\infty$.
 
@@ -1083,7 +1076,7 @@ answers['ensemble moments vectorized'] = ['MD', r'''
  * (b). Show that element $(i, j)$ of the matrix product $\X^{} \Y^T$  
  equals element $(i, j)$ of the sum of the outer product of their columns:
  $\sum_n \x_n \y_n^T$.  
- Put this in the context of $\barB$.
+ Put this in the context of $\barC$.
  * (c). Use the following code:
 
 ...
