@@ -99,22 +99,18 @@ E = np.zeros((xDim, N))
 for n in range(N):
     E[:, n] = mu + L@Z[:, n]
 
-# Comparison to true values
-fig, (ax1, ax2) = plt.subplots(ncols=2)
-kws = dict(vmin=C.min(), vmax=C.max(), cmap="Blues")
-cc = ax1.matshow(C, **kws)
-cc = ax2.matshow(np.cov(E), **kws)
-fig.colorbar(cc, ax=(ax1, ax2), orientation='horizontal')
-with np.printoptions(precision=1):
-    print("Estimated mean =", np.mean(E, axis=1))
-
-
 # +
 # show_answer('Gaussian sampling', 'b')
 # -
 
-# Note that the estimates are not exact. 
-# They contain some amount of random error, a.k.a. ***sampling error***.
+# The following prints some numbers that can be used to ascertain if you got it right.
+# Note that the estimates will never be exact:
+# they contain some amount of random error, a.k.a. ***sampling error***.
+
+with np.printoptions(precision=1):
+    print("Estimated mean =", np.mean(E, axis=1))
+    print("Estimated cov =", np.cov(E), sep="\n")
+
 
 # **Exc -- Moment estimation code:** Above, we used numpy's (`np`) functions to compute the sample-estimated mean and covariance matrix,
 # $\bx$ and $\barC$,
