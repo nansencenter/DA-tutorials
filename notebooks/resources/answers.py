@@ -61,7 +61,6 @@ def formatted_display(TYPE, content, bg_color):
     display(HTML(content))
 
 
-# TODO: obsolete?
 def setup_typeset():
     """MathJax initialization for the current cell.
 
@@ -69,6 +68,7 @@ def setup_typeset():
 
     Necessary in Google Colab. Ref:
     https://github.com/googlecolab/colabtools/issues/322
+    NB: this is NOT obsolete (Sept 2023)!
     """
 
     # Only run in Colab
