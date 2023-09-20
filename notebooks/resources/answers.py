@@ -796,7 +796,7 @@ $(2^3)^2 = 64$ times more.
 
 *PS: In addition, note that the CFL condition may require
 you to forecast the dynamics $2^o$ times slower,
-where $o$ is the highest order of temporal derivatives in your PDEs.
+where $o$ is the highest order of temporal derivatives in your PDEs.*
 ''']
 
 answers['Woodbury'] = ['MD', r'''
