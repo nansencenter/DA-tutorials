@@ -1052,7 +1052,7 @@ answers['ensemble moments'] = ['MD', r'''
     for n in range(N):
         xc = (E[:, n] - x_bar)[:, None] # x_centered
         C_bar += xc @ xc.T
-        #C_bar += np.outer(xc, xc)
+        # C_bar += np.outer(xc, xc)
     C_bar /= (N-1)
 ''']
 
