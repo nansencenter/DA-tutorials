@@ -84,7 +84,6 @@ def interact(top=None, right=None, bottom=None, left=None, **kwargs):
     ...     xx = np.linspace(0, 3, 21)
     ...     if c: plt.plot(xx, e*d/a + xx**b)
     ...     else: plt.plot(xx, b + xx)
-    ...     plt.show()
     """
 
     def get_dict(iterable):
@@ -185,6 +184,7 @@ def interact(top=None, right=None, bottom=None, left=None, **kwargs):
 
         display(dashboard);
         linked.update()  # necessary on Colab
+        plt.show()
 
     if interact.disabled:
         # Used with hacky `import_from_nb`
