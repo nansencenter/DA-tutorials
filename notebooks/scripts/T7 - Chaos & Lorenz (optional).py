@@ -44,7 +44,7 @@ plt.ion();
 
 # +
 from scipy.integrate import odeint
-# from dapper.mods.integration import rk4
+from dapper.mods.integration import rk4
 dt = 0.01
 
 def integrate(dxdt, initial_states, final_time, **params):
