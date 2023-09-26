@@ -28,7 +28,8 @@ def _report_error(msg):
 
 def _link_is_down(link):
     try:
-        request = urllib.request.Request(link, method="HEAD")
+        request = urllib.request.Request(
+            link, method="HEAD", headers={'User-Agent': 'Mozilla'})
         response = urllib.request.urlopen(request, timeout=2)
         assert response.status == 200
     except Exception as e:
