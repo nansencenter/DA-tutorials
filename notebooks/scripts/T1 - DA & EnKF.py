@@ -182,7 +182,7 @@ if False:
 
 # ### Vocabulary exercises
 # **Exc -- Word association:**
-# Fill in the `X`'s in the table to group the words according to meaning.
+# Fill in the `x`'s in the table to group the words with similar meaning.
 #
 # `Sample, Random, Measurements, Forecast initialisation, Monte-Carlo, Observations, Set of draws`
 #
@@ -200,14 +200,15 @@ if False:
 # * Can you describe the (important!) nuances between the similar words?
 
 # **Exc (optional) -- Word association 2:**
-# Group these words:
+# Also group these words:
 #
-# `Inverse problems, Sample point, Knowledge, Probability, Particle, Sequential, Inversion, Realization, Relative frequency, Information, Iterative, Estimate, Estimation, Single draw, Serial, Regression, Fitting, Uncertainty`
+# `Inverse problems, Operator, Sample point, Transform(ation), Knowledge, Relation, Probability, Mapping, Particle, Sequential, Inversion, Realization, Relative frequency, Information, Iterative, Estimate, Estimation, Single draw, Serial, Regression, Model, Fitting, Uncertainty`
 #
 # - Statistical inference, x, x, x, x, x
 # - Ensemble member, x, x, x, x
 # - Quantitative belief, x, x, x, x, x, x
 # - Recursive, x, x, x
+# - Function, x, x, x, x, x
 
 # +
 # show_answer('thesaurus 2')

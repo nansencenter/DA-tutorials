@@ -135,6 +135,7 @@ answers['thesaurus 2'] = ["TXT", r"""
 - Ensemble member, Sample point, Realization, Single draw, Particle
 - Quantitative belief, Probability, Relative frequency, Estimate, Information, Uncertainty, Knowledge
 - Recursive, Sequential, Iterative, Serial
+- Function, Operator, Model, Transform(ation), Mapping, Relation
 """]
 
 answers['Discussion topics 1'] = ['MD', r'''
