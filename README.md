@@ -1,7 +1,8 @@
 # Intro to data assimilation (DA) and the EnKF
 
 An interactive (Jupyter notebook) tutorial.
-Jump right in using one of these cloud computing providers:
+Jump right in (no installation!) by clicking
+the button of one of these cloud computing providers:
 
 - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](http://colab.research.google.com/github/nansencenter/DA-tutorials)
   (requires Google login)
@@ -15,7 +16,7 @@ random variables, Python (numpy).
 
 ### Instructions for working locally
 
-You can also run these notebooks on your own (Linux/Windows/Mac) computer.
+If you prefer, you can also run these notebooks on your own (Linux/Windows/Mac) computer.
 This is a bit snappier than running them online.
 
 1. **Prerequisite**: Python 3.9.  
