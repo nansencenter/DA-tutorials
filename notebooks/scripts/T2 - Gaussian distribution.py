@@ -95,8 +95,8 @@ def plot_pdf(mu=0, sigma1=5):
 #
 #  * (i) Find $x$ such that $p(x) = 0$.
 #  * (ii) Where is the location of the **mode (maximum)** of the density?  
-#    I.e. find $x$ such that $\frac{d p}{d x}(x) = 0$.  
-#    *Hint: it's easier to analyse $\log p(x)$ rather than $p(x)$ itself.*
+#    I.e. find $x$ such that $\frac{d p}{d x}(x) = 0$.
+#    *Hint: begin by writing $p(x)$ as $c e^{- J(x)}$ for some $J(x)$.*
 #  * (iii) Where is the **inflection point**? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
 #  * (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
 
