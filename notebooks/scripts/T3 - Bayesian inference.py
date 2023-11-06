@@ -106,7 +106,7 @@ def Bayes_rule(prior_values, lklhd_values, dx):
 #
 # The code below shows Bayes' rule in action, for prior $p(x) = \NormDist(x|x^f, P^f)$ and likelihood, $p(y|x) = \NormDist(y|x, R)$. The parameters of the prior are fixed at $x^f= 10$, $P^f=4^2$ (this ugly mean & variance notation is a necessary evil for later). The parameters of the likelihood are controlled through the interactive sliders.
 
-@interact(y=(*bounds, 1), logR=(-3, 5, .5), top=['y', 'logR'])
+@interact(y=(*bounds, 1), logR=(-3, 5, .5), top=[['y', 'logR']])
 def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
     R = 4**logR
     xf = 10
