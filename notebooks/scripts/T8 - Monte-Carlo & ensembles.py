@@ -56,6 +56,7 @@ def pdf_reconstructions(seed=5,       nbins=10,      bw=.3):
     ax.hist(E, nbins, density=1, alpha=.7, color="C5",                     label="Histogram")
     ax.plot(grid1d, pdf_G1(grid1d, np.mean(E), np.var(E)), lw=5,           label="Parametric")
     ax.plot(grid1d, gaussian_kde(E.ravel(), bw**2).evaluate(grid1d), lw=5, label="KDE")
+    ax.set_ylim(top=(3*sigma2)**-.5)
     ax.legend()
     plt.show()
 
