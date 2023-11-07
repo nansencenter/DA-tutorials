@@ -64,21 +64,21 @@ def pdf_G1(x, mu, sigma2):
 # The following code plots the Gaussian pdf.
 
 hist = []
-@interact(mu=bounds, sigma1=(.1, 10, 1))
-def plot_pdf(mu=0, sigma1=5):
+@interact(mu=bounds, sigma=(.1, 10, 1))
+def plot_pdf(mu=0, sigma=5):
     plt.figure(figsize=(6, 2))
     colors = plt.get_cmap('hsv')([(k-len(hist))%9/9 for k in range(9)])
     plt.xlim(*bounds)
     plt.ylim(0, .2)
-    hist.insert(0, pdf_G1(grid1d, mu, sigma1**2))
+    hist.insert(0, pdf_G1(grid1d, mu, sigma**2))
     for density_values, color in zip(hist, colors):
         plt.plot(grid1d, density_values, c=color)
     plt.show()
 
 # #### Exc -- parameter influence
-# Play around with `mu` and `sigma2` to answer these questions:
+# Play around with `mu` and `sigma` to answer these questions:
 #  * How does the pdf curve change when `mu` changes?
-#  * How does the pdf curve change when you increase `sigma2`?
+#  * How does the pdf curve change when you increase `sigma`?
 #  * In a few words, describe the shape of the Gaussian pdf curve.
 #    Does this ring a bell? *Hint: it should be clear as a bell!*
 
