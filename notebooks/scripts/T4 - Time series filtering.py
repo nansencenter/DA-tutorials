@@ -270,6 +270,23 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # show_answer('Asymptotes when Q>0')
 # -
 
+# #### Exc (optional) -- Analytic simplification in the case of an unknown constant
+#
+# - Note that in case $Q = 0$,
+# then $x_{k+1} = \DynMod^k x_0$.  
+# - So if $\DynMod = 1$, then $x_k = x_0$, so we are estimating an unknown *constant*,
+# and can drop its time index subscript.  
+# - For simplicity, assume $\ObsMod = 1$, and $P^a_0 \rightarrow +\infty$.  
+# - Then $p(x | y_{1:k}) \propto \exp \big\{- \sum_l \| y_l - x \|^2_R / 2 \big\}
+# = \NormDist(x | \bar{y}, R/k )$, which again follows by completing the square.  
+# - In words, the (accumulated) posterior mean is the sample average,
+#   $\bar{y} = \frac{1}{k}\sum_l y_l$,  
+#   and the variance is that of a single observation divided by $k$.
+#
+# Show that this is the same posterior that the KF recursions produce.  
+# *Hint: while this is straightforward for the variance,
+# you will probably want to prove the mean using induction.*
+
 # #### Exc -- Impact of biases
 # Re-run the above interative animation to set the default control values. Answer the following
 #
@@ -298,20 +315,9 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # Indeed, the word "filter" in the KF originates in that domain,
 # where it originally referred to the removal of high-frequency noise,
 # since this tends to coincide with an improved estimate of the signal.
-#
-# But for the above problem (which is linear-Gaussian!),
-# the KF is guaranteed (on average, in the long run, in terms of mean square error)
-# to outperform any other method.
-# We will see cases later (of full-blown state estimation)
-# where the difference is much clearer,
-# and indeed it might not even be clear how to apply signal processing methods.
-# However, the KF has an unfair advantage: we are giving it a ton of information
-# about the problem (`M, H, R, Q`) that the signal processing methods do not get.
-# Therefore, they typically also require a good deal of tuning
-# (in practice, so does the KF, since `Q` and `R` are rarely well determined).
 # We will not review any signal processing theory here,
 # but challenge you to make use of what `scipy` already has to offer.
-#  
+#
 # #### Exc (optional) -- signal processing
 # Run the following cell to import and define some more tools.
 
@@ -343,22 +349,16 @@ def trunc(x, n):
 # show_answer('signal processing', 'a')
 # -
 
-# #### Exc (optional) -- Analytic simplification in the case of an unknown constant
-#
-# - Note that in case $Q = 0$,
-# then $x_{k+1} = \DynMod^k x_0$.  
-# - So if $\DynMod = 1$, then $x_k = x_0$, so we are estimating an unknown *constant*,
-# and can drop its time index subscript.  
-# - For simplicity, assume $\ObsMod = 1$, and $P^a_0 \rightarrow +\infty$.  
-# - Then $p(x | y_{1:k}) \propto \exp \big\{- \sum_l \| y_l - x \|^2_R / 2 \big\}
-# = \NormDist(x | \bar{y}, R/k )$, which again follows by completing the square.  
-# - In words, the (accumulated) posterior mean is the sample average,
-#   $\bar{y} = \frac{1}{k}\sum_l y_l$,  
-#   and the variance is that of a single observation divided by $k$.
-#
-# Show that this is the same posterior that the KF recursions produce.  
-# *Hint: while this is straightforward for the variance,
-# you will probably want to prove the mean using induction.*
+# But for the above problem (which is linear-Gaussian!),
+# the KF is guaranteed (on average, in the long run, in terms of mean square error)
+# to outperform any other method.
+# We will see cases later (of full-blown state estimation)
+# where the difference is much clearer,
+# and indeed it might not even be clear how to apply signal processing methods.
+# However, the KF has an unfair advantage: we are giving it a ton of information
+# about the problem (`M, H, R, Q`) that the signal processing methods do not get.
+# Therefore, they typically also require a good deal of tuning
+# (in practice, so does the KF, since `Q` and `R` are rarely well determined).
 
 # ## Summary
 # The Kalman filter (KF) can be derived by applying linear-Gaussian assumptions
