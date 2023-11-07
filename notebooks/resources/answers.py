@@ -158,8 +158,9 @@ answers['Discussion topics 1'] = ['MD', r'''
 # Tut: Bayesian inference & Gaussians
 ###########################################
 answers['pdf_G1'] = ['MD', r'''
-    const = 1/np.sqrt(2*np.pi*sigma2)
-    pdf_values = const * np.exp(-0.5*(x - mu)**2/sigma2)
+    c = 1/np.sqrt(2*np.pi)/sigma
+    z = (x - mu)/sigma
+    pdf_values = c * np.exp(-0.5*z**2)
 ''']
 
 answers['pdf_U1'] = ['MD', r'''
