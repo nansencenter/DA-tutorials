@@ -2,8 +2,9 @@
 
 Our didactic goal is to put as little as possible in here.
 """
-
+import os
 from pathlib import Path
+
 import numpy as np
 import matplotlib as mpl
 import mpl_tools
@@ -317,7 +318,7 @@ def import_from_nb(name: str, objs: list):
 
     interact.disabled = True
     try:
-        name = str(script.relative_to(NBDIR).with_suffix("")).replace("/", ".")
+        name = str(script.relative_to(NBDIR).with_suffix("")).replace(os.sep, ".")
         script = getattr(__import__(name), script.stem)  # works despite weird chars
     finally:
         interact.disabled = False
