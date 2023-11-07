@@ -55,30 +55,30 @@ dx = grid1d[1] - grid1d[0]      # grid spacing
 #
 # Run the cell below to define a function to compute the pdf (G1) using the `scipy` library.
 
-def pdf_G1(x, mu, sigma):
+def pdf_G1(x, mu, sigma2):
     "Univariate Gaussian pdf"
-    pdf_values = sp.stats.norm.pdf(x, loc=mu, scale=sigma)
+    pdf_values = sp.stats.norm.pdf(x, loc=mu, scale=np.sqrt(sigma2))
     return pdf_values
 
 
 # The following code plots the Gaussian pdf.
 
 hist = []
-@interact(mu=bounds, sigma=(.1, 10, 1))
-def plot_pdf(mu=0, sigma=5):
+@interact(mu=bounds, sigma1=(.1, 10, 1))
+def plot_pdf(mu=0, sigma1=5):
     plt.figure(figsize=(6, 2))
     colors = plt.get_cmap('hsv')([(k-len(hist))%9/9 for k in range(9)])
     plt.xlim(*bounds)
     plt.ylim(0, .2)
-    hist.insert(0, pdf_G1(grid1d, mu, sigma))
+    hist.insert(0, pdf_G1(grid1d, mu, sigma1**2))
     for density_values, color in zip(hist, colors):
         plt.plot(grid1d, density_values, c=color)
     plt.show()
 
 # #### Exc -- parameter influence
-# Play around with `mu` and `sigma` to answer these questions:
+# Play around with `mu` and `sigma2` to answer these questions:
 #  * How does the pdf curve change when `mu` changes?
-#  * How does the pdf curve change when you increase `sigma`?
+#  * How does the pdf curve change when you increase `sigma2`?
 #  * In a few words, describe the shape of the Gaussian pdf curve.
 #    Does this ring a bell? *Hint: it should be clear as a bell!*
 
@@ -139,9 +139,9 @@ def plot_pdf(mu=0, sigma=5):
 # - Why are the walls (ever so slightly) inclined?
 # - Write your own implementation below, and check that it reproduces the `scipy` version already in place.
 
-def pdf_U1(x, mu, sigma):
-    a = mu - np.sqrt(3) * sigma
-    b = mu + np.sqrt(3) * sigma
+def pdf_U1(x, mu, sigma2):
+    a = mu - np.sqrt(3*sigma2)
+    b = mu + np.sqrt(3*sigma2)
     pdf_values = sp.stats.uniform(loc=a, scale=(b-a)).pdf(x)
     # Your own implementation:
     # height = ...
