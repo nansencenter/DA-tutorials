@@ -147,8 +147,8 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # for $x_1$ we know that
 # $x_1 \sim \NormDist(x\supf_1, P\supf_1)$, with
 # $$\begin{align}
-# x\supf_1 &= \DynMod \, x\supa_0 \tag{5} \\
-# P\supf_1 &= \DynMod^2 \, P\supa_0 + Q \tag{6}
+# x\supf_k &= \DynMod \, x\supa_{k-1} \tag{5} \\
+# P\supf_k &= \DynMod^2 \, P\supa_{k-1} + Q \tag{6}
 # \end{align}$$
 #
 # #### Exc -- linear algebra of Gaussian random variables
@@ -180,7 +180,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 #
 # If $k=1$ is "today", then we can say that "yesterday's forecast became today's prior".
 # We can subsequently apply the same two steps again
-# to produce forecast and analysis estimates for the next time index $k$.
+# to produce forecast and analysis estimates for the next time index, $k+1$.
 # Thus, at any point in time, $k$, we compute the exact Bayesian pdf's for $x_k$:
 # The analysis step "assimilates" $y_k$ to compute $p(x_k | y_{1:k})$,
 # where $y_{1:k} = y_1, \ldots, y_k$,
@@ -191,7 +191,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 #   Both in the problem and our solution, time $k+1$ *builds on* time $k$.
 #   It means that we do not have to re-do the entire problem for each $k$.
 # - At every time $k$ we only deal with functions of 1 or 2 variables: $x_k$ and $x_{k+1}$.
-#   Even if we were doing $k$ computations, this is a significantly smaller domain
+#   This is a significantly smaller domain
 #   (in which to quanitify our densities or covariances) than that of the joint pdf $p(x_{1:k} | y_{1:k})$.
 #   Ref. [curse of dimensionality](T3%20-%20Bayesian%20inference.ipynb#Exc-(optional)----Curse-of-dimensionality,-part-1).
 #
