@@ -205,7 +205,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # #### Exc (optional) -- flops and MBs
 # Suppose the length of $\x$ is $\xDim$ and denote its covariance matrix by $\bP$.
 #  * (a) What's the size of $\bP$?
-#  * (b) How many "flops" (approximately, i.e. up to leading order) are required  
+#  * (b) To leading order, how many "flops" (elementary additions and multiplications) are required  
 #    to compute the "precision form" of the KF update equation, eqn (5) ?  
 #    *Hint: Assume the computationally demanding part is the [Cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation).*
 #  * (c) How much memory (bytes) is required to hold its covariance matrix $\bP$ ?
