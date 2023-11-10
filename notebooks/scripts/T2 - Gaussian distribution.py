@@ -163,19 +163,20 @@ def pdf_U1(x, mu, sigma2):
 # |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM}
 # \end{align}$$
 # where $|.|$ represents the matrix determinant,  
-# and $\|.\|_\mathbf{W}$ represents the norm with weighting: $\|\x\|^2_\mathbf{W} = \x^T \mathbf{W}^{-1} \x$.  
-# *PS: The norm (quadratic form) is invariant to antisymmetry in $W$, so we take it to be symmetric. Further, the density (GM) is only valid if $\mathbf{W}$ is positive-definite.*
+# and $\|.\|_\mathbf{W}$ represents a weighted 2-norm: $\|\x\|^2_\mathbf{W} = \x^T \mathbf{W}^{-1} \x$.  
+# *PS: The norm (quadratic form) is invariant to antisymmetry in the weight matrix,
+# so we take $\mathbf{\Sigma}$ to be symmetric.
+# Further, the density (GM) is only integrable over $\Reals^{\xDim}$ if $\mathbf{\Sigma}$ is positive-definite.*
 #
-# Similar to the [univariate (scalar) case](#Exc-(optional)----Integrals),
-# it can be shown that
-# - $\mu = \Expect[x]$
-# - $\Sigma \mathrel{≔} \Expect[(x-\mu)(x-\mu)\tr]$,
-#   which is called the *covariance (matrix)*.
-#   
-# Note that $\Sigma_{i,j} = \Expect[(x_i-\mu_i)(x_j-\mu_j)] = \mathbb{Cov}(x_i, x_j)$.
-# Moreover, the diagonal elements are plain variances, just as in the univariate case:
-# $\Sigma_{i,i} = \mathbb{Cov}(x_i, x_i) = \mathbb{Var}(x_i)$.
-# Therefore, in the following, we will focus on the effect of the off-diagonals.
+# It is important to recognize how similar eqn. (GM) is to the univariate (scalar) case (G1).
+# Moreover, [as above](#Exc-(optional)----Integrals) it can be shown that
+# - $\mathbf{\mu} = \Expect[\x]$,
+# - $\mathbf{\Sigma} \mathrel{≔} \Expect[(\x-\mu)(\x-\mu)\tr]$.
+#
+# Note that that the elements of $\mathbf{\Sigma}$ are individual covariances,
+# $\Sigma_{i,j} = \Expect[(x_i-\mu_i)(x_j-\mu_j)] = \mathbb{Cov}(x_i, x_j)$.
+# Therefore $\mathbf{\Sigma}$ is called the *covariance (matrix)*.
+# and its diagonal entries are simply variances, $\Sigma_{i,i} = \mathbb{Var}(x_i)$.
 #
 # The following implements the pdf (GM). Take a moment to digest the code, but don't worry if you don't understand it all. Hints:
 #  * `@` produces matrix multiplication (`*` in `Matlab`);
@@ -185,9 +186,9 @@ def pdf_U1(x, mu, sigma2):
 # +
 from numpy.linalg import det, inv
 
-def weighted_norm22(points, W):
-    "Computes the norm of each vector (row in `points`), weighted by `W`."
-    return np.sum( (points @ inv(W)) * points, axis=-1)
+def weighted_norm22(points, Wi):
+    "Computes the weighted norm of each vector (row in `points`)."
+    return np.sum( (points @ inv(Wi)) * points, axis=-1)
 
 def pdf_GM(points, mu, Sigma):
     "pdf -- Gaussian, Multivariate: N(x | mu, Sigma) for each x in `points`."
