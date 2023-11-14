@@ -38,7 +38,15 @@ plt.ion();
 # \newcommand{\Reals}{\mathbb{R}} \newcommand{\Expect}[0]{\mathbb{E}} \newcommand{\NormDist}{\mathscr{N}} \newcommand{\DynMod}[0]{\mathscr{M}} \newcommand{\ObsMod}[0]{\mathscr{H}} \newcommand{\mat}[1]{{\mathbf{{#1}}}} \newcommand{\bvec}[1]{{\mathbf{#1}}} \newcommand{\trsign}{{\mathsf{T}}} \newcommand{\tr}{^{\trsign}} \newcommand{\ceq}[0]{\mathrel{≔}} \newcommand{\xDim}[0]{D} \newcommand{\supa}[0]{^\text{a}} \newcommand{\supf}[0]{^\text{f}} \newcommand{\I}[0]{\mat{I}} \newcommand{\K}[0]{\mat{K}} \newcommand{\bP}[0]{\mat{P}} \newcommand{\bH}[0]{\mat{H}} \newcommand{\bF}[0]{\mat{F}} \newcommand{\R}[0]{\mat{R}} \newcommand{\Q}[0]{\mat{Q}} \newcommand{\B}[0]{\mat{B}} \newcommand{\C}[0]{\mat{C}} \newcommand{\Ri}[0]{\R^{-1}} \newcommand{\Bi}[0]{\B^{-1}} \newcommand{\X}[0]{\mat{X}} \newcommand{\A}[0]{\mat{A}} \newcommand{\Y}[0]{\mat{Y}} \newcommand{\E}[0]{\mat{E}} \newcommand{\U}[0]{\mat{U}} \newcommand{\V}[0]{\mat{V}} \newcommand{\x}[0]{\bvec{x}} \newcommand{\y}[0]{\bvec{y}} \newcommand{\z}[0]{\bvec{z}} \newcommand{\q}[0]{\bvec{q}} \newcommand{\br}[0]{\bvec{r}} \newcommand{\bb}[0]{\bvec{b}} \newcommand{\bx}[0]{\bvec{\bar{x}}} \newcommand{\by}[0]{\bvec{\bar{y}}} \newcommand{\barB}[0]{\mat{\bar{B}}} \newcommand{\barP}[0]{\mat{\bar{P}}} \newcommand{\barC}[0]{\mat{\bar{C}}} \newcommand{\barK}[0]{\mat{\bar{K}}} \newcommand{\D}[0]{\mat{D}} \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}} \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}} \newcommand{\ones}[0]{\bvec{1}} \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 # $
 #
-# Ensembles can be used to characterize uncertainty: either by using it to compute (estimate) *statistics* thereof, such as the mean, median, variance, covariance, skewness, confidence intervals, etc (any function of the ensemble can be seen as a "statistic"), or by using it to reconstruct the distribution/density from which it is sampled. The latter is illustrated by the plot below. Take a moment to digest its code, and then answer the following exercises.
+# Ensembles can be used to characterize uncertainty: either by using it to compute (estimate) *statistics* thereof, such as the mean, median, variance, covariance, skewness, confidence intervals, etc (any function of the ensemble can be seen as a "statistic"), or by using it to reconstruct the distribution/density from which it is sampled. The latter is illustrated by the plot below.
+#
+# Take a moment to digest its code. Note:
+#
+# - The sample/ensemble is plotted as thin narrow lines.
+#   Note that it is generated via `randn`, which samples from $\NormDist(0, 1)$.
+# - The "Parametric" density estimate is defined by estimating the mean and the variance,
+#   and using those estimates to define a Gaussian density (with those parameters).
+# - We will not detail the KDE method, but it can be considered as a "continuous" version of a histogram.
 
 # +
 mu = 0
@@ -108,7 +116,7 @@ for n in range(N):
 # Note that the estimates will never be exact:
 # they contain some amount of random error, a.k.a. ***sampling error***.
 
-with np.printoptions(precision=1):
+with np.printoptions(precision=1, suppress=True):
     print("Estimated mean =", np.mean(E, axis=1))
     print("Estimated cov =", np.cov(E), sep="\n")
 
@@ -146,11 +154,10 @@ with np.printoptions(precision=1):
 # show_answer('Why (N-1)')
 # -
 
-# It can be shown that the above estimators are ***consistent and unbiased***.
-# Thus, if we let $N \rightarrow \infty$, their sampling error will vanish ("almost surely"),
-# and we therefor say that our estimators are *consistent*.
-# Meanwhile, if we repeat the estimation experiment many times (but use a fixed, finite $N$),
-# then the average of sampling errors will also vanish, since our estimators are also *unbiased*.
+# It can be shown that the above estimators for the mean and the covariance are *consistent and unbiased*.
+# ***Consistent*** means that if we let $N \rightarrow \infty$, their sampling error will vanish ("almost surely").
+# ***Unbiased*** means that if we repeat the estimation experiment many times (but use a fixed, finite $N$),
+# then the average of sampling errors will also vanish.
 # Under relatively mild assumptions, the [absence of bias implies concistency](https://en.wikipedia.org/wiki/Consistent_estimator#Bias_versus_consistency).
 
 # The following computes a large number ($K$) of $\barC$ and $1/\barC$, estimated with a given ensemble size ($N$).
@@ -196,8 +203,8 @@ def var_and_precision_estimates(N=4):
 # show_answer('errors')
 # -
 
-# **Exc -- Vectorization:** Like Matlab, Python (numpy) is quicker if you "vectorize" loops.
-# This is eminently possible with computations of ensemble moments.  
+# **Exc -- Vectorization:** Python (numpy) is quicker if you "vectorize" loops (similar to Matlab and other high-level languages).
+# This is eminently possible with computations of ensemble moments:
 # Let $\X \ceq
 # \begin{bmatrix}
 # 		\x_1 -\bx, & \ldots & \x_N -\bx
