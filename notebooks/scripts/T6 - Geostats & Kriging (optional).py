@@ -129,14 +129,12 @@ ax.plot(grid1D, fields, lw=2);
 grid2x, grid2y = np.meshgrid(grid1D, grid1D)
 grid2x.shape
 
-# where `grid2y` has the same shape.
-#
-# However, in the following we will "flatten" (a.k.a."(un)ravel", "vectorize", or "string out") this explicitly 2D grid of nodes into a simple list of points in 2D. Importantly, none of the following methods actually assume any structure to the list. So we could also work with a completely irregularly spaced set of points.
+# where `grid2y` has the same shape. However, in the following we will "flatten" (a.k.a."(un)ravel", "vectorize", or "string out") this explicitly 2D grid of nodes into a simple list of points in 2D.
 
 grid2D = np.dstack([grid2x, grid2y]).reshape((-1, 2))
 grid2D.shape
 
-# For example, `gaussian_fields` is immediately applicable also to this 2D case.
+# Importantly, none of the following methods actually assume any structure to the list. So we could also work with a completely irregularly spaced set of points. For example, `gaussian_fields` is immediately applicable also to this 2D case.
 
 vg_params = dict(Range=1, kind="Gauss", nugget=1e-4)
 fields = gaussian_fields(grid2D, **vg_params)
@@ -215,7 +213,7 @@ estims["Nearest-n."] = observations[nearest_obs]
 
 # #### Exc: Inverse distance weighting
 # Implement the method [(wikipedia)](https://en.wikipedia.org/wiki/Inverse_distance_weighting).  
-# *Hint*: You can ignore the `errstate` line below. It is just used to "silence warnings" resulting from division by 0 (whose special case is treated in a cell further down).
+# *Hint: You can ignore the `errstate` line below. It is just used to "silence warnings" resulting from division by 0 (whose special case is treated in a cell further down).*
 
 exponent = 3
 with np.errstate(invalid='ignore', divide='ignore'):
@@ -233,7 +231,9 @@ estims["Inv-dist."][obs_idx] = observations
 
 
 # #### Exc: Simple Kriging
-# Hint: use `sla.solve` or `sla.inv` (less recommended)
+# Implement the method [(wikipedia)](https://en.wikipedia.org/wiki/Kriging#Simple_kriging).  
+#
+# *Hint: use `sla.solve` or `sla.inv` (less recommended)*
 
 ### ANSWER HERE ###
 covar_yy = ...
@@ -260,6 +260,7 @@ for name, ax1, ax2 in zip(estims, *axs):
 fig.tight_layout()
 fig.subplots_adjust(right=0.85)
 cbar = fig.colorbar(c1, cax=fig.add_axes([0.9, 0.15, 0.03, 0.7]))
+axs[1, 0].set_ylabel("Errors");
 
 
 # -
