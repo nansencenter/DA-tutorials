@@ -237,11 +237,13 @@ def plot_correlation_matrix(k=1, analysis=True):
 # -
 
 # #### Exc (optional) -- Matrix shape compatibility
-# - Show that $\B$ and $\R$ must be square.
-# - Show that $\U$ and $\V$ are not necessarily square, but must have the same dimensions.
-# - Show that $\B$ and $\R$ are not necessarily of equal size.
 #
-
+# With reference to eqn. (W),
+#
+# - Show that $\B$ and $\R$ must be square.
+# - Show that $\U$ and $\V$ are not necessarily square, but must have the same dimensions.  
+#   *Hint: in so doing, you will also show that $\B$ and $\R$ are not necessarily of equal size.*
+#
 # The above exercise makes it clear that the Woodbury identity may be used to compute $\bP$ by inverting matrices of the size of $\R$ rather than the size of $\B$.
 # Of course, if $\R$ is bigger than $\B$, then the identity is useful the other way around.
 
@@ -299,10 +301,15 @@ def plot_correlation_matrix(k=1, analysis=True):
 # Note that the inversion (eqn 7) involved is of the size of $\R$, while in eqn (5) it is of the size of $\bP\supf$.
 #
 # #### Exc -- KF implemented with gain
-# Implement the Kalman gain form in place of the precision form of the KF, including
-# - Use `scipy.linalg.solve`.
-# - Re-run all cells.
-# - Verify that you get the same result as before.
+#
+# - Implement the Kalman gain form (eqns. K1, 8, 9) of the KF in place of the precision form (eqns. 5, 6)
+#   that is [implemented above](T5%20-%20Multivariate%20Kalman%20filter.ipynb#Implementation-&-illustration).  
+#   *Hint: $\I_{\xDim}$ can be obtained from `np.eye` or `np.identity`.
+#   But you do not actually even need it.*
+# - Re-run all cells, and verify that you get the same result as before
+#   (inspecting the plot of the example problem, or printouts of the same numbers).
+# - Replace the use of `inv` by `scipy.linalg.solve`.
+#   Don't hesitate to google their documentations.
 
 # ## Summary
 # We have derived two forms of the multivariate KF analysis update step: the
