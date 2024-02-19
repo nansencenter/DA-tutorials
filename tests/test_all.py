@@ -26,16 +26,6 @@ def _report_error(msg):
     return True
 
 
-def _link_is_down(link):
-    try:
-        request = urllib.request.Request(
-            link, method="HEAD", headers={'User-Agent': 'Mozilla'})
-        response = urllib.request.urlopen(request, timeout=2)
-        assert response.status == 200
-    except Exception as _:
-        return True
-
-
 def _find_anchor(fname, anchor):
     lines = fname.read_text().splitlines()
     headings = [x for x in lines if x.startswith("# #")]  # filter for "### Example heading"
@@ -72,8 +62,14 @@ def assert_all_links_work(lines, fname):
 
             # Internet links
             if "http" in link:
-                if _link_is_down(link):
-                    failed |= _report_error(errm("**requesting** "))
+                try:
+                    request = urllib.request.Request(
+                        link, method="HEAD", headers={'User-Agent': 'Mozilla'})
+                    response = urllib.request.urlopen(request, timeout=2)
+                    assert response.status == 200
+                except Exception as e:
+                    failed |= True
+                    _report_error(errm("**requesting**") + f"\nError:\n    {e}")
 
             # Local links
             else:
