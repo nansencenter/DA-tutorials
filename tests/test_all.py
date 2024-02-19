@@ -32,7 +32,7 @@ def _link_is_down(link):
             link, method="HEAD", headers={'User-Agent': 'Mozilla'})
         response = urllib.request.urlopen(request, timeout=2)
         assert response.status == 200
-    except Exception as e:
+    except Exception as _:
         return True
 
 
@@ -67,7 +67,8 @@ def assert_all_links_work(lines, fname):
                 link = link.split("))")[0] + ")"
 
             # Common error message
-            errm = lambda x="": (f"Issue on line {i} with {x} link\n    {link}")
+            def errm(issue):
+                return f"Issue on line {i} with {issue} link\n    {link}"
 
             # Internet links
             if "http" in link:
@@ -98,7 +99,7 @@ def assert_all_links_work(lines, fname):
     return failed
 
 
-def assert_show_answer(lines, fname):
+def assert_show_answer(lines, _fname):
     """Misc checks on `show_answer`"""
     failed = False
     found_import = False
@@ -108,7 +109,7 @@ def assert_show_answer(lines, fname):
                 print(f"`show_answer` uncommented on line {i}")
                 failed |= True
     if not found_import:
-        print(f"`import show_answer` not found.")
+        print("`import show_answer` not found.")
         failed = True
     return failed
 
@@ -167,7 +168,7 @@ for script in converted:
 print("\nStatic analysis for", "answers.py")
 print("========================================")
 sys.path.insert(0, f"{ROOT / 'notebooks'}")
-import resources.answers  # type: ignore
+import resources.answers  # type: ignore # noqa
 for key, answer in resources.answers.answers.items():
     lines = ["# " + line for line in answer[1].splitlines()]
     fname = Path(resources.answers.__file__ + ":" + key)
