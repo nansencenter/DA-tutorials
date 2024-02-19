@@ -11,12 +11,13 @@ Why: Mainly because it did not seem necessary. Also I find debugging with pytest
 from pathlib import Path
 import subprocess
 import sys
-import urllib.request
+import requests
 from urllib.parse import unquote
 
 from markdown import markdown as md2html
 
 
+UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
 ROOT = Path(__file__).parents[1]
 
 
@@ -63,13 +64,17 @@ def assert_all_links_work(lines, fname):
             # Internet links
             if "http" in link:
                 try:
-                    request = urllib.request.Request(
-                        link, method="HEAD", headers={'User-Agent': 'Mozilla'})
-                    response = urllib.request.urlopen(request, timeout=2)
-                    assert response.status == 200
-                except Exception as e:
-                    failed |= True
-                    _report_error(errm("**requesting**") + f"\nError:\n    {e}")
+                    response = requests.head(link, headers={'User-Agent': UA})
+                    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+                    assert response.status_code < 400
+                except Exception:
+                    # Stackoverflow does not like GitHub CI IPs?
+                    # https://meta.stackexchange.com/questions/443
+                    skip = "stack" in link and response.status_code == 403
+                    if not skip:
+                        failed |= True
+                        _report_error(errm("**requesting**") +
+                            f"\nStatus code: {response.status_code}")
 
             # Local links
             else:
