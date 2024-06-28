@@ -100,7 +100,7 @@ def plot_pdf(mu=0, sigma=5):
 #  * (iii) Where is the **inflection point**? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
 #  * (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
 
-# #### Exc (optional) -- Probability and Change of variables
+# #### Exc (optional) -- Change of variables, Expectation
 # Let $z = \phi(x)$ for some monotonic function $\phi$,
 # and $p_x$ and $p_z$ be their probability density functions (pdf).
 # - (a): Show that $p_z(z) = p_x\big(\phi^{-1}(z)\big) \frac{1}{|\phi'(z)|}$,
