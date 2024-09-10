@@ -28,7 +28,7 @@ repos:
     args: [--meta, pin_output, --meta, lines_to_next_cell, --meta, lines_to_end_of_cell_marker]
 
 - repo: https://github.com/mwouts/jupytext
-  rev: v1.15.1
+  rev: v1.15.1  # ensure equal to main venv
   hooks:
   - id: jupytext
     args: [--sync]
