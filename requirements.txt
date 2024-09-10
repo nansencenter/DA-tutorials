@@ -1,7 +1,7 @@
 # DAPPER is maintained for compatibility with Colab.
 # https://github.com/nansencenter/DAPPER/issues/41#issuecomment-1381616971
-dapper==1.5.1
 # -e ${HOME}/path/DAPPER
+dapper==1.5.1
 
 jupyter
-Markdown==3.1
+markdown
