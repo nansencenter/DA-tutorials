@@ -16,7 +16,7 @@ HEADER = r'''% ######################################## Loading TeX (MathJax)...
 macros=r'''
 \newcommand{\Reals}{\mathbb{R}}
 \newcommand{\Expect}[0]{\mathbb{E}}
-\newcommand{\NormDist}{\mathcal{N}}
+\newcommand{\NormDist}{\mathscr{N}}
 
 \newcommand{\DynMod}[0]{\mathscr{M}}
 \newcommand{\ObsMod}[0]{\mathscr{H}}
