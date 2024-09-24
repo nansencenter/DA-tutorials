@@ -171,7 +171,7 @@ def pdf_U1(x, mu, sigma2):
 # It is important to recognize how similar eqn. (GM) is to the univariate (scalar) case (G1).
 # Moreover, [as above](#Exc-(optional)----Integrals) it can be shown that
 # - $\mathbf{\mu} = \Expect[\x]$,
-# - $\mathbf{\Sigma} \mathrel{≔} \Expect[(\x-\mu)(\x-\mu)\tr]$.
+# - $\mathbf{\Sigma} = \Expect[(\x-\mu)(\x-\mu)\tr]$.
 #
 # Note that that the elements of $\mathbf{\Sigma}$ are individual covariances,
 # $\Sigma_{i,j} = \Expect[(x_i-\mu_i)(x_j-\mu_j)] = \mathbb{Cov}(x_i, x_j)$.
@@ -237,10 +237,10 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # **Exc -- Correlation disambiguation:**
 # * What's the difference between correlation and covariance?
 # * What's the difference between non-zero (C) correlation (or covariance) and (D) dependence?
-#   *Hint: consider this [image](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#/media/File:Correlation_examples2.svg).  
-#   Does $C \Rightarrow D$ or the converse?  
-#   What about the negation, $\neg D \Rightarrow \neg C$, or its converse?*  
-#   What about the the (jointly) Gaussian case?
+#   *Hint: consider this [image](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#/media/File:Correlation_examples2.svg).*  
+#   - Does $C \Rightarrow D$ or the converse?  
+#   - What about the negation, $\neg D \Rightarrow \neg C$, or its converse?*  
+#   - What about the the (jointly) Gaussian case?
 # * Does correlation (or dependence) imply causation?
 # * Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
 #   Does information about $y$ give you information about $x$?

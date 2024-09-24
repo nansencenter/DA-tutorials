@@ -172,12 +172,13 @@ answers['pdf_U1'] = ['MD', r'''
 
 answers['Gauss integrals'] = ['MD', r'''
 (i) $$\begin{align} \Expect[x]
+&= \int x \, p(x) \,d x \tag{by definition} \\\
 &= \int x \, c \, e^{-(x-\mu)^2 / 2 \sigma^2} \,d x \tag{by definition} \\\
 &= \int (u + \mu) \, c \, e^{-u^2 / 2 \sigma^2} \,d u \tag{$u = x-\mu$}\\\
 &= \int u \, c \, e^{-u^2 / 2 \sigma^2} \,d u
-\;+\;  \mu \int \, c \, e^{-u^2 / 2 \sigma^2} \,d u \\\
+\;+\;  \mu \int \, c \, e^{-u^2 / 2 \sigma^2} \,d u \tag{distribute integral}\\\
 &= \big[-\sigma^2 \, c \, e^{-u^2 / 2 \sigma^2}\big]^{+\infty}_{-\infty}
-\;+\; \mu \, \Expect[1]
+\;+\; \mu \, \Expect[1] \tag{integrate-by-parts + identify}
 \end{align}
 $$
 The first term is zero. The second leaves only $\mu$, since $\Expect[1] = 1$.
@@ -185,8 +186,8 @@ The first term is zero. The second leaves only $\mu$, since $\Expect[1] = 1$.
 (ii) $$\begin{align} \Expect[(x - \mu)^2]
 &= \int (x - \mu)^2 \, c \, e^{-(x-\mu)^2 / 2 \sigma^2} \,d x \tag{by definition} \\\
 &= \int u^2 \, c \, e^{-u^2 / 2 \sigma^2} \,d u \tag{$u = x-\mu$}\\\
-&= \int u \, \big[ u \, c \, e^{-u^2 / 2 \sigma^2} \big] \,d u \\\
-&= 0 - \int (1) \big[-\sigma^2 \, c \, e^{-u^2 / 2 \sigma^2}\big] \,d u \,,  \tag{Integrate by parts} \\\
+&= \int u \, \big[ u \, c \, e^{-u^2 / 2 \sigma^2} \big] \,d u \tag{$u^2 = u\, u$} \\\
+&= 0 - \int (1) \big[-\sigma^2 \, c \, e^{-u^2 / 2 \sigma^2}\big] \,d u \,,  \tag{integrate by parts} \\\
 \end{align}
 $$
 where the first term was zero for the same reason as above,

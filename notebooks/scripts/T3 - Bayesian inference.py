@@ -104,6 +104,8 @@ def Bayes_rule(prior_values, lklhd_values, dx):
 # The normalisation is only necessary because of the *convention* that all densities integrate to $1$.
 # However, for large models, we usually can only afford to evaluate $p(y|x)$ at a few points (of $x$), so that the integral for $p(y)$ can only be roughly approximated. In such settings, estimation of the normalisation factor becomes an important question too.
 #
+# ## Interactive illustration
+#
 # The code below shows Bayes' rule in action, for prior $p(x) = \NormDist(x|x^f, P^f)$ and likelihood, $p(y|x) = \NormDist(y|x, R)$. The parameters of the prior are fixed at $x^f= 10$, $P^f=4^2$ (this ugly mean & variance notation is a necessary evil for later). The parameters of the likelihood are controlled through the interactive sliders.
 
 @interact(y=(*bounds, 1), logR=(-3, 5, .5), top=[['y', 'logR']])
@@ -162,12 +164,12 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 
 # ## With forward (observation) models
 # Likelihoods are not generally as simple as the ones we saw above.
-# That could be because the unknown to be estimated controls some other aspect
-# of the measurement sampling distribution than merely the location.
-# However, we are mainly interested in the case when the measurement is generated via some observation model.
+# That could be because the unknown is not simply the mean parameter,
+# but rather the (co-)variance, or some other characteristic of the sampling distribution.
+# Or, as is usually the case for us, the unknown is an input to some "observation (forward) model".
 #
 # Suppose the observation, $y$, is related to the true state, $x$,
-#   via some "observation (forward) model", $\ObsMod$:
+#   via some observation model, $\ObsMod$:
 #   \begin{align*}
 #   y &= \ObsMod(x) + r \,, \;\; \qquad \tag{Obs}
 #   \end{align*}
