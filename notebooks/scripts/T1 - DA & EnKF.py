@@ -40,7 +40,7 @@ for i, c in enumerate(name):
 #
 # Actually, a notebook connects to a background **session (kernel/runtime/interpreter)** of Python, and all of the code cells (in a given notebook) are connected, meaning that they share variables, functions, and classes. You can start afresh by clicking `restart` somewhere in the top menu bar. The **order** in which you run the cells matters, and from now on,
 # <mark><font size="-1">
-#     the 1st code cell in each tutorial will be the following, which <em>you must run before others</em>. But if you're on Windows, then you must first delete the line starting with `!wget` (actually it's only needed when running on Google Colab).
+#     the 1st code cell in each tutorial will be the following, which <em>you must run before others</em>. But if you're on Windows, then you must first delete the line starting with `!wget` (which is only really needed when running on Google Colab).
 # </font></mark>
 
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
