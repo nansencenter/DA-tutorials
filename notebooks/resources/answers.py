@@ -853,7 +853,7 @@ answers["rk4"] = ["MD", r'''
     return np.swapaxes(integrated, 0, 1), time_steps
 
 Note that such double transposing is not the only way to vectorise.
-It is often better to do [something else](https://nansencenter.github.io/DAPPER/dapper/mods.html).
+It is often better to do [something else](https://nansencenter.github.io/DAPPER/reference/mods/).
 ''']
 
 answers["Hint: Lorenz energy"] = ["MD", r'''
