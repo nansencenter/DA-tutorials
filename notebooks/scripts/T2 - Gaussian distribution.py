@@ -77,8 +77,21 @@ def plot_pdf(mu=0, sigma=5):
 
 # #### Exc -- parameter influence
 # Play around with `mu` and `sigma` to answer these questions:
-#  * How does the pdf curve change when `mu` changes?
-#  * How does the pdf curve change when you increase `sigma`?
+#  * How does the pdf curve change when `mu` changes? Options (several might be right/wrong)
+#    1. It changes the curve into a uniform distribution.
+#    1. It changes the width of the curve.
+#    1. It shifts the peak of the curve to the left or right.
+#    1. It changes the height of the curve.
+#    1. It transforms the curve into a binomial distribution.
+#    1. It makes the curve wider or narrower.
+#    1. It modifies the skeweness (asymmetry) of the curve.
+#    1. It causes the curve to expand vertically while keeping the width the same.
+#    1. It translates the curve horizontally.
+#    1. It alters the kurtosis (peakedness) of the curve.
+#    1. It rotates the curve around the origin.
+#    1. It makes the curve a straight line.
+#  * How does the pdf curve change when you increase `sigma`?  
+#    Refer to the same options as previous question.
 #  * In a few words, describe the shape of the Gaussian pdf curve.
 #    Does this ring a bell? *Hint: it should be clear as a bell!*
 
