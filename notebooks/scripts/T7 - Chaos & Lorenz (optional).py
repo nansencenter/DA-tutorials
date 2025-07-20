@@ -69,7 +69,7 @@ def integrate(dxdt, initial_states, final_time, **params):
 # Fortunately, for simple systems,
 # we can write our code such that the dynamics get independently (but simultaneously) computed for rows of a *matrix* (rather than a single vector), meaning that each row in the input produces a corresponding row in the output. This in effect leaves `numpy` to do the looping (which it does much quicker than pure Python).
 # Alternatively, since each simulation is completely independent of another realisation,
-# they can "embarrasingly" easily be parallelized, which is a good option if the system is very costly to simulate.
+# they can "embarrassingly" easily be parallelized, which is a good option if the system is very costly to simulate.
 # The exercise below challenges you to implement the first approach, resulting in much faster visualisation further below.
 #
 # #### Exc (optional) -- speed-up by vectorisation & parallelisation
@@ -130,7 +130,7 @@ def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0
 
 # #### Exc -- Bifurcation hunting
 # Classic linear stability analysis involves setting eqn. (1) to zero and considering the eigenvalues (and vectors) of its Jacobian matrix. Here we will go about it mainly by visually inspecting the numerical results of simulations.
-# Answer the following (to an approximate degree of precision) by graduallying increasing $\rho$.
+# Answer the following (to an approximate degree of precision) by gradually increasing $\rho$.
 # Leave the other model parameters at their defaults, but use `ε`, `N`, `Time` and `zoom` to your advantage.
 # - (a) What is the only fixed point for $\rho = 0$?
 # - (b) At what (larger) value of $\rho$ does this change?
@@ -145,7 +145,7 @@ def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0
 #   indeed the origin as well as the roots of $x^2=\beta z$ with $y=x$,
 #   but that the latter two only exist for $\rho > 1$.
 #
-# In conclusion, while a dynamical system naturally depends on its paramater values (almost by definition), the way in which its behaviour/character depend on it could come as a surprise.
+# In conclusion, while a dynamical system naturally depends on its parameter values (almost by definition), the way in which its behaviour/character depend on it could come as a surprise.
 
 # +
 # show_answer("Bifurcations63")
@@ -290,7 +290,7 @@ def Hovmoller():
 # Unlike the Lorenz systems, the divergence of its "$f$" flow field is 0,
 # so it is conservative, and all of the trajectories preserve their initial energy
 # (except for what friction our numerical integration causes).
-# Therefore it does not strictly speaking posess an attractor
+# Therefore it does not strictly speaking possess an attractor
 # nor is it ergodic (but some things might be said upon restriction to the set of initial conditions with equal energy levels?)
 
 # +

@@ -211,7 +211,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 #   It means that we do not have to re-do the entire problem for each $k$.
 # - At every time $k$ we only deal with functions of 1 or 2 variables: $x_k$ and $x_{k+1}$.
 #   This is a significantly smaller domain
-#   (in which to quanitify our densities or covariances) than that of the joint pdf $p(x_{1:k} | y_{1:k})$.
+#   (in which to quantify our densities or covariances) than that of the joint pdf $p(x_{1:k} | y_{1:k})$.
 #   Ref. [curse of dimensionality](T3%20-%20Bayesian%20inference.ipynb#Exc-(optional)----Curse-of-dimensionality,-part-1).
 #
 # Note, however, that our recursive procedure, called ***filtering***,
@@ -222,7 +222,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # accurate initial conditions (estimates of the present moment).
 
 # #### Exc -- Implementation
-# Below is a very rudimentary sequential estimator (not the KF!), essentially just doing "persistance" forecasts, and setting the analysis estimates to the value of the observations (*which is only generally a possibility in this linear, scalar case*). Run its cell to define it, and then re-run the above interactive animation cell. Then
+# Below is a very rudimentary sequential estimator (not the KF!), essentially just doing "persistence" forecasts, and setting the analysis estimates to the value of the observations (*which is only generally a possibility in this linear, scalar case*). Run its cell to define it, and then re-run the above interactive animation cell. Then
 # - Implement the KF properly by replace the forecast and analysis steps below. *Re-run the cell.*
 # - Try implementing the analysis step both in the "precision" and "gain" forms.
 
@@ -312,7 +312,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # you will probably want to prove the mean using induction.*
 
 # #### Exc -- Impact of biases
-# Re-run the above interative animation to set the default control values. Answer the following
+# Re-run the above interactive animation to set the default control values. Answer the following
 #
 # - `logR_bias`/`logQ_bias` control the (multiplicative) bias in $R$/$Q$ that is fed to the KF.
 #   What happens when the KF "thinks" the measurement/dynamical error
@@ -354,7 +354,7 @@ def trunc(x, n):
 
 # Now try to "filter" the `obsrvs` to produce estimates of `truth`.
 # In each case, add your estimate ("filtered signal" in that domain's parlance)
-# to the `sigproc` dictionnary in the interactive animation cell,
+# to the `sigproc` dictionary in the interactive animation cell,
 # with an appropriate name/key (this will automatically include it in the plotting).  
 # Use
 # - (a) [`sig.wiener`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html).  

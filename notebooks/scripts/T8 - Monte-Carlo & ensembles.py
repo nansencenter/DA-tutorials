@@ -158,7 +158,7 @@ with np.printoptions(precision=1):
 # ***Consistent*** means that if we let $N \rightarrow \infty$, their sampling error will vanish ("almost surely").
 # ***Unbiased*** means that if we repeat the estimation experiment many times (but use a fixed, finite $N$),
 # then the average of sampling errors will also vanish.
-# Under relatively mild assumptions, the [absence of bias implies concistency](https://en.wikipedia.org/wiki/Consistent_estimator#Bias_versus_consistency).
+# Under relatively mild assumptions, the [absence of bias implies consistency](https://en.wikipedia.org/wiki/Consistent_estimator#Bias_versus_consistency).
 
 # The following computes a large number ($K$) of $\barC$ and $1/\barC$, estimated with a given ensemble size ($N$).
 # Note that the true variance is $C = 1$.

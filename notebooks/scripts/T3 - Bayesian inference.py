@@ -203,7 +203,7 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 #     - Does the likelihood integrate (in $x$) to 1? Should we care (also see [above](#Exc-(optional)----BR-normalization)) ?
 # - (c) $\ObsMod(x) = (x-5)^2$. *PS: We're now doing "nonlinear regression"*.
 #     - Is the resulting posterior Gaussian?
-#     - Explain why negative values of $y$ don't seem to be an impossibility (the likelihod is not uniformly $0$).
+#     - Explain why negative values of $y$ don't seem to be an impossibility (the likelihood is not uniformly $0$).
 # - (d) Try $\ObsMod(x) = |x|$.
 #     - Is the resulting posterior Gaussian?
 
@@ -410,7 +410,7 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
 #   *Hint: insert $0 = \,?\, - \,?$.*
 # - (b) Show that linearity can replace Gaussianity in the 1st bullet point.
 #   *PS: this gives rise to various optimality claims of the Kalman filter,
-#   such as it being the best linear-unibased estimator (BLUE).*
+#   such as it being the best linear-unbiased estimator (BLUE).*
 #
 # In summary, the intuitive idea of **considering the mean of $p(x)$ as the point estimate** has good theoretical foundations.
 #

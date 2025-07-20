@@ -84,7 +84,7 @@ def plot_pdf(mu=0, sigma=5):
 #    1. It changes the height of the curve.
 #    1. It transforms the curve into a binomial distribution.
 #    1. It makes the curve wider or narrower.
-#    1. It modifies the skeweness (asymmetry) of the curve.
+#    1. It modifies the skewness (asymmetry) of the curve.
 #    1. It causes the curve to expand vertically while keeping the width the same.
 #    1. It translates the curve horizontally.
 #    1. It alters the kurtosis (peakedness) of the curve.
@@ -137,7 +137,7 @@ def plot_pdf(mu=0, sigma=5):
 #    *Hint: use $x^2 = x x$ to enable integration by parts.*
 #  - (iii) $E[1] = 1$,  
 #    thus proving that (G1) indeed uses the right normalising constant.  
-#    *Hint: Neither Bernouilli and Laplace managed this,
+#    *Hint: Neither Bernoulli and Laplace managed this,
 #    until Gauss did by first deriving $(E[1])^2$.  
 #    For more (visual) help, watch [3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
 
@@ -245,7 +245,7 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # *Hint: do you like playing with fire?*
 
 # **Exc Correlation game:** Play [here](http://guessthecorrelation.com/) until you get a score (gold coins) of 5 or more.  
-# *PS: you can probably tell that the samples are not drawn from Gaussian distributions. However, the quantitiy $\mathbb{Cov}(x_i, x_i)$ is well defined and can be estimated from the samples.*
+# *PS: you can probably tell that the samples are not drawn from Gaussian distributions. However, the quantity $\mathbb{Cov}(x_i, x_i)$ is well defined and can be estimated from the samples.*
 
 # **Exc -- Correlation disambiguation:**
 # * What's the difference between correlation and covariance?
@@ -253,12 +253,12 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 #   *Hint: consider this [image](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#/media/File:Correlation_examples2.svg).*  
 #   - Does $C \Rightarrow D$ or the converse?  
 #   - What about the negation, $\neg D \Rightarrow \neg C$, or its converse?*  
-#   - What about the the (jointly) Gaussian case?
+#   - What about the (jointly) Gaussian case?
 # * Does correlation (or dependence) imply causation?
 # * Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
 #   Does information about $y$ give you information about $x$?
 
-# **Exc (optional) -- Gaussian ubuiqity:** Why are we so fond of the Gaussian assumption?
+# **Exc (optional) -- Gaussian ubiquity:** Why are we so fond of the Gaussian assumption?
 
 # +
 # show_answer('Why Gaussian')

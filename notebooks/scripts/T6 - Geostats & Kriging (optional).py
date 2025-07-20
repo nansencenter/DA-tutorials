@@ -104,8 +104,8 @@ ax.matshow(C, cmap="RdBu");
 # ## Random fields (1D)
 
 # Gaussian random variables (vectors) are fully specified by their mean and covariance.
-# Once in posession of a covariance matrix, we can use it to sample random variables
-# by multiplying its cholesky factor (square root) onto standard normal variables.
+# Once in possession of a covariance matrix, we can use it to sample random variables
+# by multiplying its Cholesky factor (square root) onto standard normal variables.
 
 def gaussian_fields(coords, **vg_params):
     """Gen. random (Gaussian) fields at `coords` (no structure/ordering required)."""

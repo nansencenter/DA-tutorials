@@ -94,10 +94,10 @@ plt.legend();
 # **State estimation** (a.k.a. **sequential inference**)
 # is the estimation of unknown/uncertain quantities of **dynamical systems**
 # based on imprecise (noisy) data/observations. This is similar to time series estimation and signal processing,
-# but focuse on the case where we have a good (skillful) predictive model of the dynamical system,
+# but focus on the case where we have a good (skillful) predictive model of the dynamical system,
 # so that we can relate information (estimates) of its *state* at one time to another.
 #
-# For example, in guidance systems, the *state variable* (vector) consists of at least 6 elements: 3 for the current position and 3 for velocity, whose trajectories we wish to track in time. More sophisticated systems can also include acceleration and/or angular quantities. The *dynamicl model* then consists of the fact that displacement is the time integral of the velocity, while the velocity is the integral of acceleration. The noisy *observations* can come from altimetry, sextants, speedometers, compass readings, accelerometers, gyroscopes, or fuel-gauges. The essential point is that we have an *observational model* predicting the observations from the state. For example, the altimeter model is simply the function that selects the $z$ coordinate from the state vector, while the force experienced by an accelerometer can be modelled by Newton's second law of motion, $F = m a$.
+# For example, in guidance systems, the *state variable* (vector) consists of at least 6 elements: 3 for the current position and 3 for velocity, whose trajectories we wish to track in time. More sophisticated systems can also include acceleration and/or angular quantities. The *dynamical model* then consists of the fact that displacement is the time integral of the velocity, while the velocity is the integral of acceleration. The noisy *observations* can come from altimetry, sextants, speedometers, compass readings, accelerometers, gyroscopes, or fuel-gauges. The essential point is that we have an *observational model* predicting the observations from the state. For example, the altimeter model is simply the function that selects the $z$ coordinate from the state vector, while the force experienced by an accelerometer can be modelled by Newton's second law of motion, $F = m a$.
 #
 # In the context of large dynamical systems, especially in geoscience
 # (climate, ocean, hydrology, petroleum)
@@ -105,7 +105,7 @@ plt.legend();
 # and is thought of as a "bridge" between data and models,
 # as illustrated on the right (source: <a href="https://aics.riken.jp/en">https://aics.riken.jp/en</a>)
 # <img align="right" width="400" src="./resources/DA_bridges.jpg" alt='DA "bridges" data and models.'/>.
-# For example, in weather applications, the dynamical model is an atmospheric fluid-mechanical simulator, the state variable consists of the fields of pressure, humidity, and wind quanities discretized on a grid,
+# For example, in weather applications, the dynamical model is an atmospheric fluid-mechanical simulator, the state variable consists of the fields of pressure, humidity, and wind quantities discretized on a grid,
 # and the observations may come from satellite or weather stations.
 #
 # The most famous state estimation techniques is the ***Kalman filter (KF)***, which was developed to steer the Apollo mission rockets to the moon. The KF also has applications outside of control systems, such as speech recognition, video tracking, finance. But when it was first proposed to apply the KF to DA (specifically, weather forecasting), the idea sounded ludicrous because of some severe **technical challenges in DA (vs. "classic" state estimation)**:

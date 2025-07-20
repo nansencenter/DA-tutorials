@@ -364,4 +364,4 @@ average_rmse(truths, ens_means)
 # that is capable of handling some degree of nonlinearity and big data/problems.
 # It is a consistent approximation of the Kalman filter,
 # but also contains biases.
-# Succesful application requires tuning of some ad-hoc parameters.
+# Successful application requires tuning of some ad-hoc parameters.
