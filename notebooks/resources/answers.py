@@ -216,7 +216,7 @@ thereby cancelling itself out:
 answers['Sum of Gaussians a'] = ['MD', r'''
 We could show this by letting $z = \phi(x) = \DynMod x + b$ and computing $\Expect z$
 using $p_z(z) = p_x\big(\phi^{-1}(z)\big) \,/\, |\phi'(z)|$,
-ref part (a) of [this question](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Probability-and-Change-of-variables).
+ref part (a) of [this question](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Change-of-variables,-Expectation).
 
 But it is much easier to just apply part (b). Then
 $\Expect [ \DynMod  x + b ] = \int ( \DynMod  x + b ) \, p(x) \,d x $,
@@ -321,7 +321,7 @@ in which case the mean is $\ObsMod(x)$.
 For more general algebra, for example $y = x r$ (multiplicative noise),
 or even more complicated combinations of $r$ and $x$,
 the likelihood can be derived by applying the
-[change-of-variables formula](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Probability-and-Change-of-variables).
+[change-of-variables formula](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Change-of-variables,-Expectation).
 The example results in $p(y|x) = \NormDist(y | 0, x^2 R)$.
 ''']
 
