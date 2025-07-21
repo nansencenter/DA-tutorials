@@ -303,7 +303,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # #### Exc -- KF implemented with gain
 #
 # - Implement the Kalman gain form (eqns. K1, 8, 9) of the KF in place of the precision form (eqns. 5, 6)
-#   that is [implemented above](T5%20-%20Multivariate%20Kalman%20filter.ipynb#Implementation-&-illustration).  
+#   that is [implemented above](#Implementation-&-illustration).  
 #   *Hint: $\I_{\xDim}$ can be obtained from `np.eye` or `np.identity`.
 #   But you do not actually even need it.*
 # - Re-run all cells, and verify that you get the same result as before
