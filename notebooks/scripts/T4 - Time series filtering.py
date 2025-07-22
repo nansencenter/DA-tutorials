@@ -100,11 +100,11 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
     try:
         estimates, variances = KF(nTime, xa, Pa, M, H, Q*Q_bias, R*R_bias, obsrvs)
         if analyses_only:
-            plt.plot(kk, estimates[:, 1], label='Kalman$^a$ ± 1$\sigma$')
+            plt.plot(kk, estimates[:, 1], label=r'Kalman$^a$ ± 1$\sigma$')
             plt.fill_between(kk, *cInterval(estimates[:, 1], variances[:, 1]), alpha=.2)
         else:
             kk2 = kk.repeat(2)
-            plt.plot(kk2, estimates.flatten(), label='Kalman ± 1$\sigma$')
+            plt.plot(kk2, estimates.flatten(), label=r'Kalman ± 1$\sigma$')
             plt.fill_between(kk2, *cInterval(estimates, variances), alpha=.2)
     except NameError:
         pass
