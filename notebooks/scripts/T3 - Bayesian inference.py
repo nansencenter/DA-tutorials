@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,scripts//py
+#     formats: ipynb,scripts//py:light
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -166,17 +166,25 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 # -
 
 # ## With forward (observation) models
-# Likelihoods are not generally as simple as the ones we saw above.
-# That could be because the unknown is not simply the mean parameter,
-# but rather the (co-)variance, or some other characteristic of the sampling distribution.
-# Or, as is usually the case for us, the unknown is an input to some "observation (forward) model".
 #
-# Suppose the observation, $y$, is related to the true state, $x$,
-#   via some observation model, $\ObsMod$:
+# In general, the observation $y$ is not a "direct" measurement of $x$, as above,
+# but rather some transformation, i.e. function of $x$,
+# which is called **observation/forward model**, $\ObsMod$.
+# Examples include:
+#
+# - $\ObsMod(x) = x + 273$ if $x$ is the temperature in °K, while the thermometer reports °C.
+# - $\ObsMod(x) = 10 x$ if $x$ if our ruler uses mm, while $x$ is stored in terms of cm.
+# - $\ObsMod(x) = \log(x)$ if using litmus paper for pH measurement, i.e. $x$ is the molar concentration of hydrogen ions.
+# - $\ObsMod(x) = |x|$ for bicycle speedometers (measuring rpm, i.e. Hall effect sensors).
+#
+# Of course, the linear and logarithmic transformations are hardly worthy of the name "model", since they merely change the scale of measurement, and so could be trivially done away with. But doing so is not necessary, and they will serve to illustrate some important points.
+#
+# In addition, measurement instruments always (at least for continuous variables) have limited accuracy,
+# i.e. there is an **measurement noise/error** corrupting the observation. For simplicity, this noise is usually assumed *additive*, so that the observation, $y$, is related to the true state, $x$, by
 #   \begin{align*}
 #   y &= \ObsMod(x) + r \,, \;\; \qquad \tag{Obs}
 #   \end{align*}
-#   where the corrupting additive noise has law $r \sim \NormDist(0, R)$ for some variance $R>0$.
+#   and $r \sim \NormDist(0, R)$ for some variance $R>0$.
 # Then the likelihood is $$p(y|x) = \NormDist(y| \ObsMod(x), R) \,. \tag{Lklhd}$$
 #
 # **Exc (optional) -- The likelihood:** Derive the expression (Lklhd) for the likelihood.
@@ -190,8 +198,7 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 # Go back to the interactive illustration of Bayes' rule above.
 # Change `H` to implement the following observation models, $\ObsMod$.
 # In each case,
-# - Explain the impact (shape, position, variance) on the likelihood (and thereby posterior).  
-#   *PS: Note that in each case, the likelihood can be expressed via eqn. (Lklhd).*
+# - Explain the impact on the likelihood (and thereby posterior): shape (e.g. Gaussian?), position, variance.
 # - Consider to what extent it is reasonable to say that $\ObsMod$ gets "inverted".  
 #   *PS: it might be helpful to let $R \rightarrow 0$.*
 #
@@ -199,13 +206,9 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 #
 # - (a) $\ObsMod(x) = x + 15$.
 # - (b) $\ObsMod(x) = 2 x$.
-#     *PS: The word "magnifying" might come to mind.*
-#     - Does the likelihood integrate (in $x$) to 1? Should we care (also see [above](#Exc-(optional)----BR-normalization)) ?
-# - (c) $\ObsMod(x) = (x-5)^2$. *PS: We're now doing "nonlinear regression"*.
-#     - Is the resulting posterior Gaussian?
-#     - Explain why negative values of $y$ don't seem to be an impossibility (the likelihood is not uniformly $0$).
+# - (c) $\ObsMod(x) = (x-5)^2$.
+#     - Explain how negative values of $y$ are possible.
 # - (d) Try $\ObsMod(x) = |x|$.
-#     - Is the resulting posterior Gaussian?
 
 # +
 # show_answer('Observation models', 'a')

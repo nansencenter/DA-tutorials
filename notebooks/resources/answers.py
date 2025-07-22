@@ -313,16 +313,15 @@ answers['Posterior behaviour'] = ['MD', r'''
 ''']
 
 answers['Likelihood'] = ['MD', r'''
-Start by assuming [in place of eqn. (Obs)] that $\ObsMod(x) = 0$;
-then $y = r$, i.e. the observation would have the same distribution as $r$.
-Adding $\ObsMod(x)$ just shifts (translates) its distribution by $\ObsMod(x)$,
-in which case the mean is $\ObsMod(x)$.
+It follows from eqn. (Obs) that $p(y|x)$ is just $p(r)$ evaluated at $r = y - \ObsMod(x)$,  
+i.e. $\NormDist(y - \ObsMod(x) | 0, R)$,  
+i.e. $\NormDist(y | \ObsMod(x), R)$.
 
-For more general algebra, for example $y = x r$ (multiplicative noise),
-or even more complicated combinations of $r$ and $x$,
+PS: for the non-additive case,
+i.e. more complicated combinations of $r$ and $x$,
 the likelihood can be derived by applying the
 [change-of-variables formula](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Change-of-variables,-Expectation).
-The example results in $p(y|x) = \NormDist(y | 0, x^2 R)$.
+For example, multiplicative noise, i.e. $y = x r$, produces $p(y|x) = \NormDist(y | 0, x^2 R)$.
 ''']
 
 answers['Observation models a'] = ['MD', r'''
