@@ -212,7 +212,6 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # - At every time $k$ we only deal with functions of 1 or 2 variables: $x_k$ and $x_{k+1}$.
 #   This is a significantly smaller domain
 #   (in which to quantify our densities or covariances) than that of the joint pdf $p(x_{1:k} | y_{1:k})$.
-#   Ref. [curse of dimensionality](T3%20-%20Bayesian%20inference.ipynb#Exc-(optional)----Curse-of-dimensionality,-part-1).
 #
 # Note, however, that our recursive procedure, called ***filtering***,
 # does *not* compute $p(x_l | y_{1:k})$ for any $l<k$.

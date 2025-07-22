@@ -295,7 +295,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 #    *Hint: Assume the computationally demanding part is the [Cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation).*
 #  * (c) How much memory (bytes) is required to hold its covariance matrix $\bP$ ?
 #  * (d) How many megabytes (MB) is that if $\xDim$ is a million,
-#    as in our [$1^\circ$ (110km) resolution Earth atmosphere model](T3%20-%20Bayesian%20inference.ipynb#Exc-(optional)----Curse-of-dimensionality,-part-1).
+#    as in our [$1^\circ$ (110km) resolution Earth atmosphere model](#Exc-(optional)----Curse-of-dimensionality,-part-1).
 #  * (e) How many times more MB or flops are needed if you double the resolution (in all 3 dimensions) ?
 
 # +
