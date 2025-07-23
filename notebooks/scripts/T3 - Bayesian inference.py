@@ -41,11 +41,8 @@ plt.ion();
 # \end{align}$$
 # which we implemented and tested alongside the uniform distribution on a particular numerical grid:
 
-(pdf_G1, grid1d, dx,
- pdf_GM, grid2d,
- pdf_U1, bounds) = import_from_nb("T2", ("pdf_G1", "grid1d", "dx",
-                                         "pdf_GM", "grid2d",
-                                         "pdf_U1", "bounds"))
+(pdf_G1, pdf_U1, bounds, dx, grid1d) = import_from_nb("T2", ("pdf_G1", "pdf_U1", "bounds", "dx", "grid1d"))
+pdfs = dict(N=pdf_G1, U=pdf_U1)
 
 # This will now help illustrate:
 #
@@ -107,12 +104,9 @@ def Bayes_rule(prior_values, lklhd_values, dx):
 # ## Interactive illustration
 #
 # The code below shows Bayes' rule in action.
-# The prior is $p(x) = \NormDist(x|x^f, P^f)$ with fixed mean and variance, $x^f= 10$, $P^f=4^2$.
-# Meanwhile, the parameters of the likelihood, $p(y|x) = \NormDist(y|x, R)$,
-# are controllable through the interactive sliders.
 
-@interact(y=(*bounds, 1), logR=(-3, 5, .5), top=[['y', 'logR']])
-def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
+@interact(y=(*bounds, 1), logR=(-3, 5, .5), prior_kind=list(pdfs), lklhd_kind=list(pdfs))
+def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
     R = 4**logR
     xf = 10
     Pf = 4**2
@@ -122,21 +116,22 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
         return 1*x + 0
 
     x = grid1d
-    prior_vals = pdf_G1(x, xf, Pf)  if prior_is_G else pdf_U1(x, xf, Pf)
-    lklhd_vals = pdf_G1(y, H(x), R) if lklhd_is_G else pdf_U1(y, H(x), R)
+    prior_vals = pdfs[prior_kind](x, xf, Pf)
+    lklhd_vals = pdfs[lklhd_kind](y, H(x), R)
     postr_vals = Bayes_rule(prior_vals, lklhd_vals, dx)
 
     def plot(x, y, c, lbl):
         plt.fill_between(x, y, color=c, alpha=.3, label=lbl)
 
     plt.figure(figsize=(8, 4))
-    plot(x, prior_vals, 'blue'  , f'Prior, N(x | {xf:.4g}, {Pf:.4g})')
-    plot(x, lklhd_vals, 'green' , f'Lklhd, N({y} | x, {R:.4g})')
+    plot(x, prior_vals, 'blue'  , f'Prior, {prior_kind}(x | {xf:.4g}, {Pf:.4g})')
+    plot(x, lklhd_vals, 'green' , f'Lklhd, {lklhd_kind}({y} | x, {R:.4g})')
     plot(x, postr_vals, 'red'   , f'Postr, pointwise')
 
     try:
         # (See exercise below)
-        xa, Pa = Bayes_rule_G1(xf, Pf, y, H(xf)/xf, R)
+        H_lin = H(xf)/xf # a simple linear approximation of H(x)
+        xa, Pa = Bayes_rule_G1(xf, Pf, y, H_lin, R)
         label = f'Postr, parametric\nN(x | {xa:.4g}, {Pa:.4g})'
         postr_vals_G1 = pdf_G1(x, xa, Pa)
         plt.plot(x, postr_vals_G1, 'purple', label=label)
@@ -148,8 +143,16 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
     plt.show()
 
 
-# **Exc -- Bayes1 properties:** This exercise serves to make you acquainted with how Bayes' rule blends information.  
-#  Move the sliders (use arrow keys?) to animate it, and answer the following (with the boolean checkmarks both on and off).
+# The illustration uses a
+# - prior $p(x) = \NormDist(x|x^f, P^f)$ with (fixed) mean and variance, $x^f= 10$, $P^f=4^2$.
+# - likelihood $p(y|x) = \NormDist(y|x, R)$, whose params are set by the interactive sliders.
+#
+# We are now dealing with 3 (!) separate distributions,
+# giving us a lot of symbols to keep straight in our head -- a necessary evil for later.
+#
+# **Exc -- Bayes1 properties:** This exercise serves to make you acquainted with how Bayes' rule blends information. 
+#
+# Move the sliders (use arrow keys?) to animate it, and answer the following (with the boolean checkmarks both on and off).
 #  * What happens to the posterior when $R \rightarrow \infty$ ?
 #  * What happens to the posterior when $R \rightarrow 0$ ?
 #  * Move $y$ around. What is the posterior's location (mean/mode) when $R$ equals the prior variance?
@@ -172,10 +175,11 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 # which is called **observation/forward model**, $\ObsMod$.
 # Examples include:
 #
-# - $\ObsMod(x) = x + 273$ if $x$ is the temperature in °K, while the thermometer reports °C.
-# - $\ObsMod(x) = 10 x$ if $x$ if our ruler uses mm, while $x$ is stored in terms of cm.
-# - $\ObsMod(x) = \log(x)$ if using litmus paper for pH measurement, i.e. $x$ is the molar concentration of hydrogen ions.
+# - $\ObsMod(x) = x + 273$ for a thermometer reporting °C, while $x$ is the temperature in °K.
+# - $\ObsMod(x) = 10 x$ for a ruler using mm, while $x$ is stored as cm.
+# - $\ObsMod(x) = \log(x)$ for litmus paper (pH measurement), where $x$ is the molar concentration of hydrogen ions.
 # - $\ObsMod(x) = |x|$ for bicycle speedometers (measuring rpm, i.e. Hall effect sensors).
+# - $\ObsMod(x) = 2 \pi h \, x^2$ if observing inebrity (drunkeness), and the unkown, $x$, is the radius of the beer glasses. 
 #
 # Of course, the linear and logarithmic transformations are hardly worthy of the name "model", since they merely change the scale of measurement, and so could be trivially done away with. But doing so is not necessary, and they will serve to illustrate some important points.
 #
@@ -239,7 +243,6 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 #   x\supa &= P\supa (x\supf/P\supf + \ObsMod y/R) \,.  \tag{6}
 # \end{align}$$
 #
-# *There are a lot of sub/super-scripts (a necessary evil for later purposes). Please take a moment to start to digest the formulae.*
 #
 # #### Exc -- GG Bayes
 # Consider the following identity, where $P\supa$ and $x\supa$ are given by eqns. (5) and (6).
@@ -248,7 +251,7 @@ def Bayes1(y=9.0, logR=1.0, prior_is_G=True, lklhd_is_G=True):
 # Notice that the left hand side (LHS) is the sum of two squares with $x$,
 # but the RHS only contains one square with $x$.
 # - (a) Actually derive the first term of the RHS, i.e. eqns. (5) and (6).  
-#   *Hint: you can simplify the task by first "hiding" $\ObsMod$ by astutely multiplying by $1$ somewhere.*
+#   *Hint: you can simplify the task by first "hiding" $\ObsMod$*
 # - (b) *Optional*: Derive the full RHS (i.e. also the second term).
 # - (c) Derive $p(x|y) = \NormDist(x \mid x\supa, P\supa)$ from eqns. (5) and (6)
 #   using part (a), Bayes' rule (BR2), and the Gaussian pdf (G1).
@@ -281,11 +284,9 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
 # #### Exc -- Gaussianity as an approximation
 # Re-run/execute the interactive animation code cell up above.
 # - (a) Under what conditions does `Bayes_rule_G1()` provide a good approximation to `Bayes_rule()`?  
-#   *Hint: Also note that the plotting code converts the generic function $\ObsMod$ to just a number,
-#   before feeding it to `Bayes_rule_G1`.*
-# - (b) *Optional*. Try using one or more of the other [distributions readily available in `scipy`](https://stackoverflow.com/questions/37559470/) in the above animation.
+# - (b) Try using one or more of the other [distributions readily available in `scipy`](https://stackoverflow.com/questions/37559470/) in the above animation by inserting them in `pdfs`.
 #
-# **Exc -- Gain algebra:** Show that eqn. (5) can be written as
+# **Exc (optional) -- Gain algebra:** Show that eqn. (5) can be written as
 # $$P\supa = K R / \ObsMod \,,    \tag{8}$$
 # where
 # $$K = \frac{\ObsMod P\supf}{\ObsMod^2 P\supf + R} \,,    \tag{9}$$
