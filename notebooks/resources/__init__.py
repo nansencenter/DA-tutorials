@@ -315,11 +315,17 @@ def import_from_nb(name: str, objs: list):
     NBDIR = Path(__file__).parents[1]
     notebk = next(NBDIR.glob(name + "*.ipynb"))
     script = (NBDIR / "scripts" / notebk.relative_to(NBDIR)).with_suffix('.py')
+    import_from_nb.nesting_level += 1
 
     interact.disabled = True
     try:
         name = str(script.relative_to(NBDIR).with_suffix("")).replace(os.sep, ".")
         script = getattr(__import__(name), script.stem)  # works despite weird chars
     finally:
-        interact.disabled = False
+        # Dont re-enable if nested
+        if not import_from_nb.nesting_level >= 2:
+            interact.disabled = False
+        import_from_nb.nesting_level -= 1
     return [getattr(script, x) for x in objs]
+
+import_from_nb.nesting_level = 0
