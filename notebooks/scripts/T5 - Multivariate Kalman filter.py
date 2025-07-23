@@ -24,20 +24,31 @@ from scipy.linalg import inv
 import matplotlib.pyplot as plt
 plt.ion();
 
-(grid1d, dx, pdf_GM, grid2d, bounds) = import_from_nb("T2", ("grid1d", "dx", "pdf_GM", "grid2d", "bounds"))
-
-Bayes_rule, = import_from_nb("T3", ["Bayes_rule"])
-
 # # T5 - The Kalman filter (KF) -- multivariate
-# Dealing with vectors and matrices is a lot like plain numbers. But some things get more complicated.
+# We have seen the KF in the scalar/univariate/1D case. Now we'll derive it for the multivariate (vector) case.
+# Dealing with vectors and matrices is a lot like plain numbers, but we use bold text to denote them, and some things do get more complicated...
+#
 # $
 # % ######################################## Loading TeX (MathJax)... Please wait ########################################
 # \newcommand{\Reals}{\mathbb{R}} \newcommand{\Expect}[0]{\mathbb{E}} \newcommand{\NormDist}{\mathscr{N}} \newcommand{\DynMod}[0]{\mathscr{M}} \newcommand{\ObsMod}[0]{\mathscr{H}} \newcommand{\mat}[1]{{\mathbf{{#1}}}} \newcommand{\bvec}[1]{{\mathbf{#1}}} \newcommand{\trsign}{{\mathsf{T}}} \newcommand{\tr}{^{\trsign}} \newcommand{\ceq}[0]{\mathrel{≔}} \newcommand{\xDim}[0]{D} \newcommand{\supa}[0]{^\text{a}} \newcommand{\supf}[0]{^\text{f}} \newcommand{\I}[0]{\mat{I}} \newcommand{\K}[0]{\mat{K}} \newcommand{\bP}[0]{\mat{P}} \newcommand{\bH}[0]{\mat{H}} \newcommand{\bF}[0]{\mat{F}} \newcommand{\R}[0]{\mat{R}} \newcommand{\Q}[0]{\mat{Q}} \newcommand{\B}[0]{\mat{B}} \newcommand{\C}[0]{\mat{C}} \newcommand{\Ri}[0]{\R^{-1}} \newcommand{\Bi}[0]{\B^{-1}} \newcommand{\X}[0]{\mat{X}} \newcommand{\A}[0]{\mat{A}} \newcommand{\Y}[0]{\mat{Y}} \newcommand{\E}[0]{\mat{E}} \newcommand{\U}[0]{\mat{U}} \newcommand{\V}[0]{\mat{V}} \newcommand{\x}[0]{\bvec{x}} \newcommand{\y}[0]{\bvec{y}} \newcommand{\z}[0]{\bvec{z}} \newcommand{\q}[0]{\bvec{q}} \newcommand{\br}[0]{\bvec{r}} \newcommand{\bb}[0]{\bvec{b}} \newcommand{\bx}[0]{\bvec{\bar{x}}} \newcommand{\by}[0]{\bvec{\bar{y}}} \newcommand{\barB}[0]{\mat{\bar{B}}} \newcommand{\barP}[0]{\mat{\bar{P}}} \newcommand{\barC}[0]{\mat{\bar{C}}} \newcommand{\barK}[0]{\mat{\bar{K}}} \newcommand{\D}[0]{\mat{D}} \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}} \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}} \newcommand{\ones}[0]{\bvec{1}} \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 # $
 
-# ## Multivariate Bayes
-# The following illustrates Bayes' rule in the 2D, i.e. multivariate, case.
-# The likelihood is again defined as eqn. (Lklhd), but now all of the variables and parameters are vectors and matrices.
+# ## Prelude: Multivariate Bayes
+# In the following we will see Bayes' rule in the 2D (i.e. multivariate) case. Recall from T3
+# $$\begin{equation}
+# p(\x|\y) \propto p(\x) \, p(\y|\x) \,.  \tag{BR}
+# \end{equation}$$
+
+Bayes_rule, = import_from_nb("T3", ["Bayes_rule"])
+
+# The prior is set to a Gaussian distribution whose density we also recall:
+# $$\begin{equation*}
+# \NormDist(\x \mid  \mathbf{\mu}, \mathbf{\Sigma})
+# =
+# |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,. \tag{GM}
+# \end{equation*}$$
+
+(grid1d, dx, pdf_GM, grid2d, bounds) = import_from_nb("T2", ("grid1d", "dx", "pdf_GM", "grid2d", "bounds"))
 
 # +
 H_kinds = {
@@ -90,21 +101,33 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 
 # -
 
-# #### Exc (optional) -- Multivariate observation models
+# Note that the likelihood is again defined as eqn. (Lklhd),
+# $$\begin{equation*}
+# p(\y|\x) = \NormDist(\y| \ObsMod(\x), \R) \,. \tag{Lklhd}
+# \end{equation*}$$
+#
+# Examples of $\ObsMod(\x)$ for multivariate $\x$ (and possibly $\y$) include:
+#
+# - $\ObsMod(\x) = \x$ if directly observing everything.
+# - $\ObsMod(\x) = (x_i,  i \in \text{subset})$ if only partially (sparsely?) directly observing.
+# - $\ObsMod(\x) = \sum_k x_{ijk}$ if "integrating" over the vertical "column" of the atmosphere at $(\text{lat, long}) = (i,j)$.
+# - $\ObsMod(\x) = (x_{i+1} - x_i, \forall i)$ if interested in the slope/roughness of the state field.
+# - $\ObsMod(\x) = g(\|\x\|^2)$ for some $g$ that only depends on some distance or magnitude.
+#
+# #### Exc -- Multivariate observation models
 # - (a) Does the posterior (pdf) generally lie "between" the prior and likelihood?
-# - (b) Try the different observation models in the dropdown menu.
+# - (b) Try the different observation models in the dropdown menu.  
+#   *Note that if $\ObsMod$ only yield a single (scalar/1D) output, then `y2`, `R2` and `corr_R` become inactive.*
 #   - Explain the impact on the likelihood (and thereby posterior).  
 #   - Consider to what extent it is reasonable to say that $\ObsMod$ gets "inverted".
 #   - For those of the above models that are linear,
 #     find the (possibly rectangular) matrix $\bH$ such that $\ObsMod(\x) = \bH \x$.
-#   - For those of the above models that only yield a single (scalar/1D) output,
-#     why do `y2`, `R2` and `corr_R` become inactive?
 
 # +
 # show_answer('Multivariate Observations')
 # -
 
-# As simple as it is, the amount of computations done by `Bayes_rule` quickly becomes a difficulty in higher dimensions. This is hammered home in the following exercise.
+# While conceptually and technically simple, the sheer **amount** of computations done by `Bayes_rule` quickly becomes a difficulty in higher dimensions. This is hammered home in the following exercise.
 #
 # #### Exc (optional) -- Curse of dimensionality, part 1
 #
