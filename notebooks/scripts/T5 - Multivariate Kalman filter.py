@@ -129,7 +129,7 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 
 # While conceptually and technically simple, the sheer **amount** of computations done by `Bayes_rule` quickly becomes a difficulty in higher dimensions. This is hammered home in the following exercise.
 #
-# #### Exc (optional) -- Curse of dimensionality, part 1
+# #### Exc (optional) -- Curse of dimensionality
 #
 #  * (a) How many point-multiplications are needed on a grid with $N$ points in $\xDim$ dimensions? Imagine an $\xDim$-dimensional cube where each side has a grid with $N$ points on it.
 #    *PS: Of course, if the likelihood contains an actual model $\ObsMod(x)$ as well, its evaluations (computations) could be significantly more costly than the point-multiplications of Bayes' rule itself.*
