@@ -1165,10 +1165,10 @@ $$\begin{align}
 \end{align}$$
 
 Writing this out, and employing
-the definition of $\barB$, eqn. (7a), yields:
+the definition of $\barP\supf$, eqn. (7a), yields:
 $$\begin{align}
     \barP
-	&= \barB + \barK \bH \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr - \barK \bH \barB \tag{A3} \\\
+	&= \barP\supf + \barK \bH \barP\supf \bH\tr \barK{}\tr -  \barP\supf \bH\tr \barK{}\tr - \barK \bH \barP\supf \tag{A3} \\\
 	&\phantom{= } - \frac{1}{N-1}\left[
 		{\X}\D\tr \barK{}\tr
 		+ \barK\D {\X}\tr
@@ -1181,10 +1181,10 @@ $$\begin{align}
 Substituting eqns. (9) into eqn. (A3) yields
 $$\begin{align}
 	\barP
-	&=  \barB  + \barK \bH \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr - \barK \bH \barB  + \barK \R \barK{}\tr \tag{A4} \\\
-	&=  (\I_{\\xDim} - \barK \bH) \barB + \barK(\bH \barB \bH\tr + \R)\barK{}\tr -  \barB \bH\tr \barK{}\tr \tag{regrouped.} \\\
-	&=  (\I_{\\xDim} - \barK \bH) \barB + \barB \bH\tr \barK{}\tr -  \barB \bH\tr \barK{}\tr \,, \tag{inserted eqn. (5a).} \\\
-    &=  (\I_{\\xDim} - \barK \bH) \barB \,. \tag{10}
+	&=  \barP\supf  + \barK \bH \barP\supf \bH\tr \barK{}\tr -  \barP\supf \bH\tr \barK{}\tr - \barK \bH \barP\supf  + \barK \R \barK{}\tr \tag{A4} \\\
+	&=  (\I_{\\xDim} - \barK \bH) \barP\supf + \barK(\bH \barP\supf \bH\tr + \R)\barK{}\tr -  \barP\supf \bH\tr \barK{}\tr \tag{regrouped.} \\\
+	&=  (\I_{\\xDim} - \barK \bH) \barP\supf + \barP\supf \bH\tr \barK{}\tr -  \barP\supf \bH\tr \barK{}\tr \,, \tag{inserted eqn. (5a).} \\\
+    &=  (\I_{\\xDim} - \barK \bH) \barP\supf \,. \tag{10}
     \end{align}$$
 Thus the covariance of the EnKF update "conforms" to the KF covariance update.
 
@@ -1201,7 +1201,7 @@ answers["EnKF_without_perturbations"] = ['MD', r'''
 If $\Dobs = \bvec{0}$, then eqn. (A3) from the previous answer becomes
 $$\begin{align}
     \barP
-	&= (\I_{\\xDim}-\barK \bH)\barB(\I_{\\xDim}-\bH\tr \barK{}\tr) \tag{A5} \,,
+	&= (\I_{\\xDim}-\barK \bH)\barP\supf(\I_{\\xDim}-\bH\tr \barK{}\tr) \tag{A5} \,,
 \end{align}$$
 which shows that the updated covariance would be too small.
 ''']

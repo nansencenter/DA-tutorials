@@ -51,7 +51,7 @@ plt.ion();
 # Suppose $\{\x_n\supa\}_{n=1..N}$ is an iid. sample from $p(\x_{k-1} \mid \y_1,\ldots, \y_{k-1})$, which may or may not be Gaussian.
 #
 # The forecast step of the EnKF consists of a Monte Carlo simulation
-# of the forecast dynamics for each $\x_n\supa$:
+# of the forecast dynamics for each $\x_n$:
 # $$
 # 	\forall n, \quad \x\supf_n = \DynMod(\x_n\supa) + \q_n  \,, \\
 # $$
@@ -75,36 +75,38 @@ plt.ion();
 # $$
 # where the "observation perturbations", $\br_n$, are sampled iid. from the observation noise model, e.g. $\NormDist(\bvec{0},\R)$,  
 # and form the columns of $\Dobs$,  
-# and the observation operator (again, any type of function) $\ObsMod$ is applied column-wise to $\E\supf$.
+# and the observation operator (again, any type of function), $\ObsMod$, is applied column-wise to $\E\supf$.
 #
 # The gain $\barK$ is defined by inserting the ensemble estimates for
-#  * (i) $\B \bH\tr$: the cross-covariance between $\x\supf$ and $\ObsMod(\x\supf)$, and
-#  * (ii) $\bH \B \bH\tr$: the covariance matrix of $\ObsMod(\x\supf)$,
+#  * (i) $\bP\supf \bH\tr$: the cross-covariance between $\x\supf$ and $\ObsMod(\x\supf)$, and
+#  * (ii) $\bH \bP\supf \bH\tr$: the covariance matrix of $\ObsMod(\x\supf)$,
 #
 # in the formula for $\K$, namely eqn. (K1) of [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb).
 # Using the estimators from [T8](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb) yields
+#
 # $$\begin{align}
 # 	\barK &= \X \Y\tr ( \Y \Y\tr + (N{-}1) \R )^{-1} \,, \tag{5a}
 # \end{align}
 # $$
+#
 # where $\Y \in \Reals^{P \times N}$
 # is the centered, *observed* ensemble
 # $\Y \ceq
 # \begin{bmatrix}
-# 		\y_1 -\by, & \ldots & \y_n -\by, & \ldots & \y_N -\by
-# 	\end{bmatrix} \,,$ where $\y_n = \ObsMod(\x_n\supf)$.
+#     \y_1 -\by, & \ldots & \y_n -\by, & \ldots & \y_N -\by
+# \end{bmatrix} \,,$ where $\y_n = \ObsMod(\x_n\supf)$.
 #
 # The EnKF is summarized in the animation below.
 
 EnKF_animation()
 
 # #### Exc -- Woodbury for the ensemble subspace
-# (a) Use the Woodbury identity (C2) of [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb) to show that eqn. (5) can also be written
+# (a) Use the Woodbury identity (C2) of [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb) to show that eqn. (5a) can also be written
 # $$\begin{align}
 # 	\barK &= \X ( \Y\tr \Ri \Y + (N{-}1)\I_N  )^{-1} \Y\tr \Ri \,. \tag{5b}
 # \end{align}
 # $$
-# (b) What is the potential benefit?
+# (b) What is the potential benefit of (5b) vs. (5a) ?
 
 # #### Exc -- KG workings
 # The above animation assumed that the observation operator is just the identity matrix, $\I$, rather than a general observation operator, $\ObsMod()$. Meanwhile, the Kalman gain used by the EnKF, eqn. (5a), is applicable for any $\ObsMod()$. On the other hand, the formula (5a) consists solely of linear algebra. Therefore it cannot perfectly represent any general (nonlinear) $\ObsMod()$. So how does it actually treat the observation operator? What meaning can we assign to the resulting updates?  
@@ -134,27 +136,29 @@ EnKF_animation()
 # #### Exc (optional) -- EnKF nobias (b)
 # Consider the ensemble covariance matrices:
 # $$\begin{align}
-# \barB &= \frac{1}{N-1} \X{\X}\tr \,, \tag{7a} \\\
-# \barP &= \frac{1}{N-1} \X\supa{\X\supa}\tr \,. \tag{7b}
+# \barP\supf &= \frac{1}{N-1} \X{\X}\tr \,, \tag{7a} \\\
+# \barP\supa &= \frac{1}{N-1} \X\supa{\X\supa}\tr \,. \tag{7b}
 # \end{align}$$
 #
-# Now, denote the centralized observation perturbations:
-# $$\begin{align}
-# \D &= \Dobs - \bar{\br}\ones\tr \\\
-# &= \Dobs\AN \,. \tag{8}
-# \end{align}$$
-# Note that $\D \ones = \bvec{0}$ and, with expectation over $\Dobs$,
+# Now, denote the centralized observation perturbations
+# $\D \ceq
+# \begin{bmatrix}
+#     \br_1 -\bar{\br}, & \ldots & \br_n -\bar{\br}, & \ldots & \br_N -\bar{\br}
+# \end{bmatrix} $.
+# Note that $\D \ones = \bvec{0}$ and that
 # $$
 # \begin{align}
 # 	\label{eqn:R_sample_cov_of_D}
-# 	\frac{1}{N-1}\D \D\tr = \R \,, \tag{9a} \\\
+# 	\frac{1}{N-1} \D \D\tr &= \R \,, \tag{9a} \\\
 # 	\label{eqn:zero_AD_cov}
-# 	\X \D\tr = \bvec{0} \,. \tag{9b}
+# 	\X \D\tr &= \bvec{0} \tag{9b}
 # \end{align}
 # $$
-# Assuming eqns (8) and (9) hold true, show that
+# is satisfied in the expected sense, i.e. by taking the expectation on the left-hand side.
+# Thereby, show that
+#
 # $$\begin{align}
-#     \barP &= [\I_{\xDim} - \barK \bH]\barB \, . \tag{10}
+#     \Expect \, \barP\supa &= [\I_{\xDim} - \barK \bH]\barP\supf \, . \tag{10}
 # \end{align}$$
 
 # +
@@ -162,7 +166,7 @@ EnKF_animation()
 # -
 
 # #### Exc (optional) -- EnKF bias (c)
-# Show that, if no observation perturbations are used in eqn. (4), then $\barP$ would be too small.
+# Show that, if no observation perturbations are used in eqn. (4), then $\barP\supa$ would be too small.
 
 # +
 # show_answer("EnKF_without_perturbations")
@@ -352,7 +356,7 @@ average_rmse(truths, ens_means)
 # show_answer('Repeat experiment b')
 # -
 
-#  * (c). Use $N=5$, and repeat the experiments. This is quite a small ensemble size, and quite often it will yield divergence: the EnKF "definitely loses track" of the truth, typically because of strong nonlinearity in the forecast models, and underestimation (by $\barP)$ of the actual errors. Repeat the experiment with different seeds until you observe in the plots that divergence has happened.
+#  * (c). Use $N=5$, and repeat the experiments. This is quite a small ensemble size, and quite often it will yield divergence: the EnKF "definitely loses track" of the truth, typically because of strong nonlinearity in the forecast models, and underestimation (by $\barP\supa)$ of the actual errors. Repeat the experiment with different seeds until you observe in the plots that divergence has happened.
 #  * (d). Implement "multiplicative inflation" to remedy the situation; this is a factor that should spread the ensemble further apart; a simple version is to inflate the perturbations. Implement it, and tune its value to try to avoid divergence.
 
 # +

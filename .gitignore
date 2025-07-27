@@ -62,3 +62,4 @@ tests/T6*.py
 tests/T7*.py
 tests/T8*.py
 tests/T9*.py
+notebooks/resources/illust_EnKF/from_Matlab
