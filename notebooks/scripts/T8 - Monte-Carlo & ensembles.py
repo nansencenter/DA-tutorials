@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,scripts//py
+#     formats: ipynb,scripts//py:light
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -29,15 +29,13 @@ plt.ion();
 (pdf_G1, grid1d) = import_from_nb("T2", ("pdf_G1", "grid1d"))
 
 # # T8 - The ensemble (Monte-Carlo) approach
-# is an approximate method for doing Bayesian inference.
-# Instead of computing the full (gridvalues, or parameters, of the) posterior distributions,
-# we instead try to generate ensembles from them.
-# An ensemble is an *iid* sample. I.e. a set of "members" ("particles", "realizations", or "sample points") that have been drawn ("sampled") independently from the same distribution. With the EnKF, these assumptions are generally tenuous, but pragmatic.
+# **Monte-Carlo methods** are a class of computational algorithms that rely on random/stochastic sampling. They generally trade off higher (though random!) error for lower technical complexity [<sup>[1]</sup>](#Footnote-1). Examples from optimisation include randomly choosing search directions, swarms, evolutionary mutations, or perturbations for gradient approximation. Another application area is the computation of (deterministic) integrals via sample averages, which is rooted in the fact that any integral can be formulated as expectations, as well as the law of large numbers (LLN). This is actually a surprisingly large class of problems, including for example a way to [approximate the value of $\pi$](https://en.wikipedia.org/wiki/Monte_Carlo_method#Overview). Moreover, many integrals of interest are inherently expectations, but over probability distributions that are not tractable, as they arise from a complicated random or uncertain process [<sup>[2]</sup>](#Footnote-2), whereas a Monte-Carlo sample thereof can be obtained simply by simulating the process.
 # $
 # % ######################################## Loading TeX (MathJax)... Please wait ########################################
 # \newcommand{\Reals}{\mathbb{R}} \newcommand{\Expect}[0]{\mathbb{E}} \newcommand{\NormDist}{\mathscr{N}} \newcommand{\DynMod}[0]{\mathscr{M}} \newcommand{\ObsMod}[0]{\mathscr{H}} \newcommand{\mat}[1]{{\mathbf{{#1}}}} \newcommand{\bvec}[1]{{\mathbf{#1}}} \newcommand{\trsign}{{\mathsf{T}}} \newcommand{\tr}{^{\trsign}} \newcommand{\ceq}[0]{\mathrel{≔}} \newcommand{\xDim}[0]{D} \newcommand{\supa}[0]{^\text{a}} \newcommand{\supf}[0]{^\text{f}} \newcommand{\I}[0]{\mat{I}} \newcommand{\K}[0]{\mat{K}} \newcommand{\bP}[0]{\mat{P}} \newcommand{\bH}[0]{\mat{H}} \newcommand{\bF}[0]{\mat{F}} \newcommand{\R}[0]{\mat{R}} \newcommand{\Q}[0]{\mat{Q}} \newcommand{\B}[0]{\mat{B}} \newcommand{\C}[0]{\mat{C}} \newcommand{\Ri}[0]{\R^{-1}} \newcommand{\Bi}[0]{\B^{-1}} \newcommand{\X}[0]{\mat{X}} \newcommand{\A}[0]{\mat{A}} \newcommand{\Y}[0]{\mat{Y}} \newcommand{\E}[0]{\mat{E}} \newcommand{\U}[0]{\mat{U}} \newcommand{\V}[0]{\mat{V}} \newcommand{\x}[0]{\bvec{x}} \newcommand{\y}[0]{\bvec{y}} \newcommand{\z}[0]{\bvec{z}} \newcommand{\q}[0]{\bvec{q}} \newcommand{\br}[0]{\bvec{r}} \newcommand{\bb}[0]{\bvec{b}} \newcommand{\bx}[0]{\bvec{\bar{x}}} \newcommand{\by}[0]{\bvec{\bar{y}}} \newcommand{\barB}[0]{\mat{\bar{B}}} \newcommand{\barP}[0]{\mat{\bar{P}}} \newcommand{\barC}[0]{\mat{\bar{C}}} \newcommand{\barK}[0]{\mat{\bar{K}}} \newcommand{\D}[0]{\mat{D}} \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}} \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}} \newcommand{\ones}[0]{\bvec{1}} \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 # $
 #
+# **An ensemble** is an *iid* sample. I.e. a set of "members" ("particles", "realizations", or "sample points") that have been drawn ("sampled") independently from the same distribution. With the EnKF, these assumptions are generally tenuous, but pragmatic.
 # In particular, an ensemble can be used to characterize uncertainty: either by using it to compute (estimate) *statistics* thereof, such as the mean, median, variance, covariance, skewness, confidence intervals, etc (any function of the ensemble can be seen as a "statistic"), or by using it to reconstruct the distribution/density from which it is sampled. The latter is illustrated by the plot below.
 #
 # Take a moment to digest its code. Note:
@@ -242,5 +240,33 @@ def estimate_cross_cov(Ex, Ey):
 # ## Summary
 # Parametric assumptions (e.g. assuming Gaussianity) can be useful in approximating distributions.
 # Sample covariance estimates can be expressed and computed in a vectorized form.
+#
+# ---
+#
+# ###### Footnote 1
+#
+# <a name="Footnote-1"></a> 
+# Essentially its (pseudo) randomness means that it is easy to avoid biases.
+# For example, the Monte-Carlo approach is particularly useful
+# when grid-based quadrature is difficult, as is often the case for high-dimensional problems.
+# A common misconception in DA is that MC is somehow more efficient
+# than deterministic quadrature in high dimensions, $D$.
+# The confusion arises because, from Chebyshev inequality, we know that
+# the error of the MC approximation asymptotically converges to zero at a rate proportional to $1/\sqrt{N}$,
+# while that of quadrature methods typically converges proportional to $1 / N^{1/D}$.
+# But not only is the coefficient dependent on $D$ (and worse for MC),
+# also (conjecture!) for any $D$ and $N$ you can always find a gridding strategy that has lower error.
+# For example, quasi-random (latin hypercube, etc) are easily recommended
+# in the pure context of hypercube integrals.
+#
+# ###### Footnote 2
+#
+# <a name="Footnote-2"></a> 
+# The derivation of the corresponding density might involve
+# high-dimensional Jacobians for the change-of-variables formula,
+# or its generalisation for non-bijective transformations,
+# or to the Chapman-Kolmogorov equations in the case of interacting random variables,
+# or its time-continuous form of Fokker-Planck.
+#
 #
 # ### Next: [T9 - Writing your own EnKF](T9%20-%20Writing%20your%20own%20EnKF.ipynb)
