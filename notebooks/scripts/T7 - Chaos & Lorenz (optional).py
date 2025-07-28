@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,scripts//py
+#     formats: ipynb,scripts//py:light
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -69,7 +69,7 @@ def integrate(dxdt, initial_states, final_time, **params):
 # Fortunately, for simple systems,
 # we can write our code such that the dynamics get independently (but simultaneously) computed for rows of a *matrix* (rather than a single vector), meaning that each row in the input produces a corresponding row in the output. This in effect leaves `numpy` to do the looping (which it does much quicker than pure Python).
 # Alternatively, since each simulation is completely independent of another realisation,
-# they can "embarrassingly" easily be parallelized, which is a good option if the system is very costly to simulate.
+# they are **"embarrassingly parallelizable"**, which is a good option if the system is very costly to simulate.
 # The exercise below challenges you to implement the first approach, resulting in much faster visualisation further below.
 #
 # #### Exc (optional) -- speed-up by vectorisation & parallelisation
