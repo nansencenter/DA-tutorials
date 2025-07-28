@@ -1,3 +1,5 @@
+[Feedback form](https://docs.google.com/forms/d/e/1FAIpQLSdIFxsnPq6i0Swrxujj7AUrFcajw8GDGDbtbByDACh9g50eRA/viewform?usp=header)
+
 # Intro to data assimilation (DA) and the EnKF
 
 An interactive (Jupyter notebook) tutorial.
