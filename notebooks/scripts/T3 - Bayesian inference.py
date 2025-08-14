@@ -30,35 +30,46 @@ plt.ion();
 # $
 # The [previous tutorial](T2%20-%20Gaussian%20distribution.ipynb)
 # studied the Gaussian probability density function (pdf), defined in 1D by:
-# $$\begin{equation}
+# \begin{equation}
+# \large
 # \NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \,,\tag{G1}
-# \end{equation}$$
+# \end{equation}
 # which we implemented and tested alongside the uniform distribution.
 
 (pdf_G1, pdf_U1, bounds, dx, grid1d) = import_from_nb("T2", ("pdf_G1", "pdf_U1", "bounds", "dx", "grid1d"))
 pdfs = dict(N=pdf_G1, U=pdf_U1)
 
+
 # Now that we have reviewed some probability, we can look at statistical inference, in particular
 #
 # # Bayes' rule
-# In the Bayesian approach, knowledge and uncertainty about the unknown ($x$)
-# is quantified through probability.
+#
+# <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
+#   <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
+#     In the Bayesian approach, knowledge and uncertainty about some unknown ($x$) is quantified through probability... (optional reading 🔍🤓)
+#   </summary>
+#
+#   For example, what is the temperature at the surface of Mercury (at some given point and time)?
+#   Not many people know the answer. Perhaps you say $500^{\circ} C, \, \pm \, 20$.
+#   But that's hardly anything compared to you real uncertainty, so you revise that to $\pm \, 1000$.
+#   But then you're allowing for temperature below absolute zero, which you clearly don't believe is possible.
+#   You can continue to refine the description of your uncertainty.
+#   Ultimately (in the limit) the complete way to express your belief is as a *distribution*
+#   (which is essentially just an enumeration) of plausibilities for all possibilities.
+#   Furthermore, the only coherent way to reason in the presence of such uncertainty
+#   is to obey the laws of probability ([Jaynes (2003)](#Jaynes-(2003):)).
+# </details>
+#
 # And **Bayes' rule** is how we do inference: it says how to condition/merge/assimilate/update this belief based on data/observation ($y$).
 # For *continuous* "random variables", $x$ and $y$, it reads:
 #
-# $$\begin{align}
-# p(x|y) &= \frac{p(x) \, p(y|x)}{p(y)} \,, \tag{BR} \\[1em]
-# \text{i.e.} \qquad \texttt{posterior}\,\text{[pdf of $x$ given $y$]}
-# \; &= \;
-# \frac{\texttt{prior}\,\text{[pdf of $x$]}
-# \; \times \;
-# \texttt{likelihood}\,\text{[pdf of $y$ given $x$]}}
-# {\texttt{normalisation}\,\text{[pdf of $y$]}} \,,
-# \end{align}
-# $$
-
-# Note that, in contrast to (the frequent aim of) classical statistics,
-# Bayes' rule in itself makes no attempt at producing only a single estimate
+# \begin{equation}
+# \large
+# \color{red}{\overset{\mbox{Posterior}}{p(\color{black}{x|y})}} = \frac{\color{blue}{\overset{\mbox{  Prior  }}{p(\color{black}{x})}} \, \color{green}{\overset{\mbox{ Likelihood}}{p(\color{black}{y|x})}}}{\color{gray}{\underset{\mbox{Constant wrt. x}}{p(\color{black}{y})}}} \,. \tag{BR} \\[1em]
+# \end{equation}
+#
+# Note that, in contrast to (the frequent aim of) orthodox statistics,
+# Bayes' rule in itself makes no attempt at producing only a single estimate/value
 # (but the topic is briefly discussed [further below](#Exc-(optional)----optimality-of-the-mean)).
 # It merely states how quantitative belief (weighted possibilities) should be updated in view of new data.
 
@@ -347,6 +358,6 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
 #
 # ## References
 #
-# - ###### Author (1999):
-# <a name="Author-(1999):"></a> 
-#   Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.
+# - ###### Jaynes (2003):
+# <a name="Jaynes-(2003):"></a>
+#   Edwin T. Jaynes, "Probability theory: the logic of science", 2003.
