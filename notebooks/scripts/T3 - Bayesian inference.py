@@ -58,6 +58,8 @@ pdfs = dict(N=pdf_G1, U=pdf_U1)
 #   (which is essentially just an enumeration) of plausibilities for all possibilities.
 #   Furthermore, the only coherent way to reason in the presence of such uncertainty
 #   is to obey the laws of probability ([Jaynes (2003)](#Jaynes-(2003):)).
+#
+#   ---
 # </details>
 #
 # And **Bayes' rule** is how we do inference: it says how to condition/merge/assimilate/update this belief based on data/observation ($y$).

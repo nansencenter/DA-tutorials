@@ -215,6 +215,8 @@ def pdf_U1(x, mu, sigma2):
 #
 #   - The norm (a quadratic form) is invariant to any asymmetry in the weight matrix.
 #   - The density (GM) would not be integrable (over $\Reals^{\xDim}$) if $\x\tr \mathbf{\Sigma} \x > 0$.
+#
+#   ---
 # </details>
 #
 # It is important to recognize how similar eqn. (GM) is to the univariate (scalar) case (G1).
