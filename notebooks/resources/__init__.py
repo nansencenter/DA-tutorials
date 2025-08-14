@@ -304,13 +304,16 @@ def EnKF_animation():
 def import_from_nb(name: str, objs: list):
     """Import `objs` from `notebooks/name*.py` (1st match).
 
-    Might not want to do this because it uses `sys.path` manipulation,
-    imposes that the notebook contain
+    This is of course a terrible hack:
 
-    - only light computations (unless controlled by interact.disabled)
-    - the version we want (as opposed to it being implemented by students)
+    - Necessitates that imported notebook contain only light computations
+      (unless controlled by interact.disabled)
+    - Does not include any changes made by students. This is mainly a benefit,
+      but could be said to break the principle of least surprise.
+    - Students might benefit from a little repetition anyway.
 
-    and because a little repetition never hurt nobody.
+    But notebooks are learning materials -- not production code --
+    and this helps tie together different tutorials of the course.
     """
     NBDIR = Path(__file__).parents[1]
     notebk = next(NBDIR.glob(name + "*.ipynb"))
@@ -320,7 +323,8 @@ def import_from_nb(name: str, objs: list):
     interact.disabled = True
     try:
         name = str(script.relative_to(NBDIR).with_suffix("")).replace(os.sep, ".")
-        script = getattr(__import__(name), script.stem)  # works despite weird chars
+        module = __import__(name)
+        script = getattr(module, script.stem)  # works despite weird chars
     finally:
         # Dont re-enable if nested
         if not import_from_nb.nesting_level >= 2:
