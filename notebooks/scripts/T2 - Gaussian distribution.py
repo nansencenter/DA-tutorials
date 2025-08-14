@@ -1,7 +1,7 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,scripts//py
+#     formats: ipynb,scripts//py:light
 #     text_representation:
 #       extension: .py
 #       format_name: light
@@ -23,35 +23,54 @@ import scipy as sp
 import matplotlib.pyplot as plt
 plt.ion();
 
+
 # We start by reviewing the most useful of probability distributions.
+#
 # # T2 - The Gaussian (Normal) distribution
+#
+# But first, let's refresh some essentials.
 # $
 # % ######################################## Loading TeX (MathJax)... Please wait ########################################
 # \newcommand{\Reals}{\mathbb{R}} \newcommand{\Expect}[0]{\mathbb{E}} \newcommand{\NormDist}{\mathscr{N}} \newcommand{\DynMod}[0]{\mathscr{M}} \newcommand{\ObsMod}[0]{\mathscr{H}} \newcommand{\mat}[1]{{\mathbf{{#1}}}} \newcommand{\bvec}[1]{{\mathbf{#1}}} \newcommand{\trsign}{{\mathsf{T}}} \newcommand{\tr}{^{\trsign}} \newcommand{\ceq}[0]{\mathrel{≔}} \newcommand{\xDim}[0]{D} \newcommand{\supa}[0]{^\text{a}} \newcommand{\supf}[0]{^\text{f}} \newcommand{\I}[0]{\mat{I}} \newcommand{\K}[0]{\mat{K}} \newcommand{\bP}[0]{\mat{P}} \newcommand{\bH}[0]{\mat{H}} \newcommand{\bF}[0]{\mat{F}} \newcommand{\R}[0]{\mat{R}} \newcommand{\Q}[0]{\mat{Q}} \newcommand{\B}[0]{\mat{B}} \newcommand{\C}[0]{\mat{C}} \newcommand{\Ri}[0]{\R^{-1}} \newcommand{\Bi}[0]{\B^{-1}} \newcommand{\X}[0]{\mat{X}} \newcommand{\A}[0]{\mat{A}} \newcommand{\Y}[0]{\mat{Y}} \newcommand{\E}[0]{\mat{E}} \newcommand{\U}[0]{\mat{U}} \newcommand{\V}[0]{\mat{V}} \newcommand{\x}[0]{\bvec{x}} \newcommand{\y}[0]{\bvec{y}} \newcommand{\z}[0]{\bvec{z}} \newcommand{\q}[0]{\bvec{q}} \newcommand{\br}[0]{\bvec{r}} \newcommand{\bb}[0]{\bvec{b}} \newcommand{\bx}[0]{\bvec{\bar{x}}} \newcommand{\by}[0]{\bvec{\bar{y}}} \newcommand{\barB}[0]{\mat{\bar{B}}} \newcommand{\barP}[0]{\mat{\bar{P}}} \newcommand{\barC}[0]{\mat{\bar{C}}} \newcommand{\barK}[0]{\mat{\bar{K}}} \newcommand{\D}[0]{\mat{D}} \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}} \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}} \newcommand{\ones}[0]{\bvec{1}} \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 # $
-# ## Probability 
-# Probability of an event is defined as
+# ## Probability essentials
+#
+# As stated by James Bernoulli (1713) and elucidated by [Laplace (1812)](Laplace-(1812):):
+#
+# > The Probability for an event is the ratio of the number of cases favorable to it, to the number of all
+# > cases possible when nothing leads us to expect that any one of these cases should occur more than any other,
+# > which renders them, for us, equally possible:
+#
+# $$ \mathbb{P}(\text{event}) = \frac{\text{# favorable outcomes}}{\text{# possible outcomes}} $$
+#
+# - A *discrete* random variable, $X$, has a probability *mass* function (**pmf**) defined by $p(x) = \mathbb{P}(X{=}x)$.  
+#   Note that $p(x)$ and $p(y)$ are generally different functions, despite reusing the $p$ symbol.
+# - A *continuous* random variable has a probability *density* function (**pdf**) defined by
+#   $p(x) = \mathbb{P}(X \in [x, x+\delta x])/\delta x$, with $\delta x \to 0$.  
+#   Equivalently, $p(x) = F'(x)$, where $F$ is the cumulative distribution function (**cdf**), $F(x) = \mathbb{P}(X \le x)$.
+#
+# We henceforth no longer denote random variables by uppercase letters.
+# A **sample average** based on draws from a random variable $x$
+# is denoted with an overhead bar:
 # \begin{equation}
-#   \label{eq:probability_as_rel_freq}
-#   P(\text{event}) = \frac{\text{\# favorable outcomes}}{\text{\# possible outcomes}}
+#   \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,.
 # \end{equation}
-# although the formal definition goes back to James Bernoulli (1713)
-# As stated by Laplace (Théorie Analytique des Probabilités (1812):
+# As $N \to \infty$, by the _law of large numbers (LLN)_, the sample average converges to the **expected value**:
+# \begin{equation}
+#   \Expect[x] ≔ \int x \, p(x) \, d x \,,
+# \end{equation}
+# where the domain of integration is over ***all possible values of $x$***.
 #
-#       The Probability for an event is the ratio of the number of cases favorable to it, to the number of all
-#       cases possible when nothing leads us to expect that any one of these cases should occur more than
-#       any other, which renders them, for us, equally possible.
+# ## The univariate (a.k.a. 1-dimensional, scalar) Gaussian
 #
-# ## The univariate (a.k.a. 1-dimensional, scalar) case
-# Consider the Gaussian random variable $x \sim \NormDist(\mu, \sigma^2)$.  
-# Its probability density function (**pdf**),
-# $
-# p(x) = \NormDist(x \mid \mu, \sigma^2)
-# $ for $x \in (-\infty, +\infty)$,
-# is given by
-# $$\begin{align}
-# \NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \,. \tag{G1}
-# \end{align}$$
+# The Gaussian pdf is given by
+# $$ \large \NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \,. \tag{G1} $$
+# for $x \in (-\infty, +\infty)$.
+#
+# The following statements mean the same thing
+#
+# - $p(x) = \NormDist(x \mid \mu, \sigma^2)$
+# - $x \sim \NormDist(\mu, \sigma^2)$.  
 #
 # Run the cell below to define a function to compute the pdf (G1) using the `scipy` library.
 
@@ -59,6 +78,7 @@ def pdf_G1(x, mu, sigma2):
     "Univariate Gaussian pdf"
     pdf_values = sp.stats.norm.pdf(x, loc=mu, scale=np.sqrt(sigma2))
     return pdf_values
+
 
 # Computers typically represent functions *numerically* by their values on a grid
 # of points (nodes), an approach called ***discretisation***.
@@ -84,6 +104,7 @@ def plot_pdf(mu=0, sigma=5):
     for density_values, color in zip(hist, colors):
         plt.plot(grid1d, density_values, c=color)
     plt.show()
+
 
 # #### Exc -- parameter influence
 # Play around with `mu` and `sigma` to answer these questions:
@@ -123,13 +144,12 @@ def plot_pdf(mu=0, sigma=5):
 #  * (iii) Where is the **inflection point**? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
 #  * (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
 
-# #### Exc (optional) -- Change of variables, Expectation
+# #### Exc (optional) -- Change of variables
+#
 # Let $z = \phi(x)$ for some monotonic function $\phi$,
 # and $p_x$ and $p_z$ be their probability density functions (pdf).
 # - (a): Show that $p_z(z) = p_x\big(\phi^{-1}(z)\big) \frac{1}{|\phi'(z)|}$,
-# - (b): The **expected value** of a random variable is its long (infinite)-run average value. Formally, the expectation of $x$ is $\Expect[x] ≔ \int  x \, p_x(x) \, d x $, where ***the domain of integration is over all values of $x$***
-#   (i.e. from $-\infty$ to $+\infty$ in the case of Gaussian distributions).
-#   Show that you don't need to derive the density of $z$ in order to compute its expectation, i.e. that
+# - (b): Show that you don't need to derive the density of $z$ in order to compute its expectation, i.e. that
 #   $$ \Expect[z] = \int  \phi(x) \, p_x(x) \, d x ≕ \Expect[\phi(x)] \,,$$
 #   *Hint: while the proof is convoluted, the result itself is [pretty intuitive](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician).*
 
@@ -138,6 +158,7 @@ def plot_pdf(mu=0, sigma=5):
 # -
 
 # #### Exc (optional) -- Integrals
+#
 # Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  
 # Use pen, paper, and calculus to show that
 #  - (i) the first parameter, $\mu$, indicates its **mean**, i.e. that $$\mu = \Expect[x] \,.$$
@@ -148,7 +169,7 @@ def plot_pdf(mu=0, sigma=5):
 #  - (iii) $E[1] = 1$,  
 #    thus proving that (G1) indeed uses the right normalising constant.  
 #    *Hint: Neither Bernoulli and Laplace managed this,
-#    until Gauss did by first deriving $(E[1])^2$.  
+#    until [Gauss (1809)](#Gauss-(1809):) did by first deriving $(E[1])^2$.  
 #    For more (visual) help, watch [3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
 
 # +
@@ -178,18 +199,23 @@ def pdf_U1(x, mu, sigma2):
 # show_answer('pdf_U1')
 # -
 
-# ## The multivariate (i.e. vector) case
+# ## The multivariate (i.e. vector) Gaussian
+#
 # Here's the pdf of the *multivariate* Gaussian (for any dimension $\ge 1$):
-# $$\begin{align}
+# $$ \large
 # \NormDist(\x \mid  \mathbf{\mu}, \mathbf{\Sigma})
-# &=
-# |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM}
-# \end{align}$$
+# = |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM} $$
 # where $|.|$ represents the matrix determinant,  
 # and $\|.\|_\mathbf{W}$ represents a weighted 2-norm: $\|\x\|^2_\mathbf{W} = \x^T \mathbf{W}^{-1} \x$.  
-# *PS: The norm (quadratic form) is invariant to antisymmetry in the weight matrix,
-# so we take $\mathbf{\Sigma}$ to be symmetric.
-# Further, the density (GM) is only integrable over $\Reals^{\xDim}$ if $\mathbf{\Sigma}$ is positive-definite.*
+#
+# <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
+#   <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
+#     🔍 $\mathbf{W}$ must be symmetric-positive-definite (SPD) because ... 👇
+#   </summary>
+#
+#   - The norm (a quadratic form) is invariant to any asymmetry in the weight matrix.
+#   - The density (GM) would not be integrable (over $\Reals^{\xDim}$) if $\x\tr \mathbf{\Sigma} \x > 0$.
+# </details>
 #
 # It is important to recognize how similar eqn. (GM) is to the univariate (scalar) case (G1).
 # Moreover, [as above](#Exc-(optional)----Integrals) it can be shown that
@@ -221,7 +247,7 @@ def pdf_GM(points, mu, Sigma):
 
 # -
 
-# The following code plots the pdf as contour (iso-density) curves.
+# The following code plots the pdf as contour (level) curves.
 
 # +
 grid2d = np.dstack(np.meshgrid(grid1d, grid1d))
@@ -275,6 +301,7 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # -
 
 # ## Summary
+#
 # The Normal/Gaussian distribution is bell-shaped.
 # Its parameters are the mean and the variance.
 # In the multivariate case, the mean is a vector,
@@ -288,6 +315,10 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 #
 # ## References
 #
-# - ###### Author (1999):
-# <a name="Author-(1999):"></a> 
-#   Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.
+# - ###### Laplace (1812):
+# <a name="Laplace-(1812):"></a>
+#   P. S. Laplace, "Théorie Analytique des Probabilités", 1812.
+#
+# - ###### Gauss (1809):
+# <a name="Gauss-(1809):"></a>
+#   Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares and its probabilistic justification based on the normal distribution of errors).

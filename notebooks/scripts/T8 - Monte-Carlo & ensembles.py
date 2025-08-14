@@ -86,7 +86,7 @@ def pdf_reconstructions(seed=5,       nbins=10,      bw=.3):
 # where $\I_{\xDim}$ is the $\xDim$-dimensional identity matrix.  
 # Let $\x = \mat{L}\z + \mu$.
 #
-#  * (a -- optional). Refer to the exercise on [change of variables](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Change-of-variables,-Expectation) to show that $p(\x) = \NormDist(\x \mid \mu, \mat{C})$, where $\mat{C} = \mat{L}^{}\mat{L}^T$.
+#  * (a -- optional). Refer to the exercise on [change of variables](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Change-of-variables) to show that $p(\x) = \NormDist(\x \mid \mu, \mat{C})$, where $\mat{C} = \mat{L}^{}\mat{L}^T$.
 #  * (b). The code below samples $N = 100$ realizations of $\x$
 #    and collects them in an ${\xDim}$-by-$N$ "ensemble matrix" $\E$.
 #    But `for` loops are slow in plain Python (and Matlab).
