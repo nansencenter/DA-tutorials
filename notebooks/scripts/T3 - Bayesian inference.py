@@ -342,3 +342,11 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
 # but if Gaussianity can be assumed then it reduces to only 2 formulae.
 #
 # ### Next: [T4 - Filtering & time series](T4%20-%20Time%20series%20filtering.ipynb)
+#
+# ---
+#
+# ## References
+#
+# - ###### Author (1999):
+# <a name="Author-(1999):"></a> 
+#   Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.

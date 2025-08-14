@@ -382,3 +382,11 @@ def plot_pendulum2(k=1, N=2):
 # Also see this [book on chaos and predictability](https://kuiper2000.github.io/chaos_and_predictability/intro.html).
 #
 # ### Next: [T8 - Monte-Carlo & ensembles](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb)
+#
+# ---
+#
+# ## References
+#
+# - ###### Author (1999):
+# <a name="Author-(1999):"></a> 
+#   Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.

@@ -27,10 +27,11 @@ def _report_error(msg):
     return True
 
 
-def _find_anchor(fname, anchor):
+def _find_anchor(fname: Path, anchor):
     lines = fname.read_text().splitlines()
-    headings = [x for x in lines if x.startswith("# #")]  # filter for "### Example heading"
-    headings = [x[2:].lstrip("#").lstrip() for x in headings]
+    # filter for "# ### Example heading" or "# - ### Heading in bullet point"
+    headings = [x for x in lines if x.startswith("# #") or x.startswith("# - #")]
+    headings = [x.lstrip("# -") for x in headings]
     headings = [x.replace(" ", "-") for x in headings]
     return anchor in headings
 

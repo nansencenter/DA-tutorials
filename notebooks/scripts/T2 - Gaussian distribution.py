@@ -23,25 +23,25 @@ import scipy as sp
 import matplotlib.pyplot as plt
 plt.ion();
 
-# Before discussing sequential, time-dependent inference,
-# we need to know how to estimate unknowns based on a single data/observations (vector).
-# But before discussing *Bayes' rule*,
-# we should review the most useful of probability distributions.
+# We start by reviewing the most useful of probability distributions.
 # # T2 - The Gaussian (Normal) distribution
 # $
 # % ######################################## Loading TeX (MathJax)... Please wait ########################################
 # \newcommand{\Reals}{\mathbb{R}} \newcommand{\Expect}[0]{\mathbb{E}} \newcommand{\NormDist}{\mathscr{N}} \newcommand{\DynMod}[0]{\mathscr{M}} \newcommand{\ObsMod}[0]{\mathscr{H}} \newcommand{\mat}[1]{{\mathbf{{#1}}}} \newcommand{\bvec}[1]{{\mathbf{#1}}} \newcommand{\trsign}{{\mathsf{T}}} \newcommand{\tr}{^{\trsign}} \newcommand{\ceq}[0]{\mathrel{≔}} \newcommand{\xDim}[0]{D} \newcommand{\supa}[0]{^\text{a}} \newcommand{\supf}[0]{^\text{f}} \newcommand{\I}[0]{\mat{I}} \newcommand{\K}[0]{\mat{K}} \newcommand{\bP}[0]{\mat{P}} \newcommand{\bH}[0]{\mat{H}} \newcommand{\bF}[0]{\mat{F}} \newcommand{\R}[0]{\mat{R}} \newcommand{\Q}[0]{\mat{Q}} \newcommand{\B}[0]{\mat{B}} \newcommand{\C}[0]{\mat{C}} \newcommand{\Ri}[0]{\R^{-1}} \newcommand{\Bi}[0]{\B^{-1}} \newcommand{\X}[0]{\mat{X}} \newcommand{\A}[0]{\mat{A}} \newcommand{\Y}[0]{\mat{Y}} \newcommand{\E}[0]{\mat{E}} \newcommand{\U}[0]{\mat{U}} \newcommand{\V}[0]{\mat{V}} \newcommand{\x}[0]{\bvec{x}} \newcommand{\y}[0]{\bvec{y}} \newcommand{\z}[0]{\bvec{z}} \newcommand{\q}[0]{\bvec{q}} \newcommand{\br}[0]{\bvec{r}} \newcommand{\bb}[0]{\bvec{b}} \newcommand{\bx}[0]{\bvec{\bar{x}}} \newcommand{\by}[0]{\bvec{\bar{y}}} \newcommand{\barB}[0]{\mat{\bar{B}}} \newcommand{\barP}[0]{\mat{\bar{P}}} \newcommand{\barC}[0]{\mat{\bar{C}}} \newcommand{\barK}[0]{\mat{\bar{K}}} \newcommand{\D}[0]{\mat{D}} \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}} \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}} \newcommand{\ones}[0]{\bvec{1}} \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 # $
-# Computers generally represent functions *numerically* by their values on a grid
-# of points (nodes), an approach called ***discretisation***.
-# Don't hesitate to change the grid resolution as you go along!
-
-bounds = -20, 20
-N = 201                         # num of grid points
-grid1d = np.linspace(*bounds,N) # grid
-dx = grid1d[1] - grid1d[0]      # grid spacing
-
-
+# ## Probability 
+# Probability of an event is defined as
+# \begin{equation}
+#   \label{eq:probability_as_rel_freq}
+#   P(\text{event}) = \frac{\text{\# favorable outcomes}}{\text{\# possible outcomes}}
+# \end{equation}
+# although the formal definition goes back to James Bernoulli (1713)
+# As stated by Laplace (Théorie Analytique des Probabilités (1812):
+#
+#       The Probability for an event is the ratio of the number of cases favorable to it, to the number of all
+#       cases possible when nothing leads us to expect that any one of these cases should occur more than
+#       any other, which renders them, for us, equally possible.
+#
 # ## The univariate (a.k.a. 1-dimensional, scalar) case
 # Consider the Gaussian random variable $x \sim \NormDist(\mu, \sigma^2)$.  
 # Its probability density function (**pdf**),
@@ -60,7 +60,17 @@ def pdf_G1(x, mu, sigma2):
     pdf_values = sp.stats.norm.pdf(x, loc=mu, scale=np.sqrt(sigma2))
     return pdf_values
 
+# Computers typically represent functions *numerically* by their values on a grid
+# of points (nodes), an approach called ***discretisation***.
 
+bounds = -20, 20
+N = 201                         # num of grid points
+grid1d = np.linspace(*bounds,N) # grid
+dx = grid1d[1] - grid1d[0]      # grid spacing
+
+# Feel free to come back here later and change the grid resolution to see how
+# it affects the cells below (upon re-running them).
+#
 # The following code plots the Gaussian pdf.
 
 hist = []
@@ -117,7 +127,7 @@ def plot_pdf(mu=0, sigma=5):
 # Let $z = \phi(x)$ for some monotonic function $\phi$,
 # and $p_x$ and $p_z$ be their probability density functions (pdf).
 # - (a): Show that $p_z(z) = p_x\big(\phi^{-1}(z)\big) \frac{1}{|\phi'(z)|}$,
-# - (b): Recall the definition of the expectation, $ \Expect[x] ≔ \int  x \, p_x(x) \, d x $, where ***the integral is over the domain***
+# - (b): The **expected value** of a random variable is its long (infinite)-run average value. Formally, the expectation of $x$ is $\Expect[x] ≔ \int  x \, p_x(x) \, d x $, where ***the domain of integration is over all values of $x$***
 #   (i.e. from $-\infty$ to $+\infty$ in the case of Gaussian distributions).
 #   Show that you don't need to derive the density of $z$ in order to compute its expectation, i.e. that
 #   $$ \Expect[z] = \int  \phi(x) \, p_x(x) \, d x ≕ \Expect[\phi(x)] \,,$$
@@ -273,3 +283,11 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # which measure *linear* dependence.
 #
 # ### Next: [T3 - Bayesian inference](T3%20-%20Bayesian%20inference.ipynb)
+#
+# ---
+#
+# ## References
+#
+# - ###### Author (1999):
+# <a name="Author-(1999):"></a> 
+#   Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.

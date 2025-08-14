@@ -227,3 +227,11 @@ if False:
 # -
 
 # ### Next: [T2 - Gaussian distribution](T2%20-%20Gaussian%20distribution.ipynb)
+#
+# ---
+#
+# ## References
+#
+# - ###### Author (1999):
+# <a name="Author-(1999):"></a> 
+#   Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.

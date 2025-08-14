@@ -431,3 +431,11 @@ def plot_correlation_matrix(k=1, analysis=True):
 # (which are more fun than stochastically driven signals such as above).
 #
 # ### Next: [T6 - Spatial statistics ("geostatistics") & Kriging](T6%20-%20Geostats%20%26%20Kriging%20(optional).ipynb)
+#
+# ---
+#
+# ## References
+#
+# - ###### Author (1999):
+# <a name="Author-(1999):"></a> 
+#   Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.
