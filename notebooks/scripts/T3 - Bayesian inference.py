@@ -52,10 +52,10 @@ pdfs = dict(N=pdf_G1, U=pdf_U1)
 #   For example, what is the temperature at the surface of Mercury (at some given point and time)?
 #   Not many people know the answer. Perhaps you say $500^{\circ} C, \, \pm \, 20$.
 #   But that's hardly anything compared to you real uncertainty, so you revise that to $\pm \, 1000$.
-#   But then you're allowing for temperature below absolute zero, which you clearly don't believe is possible.
+#   But then you're allowing for temperature below absolute zero, which you of course don't believe is possible.
 #   You can continue to refine the description of your uncertainty.
 #   Ultimately (in the limit) the complete way to express your belief is as a *distribution*
-#   (which is essentially just an enumeration) of plausibilities for all possibilities.
+#   (essentially just a list) of plausibilities for all possibilities.
 #   Furthermore, the only coherent way to reason in the presence of such uncertainty
 #   is to obey the laws of probability ([Jaynes (2003)](#Jaynes-(2003):)).
 #
