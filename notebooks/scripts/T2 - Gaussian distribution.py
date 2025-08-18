@@ -35,7 +35,7 @@ plt.ion();
 # $
 # ## Probability essentials
 #
-# As stated by James Bernoulli (1713) and elucidated by [Laplace (1812)](Laplace-(1812):):
+# As stated by James Bernoulli (1713) and elucidated by [Laplace (1812)](#Laplace-(1812):):
 #
 # > The Probability for an event is the ratio of the number of cases favorable to it, to the number of all
 # > cases possible when nothing leads us to expect that any one of these cases should occur more than any other,
@@ -323,4 +323,4 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 #
 # - ###### Gauss (1809):
 # <a name="Gauss-(1809):"></a>
-#   Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares and its probabilistic justification based on the normal distribution of errors).
+#   Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares (which will be very relevant to us) and its probabilistic justification based on the normal distribution of errors).
