@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.17.2
+      jupytext_version: 1.15.1
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -36,6 +36,7 @@ $
 % ######################################## Loading TeX (MathJax)... Please wait ########################################
 \newcommand{\Reals}{\mathbb{R}} \newcommand{\Expect}[0]{\mathbb{E}} \newcommand{\NormDist}{\mathscr{N}} \newcommand{\DynMod}[0]{\mathscr{M}} \newcommand{\ObsMod}[0]{\mathscr{H}} \newcommand{\mat}[1]{{\mathbf{{#1}}}} \newcommand{\bvec}[1]{{\mathbf{#1}}} \newcommand{\trsign}{{\mathsf{T}}} \newcommand{\tr}{^{\trsign}} \newcommand{\ceq}[0]{\mathrel{≔}} \newcommand{\xDim}[0]{D} \newcommand{\supa}[0]{^\text{a}} \newcommand{\supf}[0]{^\text{f}} \newcommand{\I}[0]{\mat{I}} \newcommand{\K}[0]{\mat{K}} \newcommand{\bP}[0]{\mat{P}} \newcommand{\bH}[0]{\mat{H}} \newcommand{\bF}[0]{\mat{F}} \newcommand{\R}[0]{\mat{R}} \newcommand{\Q}[0]{\mat{Q}} \newcommand{\B}[0]{\mat{B}} \newcommand{\C}[0]{\mat{C}} \newcommand{\Ri}[0]{\R^{-1}} \newcommand{\Bi}[0]{\B^{-1}} \newcommand{\X}[0]{\mat{X}} \newcommand{\A}[0]{\mat{A}} \newcommand{\Y}[0]{\mat{Y}} \newcommand{\E}[0]{\mat{E}} \newcommand{\U}[0]{\mat{U}} \newcommand{\V}[0]{\mat{V}} \newcommand{\x}[0]{\bvec{x}} \newcommand{\y}[0]{\bvec{y}} \newcommand{\z}[0]{\bvec{z}} \newcommand{\q}[0]{\bvec{q}} \newcommand{\br}[0]{\bvec{r}} \newcommand{\bb}[0]{\bvec{b}} \newcommand{\bx}[0]{\bvec{\bar{x}}} \newcommand{\by}[0]{\bvec{\bar{y}}} \newcommand{\barB}[0]{\mat{\bar{B}}} \newcommand{\barP}[0]{\mat{\bar{P}}} \newcommand{\barC}[0]{\mat{\bar{C}}} \newcommand{\barK}[0]{\mat{\bar{K}}} \newcommand{\D}[0]{\mat{D}} \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}} \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}} \newcommand{\ones}[0]{\bvec{1}} \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 $
+
 ## Probability essentials
 
 As stated by James Bernoulli (1713) and elucidated by [Laplace (1812)](#Laplace-(1812):):
@@ -114,25 +115,26 @@ def plot_pdf(mu=0, sigma=5):
 ```
 
 #### Exc -- parameter influence
-Play around with `mu` and `sigma` to answer these questions:
- * How does the pdf curve change when `mu` changes? Options (several might be right/wrong)
-   1. It changes the curve into a uniform distribution.
-   1. It changes the width of the curve.
-   1. It shifts the peak of the curve to the left or right.
-   1. It changes the height of the curve.
-   1. It transforms the curve into a binomial distribution.
-   1. It makes the curve wider or narrower.
-   1. It modifies the skewness (asymmetry) of the curve.
-   1. It causes the curve to expand vertically while keeping the width the same.
-   1. It translates the curve horizontally.
-   1. It alters the kurtosis (peakedness) of the curve.
-   1. It rotates the curve around the origin.
-   1. It makes the curve a straight line.
- * How does the pdf curve change when you increase `sigma`?  
-   Refer to the same options as previous question.
- * In a few words, describe the shape of the Gaussian pdf curve.
-   Does this ring a bell? *Hint: it should be clear as a bell!*
 
+Play around with `mu` and `sigma` to answer these questions:
+
+- How does the pdf curve change when `mu` changes? Options (several might be right/wrong)
+  1. It changes the curve into a uniform distribution.
+  1. It changes the width of the curve.
+  1. It shifts the peak of the curve to the left or right.
+  1. It changes the height of the curve.
+  1. It transforms the curve into a binomial distribution.
+  1. It makes the curve wider or narrower.
+  1. It modifies the skewness (asymmetry) of the curve.
+  1. It causes the curve to expand vertically while keeping the width the same.
+  1. It translates the curve horizontally.
+  1. It alters the kurtosis (peakedness) of the curve.
+  1. It rotates the curve around the origin.
+  1. It makes the curve a straight line.
+- How does the pdf curve change when you increase `sigma`?  
+  Refer to the same options as previous question.
+- In a few words, describe the shape of the Gaussian pdf curve.
+  Does this ring a bell? *Hint: it should be clear as a bell!*
 
 **Exc -- Implementation:** Change the implementation of `pdf_G1` so as to not use `scipy`, but your own code (using `numpy` only). Re-run all of the above cells and check that you get the same plots as before.  
 *Hint: `**` is the exponentiation/power operator, but $e^x$ is more efficiently computed with `np.exp(x)`*
@@ -145,18 +147,18 @@ Play around with `mu` and `sigma` to answer these questions:
 Use pen, paper, and calculus to answer the following questions,  
 which derive some helpful mnemonics about the distribution.
 
- * (i) Find $x$ such that $p(x) = 0$.
- * (ii) Where is the location of the **mode (maximum)** of the density?  
-   I.e. find $x$ such that $\frac{d p}{d x}(x) = 0$.
-   *Hint: begin by writing $p(x)$ as $c e^{- J(x)}$ for some $J(x)$.*
- * (iii) Where is the **inflection point**? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
- * (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
-
+- (i) Find $x$ such that $p(x) = 0$.
+- (ii) Where is the location of the **mode (maximum)** of the density?  
+  I.e. find $x$ such that $\frac{d p}{d x}(x) = 0$.
+  *Hint: begin by writing $p(x)$ as $c e^{- J(x)}$ for some $J(x)$.*
+- (iii) Where is the **inflection point**? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
+- (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
 
 #### Exc (optional) -- Change of variables
 
 Let $z = \phi(x)$ for some monotonic function $\phi$,
 and $p_x$ and $p_z$ be their probability density functions (pdf).
+
 - (a): Show that $p_z(z) = p_x\big(\phi^{-1}(z)\big) \frac{1}{|\phi'(z)|}$,
 - (b): Show that you don't need to derive the density of $z$ in order to compute its expectation, i.e. that
   $$ \Expect[z] = \int  \phi(x) \, p_x(x) \, d x ≕ \Expect[\phi(x)] \,,$$
@@ -170,16 +172,17 @@ and $p_x$ and $p_z$ be their probability density functions (pdf).
 
 Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  
 Use pen, paper, and calculus to show that
- - (i) the first parameter, $\mu$, indicates its **mean**, i.e. that $$\mu = \Expect[x] \,.$$
-   *Hint: you can rely on the result of (iii)*
- - (ii) the second parameter, $\sigma^2>0$, indicates its **variance**,
-   i.e. that $$\sigma^2 = \mathbb{Var}(x) \mathrel{≔} \Expect[(x-\mu)^2] \,.$$
-   *Hint: use $x^2 = x x$ to enable integration by parts.*
- - (iii) $E[1] = 1$,  
-   thus proving that (G1) indeed uses the right normalising constant.  
-   *Hint: Neither Bernoulli and Laplace managed this,
-   until [Gauss (1809)](#Gauss-(1809):) did by first deriving $(E[1])^2$.  
-   For more (visual) help, watch [3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
+
+- (i) the first parameter, $\mu$, indicates its **mean**, i.e. that $$\mu = \Expect[x] \,.$$
+  *Hint: you can rely on the result of (iii)*
+- (ii) the second parameter, $\sigma^2>0$, indicates its **variance**,
+  i.e. that $$\sigma^2 = \mathbb{Var}(x) \mathrel{≔} \Expect[(x-\mu)^2] \,.$$
+  *Hint: use $x^2 = x x$ to enable integration by parts.*
+- (iii) $E[1] = 1$,  
+  thus proving that (G1) indeed uses the right normalising constant.  
+  *Hint: Neither Bernoulli and Laplace managed this,
+  until [Gauss (1809)](#Gauss-(1809):) did by first deriving $(E[1])^2$.  
+  For more (visual) help, watch [3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
 
 ```python
 # show_answer('Gauss integrals')
@@ -188,6 +191,7 @@ Use pen, paper, and calculus to show that
 **Exc -- The uniform pdf**:
 Below is the pdf of the [uniform/flat/box distribution](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous))
 for a given mean and variance.
+
 - Replace `_G1` by `_U1` in the code generating the above interactive plot.
 - Why are the walls (ever so slightly) inclined?
 - Write your own implementation below, and check that it reproduces the `scipy` version already in place.
@@ -231,6 +235,7 @@ and $\|.\|_\mathbf{W}$ represents a weighted 2-norm: $\|\x\|^2_\mathbf{W} = \x^T
 
 It is important to recognize how similar eqn. (GM) is to the univariate (scalar) case (G1).
 Moreover, [as above](#Exc-(optional)----Integrals) it can be shown that
+
 - $\mathbf{\mu} = \Expect[\x]$,
 - $\mathbf{\Sigma} = \Expect[(\x-\mu)(\x-\mu)\tr]$.
 
@@ -240,9 +245,10 @@ Therefore $\mathbf{\Sigma}$ is called the *covariance (matrix)*.
 and its diagonal entries are simply variances, $\Sigma_{i,i} = \mathbb{Var}(x_i)$.
 
 The following implements the pdf (GM). Take a moment to digest the code, but don't worry if you don't understand it all. Hints:
- * `@` produces matrix multiplication (`*` in `Matlab`);
- * `*` produces array multiplication (`.*` in `Matlab`);
- * `axis=-1` makes `np.sum()` work along the last dimension of an ND-array.
+
+- `@` produces matrix multiplication (`*` in `Matlab`);
+- `*` produces array multiplication (`.*` in `Matlab`);
+- `axis=-1` makes `np.sum()` work along the last dimension of an ND-array.
 
 ```python
 from numpy.linalg import det, inv
@@ -290,10 +296,8 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 Finally (optional): why does the code "crash" when `corr = +/- 1` ? Is this a good or a bad thing?  
 *Hint: do you like playing with fire?*
 
-
 **Exc Correlation game:** Play [here](http://guessthecorrelation.com/) until you get a score (gold coins) of 5 or more.  
 *PS: you can probably tell that the samples are not drawn from Gaussian distributions. However, the quantity $\mathbb{Cov}(x_i, x_i)$ is well defined and can be estimated from the samples.*
-
 
 **Exc -- Correlation disambiguation:**
 * What's the difference between correlation and covariance?
@@ -305,7 +309,6 @@ Finally (optional): why does the code "crash" when `corr = +/- 1` ? Is this a go
 * Does correlation (or dependence) imply causation?
 * Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
   Does information about $y$ give you information about $x$?
-
 
 **Exc (optional) -- Gaussian ubiquity:** Why are we so fond of the Gaussian assumption?
 
