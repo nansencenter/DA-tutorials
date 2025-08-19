@@ -13,15 +13,16 @@ jupyter:
     name: python3
 ---
 
-# T1 - Data assimilation (DA) & the ensemble Kalman filter (EnKF)
+# T1 - Introduction
+
 *Copyright (c) 2020, Patrick N. Raanes
 $
 % ######################################## Loading TeX (MathJax)... Please wait ########################################
 \newcommand{\Reals}{\mathbb{R}} \newcommand{\Expect}[0]{\mathbb{E}} \newcommand{\NormDist}{\mathscr{N}} \newcommand{\DynMod}[0]{\mathscr{M}} \newcommand{\ObsMod}[0]{\mathscr{H}} \newcommand{\mat}[1]{{\mathbf{{#1}}}} \newcommand{\bvec}[1]{{\mathbf{#1}}} \newcommand{\trsign}{{\mathsf{T}}} \newcommand{\tr}{^{\trsign}} \newcommand{\ceq}[0]{\mathrel{≔}} \newcommand{\xDim}[0]{D} \newcommand{\supa}[0]{^\text{a}} \newcommand{\supf}[0]{^\text{f}} \newcommand{\I}[0]{\mat{I}} \newcommand{\K}[0]{\mat{K}} \newcommand{\bP}[0]{\mat{P}} \newcommand{\bH}[0]{\mat{H}} \newcommand{\bF}[0]{\mat{F}} \newcommand{\R}[0]{\mat{R}} \newcommand{\Q}[0]{\mat{Q}} \newcommand{\B}[0]{\mat{B}} \newcommand{\C}[0]{\mat{C}} \newcommand{\Ri}[0]{\R^{-1}} \newcommand{\Bi}[0]{\B^{-1}} \newcommand{\X}[0]{\mat{X}} \newcommand{\A}[0]{\mat{A}} \newcommand{\Y}[0]{\mat{Y}} \newcommand{\E}[0]{\mat{E}} \newcommand{\U}[0]{\mat{U}} \newcommand{\V}[0]{\mat{V}} \newcommand{\x}[0]{\bvec{x}} \newcommand{\y}[0]{\bvec{y}} \newcommand{\z}[0]{\bvec{z}} \newcommand{\q}[0]{\bvec{q}} \newcommand{\br}[0]{\bvec{r}} \newcommand{\bb}[0]{\bvec{b}} \newcommand{\bx}[0]{\bvec{\bar{x}}} \newcommand{\by}[0]{\bvec{\bar{y}}} \newcommand{\barB}[0]{\mat{\bar{B}}} \newcommand{\barP}[0]{\mat{\bar{P}}} \newcommand{\barC}[0]{\mat{\bar{C}}} \newcommand{\barK}[0]{\mat{\bar{K}}} \newcommand{\D}[0]{\mat{D}} \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}} \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}} \newcommand{\ones}[0]{\bvec{1}} \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 $
 
-
 ### Jupyter
+
 The "document" you're currently reading is a *Jupyter notebook*.
 As you can see, it consists of a sequence of **cells**,
 which can be code (Python) or text (markdown).
@@ -94,19 +95,100 @@ Beware, however, that it is not generally production-ready.
 For example, it overuses global variables, and is lacking in vectorisation,
 generally for the benefit of terseness and simplicity.
 
-
 ### Data assimilation (DA)
+
+#### Data + Models = ❤️
+
+What is a ***model***?
+In the broadest sense, a model is a *simplified representation* of something.
+A convenient language for this purpose is mathematics,
+in which case the model consists of a set of equations.
+These can describe some fundamental laws of nature
+or be derived as a set of empirical or statistical relations.
+
+<details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
+<summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
+  Examples of models include ... 🔍
+</summary>
+
+- (a) Laws of motion and gravity (Newton, Einstein)
+- (b) Epidemic (SEIR) and predator-prey (Lotka-Volterra)
+- (c) Weather/climate prediction (Navier–Stokes + mass continuity + thermodynamics + ideal gas law + radiation + cloud microphysics + surface interactions)
+- (d) Petroleum reservoir flow (Multiphase Darcy's law + ...)
+- (e) Chemical and biological kinetics (Arrhenius, Michaelis-Menten, Mass Action Law)
+- (f) Traffic flow (Lighthill-Whitham-Richards)
+- (g) Sports rating (Elo, Glicko, TrueSkill)
+- (h) Financial pricing (Black-Scholes)
+
+---
+</details>
+
+One common thing about the above examples is that they all model **dynamical systems**,
+meaning "stuff that changes in time".
+The "stuff", denoted $\x_t$, will be referred to as ***state variables/vectors***.
+Regardless of sophistication, number of lines of code,
+or how many PhD tears and projects that were spent on a model,
+for the purpose of this course,
+the model is *just some function*, represented by $\mathcal{M}_t$,
+**predicting** the state at time $t+1$ from the state at time $t$.
+
+> All models are wrong, but some are useful -- [George E. P. Box](https://en.wikipedia.org/wiki/All_models_are_wrong)
+
+Examples of shortcomings are listed in the exercises below.
+"Usefulness" is usually judged by predictive skill (quantified by a choice of metric).
+Taking the quoted advice to heart, in DA it is common to assume that
+there is some random (stochastic) noise term, $\epsilon_t$, with a known distribution,
+so that the true state *evolves* according to
+\begin{equation}
+  \x_{t+1} = \mathcal{M}_t(\x_t) + \epsilon_{t} \,. \tag{M1}
+\end{equation}
+
+---
+
+However, a good model is not enough to ensure good predictions, because
+
+> Garbage in, garbage out (GIGO)
+
+In other words, we also need good initial conditions,
+i.e. a good estimate of $\x_t$.
+At first this might seem obvious and trifling,
+but consider the case of numerical weather prediction.
+To run the simulator (model) $\mathcal{M}$ to forecast (predict) tomorrow's weather,
+we need to know the today's state of the atmosphere (wind, pressure, density and temperature)
+at each grid point in the model.
+Yet despite the explosion of data since the advent of weather satellites,
+most parts of the globe are at any given moment unobserved.
+Moreover, the measurements, $\y_t$ available to us are not generally a "direct observation"
+of quantities in the state vector, but rather some function $\mathcal{H}_t$ thereof,
+plus the effect of imprecision, modeled as a noisy
+that we do have are often noisy,
+
+A butterfly that flaps its wings...
+
+estimation vs calculation
+prediction vs estimation
+
+Observations, data, measurements
+
+- State variables vs parameters. Prognostic vs. diagnostic variables
+
+to distinguish it from fixed-in-time ***parameters*** (typically $\theta$).
+
+#### State estimation
 
 **State estimation** (a.k.a. **sequential inference**)
 is the estimation of unknown/uncertain quantities of **dynamical systems**
 based on imprecise (noisy) data/observations. This is similar to time series estimation and signal processing,
 but focus on the case where we have a good (skillful) predictive model of the dynamical system,
 so that we can relate information (estimates) of its *state* at one time to another.
+The most famous state estimation technique is the ***Kalman filter (KF)***,
+which was developed to steer the Apollo mission rockets to the moon.
 
-For example, in guidance systems, the *state variable* (vector) consists of at least 6 elements: 3 for the current position and 3 for velocity, whose trajectories we wish to track in time. More sophisticated systems can also include acceleration and/or angular quantities. The *dynamical model* then consists of the fact that displacement is the time integral of the velocity, while the velocity is the integral of acceleration. The noisy *observations* can come from altimetry, sextants, speedometers, compass readings, accelerometers, gyroscopes, or fuel-gauges. The essential point is that we have an *observational model* predicting the observations from the state. For example, the altimeter model is simply the function that selects the $z$ coordinate from the state vector, while the force experienced by an accelerometer can be modelled by Newton's second law of motion, $F = m a$.
+For example, in such a guidance systems, the *state variable* (vector) consists of at least 6 elements: 3 for the current position and 3 for velocity, whose trajectories we wish to track in time. More sophisticated systems can also include acceleration and/or angular quantities. The *dynamical model* then consists of the fact that displacement is the time integral of the velocity, while the velocity is the integral of acceleration. The noisy *observations* can come from altimetry, sextants, speedometers, compass readings, accelerometers, gyroscopes, or fuel-gauges. The essential point is that we have an *observational model* predicting the observations from the state. For example, the altimeter model is simply the function that selects the $z$ coordinate from the state vector, while the force experienced by an accelerometer can be modelled by Newton's second law of motion, $F = m a$.
 
-In the context of large dynamical systems, especially in geoscience
-(climate, ocean, hydrology, petroleum)
+#### Challenges of DA
+
+In the context of *large* dynamical systems, especially in geoscience (climate, ocean, hydrology, petroleum)
 state estimation is known as **data assimilation** (DA),
 and is thought of as a "bridge" between data and models,
 as illustrated on the right (source: <a href="https://aics.riken.jp/en">https://aics.riken.jp/en</a>)
@@ -114,10 +196,12 @@ as illustrated on the right (source: <a href="https://aics.riken.jp/en">https://
 For example, in weather applications, the dynamical model is an atmospheric fluid-mechanical simulator, the state variable consists of the fields of pressure, humidity, and wind quantities discretized on a grid,
 and the observations may come from satellite or weather stations.
 
-The most famous state estimation techniques is the ***Kalman filter (KF)***, which was developed to steer the Apollo mission rockets to the moon. The KF also has applications outside of control systems, such as speech recognition, video tracking, finance. But when it was first proposed to apply the KF to DA (specifically, weather forecasting), the idea sounded ludicrous because of some severe **technical challenges in DA (vs. "classic" state estimation)**:
- * size of data and models;
- * nonlinearity of models;
- * sparsity and inhomogeneous-ness of data.
+But when it was first proposed to apply the KF to DA (specifically, weather forecasting),
+the idea was though ludicrous because of some severe technical challenges in DA (vs. "classic" state estimation):
+
+- size of data and models;
+- nonlinearity of models;
+- sparsity and inhomogeneous-ness of data.
 
 Some of these challenges may be recognized in the video below. Can you spot them?
 
@@ -125,32 +209,33 @@ Some of these challenges may be recognized in the video below. Can you spot them
 envisat_video()
 ```
 
-### The EnKF
-The EnKF an ensemble (Monte-Carlo) formulation of the KF
+### The ensemble Kalman filter (EnKF)
+
+The EnKF is a Monte-Carlo formulation of the KF
 that manages (fairly well) to deal with the above challenges in DA.
 
 For those familiar with the method of 4D-Var, **further advantages of the EnKF** include it being:
- * Non-invasive: the models are treated as black boxes, and no explicit Jacobian is required.
- * Bayesian:
-   * provides ensemble of possible realities;
-       - arguably the most practical form of "uncertainty quantification";
-       - ideal way to initialize "ensemble forecasts";
-   * uses "flow-dependent" background covariances in the analysis.
- * Embarrassingly parallelizable:
-   * distributed across realizations for model forecasting;
-   * distributed across local domains for observation analysis.
+
+- Non-invasive: the models are treated as black boxes, and no explicit Jacobian is required.
+- Bayesian:
+  - provides ensemble of possible realities;
+    - arguably the most practical form of "uncertainty quantification";
+    - ideal way to initialize "ensemble forecasts";
+  - uses "flow-dependent" background covariances in the analysis.
+- Embarrassingly parallelizable:
+  - distributed across realizations for model forecasting;
+  - distributed across local domains for observation analysis.
 
 The rest of this tutorial provides an EnKF-centric presentation of DA.
 
-
 ### DAPPER example
+
 This tutorial builds on the underlying package, DAPPER, made for academic research in DA and its dissemination. For example, the code below is taken from  `DAPPER/example_1.py`. It illustrates DA on a small toy problem. At the end of these tutorials, you should be able to reproduce (from the ground up) this type of experiment.
 
 Run the cells in order and try to interpret the output.
 <mark><font size="-1">
 <em>Don't worry</em> if you can't understand what's going on -- we will discuss it later throughout the tutorials.
 </font></mark>
-
 
 ```python
 import dapper as dpr
@@ -193,25 +278,39 @@ if False:
     viz.plot_hovmoller(xx)
 ```
 
-### Vocabulary exercises
+### Exercises
+
+**Exc (optional) -- model error:**  
+For each of model examples above, list the shortcomings (below) that seem relevant.
+
+1. Relies on idealized geometry or topology
+2. Inaccurate at relatively high speeds
+3. Extreme events do not conform to statistical assumptions
+4. Assumes closed systems, ignoring external influences
+5. Boundary conditions and forcings are not well known
+6. Fails to capture multi-scale dynamics
+7. Assumes equilibrium or steady-state when systems are inherently dynamic
+8. Lack of demographic and/or geographic resolution.
+9. Continuity is an approximation
+10. Oversimplification of complex interactions and feedbacks
+11. Incompatibility with quantum dynamics
+12. Insufficient spatial or temporal resolution upon discretization
+
 **Exc -- Word association:**
 Fill in the `x`'s in the table to group the words with similar meaning.
 
-`Sample, Random, Measurements, Forecast initialisation, Monte-Carlo, Observations, Set of draws`
+`Sample, Random, Measurements, Monte-Carlo, Observations, Set of draws`
 
 - Ensemble, x, x
 - Stochastic, x, x
 - Data, x, x
-- Filtering, x
-
 
 ```python
 # show_answer('thesaurus 1')
 ```
 
-* "The answer" is given from the perspective of DA. Do you agree with it?
-* Can you describe the (important!) nuances between the similar words?
-
+- "The answer" is given from the perspective of DA. Do you agree with it?
+- Can you describe the (important!) nuances between the similar words?
 
 **Exc (optional) -- Word association 2:**
 Also group these words:
@@ -229,12 +328,13 @@ Also group these words:
 ```
 
 **Exc (optional) -- intro discussion:** Prepare to discuss the following questions. Use any tool at your disposal.
-* (a) What is a "dynamical system"?
-* (b) What are "state variables"? How do they differ from parameters?
-* (c) What are "prognostic" variables? How do they differ from "diagnostic" variables?
-* (d) What is DA?
-* (e) Is DA a science, an engineering art, or a dark art?
-* (f) What is the point of "Hidden Markov Models"?
+
+- (a) What is a "dynamical system"?
+- (b) What are "state variables"? How do they differ from parameters?
+- (c) What are "prognostic" variables? How do they differ from "diagnostic" variables?
+- (d) What is DA?
+- (e) Is DA a science, an engineering art, or a dark art?
+- (f) What is the point of "Hidden Markov Models"?
 
 ```python
 # show_answer('Discussion topics 1')
@@ -246,6 +346,7 @@ Also group these words:
 
 ## References
 
-- ###### Author (1999):
-<a name="Author-(1999):"></a> 
+- ###### Author (1999)
+
+<a name="Author-(1999):"></a>
   Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.
