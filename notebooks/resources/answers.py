@@ -127,7 +127,6 @@ answers['thesaurus 1'] = ["TXT", r"""
 - Ensemble, Sample, Set of draws
 - Stochastic, Random, Monte-Carlo
 - Data, Measurements, Observations
-- Filtering, Forecast initialisation
 """]
 
 answers['thesaurus 2'] = ["TXT", r"""
