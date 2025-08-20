@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.17.2
+#       jupytext_version: 1.15.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -35,18 +35,17 @@ plt.ion();
 
 # ## Prelude: Multivariate Bayes
 # In the following we will see Bayes' rule in the 2D (i.e. multivariate) case. Recall from T3
-# $$\begin{equation}
+# $\begin{equation}
 # p(\x|\y) \propto p(\x) \, p(\y|\x) \,.  \tag{BR}
-# \end{equation}$$
+# \end{equation}$
 
 Bayes_rule, = import_from_nb("T3", ["Bayes_rule"])
 
 # The prior is set to a Gaussian distribution whose density we also recall:
-# $$\begin{equation*}
+# $\begin{equation*}
 # \NormDist(\x \mid  \mathbf{\mu}, \mathbf{\Sigma})
-# =
-# |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,. \tag{GM}
-# \end{equation*}$$
+# = |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,. \tag{GM}
+# \end{equation*}$
 
 (grid1d, dx, pdf_GM, grid2d, bounds) = import_from_nb("T2", ("grid1d", "dx", "pdf_GM", "grid2d", "bounds"))
 
@@ -102,9 +101,9 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 # -
 
 # Note that the likelihood is again defined as eqn. (Lklhd),
-# $$\begin{equation*}
+# $\begin{equation*}
 # p(\y|\x) = \NormDist(\y| \ObsMod(\x), \R) \,. \tag{Lklhd}
-# \end{equation*}$$
+# \end{equation*}$
 #
 # Examples of $\ObsMod(\x)$ for multivariate $\x$ (and possibly $\y$) include:
 #

@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.17.2
+      jupytext_version: 1.15.1
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -34,10 +34,10 @@ $
 $
 The [previous tutorial](T2%20-%20Gaussian%20distribution.ipynb)
 studied the Gaussian probability density function (pdf), defined in 1D by:
-\begin{equation}
+$\begin{equation}
 \large
 \NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \,,\tag{G1}
-\end{equation}
+\end{equation}$
 which we implemented and tested alongside the uniform distribution.
 
 ```python
@@ -70,10 +70,10 @@ Now that we have reviewed some probability, we can look at statistical inference
 And **Bayes' rule** is how we do inference: it says how to condition/merge/assimilate/update this belief based on data/observation ($y$).
 For *continuous* "random variables", $x$ and $y$, it reads:
 
-\begin{equation}
+$\begin{equation}
 \large
 \color{red}{\overset{\mbox{Posterior}}{p(\color{black}{x|y})}} = \frac{\color{blue}{\overset{\mbox{  Prior  }}{p(\color{black}{x})}} \, \color{green}{\overset{\mbox{ Likelihood}}{p(\color{black}{y|x})}}}{\color{gray}{\underset{\mbox{Constant wrt. x}}{p(\color{black}{y})}}} \,. \tag{BR} \\[1em]
-\end{equation}
+\end{equation}$
 
 Note that, in contrast to (the frequent aim of) orthodox statistics,
 Bayes' rule in itself makes no attempt at producing only a single estimate/value

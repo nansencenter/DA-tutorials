@@ -52,13 +52,13 @@ plt.ion();
 #
 # A **sample average** based on draws from a random variable $x$ (we no longer use uppercase for random variables!)
 # is denoted with an overhead bar:
-# \begin{equation}
+# $\begin{equation}
 #   \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,.
-# \end{equation}
+# \end{equation}$
 # By the *law of large numbers (LLN)*, the sample average converges for $N \to \infty$ to the **expected value**:
-# \begin{equation}
+# $\begin{equation}
 #   \Expect[x] ≔ \int x \, p(x) \, d x \,,
-# \end{equation}
+# \end{equation}$
 # where the domain of integration is over *all possible values of $x$*.
 #
 # ## The univariate (a.k.a. 1-dimensional, scalar) Gaussian

@@ -129,7 +129,7 @@ The "stuff", denoted $\x_t$, will be referred to as ***state variables/vectors**
 Regardless of sophistication, number of lines of code,
 or how many PhD tears and projects that were spent on a model,
 for the purpose of this course,
-the model is *just some function*, represented by $\mathcal{M}_t$,
+the model is *just some function*, represented by $\DynMod_t$,
 **predicting** the state at time $t+1$ from the state at time $t$.
 
 > All models are wrong, but some are useful -- [George E. P. Box](https://en.wikipedia.org/wiki/All_models_are_wrong)
@@ -139,9 +139,9 @@ Examples of shortcomings are listed in the exercises below.
 Taking the quoted advice to heart, in DA it is common to assume that
 there is some random (stochastic) noise term, $\epsilon_t$, with a known distribution,
 so that the true state *evolves* according to
-\begin{equation}
-  \x_{t+1} = \mathcal{M}_t(\x_t) + \epsilon_{t} \,. \tag{M1}
-\end{equation}
+$\begin{equation}
+  \x_{t+1} = \DynMod_t(\x_t) + \epsilon_{t} \,. \tag{DynMod}
+\end{equation}$
 
 ---
 
@@ -152,16 +152,21 @@ However, a good model is not enough to ensure good predictions, because
 In other words, we also need good initial conditions,
 i.e. a good estimate of $\x_t$.
 At first this might seem obvious and trifling,
-but consider the case of numerical weather prediction.
-To run the simulator (model) $\mathcal{M}$ to forecast (predict) tomorrow's weather,
-we need to know the today's state of the atmosphere (wind, pressure, density and temperature)
+but consider the case of numerical weather prediction;
+in order to run the numerical simulator (model), $\DynMod$, to forecast (predict) tomorrow's weather,
+we need to know today's state of the atmosphere (wind, pressure, density and temperature)
 at each grid point in the model.
-Yet despite the explosion of data since the advent of weather satellites,
-most parts of the globe are at any given moment unobserved.
+Yet despite the quantitative explosion of data since the advent of weather satellites in the 1970s,
+most parts of the globe are (at any given moment) unobserved.
 Moreover, the measurements, $\y_t$ available to us are not generally a "direct observation"
-of quantities in the state vector, but rather some function $\mathcal{H}_t$ thereof,
-plus the effect of imprecision, modeled as a noisy
-that we do have are often noisy,
+of quantities in the state vector, but rather some function, i.e. model $\ObsMod_t$ thereof
+(in the case of satellite radiances: an integral along the vertical column at some lat/long location,
+or a more complicated radiative transfer model).
+Finally, to reflect imprecision inherent to any observation,
+the observation model should include observation noise, $\eta_t$,
+$\begin{equation}
+  \x_{t+1} = \ObsMod_t(\x_t) + \epsilon_{t} \,. \tag{ObsMod}
+\end{equation}$
 
 A butterfly that flaps its wings...
 
