@@ -95,16 +95,18 @@ Beware, however, that it is not generally production-ready.
 For example, it overuses global variables, and is lacking in vectorisation,
 generally for the benefit of terseness and simplicity.
 
-### Data assimilation (DA)
-
-#### Data + Models = ❤️
+### Dynamical and observational models
 
 What is a ***model***?
 In the broadest sense, a model is a *simplified representation* of something.
 A convenient language for this purpose is mathematics,
-in which case the model consists of a set of equations.
-These can describe some fundamental laws of nature
-or be derived as a set of empirical or statistical relations.
+in which case the model consists of a set of equations, often differential.
+
+We will mainly be concerned with models of **dynamical systems**, meaning *stuff that changes in time*.
+The "stuff", denoted $\x_k$ for time $k$, will be referred to as ***state*** variables/vectors.
+Regardless of sophistication or how many PhDs worked on coding it up as a computer simulation program,
+the ***dynamical model*** will henceforth be represented simply as the *function* $\DynMod_k$
+that **predicts** the state at time $k+1$ from $\x_k$.
 
 <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
 <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
@@ -113,7 +115,7 @@ or be derived as a set of empirical or statistical relations.
 
 - (a) Laws of motion and gravity (Newton, Einstein)
 - (b) Epidemic (SEIR) and predator-prey (Lotka-Volterra)
-- (c) Weather/climate prediction (Navier–Stokes + mass continuity + thermodynamics + ideal gas law + radiation + cloud microphysics + surface interactions)
+- (c) Weather/climate forecasting (Navier–Stokes + thermodynamics + ideal gas law + radiation + cloud microphysics + BCs)
 - (d) Petroleum reservoir flow (Multiphase Darcy's law + ...)
 - (e) Chemical and biological kinetics (Arrhenius, Michaelis-Menten, Mass Action Law)
 - (f) Traffic flow (Lighthill-Whitham-Richards)
@@ -123,81 +125,112 @@ or be derived as a set of empirical or statistical relations.
 ---
 </details>
 
-One common thing about the above examples is that they all model **dynamical systems**,
-meaning "stuff that changes in time".
-The "stuff", denoted $\x_t$, will be referred to as ***state variables/vectors***.
-Regardless of sophistication, number of lines of code,
-or how many PhD tears and projects that were spent on a model,
-for the purpose of this course,
-the model is *just some function*, represented by $\DynMod_t$,
-**predicting** the state at time $t+1$ from the state at time $t$.
+**Exc (optional) -- state variables:**  
+
+- For the above model examples above that you are familiar with, list the elements of the state variable.
+
+- Generally speaking, do you think
+  - the ordering of the elements/components matters?
+  - the state vector needs to be of fixed length, or can it change over time?
+  - it is problematic if we include more variables than needed?
+
+```python
+# show_answer('state variables')
+```
+
+Whether describing some fundamental laws of nature,
+or comprising of a set of empirical or statistical relations,
+the "goodness" of a model is usually assessed in terms of (some measure of) skill of prediction,
+as expressed by the following maxim.
 
 > All models are wrong, but some are useful -- [George E. P. Box](https://en.wikipedia.org/wiki/All_models_are_wrong)
 
-Examples of shortcomings are listed in the exercises below.
-"Usefulness" is usually judged by predictive skill (quantified by a choice of metric).
-Taking the quoted advice to heart, in DA it is common to assume that
-there is some random (stochastic) noise term, $\epsilon_t$, with a known distribution,
-so that the true state *evolves* according to
+**Exc (optional) -- model error:**  
+For each of model examples above, list the shortcomings (below) that seem relevant.
+
+1. Inaccurate at relatively high speeds
+1. Extreme events do not conform to statistical assumptions
+1. Assumes closed systems, ignoring external influences,
+   except for poorly specified boundary conditions and forcings
+1. Assumes equilibrium or steady-state when systems are inherently dynamic
+1. Lack of demographic and/or geographic resolution.
+1. Continuity is an approximation
+1. Oversimplification of complex interactions and feedbacks
+1. Incompatibility with quantum dynamics
+1. Insufficient spatial or temporal resolution upon discretization
+
+```python
+# show_answer('model error')
+```
+
+Taking the quoted advice to heart, in data assimilation it is common to assume that
+the difference between the true evolution and that suggested by the model alone is explained
+by a random (stochastic) noise term, $\q_k$, with a known distribution, i.e.
+
 $\begin{equation}
-  \x_{t+1} = \DynMod_t(\x_t) + \epsilon_{t} \,. \tag{DynMod}
+  \x_{k+1} = \DynMod_k(\x_k) + \q_k \,. \tag{DynMod}
 \end{equation}$
 
----
-
-However, a good model is not enough to ensure good predictions, because
+However, a good model (i.e. $\q \approx 0$) is not enough to ensure good predictions, because
 
 > Garbage in, garbage out (GIGO)
 
 In other words, we also need good initial conditions,
-i.e. a good estimate of $\x_t$.
+i.e. a good estimate of $\x_k$.
+This is known as the ***forecast initialisation*** problem.
 At first this might seem obvious and trifling,
-but consider the case of numerical weather prediction;
-in order to run the numerical simulator (model), $\DynMod$, to forecast (predict) tomorrow's weather,
-we need to know today's state of the atmosphere (wind, pressure, density and temperature)
+but this illusion is quickly dispelled by considering the case of numerical weather prediction.
+Clearly, in order to launch the numerical simulator (model), $\DynMod_k$,
+to forecast (predict) *tomorrow*'s weather,
+we initially need to know *today*'s state of the atmosphere (wind, pressure, density and temperature)
 at each grid point in the model.
 Yet despite the quantitative explosion of data since the advent of weather satellites in the 1970s,
 most parts of the globe are (at any given moment) unobserved.
-Moreover, the measurements, $\y_t$ available to us are not generally a "direct observation"
-of quantities in the state vector, but rather some function, i.e. model $\ObsMod_t$ thereof
+Moreover, the ***measurement/observation data*** available to us, $\y_k$, are not generally a "direct observation"
+of quantities in the state vector, but rather some function, i.e. model $\ObsMod_{\!k}$ thereof
 (in the case of satellite radiances: an integral along the vertical column at some lat/long location,
-or a more complicated radiative transfer model).
-Finally, to reflect imprecision inherent to any observation,
-the observation model should include observation noise, $\eta_t$,
+or even a more complicated radiative transfer model).
+Finally, since any measurement includes some amount of inaccuracy,
+we include an observation noise, $\varepsilon_k$, in our conception of the measuring process, i.e.
+
 $\begin{equation}
-  \x_{t+1} = \ObsMod_t(\x_t) + \epsilon_{t} \,. \tag{ObsMod}
+  \y_k = \ObsMod_{\!k}(\x_k) + \varepsilon_k \,. \tag{ObsMod}
 \end{equation}$
 
-A butterfly that flaps its wings...
+**Exc (optional) -- observation examples:**  
+For each of the above dynamical model examples, suggest 1 or more observation kinds.
 
-estimation vs calculation
-prediction vs estimation
+```python
+# show_answer('obs examples')
+```
 
-Observations, data, measurements
+### Data + Models = ❤️
 
-- State variables vs parameters. Prognostic vs. diagnostic variables
-
-to distinguish it from fixed-in-time ***parameters*** (typically $\theta$).
-
-#### State estimation
+The above complications make the forecast initialisation problem daunting.
+Fortunately we have another source of information on $\x_k$: yesterday's (or the previous) forecast.
+As we will see, using it as a "prior" in the estimation of $\x_k$ will implicitly
+incorporate the information from *previous* observations, $\y_1, \ldots, \y_{k-1}$,
+on top of the "incoming" one, $\y_k$.
+Thus, model forecasts help in the estimation of $\x_k$, which is otherwise based on the incoming observation, $\y_k$,
+which in turn improve the forecast of $\x_{k+1}$, and so on in a virtuous cycle of improved estimation and prediction (❤️).
 
 **State estimation** (a.k.a. **sequential inference**)
-is the estimation of unknown/uncertain quantities of **dynamical systems**
-based on imprecise (noisy) data/observations. This is similar to time series estimation and signal processing,
-but focus on the case where we have a good (skillful) predictive model of the dynamical system,
-so that we can relate information (estimates) of its *state* at one time to another.
+is the estimation of unknown/uncertain quantities of **dynamical systems**, $\{\x_k\}$,
+based on imprecise (noisy) data/observations, $\{\y_k\}$.
+State estimation is similar to time series estimation and signal processing,
+but focuses on the case where we have a good (skillful) predictive model of the dynamical system,
+and allows for multivariate, partially observed (hidden) states.
+
 The most famous state estimation technique is the ***Kalman filter (KF)***,
 which was developed to steer the Apollo mission rockets to the moon.
+For example, in guidance systems, the *state variable* (vector) consists of at least 6 elements: 3 for the current position and 3 for velocity, whose trajectories we wish to track in time. More sophisticated systems can also include acceleration and/or angular quantities. The *dynamical model* then consists of the fact that displacement is the time integral of the velocity, while the velocity is the integral of acceleration. The noisy *observations* can come from altimetry, sextants, speedometers, compass readings, accelerometers, gyroscopes, or fuel-gauges. The essential point is that we have an *observational model* predicting the observations from the state. For example, the altimeter model is simply the function that selects the $z$ coordinate from the state vector, while the force experienced by an accelerometer can be modelled by Newton's second law of motion, $F = m a$.
 
-For example, in such a guidance systems, the *state variable* (vector) consists of at least 6 elements: 3 for the current position and 3 for velocity, whose trajectories we wish to track in time. More sophisticated systems can also include acceleration and/or angular quantities. The *dynamical model* then consists of the fact that displacement is the time integral of the velocity, while the velocity is the integral of acceleration. The noisy *observations* can come from altimetry, sextants, speedometers, compass readings, accelerometers, gyroscopes, or fuel-gauges. The essential point is that we have an *observational model* predicting the observations from the state. For example, the altimeter model is simply the function that selects the $z$ coordinate from the state vector, while the force experienced by an accelerometer can be modelled by Newton's second law of motion, $F = m a$.
-
-#### Challenges of DA
+<img align="right" width="400" src="./resources/DA_bridges.jpg" alt='DA "bridges" data and models.'/>
 
 In the context of *large* dynamical systems, especially in geoscience (climate, ocean, hydrology, petroleum)
 state estimation is known as **data assimilation** (DA),
 and is thought of as a "bridge" between data and models,
-as illustrated on the right (source: <a href="https://aics.riken.jp/en">https://aics.riken.jp/en</a>)
-<img align="right" width="400" src="./resources/DA_bridges.jpg" alt='DA "bridges" data and models.'/>.
+as illustrated on the right (source: [AICS-Riken](https://aics.riken.jp/en))
 For example, in weather applications, the dynamical model is an atmospheric fluid-mechanical simulator, the state variable consists of the fields of pressure, humidity, and wind quantities discretized on a grid,
 and the observations may come from satellite or weather stations.
 
@@ -283,23 +316,7 @@ if False:
     viz.plot_hovmoller(xx)
 ```
 
-### Exercises
-
-**Exc (optional) -- model error:**  
-For each of model examples above, list the shortcomings (below) that seem relevant.
-
-1. Relies on idealized geometry or topology
-2. Inaccurate at relatively high speeds
-3. Extreme events do not conform to statistical assumptions
-4. Assumes closed systems, ignoring external influences
-5. Boundary conditions and forcings are not well known
-6. Fails to capture multi-scale dynamics
-7. Assumes equilibrium or steady-state when systems are inherently dynamic
-8. Lack of demographic and/or geographic resolution.
-9. Continuity is an approximation
-10. Oversimplification of complex interactions and feedbacks
-11. Incompatibility with quantum dynamics
-12. Insufficient spatial or temporal resolution upon discretization
+### Vocabulary exercises
 
 **Exc -- Word association:**
 Fill in the `x`'s in the table to group the words with similar meaning.
@@ -346,12 +363,3 @@ Also group these words:
 ```
 
 ### Next: [T2 - Gaussian distribution](T2%20-%20Gaussian%20distribution.ipynb)
-
----
-
-## References
-
-- ###### Author (1999)
-
-<a name="Author-(1999):"></a>
-  Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.

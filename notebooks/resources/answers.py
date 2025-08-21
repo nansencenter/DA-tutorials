@@ -121,8 +121,58 @@ def setup_typeset():
 answers = {}
 
 ###########################################
-# Tut: DA & EnKF
+# Tut: Intro
 ###########################################
+answers['state variables'] = ["MD", r"""
+- (a) Position (x, y, z), velocity (vx, vy, vz).
+- (b)
+    - Epidemic (SEIR):  
+        Susceptible (S), Exposed (E), Infectious (I), Recovered (R) populations.
+    - Predator-prey (Lotka-Volterra):  
+        Foxes (F), Rabbits (R).
+- (c) Pressure, temperature, humidity, wind components (u, v, w), at each grid point.
+- (d) Pressure, fluid saturations (oil, water, gas), possibly temperature, at each grid cell.
+- (e) Concentrations of chemical species, temperature.
+- (f) Vehicle density, average velocity, at each road segment.
+- (g) Rating value(s) for each player/team.
+- (h) Asset price, volatility.
+
+General questions:
+
+- Usually ordering does not affect the mathematics, but it might matters for implementation (e.g., mapping variables to indices).
+- No, not for plain prediction purposes, but it is often convenient to have a fixed-length vector for computational efficiency and simplicity.
+- It might increases computational cost/complexity and may introduce noise or bugs.
+"""]
+
+answers['model error'] = ["MD", r"""
+Most models could be said to be afflicted by most of the shortcomings, but here are what appears most relevant:
+
+- (a) Laws of motion and gravity: 1, 8
+- (b) Epidemic (SEIR): 3, 5, 6, 7
+- (c) Weather/climate forecasting: 3, 4, 7, 9
+- (d) Petroleum reservoir flow: 4, 6, 7, 9
+- (e) Chemical and biological kinetics: 3, 7
+- (f) Traffic flow: 2, 4, 6, 10
+- (g) Sports rating: 2, 7
+- (h) Financial pricing: 2, 4, 7
+"""]
+
+answers['obs examples'] = ["MD", r"""
+- (a) Altimetry, sextants, speedometers, compass readings, accelerometers, gyroscopes, or fuel-gauges
+- (b)
+    - SEIR: Number of positive tests, hospitalized, or dead. Sewage analyses. Google searches for symptoms.
+    - Predator-prey: loss of harvest or poultry; direct (but incomplete) counts of foxes or rabbits,
+        or their tracks, or their droppings.
+- (c) Local weather stations. Satellite data. Weather balloons. Each of which can measure a range of variables,
+  e.g. temperature, humidity, wind speed/direction, precipitation, radiances.
+- (d) Well pressure, production rates (oil, gas, water), oil/water cuts.
+- (e) (Bio)chemical analyses, spectrometry, temperature readings.
+- (f) Vehicle counts, speed measurements, GPS traces, traffic cameras.
+- (g) Game outcomes, scores, player statistics.
+- (h) Asset prices, trading volumes, volatility indices.
+
+"""]
+
 answers['thesaurus 1'] = ["TXT", r"""
 - Ensemble, Sample, Set of draws
 - Stochastic, Random, Monte-Carlo
@@ -264,7 +314,7 @@ answers['GG BR example'] = ['MD', r'''
 - Eqn. (6) yields $x\supa = 2 \cdot (20/4 + 18/4) = \frac{20 + 18}{2} = 19$
 ''']
 
-answers['symmetry of conditioning'] = ['MD', r'''
+answers['symmetry of conjunction'] = ['MD', r'''
 <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem#For_continuous_random_variables" target="_blank">Wikipedia</a>
 
 ''']

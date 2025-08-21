@@ -45,7 +45,7 @@ which we implemented and tested alongside the uniform distribution.
 pdfs = dict(N=pdf_G1, U=pdf_U1)
 ```
 
-Now that we have reviewed some probability, we can look at statistical inference, in particular
+Now that we have reviewed some probability, we can look at statistical inference and estimation, in particular
 
 # Bayes' rule
 
@@ -68,29 +68,25 @@ Now that we have reviewed some probability, we can look at statistical inference
 </details>
 
 And **Bayes' rule** is how we do inference: it says how to condition/merge/assimilate/update this belief based on data/observation ($y$).
-For *continuous* "random variables", $x$ and $y$, it reads:
-
-$\begin{equation}
+For *continuous* random variables, $x$ and $y$, it reads:
+$$\begin{equation}
 \large
 \color{red}{\overset{\mbox{Posterior}}{p(\color{black}{x|y})}} = \frac{\color{blue}{\overset{\mbox{  Prior  }}{p(\color{black}{x})}} \, \color{green}{\overset{\mbox{ Likelihood}}{p(\color{black}{y|x})}}}{\color{gray}{\underset{\mbox{Constant wrt. x}}{p(\color{black}{y})}}} \,. \tag{BR} \\[1em]
-\end{equation}$
-
-Note that, in contrast to (the frequent aim of) orthodox statistics,
-Bayes' rule in itself makes no attempt at producing only a single estimate/value
-(but the topic is briefly discussed [further below](#Exc-(optional)----optimality-of-the-mean)).
+\end{equation}$$
+Note that, in contrast to orthodox statistics,
+Bayes' rule itself makes no attempt at producing only a single estimate/value
 It merely states how quantitative belief (weighted possibilities) should be updated in view of new data.
 
 
 **Exc -- Bayes' rule derivation:** Derive eqn. (BR) from the definition of [conditional pdf's](https://en.wikipedia.org/wiki/Conditional_probability_distribution#Conditional_continuous_distributions).
 
 ```python
-# show_answer('symmetry of conditioning')
+# show_answer('symmetry of conjunction')
 ```
 
-Bayes' rule, eqn. (BR), involves functions (the densities), but applies for any/all values of $x$ (and $y$).
-Thus, upon discretisation, eqn. (BR) becomes the multiplication of two arrays of values,
-followed by a normalisation (explained [below](#Exc-(optional)----BR-normalization)).
-It is hard to overstate how simple this principle is.
+It is hard to overstate how simple Bayes' rule, eqn. (BR), is, consisting merely of scalar multiplication and division.
+However, we want to compute the function $p(x|y)$ for **all values of $x$**.
+Thus, upon discretization, eqn. (BR) becomes the multiplication of two *arrays* of values (followed by a normalisation):
 
 ```python
 def Bayes_rule(prior_values, lklhd_values, dx):
@@ -100,6 +96,7 @@ def Bayes_rule(prior_values, lklhd_values, dx):
 ```
 
 #### Exc (optional) -- BR normalization
+
 Show that the normalization in `Bayes_rule()` amounts to (approximately) the same as dividing by $p(y)$.
 
 ```python
@@ -108,9 +105,11 @@ Show that the normalization in `Bayes_rule()` amounts to (approximately) the sam
 
 In fact, since $p(y)$ is thusly implicitly known,
 we often don't bother to write it down, simplifying Bayes' rule (eqn. BR) to
-$$\begin{align}
+
+$\begin{equation}
 p(x|y) \propto p(x) \, p(y|x) \,.  \tag{BR2}
-\end{align}$$
+\end{equation}$
+
 Actually, do we even need to care about $p(y)$ at all? All we really need to know is how much more likely some value of $x$ (or an interval around it) is compared to any other $x$.
 The normalisation is only necessary because of the *convention* that all densities integrate to $1$.
 However, for large models, we usually can only afford to evaluate $p(y|x)$ at a few points (of $x$), so that the integral for $p(y)$ can only be roughly approximated. In such settings, estimation of the normalisation factor becomes an important question too.
