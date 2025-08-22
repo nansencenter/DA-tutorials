@@ -406,10 +406,6 @@ Moreover, DA methods produce uncertainty quantification, something which is usua
 
 ### Next: [T5 - Multivariate Kalman filter](T5%20-%20Multivariate%20Kalman%20filter.ipynb)
 
-- - -
+<a name="References"></a>
 
-## References
-
-- ###### Author (1999):
-<a name="Author-(1999):"></a> 
-  Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.
+### References

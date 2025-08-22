@@ -279,8 +279,6 @@ or its generalisation for non-bijective transformations,
 or to the Chapman-Kolmogorov equations in the case of interacting random variables,
 or its time-continuous form of Fokker-Planck.
 
-## References
+<a name="References"></a>
 
-- ###### Author (1999):
-<a name="Author-(1999):"></a> 
-  B. D. Author, "Monte Carlo methods in finance",
+### References

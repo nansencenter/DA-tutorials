@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.15.1
+      jupytext_version: 1.17.2
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -59,7 +59,7 @@ Now that we have reviewed some probability, we can look at statistical inference
   Ultimately (in the limit) the complete way to express your belief is as a *distribution*
   (essentially just a list) of plausibilities for all possibilities.
   Furthermore, the only coherent way to reason in the presence of such uncertainty
-  is to obey the laws of probability ([Jaynes (2003)](#Jaynes-(2003):)).
+  is to obey the laws of probability ([Jaynes (2003)](#References)).
 
   - - -
 </details>
@@ -155,12 +155,12 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 
 The illustration uses a
 - prior $p(x) = \NormDist(x|x^f, P^f)$ with (fixed) mean and variance, $x^f= 10$, $P^f=4^2$.
-- likelihood $p(y|x) = \NormDist(y|x, R)$, whose params are set by the interactive sliders.
+- likelihood $p(y|x) = \NormDist(y|x, R)$, whose parameters are set by the interactive sliders.
 
 We are now dealing with 3 (!) separate distributions,
 giving us a lot of symbols to keep straight in our head -- a necessary evil for later.
 
-**Exc -- Bayes1 properties:** This exercise serves to make you acquainted with how Bayes' rule blends information. 
+**Exc -- `Bayes1` properties:** This exercise serves to make you acquainted with how Bayes' rule blends information.
 
 Move the sliders (use arrow keys?) to animate it, and answer the following (with the boolean checkmarks both on and off).
  * What happens to the posterior when $R \rightarrow \infty$ ?
@@ -363,10 +363,9 @@ but if Gaussianity can be assumed then it reduces to only 2 formulae.
 
 ### Next: [T4 - Filtering & time series](T4%20-%20Time%20series%20filtering.ipynb)
 
-- - -
+<a name="References"></a>
 
-## References
+### References
 
-- ###### Jaynes (2003):
-<a name="Jaynes-(2003):"></a>
+- **Jaynes (2003)**:
   Edwin T. Jaynes, "Probability theory: the logic of science", 2003.

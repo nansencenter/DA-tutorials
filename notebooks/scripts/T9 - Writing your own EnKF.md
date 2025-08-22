@@ -387,10 +387,6 @@ It is a consistent approximation of the Kalman filter,
 but also contains biases.
 Successful application requires tuning of some ad-hoc parameters.
 
-- - -
+<a name="References"></a>
 
-## References
-
-- ###### Author (1999):
-<a name="Author-(1999):"></a> 
-  Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.
+### References

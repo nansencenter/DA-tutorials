@@ -353,10 +353,6 @@ methods known as Kriging, which can also be called/interpreted as
 
 ### Next: [T7 - Chaos & Lorenz](T7%20-%20Chaos%20%26%20Lorenz%20(optional).ipynb)
 
-- - -
+<a name="References"></a>
 
-## References
-
-- ###### Author (1999):
-<a name="Author-(1999):"></a> 
-  Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.
+### References

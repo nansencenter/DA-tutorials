@@ -384,10 +384,6 @@ def plot_pendulum2(k=1, N=2):
 #
 # ### Next: [T8 - Monte-Carlo & ensembles](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb)
 #
-# - - -
+# <a name="References"></a>
 #
-# ## References
-#
-# - ###### Author (1999):
-# <a name="Author-(1999):"></a> 
-#   Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.
+# ### References

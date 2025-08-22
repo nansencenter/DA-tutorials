@@ -444,10 +444,6 @@ large and chaotic systems
 
 ### Next: [T6 - Spatial statistics ("geostatistics") & Kriging](T6%20-%20Geostats%20%26%20Kriging%20(optional).ipynb)
 
-- - -
+<a name="References"></a>
 
-## References
-
-- ###### Author (1999):
-<a name="Author-(1999):"></a> 
-  Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.
+### References

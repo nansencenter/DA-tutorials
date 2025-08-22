@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.15.1
+#       jupytext_version: 1.17.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -36,7 +36,7 @@ plt.ion();
 #
 # ## Probability essentials
 #
-# As stated by James Bernoulli (1713) and elucidated by [Laplace (1812)](#Laplace-(1812):):
+# As stated by James Bernoulli (1713) and elucidated by [Laplace (1812)](#References):
 #
 # > The Probability for an event is the ratio of the number of cases favorable to it, to the number of all
 # > cases possible when nothing leads us to expect that any one of these cases should occur more than any other,
@@ -167,7 +167,7 @@ def plot_pdf(mu=0, sigma=5):
 # - (iii) $E[1] = 1$,  
 #   thus proving that (G1) indeed uses the right normalising constant.  
 #   *Hint: Neither Bernoulli and Laplace managed this,
-#   until [Gauss (1809)](#Gauss-(1809):) did by first deriving $(E[1])^2$.  
+#   until [Gauss (1809)](#References) did by first deriving $(E[1])^2$.  
 #   For more (visual) help, watch [3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
 
 # +
@@ -314,16 +314,9 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 #
 # ### Next: [T3 - Bayesian inference](T3%20-%20Bayesian%20inference.ipynb)
 #
-# - - -
+# <a name="References"></a>
 #
-# ## References
+# ### References
 #
-# - ###### Laplace (1812)
-#
-# <a name="Laplace-(1812):"></a>
-#   P. S. Laplace, "Théorie Analytique des Probabilités", 1812.
-#
-# - ###### Gauss (1809)
-#
-# <a name="Gauss-(1809):"></a>
-#   Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares (which will be very relevant to us) and its probabilistic justification based on the normal distribution of errors).
+# - **Laplace (1812)**: P. S. Laplace, "Théorie Analytique des Probabilités", 1812.
+# - **Gauss (1809)**: Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares (which will be very relevant to us) and its probabilistic justification based on the normal distribution of errors).
