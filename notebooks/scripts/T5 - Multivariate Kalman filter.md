@@ -134,6 +134,8 @@ Examples of $\ObsMod(\x)$ for multivariate $\x$ (and possibly $\y$) include:
 
 While conceptually and technically simple, the sheer **amount** of computations done by `Bayes_rule` quickly becomes a difficulty in higher dimensions. This is hammered home in the following exercise.
 
+<a name="Exc-(optional)----Curse-of-dimensionality"></a>
+
 #### Exc (optional) -- Curse of dimensionality
 
 * (a) How many point-multiplications are needed on a grid with $N$ points in $\xDim$ dimensions? Imagine an $\xDim$-dimensional cube where each side has a grid with $N$ points on it.
@@ -256,6 +258,7 @@ where the posterior/analysis mean (vector) and covariance (matrix) are given by:
 ```python
 # show_answer('KF precision')
 ```
+<a name="Implementation-and-illustration"></a>
 
 ## Implementation and illustration
 
@@ -422,12 +425,12 @@ Note that the inversion (eqn 7) involved is of the size of $\R$, while in eqn (5
 #### Exc -- KF implemented with gain
 
 - Implement the Kalman gain form (eqns. K1, 8, 9) of the KF in place of the precision form (eqns. 5, 6)
-  that is [implemented above](T5%20-%20Multivariate%20Kalman%20filter.ipynb#Implementation-and-illustration).  
-  
+  that is [implemented above](#Implementation-and-illustration).
+
   - *Hint: $\I_{\xDim}$ can be obtained from `np.eye` or `np.identity`.
     But you do not actually even need it.*
   - *Hint: To avoid scrolling back and forth, copy the text with the Kalman gain formulae and paste them above.*
-  
+
 - Re-run all cells, and verify that you get the same result as before
   (inspecting the plot of the example problem, or printouts of the same numbers).
 - Replace the use of `inv` by `scipy.linalg.solve`.

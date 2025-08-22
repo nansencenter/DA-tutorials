@@ -140,6 +140,8 @@ def plot_pdf(mu=0, sigma=5):
 # - (iii) Where is the **inflection point**? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
 # - (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
 #
+# <a name="Exc-(optional)----Change-of-variables"></a>
+#
 # #### Exc (optional) -- Change of variables
 #
 # Let $z = \phi(x)$ for some monotonic function $\phi$,
@@ -154,6 +156,8 @@ def plot_pdf(mu=0, sigma=5):
 # show_answer('CVar in proba')
 # -
 
+# <a name="Exc-(optional)----Integrals"></a>
+#
 # #### Exc (optional) -- Integrals
 #
 # Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  

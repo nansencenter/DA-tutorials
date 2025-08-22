@@ -147,6 +147,8 @@ which derive some helpful mnemonics about the distribution.
 - (iii) Where is the **inflection point**? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
 - (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
 
+<a name="Exc-(optional)----Change-of-variables"></a>
+
 #### Exc (optional) -- Change of variables
 
 Let $z = \phi(x)$ for some monotonic function $\phi$,
@@ -160,6 +162,8 @@ and $p_x$ and $p_z$ be their probability density functions (pdf).
 ```python
 # show_answer('CVar in proba')
 ```
+
+<a name="Exc-(optional)----Integrals"></a>
 
 #### Exc (optional) -- Integrals
 

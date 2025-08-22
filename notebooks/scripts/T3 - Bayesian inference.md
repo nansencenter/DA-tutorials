@@ -236,7 +236,9 @@ It is important to appreciate that the likelihood and its role in Bayes' rule, d
 # show_answer("what's forward?")
 ```
 
-<!-- #region -->
+
+<a name="Gaussian-Gaussian-Bayes'-rule-(1D)"></a>
+
 ## Gaussian-Gaussian Bayes' rule (1D)
 
 In response to this computational difficulty, we try to be smart and do something more analytical ("pen-and-paper"): we only compute the parameters (mean and (co)variance) of the posterior pdf.
@@ -256,8 +258,10 @@ $$\begin{align}
   x\supa &= P\supa (x\supf/P\supf + \ObsMod y/R) \,.  \tag{6}
 \end{align}$$
 
+<a name="Exc----GG-Bayes"></a>
 
 #### Exc -- GG Bayes
+
 Consider the following identity, where $P\supa$ and $x\supa$ are given by eqns. (5) and (6).
 $$\frac{(x-x\supf)^2}{P\supf} + \frac{(\ObsMod x-y)^2}{R} \quad
 =\quad \frac{(x - x\supa)^2}{P\supa} + \frac{(y - \ObsMod x\supf)^2}{R + P\supf} \,, \tag{S2}$$
@@ -268,7 +272,6 @@ but the RHS only contains one square with $x$.
 - (b) *Optional*: Derive the full RHS (i.e. also the second term).
 - (c) Derive $p(x|y) = \NormDist(x \mid x\supa, P\supa)$ from eqns. (5) and (6)
   using part (a), Bayes' rule (BR2), and the Gaussian pdf (G1).
-<!-- #endregion -->
 
 ```python
 # show_answer('BR Gauss, a.k.a. completing the square', 'a')
