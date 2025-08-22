@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 plt.ion();
 
 # # T3 - Bayesian inference
+#
 # $
 # % ######################################## Loading TeX (MathJax)... Please wait ########################################
 # \newcommand{\Reals}{\mathbb{R}} \newcommand{\Expect}[0]{\mathbb{E}} \newcommand{\NormDist}{\mathscr{N}} \newcommand{\DynMod}[0]{\mathscr{M}} \newcommand{\ObsMod}[0]{\mathscr{H}} \newcommand{\mat}[1]{{\mathbf{{#1}}}} \newcommand{\bvec}[1]{{\mathbf{#1}}} \newcommand{\trsign}{{\mathsf{T}}} \newcommand{\tr}{^{\trsign}} \newcommand{\ceq}[0]{\mathrel{≔}} \newcommand{\xDim}[0]{D} \newcommand{\supa}[0]{^\text{a}} \newcommand{\supf}[0]{^\text{f}} \newcommand{\I}[0]{\mat{I}} \newcommand{\K}[0]{\mat{K}} \newcommand{\bP}[0]{\mat{P}} \newcommand{\bH}[0]{\mat{H}} \newcommand{\bF}[0]{\mat{F}} \newcommand{\R}[0]{\mat{R}} \newcommand{\Q}[0]{\mat{Q}} \newcommand{\B}[0]{\mat{B}} \newcommand{\C}[0]{\mat{C}} \newcommand{\Ri}[0]{\R^{-1}} \newcommand{\Bi}[0]{\B^{-1}} \newcommand{\X}[0]{\mat{X}} \newcommand{\A}[0]{\mat{A}} \newcommand{\Y}[0]{\mat{Y}} \newcommand{\E}[0]{\mat{E}} \newcommand{\U}[0]{\mat{U}} \newcommand{\V}[0]{\mat{V}} \newcommand{\x}[0]{\bvec{x}} \newcommand{\y}[0]{\bvec{y}} \newcommand{\z}[0]{\bvec{z}} \newcommand{\q}[0]{\bvec{q}} \newcommand{\br}[0]{\bvec{r}} \newcommand{\bb}[0]{\bvec{b}} \newcommand{\bx}[0]{\bvec{\bar{x}}} \newcommand{\by}[0]{\bvec{\bar{y}}} \newcommand{\barB}[0]{\mat{\bar{B}}} \newcommand{\barP}[0]{\mat{\bar{P}}} \newcommand{\barC}[0]{\mat{\bar{C}}} \newcommand{\barK}[0]{\mat{\bar{K}}} \newcommand{\D}[0]{\mat{D}} \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}} \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}} \newcommand{\ones}[0]{\bvec{1}} \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
@@ -68,7 +69,7 @@ pdfs = dict(N=pdf_G1, U=pdf_U1)
 # Note that, in contrast to orthodox statistics,
 # Bayes' rule itself makes no attempt at producing only a single estimate/value
 # It merely states how quantitative belief (weighted possibilities) should be updated in view of new data.
-
+#
 # **Exc -- Bayes' rule derivation:** Derive eqn. (BR) from the definition of [conditional pdf's](https://en.wikipedia.org/wiki/Conditional_probability_distribution#Conditional_continuous_distributions).
 
 # +
@@ -145,6 +146,7 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 
 
 # The illustration uses a
+#
 # - prior $p(x) = \NormDist(x|x^f, P^f)$ with (fixed) mean and variance, $x^f= 10$, $P^f=4^2$.
 # - likelihood $p(y|x) = \NormDist(y|x, R)$, whose parameters are set by the interactive sliders.
 #
@@ -154,16 +156,17 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 # **Exc -- `Bayes1` properties:** This exercise serves to make you acquainted with how Bayes' rule blends information.
 #
 # Move the sliders (use arrow keys?) to animate it, and answer the following (with the boolean checkmarks both on and off).
-#  * What happens to the posterior when $R \rightarrow \infty$ ?
-#  * What happens to the posterior when $R \rightarrow 0$ ?
-#  * Move $y$ around. What is the posterior's location (mean/mode) when $R$ equals the prior variance?
-#  * Can you say something universally valid (for any $y$ and $R$) about the height of the posterior pdf?
-#  * Does the posterior scale (width) depend on $y$?  
+#
+# - What happens to the posterior when $R \rightarrow \infty$ ?
+# - What happens to the posterior when $R \rightarrow 0$ ?
+# - Move $y$ around. What is the posterior's location (mean/mode) when $R$ equals the prior variance?
+# - Can you say something universally valid (for any $y$ and $R$) about the height of the posterior pdf?
+# - Does the posterior scale (width) depend on $y$?  
 #    *Optional*: What does this mean [information-wise](https://en.wikipedia.org/wiki/Differential_entropy#Differential_entropies_for_various_distributions)?
-#  * Consider the shape (ignoring location & scale) of the posterior. Does it depend on $R$ or $y$?
-#  * Can you see a shortcut to computing this posterior rather than having to do the pointwise multiplication?
-#  * For the case of two uniform distributions: What happens when you move the prior and likelihood too far apart? Is the fault of the implementation, the math, or the problem statement?
-#  * Play around with the grid resolution (see the cell above). What is in your opinion a "sufficient" grid resolution?
+# - Consider the shape (ignoring location & scale) of the posterior. Does it depend on $R$ or $y$?
+# - Can you see a shortcut to computing this posterior rather than having to do the pointwise multiplication?
+# - For the case of two uniform distributions: What happens when you move the prior and likelihood too far apart? Is the fault of the implementation, the math, or the problem statement?
+# - Play around with the grid resolution (see the cell above). What is in your opinion a "sufficient" grid resolution?
 
 # +
 # show_answer('Posterior behaviour')
@@ -180,7 +183,7 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 # - $\ObsMod(x) = 10 x$ for a ruler using mm, while $x$ is stored as cm.
 # - $\ObsMod(x) = \log(x)$ for litmus paper (pH measurement), where $x$ is the molar concentration of hydrogen ions.
 # - $\ObsMod(x) = |x|$ for bicycle speedometers (measuring rpm, i.e. Hall effect sensors).
-# - $\ObsMod(x) = 2 \pi h \, x^2$ if observing inebrity (drunkeness), and the unkown, $x$, is the radius of the beer glasses. 
+# - $\ObsMod(x) = 2 \pi h \, x^2$ if observing inebriation (drunkenness), and the unknown, $x$, is the radius of the beer glasses.
 #
 # Of course, the linear and logarithmic transformations are hardly worthy of the name "model", since they merely change the scale of measurement, and so could be trivially done away with. But doing so is not necessary, and they will serve to illustrate some important points.
 #
@@ -198,11 +201,12 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 # show_answer('Likelihood')
 # -
 
-
 # #### Exc -- Obs. model gallery
+#
 # Go back to the interactive illustration of Bayes' rule above.
 # Change `H` to implement the following observation models, $\ObsMod$.
 # In each case,
+#
 # - Explain the impact on the likelihood (and thereby posterior): shape (e.g. Gaussian?), position, variance.
 # - Consider to what extent it is reasonable to say that $\ObsMod$ gets "inverted".  
 #   *PS: it might be helpful to let $R \rightarrow 0$.*
@@ -212,7 +216,7 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 # - (a) $\ObsMod(x) = x + 15$.
 # - (b) $\ObsMod(x) = 2 x$.
 # - (c) $\ObsMod(x) = (x-5)^2$.
-#     - Explain how negative values of $y$ are possible.
+#   - Explain how negative values of $y$ are possible.
 # - (d) Try $\ObsMod(x) = |x|$.
 
 # +
@@ -227,7 +231,6 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 # show_answer("what's forward?")
 # -
 
-
 # <a name="Gaussian-Gaussian-Bayes'-rule-(1D)"></a>
 #
 # ## Gaussian-Gaussian Bayes' rule (1D)
@@ -235,6 +238,7 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 # In response to this computational difficulty, we try to be smart and do something more analytical ("pen-and-paper"): we only compute the parameters (mean and (co)variance) of the posterior pdf.
 #
 # This is doable and quite simple in the Gaussian-Gaussian case, when $\ObsMod$ is linear (i.e. just a number):  
+#
 # - Given the prior of $p(x) = \NormDist(x \mid x\supf, P\supf)$
 # - and a likelihood $p(y|x) = \NormDist(y \mid \ObsMod x,R)$,  
 # - $\implies$ posterior
@@ -244,20 +248,14 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 # $
 # where, in the 1-dimensional/univariate/scalar (multivariate is discussed in [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb)) case:
 #
-# $$\begin{align}
-#     P\supa &= 1/(1/P\supf + \ObsMod^2/R) \,, \tag{5} \\\
-#   x\supa &= P\supa (x\supf/P\supf + \ObsMod y/R) \,.  \tag{6}
-# \end{align}$$
-#
-# <a name="Exc----GG-Bayes"></a>
-#
-# #### Exc -- GG Bayes
-#
 # Consider the following identity, where $P\supa$ and $x\supa$ are given by eqns. (5) and (6).
-# $$\frac{(x-x\supf)^2}{P\supf} + \frac{(\ObsMod x-y)^2}{R} \quad
-# =\quad \frac{(x - x\supa)^2}{P\supa} + \frac{(y - \ObsMod x\supf)^2}{R + P\supf} \,, \tag{S2}$$
+# $$
+# \frac{(x-x\supf)^2}{P\supf} + \frac{(\ObsMod x-y)^2}{R} \quad =
+# \quad \frac{(x - x\supa)^2}{P\supa} + \frac{(y - \ObsMod x\supf)^2}{R + P\supf} \,, \tag{S2}
+# $$
 # Notice that the left hand side (LHS) is the sum of two squares with $x$,
 # but the RHS only contains one square with $x$.
+#
 # - (a) Actually derive the first term of the RHS, i.e. eqns. (5) and (6).  
 #   *Hint: you can simplify the task by first "hiding" $\ObsMod$*
 # - (b) *Optional*: Derive the full RHS (i.e. also the second term).
@@ -271,6 +269,7 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 # **Exc -- Temperature example:**
 # The statement $x = \mu \pm \sigma$ is *sometimes* used
 # as a shorthand for $p(x) = \NormDist(x \mid \mu, \sigma^2)$. Suppose
+#
 # - you think the temperature $x = 20°C \pm 2°C$,
 # - a thermometer yields the observation $y = 18°C \pm 2°C$.
 #
@@ -288,10 +287,11 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
     xa = Pa * (xf/Pf + H*y/R)
     return xa, Pa
 
-
 # #### Exc -- Gaussianity as an approximation
+#
 # Re-run/execute the interactive animation code cell up above.
-# - (a) Under what conditions does `Bayes_rule_G1()` provide a good approximation to `Bayes_rule()`?  
+#
+# - (a) Under what conditions does `Bayes_rule_G1()` provide a good approximation to `Bayes_rule()`?
 # - (b) Try using one or more of the other [distributions readily available in `scipy`](https://stackoverflow.com/questions/37559470/) in the above animation by inserting them in `pdfs`.
 #
 # **Exc (optional) -- Gain algebra:** Show that eqn. (5) can be written as
@@ -302,17 +302,21 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
 # *Hint: again, try to "hide away" $\ObsMod$ among the other objects before proceeding.*
 #
 # Then shown that eqns (5) and (6) can be written as
-# $$\begin{align}
+# $$
+# \begin{align}
 #     P\supa &= (1-K \ObsMod) P\supf \,,  \tag{10} \\\
 #   x\supa &= x\supf + K (y- \ObsMod x\supf) \tag{11} \,,
-# \end{align}$$
+# \end{align}
+# $$
 
 # +
 # show_answer('BR Kalman1 algebra')
 # -
 
 # #### Exc (optional) -- Gain intuition
+#
 # Let $\ObsMod = 1$ for simplicity.
+#
 # - (a) Show that $0 < K < 1$ since $0 < P\supf, R$.
 # - (b) Show that $P\supa < P\supf, R$.
 # - (c) Show that $x\supa \in (x\supf, y)$.
@@ -329,7 +333,9 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
 # -
 
 # #### Exc (optional) -- optimality of the mean
+#
 # *If you must* pick a single point value for your estimate (for example, an action to be taken), you can **decide** on it by optimising (with respect to the estimate) the expected value of some utility/loss function [[ref](https://en.wikipedia.org/wiki/Bayes_estimator)].
+#
 # - For example, if the density of $X$ is symmetric,
 #    and $\text{Loss}$ is convex and symmetric,
 #    then $\Expect[\text{Loss}(X - \theta)]$ is minimized
@@ -345,6 +351,7 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
 # In summary, the intuitive idea of **considering the mean of $p(x)$ as the point estimate** has good theoretical foundations.
 #
 # ## Summary
+#
 # Bayesian inference quantifies uncertainty (in $x$) using the notion of probability.
 # Bayes' rule says how to condition/merge/assimilate/update this belief based on data/observation ($y$).
 # It is simply a re-formulation of the notion of conditional probability.

@@ -24,6 +24,7 @@ import matplotlib.pyplot as plt
 plt.ion();
 
 # # T4 - Time series filtering
+#
 # Before we look at the full (multivariate) Kalman filter,
 # let's get more familiar with time-dependent (temporal/sequential) problems.
 # $
@@ -50,6 +51,7 @@ plt.ion();
 # $$ y_k = \ObsMod_k x_k + r_k \,, \tag{Obs} $$
 # where the noise, $r_k$, is a-priori independent of everything.
 # Moreover, for simplicity, assume $\ObsMod_k = \ObsMod$, and
+#
 # - $q_k \sim \NormDist(0, Q)$,
 # - $r_k \sim \NormDist(0, R)$.
 #
@@ -123,6 +125,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 
 
 # **Exc -- AR1 properties:** Answer the following.
+#
 # - What does `seed` control?
 # - Explain what happens when `M=0`. Also consider $Q \rightarrow 0$.  
 #   Can you give a name to this `truth` process,
@@ -136,21 +139,24 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # +
 # show_answer('AR1')
 # -
+
 # <a name="The-(univariate)-Kalman-filter-(KF)"></a>
 #
 # ## The (univariate) Kalman filter (KF)
-
+#
 # Now we have a random variable that evolves in time, that we can pretend is unknown,
 # in order to estimate (or "track") it.
-# From above, 
+# From above,
 # $p(x_0) = \NormDist(x_0 | x\supa_0, P\supa_0)$ with given parameters.
 # We also know that $x_k$ evolves according to eqn. (Dyn).
 # Therefore, as shown in the following exercise,
 # $p(x_1) = \NormDist(x_1 | x\supf_1, P\supf_1)$, with
-# $$\begin{align}
+# $$
+# \begin{align}
 # x\supf_k &= \DynMod \, x\supa_{k-1} \tag{5} \\
 # P\supf_k &= \DynMod^2 \, P\supa_{k-1} + Q \tag{6}
-# \end{align}$$
+# \end{align}
+# $$
 #
 # Formulae (5) and (6) are called the **forecast step** of the KF.
 # But when $y_1$ becomes available, according to eqn. (Obs),
@@ -159,10 +165,12 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # using the formulae we developed for Bayes' rule with
 # [Gaussian distributions](T3%20-%20Bayesian%20inference.ipynb#Gaussian-Gaussian-Bayes'-rule-(1D)).
 #
-# $$\begin{align}
-#     P\supa_k&= 1/(1/P\supf_k + \ObsMod^2/R) \,, \tag{7} \\\
-#   x\supa_k &= P\supa_k (x\supf/P\supf_k + \ObsMod y_k/R) \,.  \tag{8}
-# \end{align}$$
+# $$
+# \begin{align}
+#   P\supa_k &= 1/(1/P\supf_k + \ObsMod^2/R) \,, \tag{7} \\\
+#   x\supa_k  &= P\supa_k (x\supf/P\supf_k + \ObsMod y_k/R) \,.  \tag{8}
+# \end{align}
+# $$
 #
 # We call this the **analysis step** of the KF.
 # We can subsequently apply the same two steps again
@@ -170,6 +178,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # Note that if $k$ is a date index, then we can say that "yesterday's forecast becomes today's prior".
 #
 # #### Exc -- linear algebra of Gaussian random variables
+#
 # - (a) Show the linearity of the expectation operator:
 #   $\Expect [ \DynMod  x + b ] = \DynMod \Expect[x] + b$, for some constant $b$.
 # - (b) Thereby, show that $\mathbb{Var}[ \DynMod  x + b ] = \DynMod^2 \mathbb{Var} [x]$.
@@ -188,7 +197,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # -
 
 # #### Exc (optional) -- The Bayesian filtering recursion
-
+#
 # In the particular case of linearity and Gaussianity as assumed above,
 # the KF computes the *exact* Bayesian pdf's for $x_k$.
 # But even without them, a general/abstract Bayesian **recursive** procedure can still be formulated,
@@ -221,9 +230,11 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # Updating estimates of the state at any previous time(s) is called ***smoothing***.
 # However, for the purposes of prediction/forecasting, filtering is all we need:
 # accurate initial conditions (estimates of the present moment).
-
+#
 # #### Exc -- Implementation
+#
 # Below is a very rudimentary sequential estimator (not the KF!), essentially just doing "persistence" forecasts, and setting the analysis estimates to the value of the observations (*which is only generally a possibility in this linear, scalar case*). Run its cell to define it, and then re-run the above interactive animation cell. Then
+#
 # - Implement the KF properly by replace the forecast and analysis steps below. *Re-run the cell.*
 # - Try implementing the analysis step both in the "precision" and "gain" forms.
 
@@ -252,6 +263,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # -
 
 # #### Exc -- KF behaviour
+#
 # - Set `logQ` to its minimum, and `M=1`.  
 #   We established in Exc "AR1" that the true states are now constant in time (but unknown).  
 #   How does the KF fare in estimating it?  
@@ -261,9 +273,11 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # +
 # show_answer('KF behaviour')
 # -
+
 # <a name="Exc----Temporal-convergence"></a>
 #
 # #### Exc -- Temporal convergence
+#
 # In general, $\DynMod$, $\ObsMod$, $Q$, and $R$ depend on time, $k$
 # (often to parameterize exogenous/outside factors/forces/conditions),
 # and there are no limit values that the KF parameters converge to.
@@ -285,6 +299,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 
 # **Exc (optional) -- Temporal CV, part 2:**
 # Now we don't assume that $Q$ is zero. Instead
+#
 # - (a) Suppose $\DynMod = 0$. What does $P\supa_k$ equal?
 # - (b) Suppose $\DynMod = 1$. Show that $P\supa_\infty$
 #   satisfies the quadratic equation: $0 = P^2 + Q P - Q R$.  
@@ -312,8 +327,9 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # Show that this is the same posterior that the KF recursions produce.  
 # *Hint: while this is straightforward for the variance,
 # you will probably want to prove the mean using induction.*
-
+#
 # #### Exc -- Impact of biases
+#
 # Re-run the above interactive animation to set the default control values. Answer the following
 #
 # - `logR_bias`/`logQ_bias` control the (multiplicative) bias in $R$/$Q$ that is fed to the KF.
@@ -345,6 +361,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # but challenge you to make use of what `scipy` already has to offer.
 #
 # #### Exc (optional) -- signal processing
+#
 # Run the following cell to import and define some more tools.
 
 import scipy as sp
@@ -359,6 +376,7 @@ def trunc(x, n):
 # to the `sigproc` dictionary in the interactive animation cell,
 # with an appropriate name/key (this will automatically include it in the plotting).  
 # Use
+#
 # - (a) [`sig.wiener`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html).  
 #   *PS: this is a direct ancestor of the KF*.
 # - (b) a moving average, for example [`sig.windows.hamming`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.hamming.html).  
@@ -385,8 +403,9 @@ def trunc(x, n):
 # about the problem (`M, H, R, Q`) that the signal processing methods do not get.
 # Therefore, they typically also require a good deal of tuning
 # (in practice, so does the KF, since `Q` and `R` are rarely well determined).
-
+#
 # ## Summary
+#
 # The Kalman filter (KF) can be derived by applying linear-Gaussian assumptions
 # to a sequential inference problem.
 # Generally, the uncertainty never converges to 0,
