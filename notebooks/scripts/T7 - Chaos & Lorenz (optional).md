@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.17.2
+      jupytext_version: 1.15.1
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -396,7 +396,7 @@ Also see this [book on chaos and predictability](https://kuiper2000.github.io/ch
 
 ### Next: [T8 - Monte-Carlo & ensembles](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb)
 
----
+- - -
 
 ## References
 

@@ -39,20 +39,21 @@ $
 
 
 ## Prelude: Multivariate Bayes
+
 In the following we will see Bayes' rule in the 2D (i.e. multivariate) case. Recall from T3
-$\begin{equation}
+$$
 p(\x|\y) \propto p(\x) \, p(\y|\x) \,.  \tag{BR}
-\end{equation}$
+$$
 
 ```python
 Bayes_rule, = import_from_nb("T3", ["Bayes_rule"])
 ```
 
 The prior is set to a Gaussian distribution whose density we also recall:
-$\begin{equation*}
+$$
 \NormDist(\x \mid  \mathbf{\mu}, \mathbf{\Sigma})
 = |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,. \tag{GM}
-\end{equation*}$
+$$
 
 ```python
 (grid1d, dx, pdf_GM, grid2d, bounds) = import_from_nb("T2", ("grid1d", "dx", "pdf_GM", "grid2d", "bounds"))
@@ -108,9 +109,7 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 ```
 
 Note that the likelihood is again defined as eqn. (Lklhd),
-$\begin{equation*}
-p(\y|\x) = \NormDist(\y| \ObsMod(\x), \R) \,. \tag{Lklhd}
-\end{equation*}$
+$$ p(\y|\x) = \NormDist(\y| \ObsMod(\x), \R) \,. \tag{Lklhd} $$
 
 Examples of $\ObsMod(\x)$ for multivariate $\x$ (and possibly $\y$) include:
 
@@ -137,10 +136,10 @@ While conceptually and technically simple, the sheer **amount** of computations 
 
 #### Exc (optional) -- Curse of dimensionality
 
- * (a) How many point-multiplications are needed on a grid with $N$ points in $\xDim$ dimensions? Imagine an $\xDim$-dimensional cube where each side has a grid with $N$ points on it.
-   *PS: Of course, if the likelihood contains an actual model $\ObsMod(x)$ as well, its evaluations (computations) could be significantly more costly than the point-multiplications of Bayes' rule itself.*
- * (b) Suppose we model 5 physical quantities [for example: velocity (u, v, w), pressure, and humidity fields] at each grid point/node for a discretized atmosphere of Earth. Assume the resolution is $1^\circ$ for latitude (110km), $1^\circ$ for longitude, and that we only use $3$ vertical layers. How many variables, $\xDim$, are there in total? This is the ***dimensionality*** of the unknown.
- * (c) Suppose each variable is has a pdf represented with a grid using only $N=20$ points. How many multiplications are necessary to calculate Bayes rule (jointly) for all variables on our Earth model?
+* (a) How many point-multiplications are needed on a grid with $N$ points in $\xDim$ dimensions? Imagine an $\xDim$-dimensional cube where each side has a grid with $N$ points on it.
+  *PS: Of course, if the likelihood contains an actual model $\ObsMod(x)$ as well, its evaluations (computations) could be significantly more costly than the point-multiplications of Bayes' rule itself.*
+* (b) Suppose we model 5 physical quantities [for example: velocity (u, v, w), pressure, and humidity fields] at each grid point/node for a discretized atmosphere of Earth. Assume the resolution is $1^\circ$ for latitude (110km), $1^\circ$ for longitude, and that we only use $3$ vertical layers. How many variables, $\xDim$, are there in total? This is the ***dimensionality*** of the unknown.
+* (c) Suppose each variable is has a pdf represented with a grid using only $N=20$ points. How many multiplications are necessary to calculate Bayes rule (jointly) for all variables on our Earth model?
 
 ```python
 # show_answer('nD-space is big', 'a')
@@ -445,7 +444,7 @@ large and chaotic systems
 
 ### Next: [T6 - Spatial statistics ("geostatistics") & Kriging](T6%20-%20Geostats%20%26%20Kriging%20(optional).ipynb)
 
----
+- - -
 
 ## References
 

@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.17.2
+#       jupytext_version: 1.15.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -254,6 +254,7 @@ def plot_lorenz96(xDim=40,       N=2,      Force=8,       ε=0.01,         Time=
     plt.ylim(-10, 20)
     plt.show()
 
+
 # #### Exc -- Bifurcation hunting 96
 # Investigate by moving the sliders (but keep `xDim=40`): Under which settings of the force `F`
 #
@@ -383,7 +384,7 @@ def plot_pendulum2(k=1, N=2):
 #
 # ### Next: [T8 - Monte-Carlo & ensembles](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb)
 #
-# ---
+# - - -
 #
 # ## References
 #

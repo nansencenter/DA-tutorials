@@ -7,7 +7,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.17.2
+      jupytext_version: 1.15.1
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -353,7 +353,7 @@ methods known as Kriging, which can also be called/interpreted as
 
 ### Next: [T7 - Chaos & Lorenz](T7%20-%20Chaos%20%26%20Lorenz%20(optional).ipynb)
 
----
+- - -
 
 ## References
 

@@ -55,26 +55,19 @@ $$ \mathbb{P}(\text{event}) = \frac{\text{# favorable outcomes}}{\text{# possibl
 
 A **sample average** based on draws from a random variable $x$ (we no longer use uppercase for random variables!)
 is denoted with an overhead bar:
-$\begin{equation}
-  \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,.
-\end{equation}$
-By the *law of large numbers (LLN)*, the sample average converges for $N \to \infty$ to the **expected value**:
-$\begin{equation}
-  \Expect[x] ≔ \int x \, p(x) \, d x \,,
-\end{equation}$
+$$ \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,. $$
+By the *law of large numbers (LLN)*, the sample average converges for $N \to \infty$ to the **expected value** (*sometimes* called the **mean**):
+$$ \Expect[x] ≔ \int x \, p(x) \, d x \,, $$
 where the domain of integration is over *all possible values of $x$*.
 
 ## The univariate (a.k.a. 1-dimensional, scalar) Gaussian
 
-The Gaussian pdf is given by
+If $x$ is Gaussian (a.k.a. "Normal"), we write
+$x \sim \NormDist(\mu, \sigma^2)$, or $p(x) = \NormDist(x \mid \mu, \sigma^2)$,
+where the parameters $\mu$ and $\sigma^2$ are called the mean and variance
+(for reasons that will become clear below).
+The Gaussian pdf is, for $x \in (-\infty, +\infty)$,
 $$ \large \NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \,. \tag{G1} $$
-for $x \in (-\infty, +\infty)$.
-It may look a little scary, but we will build familiarity with it below.
-
-The following statements mean the same thing
-
-- $p(x) = \NormDist(x \mid \mu, \sigma^2)$
-- $x \sim \NormDist(\mu, \sigma^2)$.  
 
 Run the cell below to define a function to compute the pdf (G1) using the `scipy` library.
 
@@ -216,21 +209,19 @@ def pdf_U1(x, mu, sigma2):
 ## The multivariate (i.e. vector) Gaussian
 
 Here's the pdf of the *multivariate* Gaussian (for any dimension $\ge 1$):
-$$ \large
-\NormDist(\x \mid  \mathbf{\mu}, \mathbf{\Sigma})
-= |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM} $$
+$$\large \NormDist(\x \mid  \mathbf{\mu}, \mathbf{\Sigma}) = |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM} $$
 where $|.|$ represents the matrix determinant,  
 and $\|.\|_\mathbf{W}$ represents a weighted 2-norm: $\|\x\|^2_\mathbf{W} = \x^T \mathbf{W}^{-1} \x$.  
 
 <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
-  <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
-    🔍 $\mathbf{W}$ must be symmetric-positive-definite (SPD) because ... 👇
-  </summary>
+<summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
+  🔍 $\mathbf{W}$ must be symmetric-positive-definite (SPD) because ... 👇
+</summary>
 
-  - The norm (a quadratic form) is invariant to any asymmetry in the weight matrix.
-  - The density (GM) would not be integrable (over $\Reals^{\xDim}$) if $\x\tr \mathbf{\Sigma} \x > 0$.
+- The norm (a quadratic form) is invariant to any asymmetry in the weight matrix.
+- The density (GM) would not be integrable (over $\Reals^{\xDim}$) if $\x\tr \mathbf{\Sigma} \x > 0$.
 
-  ---
+- - -
 </details>
 
 It is important to recognize how similar eqn. (GM) is to the univariate (scalar) case (G1).
@@ -288,26 +279,28 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 ```
 
 **Exc -- Correlation influence:** How do the contours look? Try to understand why. Cases:
- * (a) correlation=0.
- * (b) correlation=0.99.
- * (c) correlation=0.5. (Note that we've used `plt.axis('equal')`).
- * (d) correlation=0.5, but with non-equal variances.
+
+- (a) correlation=0.
+- (b) correlation=0.99.
+- (c) correlation=0.5. (Note that we've used `plt.axis('equal')`).
+- (d) correlation=0.5, but with non-equal variances.
 
 Finally (optional): why does the code "crash" when `corr = +/- 1` ? Is this a good or a bad thing?  
 *Hint: do you like playing with fire?*
 
-**Exc Correlation game:** Play [here](http://guessthecorrelation.com/) until you get a score (gold coins) of 5 or more.  
+**Exc Correlation game:** [Play](http://guessthecorrelation.com/) until you get a score (gold coins) of 5 or more.  
 *PS: you can probably tell that the samples are not drawn from Gaussian distributions. However, the quantity $\mathbb{Cov}(x_i, x_i)$ is well defined and can be estimated from the samples.*
 
 **Exc -- Correlation disambiguation:**
-* What's the difference between correlation and covariance?
-* What's the difference between non-zero (C) correlation (or covariance) and (D) dependence?
+
+- What's the difference between correlation and covariance?
+- What's the difference between non-zero (C) correlation (or covariance) and (D) dependence?
   *Hint: consider this [image](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#/media/File:Correlation_examples2.svg).*  
   - Does $C \Rightarrow D$ or the converse?  
   - What about the negation, $\neg D \Rightarrow \neg C$, or its converse?*  
   - What about the (jointly) Gaussian case?
-* Does correlation (or dependence) imply causation?
-* Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
+- Does correlation (or dependence) imply causation?
+- Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
   Does information about $y$ give you information about $x$?
 
 **Exc (optional) -- Gaussian ubiquity:** Why are we so fond of the Gaussian assumption?
@@ -327,14 +320,16 @@ which measure *linear* dependence.
 
 ### Next: [T3 - Bayesian inference](T3%20-%20Bayesian%20inference.ipynb)
 
----
+- - -
 
 ## References
 
-- ###### Laplace (1812):
+- ###### Laplace (1812)
+
 <a name="Laplace-(1812):"></a>
   P. S. Laplace, "Théorie Analytique des Probabilités", 1812.
 
-- ###### Gauss (1809):
+- ###### Gauss (1809)
+
 <a name="Gauss-(1809):"></a>
   Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares (which will be very relevant to us) and its probabilistic justification based on the normal distribution of errors).

@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.17.2
+#       jupytext_version: 1.15.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -243,7 +243,7 @@ def estimate_cross_cov(Ex, Ey):
 #
 # ### Next: [T9 - Writing your own EnKF](T9%20-%20Writing%20your%20own%20EnKF.ipynb)
 #
-# ---
+# - - -
 #
 # - ###### Footnote 1:
 # <a name="Footnote-1:"></a> 

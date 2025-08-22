@@ -122,7 +122,7 @@ that **predicts** the state at time $k+1$ from $\x_k$.
 - (g) Sports rating (Elo, Glicko, TrueSkill)
 - (h) Financial pricing (Black-Scholes)
 
----
+- - -
 </details>
 
 **Exc (optional) -- state variables:**  
@@ -167,9 +167,7 @@ Taking the quoted advice to heart, in data assimilation it is common to assume t
 the difference between the true evolution and that suggested by the model alone is explained
 by a random (stochastic) noise term, $\q_k$, with a known distribution, i.e.
 
-$\begin{equation}
-  \x_{k+1} = \DynMod_k(\x_k) + \q_k \,. \tag{DynMod}
-\end{equation}$
+$$ \x_{k+1} = \DynMod_k(\x_k) + \q_k \,. \tag{DynMod} $$
 
 However, a good model (i.e. $\q \approx 0$) is not enough to ensure good predictions, because
 
@@ -193,9 +191,7 @@ or even a more complicated radiative transfer model).
 Finally, since any measurement includes some amount of inaccuracy,
 we include an observation noise, $\varepsilon_k$, in our conception of the measuring process, i.e.
 
-$\begin{equation}
-  \y_k = \ObsMod_{\!k}(\x_k) + \varepsilon_k \,. \tag{ObsMod}
-\end{equation}$
+$$ \y_k = \ObsMod_{\!k}(\x_k) + \varepsilon_k \,. \tag{ObsMod} $$
 
 **Exc (optional) -- observation examples:**  
 For each of the above dynamical model examples, suggest 1 or more observation kinds.

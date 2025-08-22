@@ -7,7 +7,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.17.2
+#       jupytext_version: 1.15.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -44,6 +44,7 @@ plt.ion();
 rnd.seed(3000)
 grid1D = np.linspace(0, 1, 21)
 N = 15  # ensemble size
+
 
 # ## Variograms
 # The "Variogram" of a field is essentially `1 - autocovariance`. Thus, it describes the spatial dependence of the field. The mean (1st moment) of a field is usually estimated and described/parametrized with trend lines/surfaces, while higher moments are usually not worth modelling.
@@ -89,6 +90,7 @@ def dist_euclid(A, B):
     d2 = np.sum(diff**2, axis=-1)
     return np.sqrt(d2)
 
+
 # Now the full covariance (matrix) between any sets of points can be defined by the following.
 
 def covar(coords, **vg_params):
@@ -114,10 +116,11 @@ def gaussian_fields(coords, **vg_params):
     fields = L.T @ rnd.randn(len(L.T), N)
     return fields
 
+
 # #### Exc
 # Use the plotting functionality below to
 # explain the effect of `Range` and `nugget`
-
+#
 
 fig, ax = freshfig("1D random fields")
 fields = gaussian_fields(grid1D[:, None], Range=1, kind="Gauss", nugget=1e-3)
@@ -286,7 +289,7 @@ def plot_krieged(Range=1):
 # - Unknown mean (Ordinary Kriging)
 # - Co-Kriging (vector-valued fields)
 # - Trend surfaces (non-stationarity assumptions)
-
+#
 
 # ## Summary
 # The covariances of random fields can sometimes be described by the autocorrelation function,
@@ -304,7 +307,7 @@ def plot_krieged(Range=1):
 #
 # ### Next: [T7 - Chaos & Lorenz](T7%20-%20Chaos%20%26%20Lorenz%20(optional).ipynb)
 #
-# ---
+# - - -
 #
 # ## References
 #

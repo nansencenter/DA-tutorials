@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.17.2
+#       jupytext_version: 1.15.1
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -299,6 +299,8 @@ def my_EnKF(N):
         # Save statistics
         ens_means[k] = np.mean(E, axis=1)
         ens_vrncs[k] = np.var(E, axis=1, ddof=1)
+
+
 # -
 
 # Notice that we only store some stats (`ens_means`). This is because in large systems,
@@ -370,7 +372,7 @@ average_rmse(truths, ens_means)
 # but also contains biases.
 # Successful application requires tuning of some ad-hoc parameters.
 #
-# ---
+# - - -
 #
 # ## References
 #

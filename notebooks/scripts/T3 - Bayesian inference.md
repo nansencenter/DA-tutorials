@@ -34,10 +34,7 @@ $
 $
 The [previous tutorial](T2%20-%20Gaussian%20distribution.ipynb)
 studied the Gaussian probability density function (pdf), defined in 1D by:
-$\begin{equation}
-\large
-\NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \,,\tag{G1}
-\end{equation}$
+$$ \large \NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \,,\tag{G1} $$
 which we implemented and tested alongside the uniform distribution.
 
 ```python
@@ -64,15 +61,15 @@ Now that we have reviewed some probability, we can look at statistical inference
   Furthermore, the only coherent way to reason in the presence of such uncertainty
   is to obey the laws of probability ([Jaynes (2003)](#Jaynes-(2003):)).
 
-  ---
+  - - -
 </details>
 
 And **Bayes' rule** is how we do inference: it says how to condition/merge/assimilate/update this belief based on data/observation ($y$).
 For *continuous* random variables, $x$ and $y$, it reads:
-$$\begin{equation}
+$$
 \large
 \color{red}{\overset{\mbox{Posterior}}{p(\color{black}{x|y})}} = \frac{\color{blue}{\overset{\mbox{  Prior  }}{p(\color{black}{x})}} \, \color{green}{\overset{\mbox{ Likelihood}}{p(\color{black}{y|x})}}}{\color{gray}{\underset{\mbox{Constant wrt. x}}{p(\color{black}{y})}}} \,. \tag{BR} \\[1em]
-\end{equation}$$
+$$
 Note that, in contrast to orthodox statistics,
 Bayes' rule itself makes no attempt at producing only a single estimate/value
 It merely states how quantitative belief (weighted possibilities) should be updated in view of new data.
@@ -106,9 +103,7 @@ Show that the normalization in `Bayes_rule()` amounts to (approximately) the sam
 In fact, since $p(y)$ is thusly implicitly known,
 we often don't bother to write it down, simplifying Bayes' rule (eqn. BR) to
 
-$\begin{equation}
-p(x|y) \propto p(x) \, p(y|x) \,.  \tag{BR2}
-\end{equation}$
+$$ p(x|y) \propto p(x) \, p(y|x) \,.  \tag{BR2} $$
 
 Actually, do we even need to care about $p(y)$ at all? All we really need to know is how much more likely some value of $x$ (or an interval around it) is compared to any other $x$.
 The normalisation is only necessary because of the *convention* that all densities integrate to $1$.
@@ -368,7 +363,7 @@ but if Gaussianity can be assumed then it reduces to only 2 formulae.
 
 ### Next: [T4 - Filtering & time series](T4%20-%20Time%20series%20filtering.ipynb)
 
----
+- - -
 
 ## References
 
