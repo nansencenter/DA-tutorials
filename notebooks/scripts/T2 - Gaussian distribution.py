@@ -132,7 +132,7 @@ def plot_pdf(mu=0, sigma=5):
 # show_answer('pdf_G1')
 # -
 
-# **Exc -- Derivatives:** Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn (G1).  
+# **Exc -- Derivatives:** Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1).  
 # Use pen, paper, and calculus to answer the following questions,  
 # which derive some helpful mnemonics about the distribution.
 #
@@ -163,7 +163,7 @@ def plot_pdf(mu=0, sigma=5):
 #
 # #### Exc (optional) -- Integrals
 #
-# Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  
+# Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  
 # Use pen, paper, and calculus to show that
 #
 # - (i) the first parameter, $\mu$, indicates its **mean**, i.e. that $$\mu = \Expect[x] \,.$$

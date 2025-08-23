@@ -139,7 +139,7 @@ Play around with `mu` and `sigma` to answer these questions:
 # show_answer('pdf_G1')
 ```
 
-**Exc -- Derivatives:** Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn (G1).  
+**Exc -- Derivatives:** Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1).  
 Use pen, paper, and calculus to answer the following questions,  
 which derive some helpful mnemonics about the distribution.
 
@@ -170,7 +170,7 @@ and $p_x$ and $p_z$ be their probability density functions (pdf).
 
 #### Exc (optional) -- Integrals
 
-Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  
+Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  
 Use pen, paper, and calculus to show that
 
 - (i) the first parameter, $\mu$, indicates its **mean**, i.e. that $$\mu = \Expect[x] \,.$$

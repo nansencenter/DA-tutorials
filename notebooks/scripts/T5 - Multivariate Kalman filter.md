@@ -258,7 +258,7 @@ where the posterior/analysis mean (vector) and covariance (matrix) are given by:
 \end{align}
 *PS: all of the objects in the analysis equations could also be subscripted by the time index ($k$), but that seems unnecessary (since it is the same one for all of the objects involved).*
 
-**Exc (optional) -- The 'precision' form of the KF:** Prove eqns (4-6).  
+**Exc (optional) -- The 'precision' form of the KF:** Prove eqns. (4-6).  
 *Hint: similar to the [univariate case](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes), the main part lies in "completing the square" in $\x$.*
 
 ```python
@@ -338,7 +338,7 @@ Suppose the length of $\x$ is $\xDim$ and denote its covariance matrix by $\bP$.
 
 - (a) What's the size of $\bP$?
 - (b) To leading order, how many "flops" (elementary additions and multiplications) are required  
-   to compute the "precision form" of the KF update equation, eqn (5) ?  
+   to compute the "precision form" of the KF update equation, eqn. (5) ?  
    *Hint: Assume the computationally demanding part is the [Cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation).*
 - (c) How much memory (bytes) is required to hold its covariance matrix $\bP$ ?
 - (d) How many megabytes (MB) is that if $\xDim$ is a million,
@@ -410,13 +410,13 @@ $$\begin{align}
 ```
 
 #### Exc -- The "Gain" form of the KF
-Now, let's go back to the KF, eqns (5) and (6). Since $\bP\supf$ and $\R$ are covariance matrices, they are symmetric-positive. In addition, we will assume that they are full-rank, making them SPD and invertible.  
+Now, let's go back to the KF, eqns. (5) and (6). Since $\bP\supf$ and $\R$ are covariance matrices, they are symmetric-positive. In addition, we will assume that they are full-rank, making them SPD and invertible.  
 
 Define the Kalman gain by:
  $$\begin{align}
     \K &= \bP\supf \ObsMod\tr \big(\ObsMod \bP\supf \ObsMod\tr + \R\big)^{-1} \,. \tag{K1}
 \end{align}$$
- * (a) Apply (C1) to eqn (5) to obtain the Kalman gain form of analysis/posterior covariance matrix:
+ * (a) Apply (C1) to eqn. (5) to obtain the Kalman gain form of analysis/posterior covariance matrix:
 $$\begin{align}
     \bP\supa &= [\I_{\xDim} - \K \ObsMod]\bP\supf \,. \tag{8}
 \end{align}$$
@@ -431,8 +431,8 @@ $$\begin{align}
 $$\begin{align}
      \x\supa &= \x\supf + \K\left[\y - \ObsMod \x\supf\right] \, . \tag{9}
 \end{align}$$
-Together, eqns (8) and (9) define the Kalman gain form of the KF update.
-Note that the inversion (eqn 7) involved is of the size of $\R$, while in eqn (5) it is of the size of $\bP\supf$.
+Together, eqns. (8) and (9) define the Kalman gain form of the KF update.
+Note that the inversion (eqn. 7) involved is of the size of $\R$, while in eqn. (5) it is of the size of $\bP\supf$.
 
 #### Exc -- KF implemented with gain
 

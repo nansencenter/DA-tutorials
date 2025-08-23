@@ -72,7 +72,7 @@ $$
 \color{red}{\overset{\mbox{Posterior}}{p(\color{black}{x|y})}} = \frac{\color{blue}{\overset{\mbox{  Prior  }}{p(\color{black}{x})}} \, \color{green}{\overset{\mbox{ Likelihood}}{p(\color{black}{y|x})}}}{\color{gray}{\underset{\mbox{Constant wrt. x}}{p(\color{black}{y})}}} \,. \tag{BR} \\[1em]
 $$
 Note that, in contrast to orthodox statistics,
-Bayes' rule itself makes no attempt at producing only a single estimate/value
+Bayes' rule (BR) itself makes no attempt at producing only a single estimate/value
 It merely states how quantitative belief (weighted possibilities) should be updated in view of new data.
 
 **Exc -- Bayes' rule derivation:** Derive eqn. (BR) from the definition of [conditional pdf's](https://en.wikipedia.org/wiki/Conditional_probability_distribution#Conditional_continuous_distributions).
@@ -196,10 +196,10 @@ Of course, the linear and logarithmic transformations are hardly worthy of the n
 
 In addition, measurement instruments always (at least for continuous variables) have limited accuracy,
 i.e. there is an **measurement noise/error** corrupting the observation. For simplicity, this noise is usually assumed *additive*, so that the observation, $y$, is related to the true state, $x$, by
-  \begin{align*}
-  y &= \ObsMod(x) + r \,, \;\; \qquad \tag{Obs}
-  \end{align*}
-  and $r \sim \NormDist(0, R)$ for some variance $R>0$.
+$$
+y = \ObsMod(x) + \varepsilon \,, \;\; \qquad \tag{Obs}
+$$
+and $\varepsilon \sim \NormDist(0, R)$ for some variance $R>0$.
 Then the likelihood is $$p(y|x) = \NormDist(y| \ObsMod(x), R) \,. \tag{Lklhd}$$
 
 **Exc (optional) -- The likelihood:** Derive the expression (Lklhd) for the likelihood.
@@ -286,8 +286,8 @@ Show that your posterior is $p(x|y) = \NormDist(x \mid 19, 2)$
 # show_answer('GG BR example')
 ```
 
-The following implements a Gaussian-Gaussian Bayes' rule (eqns 5 and 6).
-Note that its inputs and outputs are not discretised density values (as for `Bayes_rule()`), but simply 5 numbers: the means, variances and $\ObsMod$.
+The following implements a Gaussian-Gaussian Bayes' rule (eqns. 5 and 6).
+Note that its inputs and outputs are not discretized density values (as for `Bayes_rule()`), but simply 5 numbers: the means, variances and $\ObsMod$.
 
 ```python
 def Bayes_rule_G1(xf, Pf, y, H, R):
@@ -310,7 +310,7 @@ $$K = \frac{\ObsMod P\supf}{\ObsMod^2 P\supf + R} \,,    \tag{9}$$
 is called the "Kalman gain".  
 *Hint: again, try to "hide away" $\ObsMod$ among the other objects before proceeding.*
 
-Then shown that eqns (5) and (6) can be written as
+Then shown that eqns. (5) and (6) can be written as
 $$
 \begin{align}
     P\supa &= (1-K \ObsMod) P\supf \,,  \tag{10} \\\
