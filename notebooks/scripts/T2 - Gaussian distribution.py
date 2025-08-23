@@ -45,7 +45,10 @@ plt.ion();
 # $$ \mathbb{P}(\text{event}) = \frac{\text{# favorable outcomes}}{\text{# possible outcomes}} $$
 #
 # - A *discrete* random variable, $X$, has a probability *mass* function (**pmf**) defined by $p(x) = \mathbb{P}(X{=}x)$.  
-#   **NB**: despite using the same $p$ symbol, $p(x)$ and $p(y)$ are generally different functions.
+#   **NB**: despite us casually using the same $p$ symbol, $p(x)$ and $p(y)$ are generally different functions.
+# - The *joint* probability of two random variables $X$ and $Y$ is defined by the intersections:
+#   $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$.
+# - The *conditional* probability of $X$ given $Y$ is defined by $p(x|y) = p(x,y)/p(y)$.
 # - A *continuous* random variable has a probability *density* function (**pdf**) defined by
 #   $p(x) = \mathbb{P}(X \in [x, x+\delta x])/\delta x$, with $\delta x \to 0$.  
 #   Equivalently, $p(x) = F'(x)$, where $F$ is the cumulative distribution function (**cdf**), $F(x) = \mathbb{P}(X \le x)$.
@@ -204,7 +207,10 @@ def pdf_U1(x, mu, sigma2):
 
 # ## The multivariate (i.e. vector) Gaussian
 #
-# Here's the pdf of the *multivariate* Gaussian (for any dimension $\ge 1$):
+# A *multivariate* random variable, i.e. **vector**, is simply a collection of scalar variables (on the same probability space).
+# I.e. its density is the joint density of its components.
+# The pdf of the multivariate Gaussian (for any dimension $\ge 1$) is
+#
 # $$\large \NormDist(\x \mid  \mathbf{\mu}, \mathbf{\Sigma}) = |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM} $$
 # where $|.|$ represents the matrix determinant,  
 # and $\|.\|_\mathbf{W}$ represents a weighted 2-norm: $\|\x\|^2_\mathbf{W} = \x^T \mathbf{W}^{-1} \x$.  
@@ -221,15 +227,15 @@ def pdf_U1(x, mu, sigma2):
 # </details>
 #
 # It is important to recognize how similar eqn. (GM) is to the univariate (scalar) case (G1).
-# Moreover, [as above](#Exc-(optional)----Integrals) it can be shown that
+# Moreover, [similarly as above](#Exc-(optional)----Integrals), it can be shown that
 #
 # - $\mathbf{\mu} = \Expect[\x]$,
-# - $\mathbf{\Sigma} = \Expect[(\x-\mu)(\x-\mu)\tr]$.
+# - $\mathbf{\Sigma} = \Expect[(\x-\mu)(\x-\mu)\tr]$,
 #
-# Note that that the elements of $\mathbf{\Sigma}$ are individual covariances,
-# $\Sigma_{i,j} = \Expect[(x_i-\mu_i)(x_j-\mu_j)] = \mathbb{Cov}(x_i, x_j)$.
+# I.e. the elements of $\mathbf{\Sigma}$ are the individual covariances,
+# $\Sigma_{i,j} = \Expect[(x_i-\mu_i)(x_j-\mu_j)] =: \mathbb{Cov}(x_i, x_j)$
+# and, on the diagonal ($i=j$), variances: $\Sigma_{i,i} = \mathbb{Var}(x_i)$.
 # Therefore $\mathbf{\Sigma}$ is called the *covariance (matrix)*.
-# and its diagonal entries are simply variances, $\Sigma_{i,i} = \mathbb{Var}(x_i)$.
 #
 # The following implements the pdf (GM). Take a moment to digest the code, but don't worry if you don't understand it all. Hints:
 #
@@ -276,6 +282,14 @@ def plot_pdf_G2(corr=0.7, std_x=1):
     plt.show()
 # -
 
+# The code defines the covariance `cv_xy` from the input ***correlation*** `corr`.
+# This is a coefficient (number), defined for any two random variables $x$ and $y$ (not necessarily Gaussian) by
+# $$ \rho[x,y]=\frac{\mathbb{Cov}[x,y]}{\sigma_x \sigma_y} \,. $$
+# This correlation quantifies (defines) the ***linear dependence*** between $x$ and $y$. Indeed,
+#
+# - $-1\leq \rho \leq 1$ (by Cauchy-Swartz)
+# - **If** $X$ and $Y$ are *independent*, i.e. $p(x,y) = p(x) \, p(y)$ for all $x, y$, then $\rho[X,Y]=0$.
+#
 # **Exc -- Correlation influence:** How do the contours look? Try to understand why. Cases:
 #
 # - (a) correlation=0.
@@ -287,11 +301,10 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # *Hint: do you like playing with fire?*
 #
 # **Exc Correlation game:** [Play](http://guessthecorrelation.com/) until you get a score (gold coins) of 5 or more.  
-# *PS: you can probably tell that the samples are not drawn from Gaussian distributions. However, the quantity $\mathbb{Cov}(x_i, x_i)$ is well defined and can be estimated from the samples.*
 #
 # **Exc -- Correlation disambiguation:**
 #
-# - What's the difference between correlation and covariance?
+# - What's the difference between correlation and covariance (in words)?
 # - What's the difference between non-zero (C) correlation (or covariance) and (D) dependence?
 #   *Hint: consider this [image](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#/media/File:Correlation_examples2.svg).*  
 #   - Does $C \Rightarrow D$ or the converse?  

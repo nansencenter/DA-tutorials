@@ -303,7 +303,14 @@ What's not to love? Consider
  * Self-conjugate: Gaussian prior and likelihood yields Gaussian posterior.
  * Among pdfs with independent components (2 or more),
    the Gaussian is uniquely (up to scaling) rotation-invariant (symmetric).
+ * Gaussians have the maximal entropy for all distributions with a given variance.
+ * Gaussians are invariant to self-convolution (i.e. the addition of two random variables)
+ * The Gaussian is uniquely (among densities) invariant to the Fourier transform.
+ * It is the heat kernel, i.e. the [Green's function](https://en.wikipedia.org/wiki/Green%27s_function#Table_of_Green's_functions)
+   of the diffusion equation: one of the fundamental PDEs.
+ * Uniquely, among elliptical distributions: uncorrelated, jointly distributed, normal random variables are independent.
  * Uniquely for Gaussian sampling distribution: maximizing the likelihood for the mean simply yields the sample average.
+ * Unique in that the sample mean and variance are independent if calculated from a set of independent draws.
  * For more, see [Wikipedia](https://en.wikipedia.org/wiki/Normal_distribution#Properties)
    and Chapter 7 of: [Probability theory: the logic of science (Edwin T. Jaynes)](https://books.google.com/books/about/Probability_Theory.html?id=tTN4HuUNXjgC).
 """]
