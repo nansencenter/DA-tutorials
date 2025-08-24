@@ -50,7 +50,8 @@ $$ \mathbb{P}(\text{event}) = \frac{\text{# favorable outcomes}}{\text{# possibl
 - A *discrete* random variable, $X$, has a probability *mass* function (**pmf**) defined by $p(x) = \mathbb{P}(X{=}x)$.  
   **NB**: despite us casually using the same $p$ symbol, $p(x)$ and $p(y)$ are generally different functions.
 - The *joint* probability of two random variables $X$ and $Y$ is defined by the intersections:
-  $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$.
+  $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$.  
+  The *marginal* $p(x)$ is recovered by summing over all $y$.
 - The *conditional* probability of $X$ given $Y$ is defined by $p(x|y) = p(x,y)/p(y)$.
 - A *continuous* random variable has a probability *density* function (**pdf**) defined by
   $p(x) = \mathbb{P}(X \in [x, x+\delta x])/\delta x$, with $\delta x \to 0$.  
@@ -61,7 +62,7 @@ is denoted with an overhead bar:
 $$ \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,. $$
 By the *law of large numbers (LLN)*, the sample average converges for $N \to \infty$ to the **expected value** (*sometimes* called the **mean**):
 $$ \Expect[x] ≔ \int x \, p(x) \, d x \,, $$
-where the domain of integration is over *all possible values of $x$*.
+where the (omitted) domain of integration is *all values of $x$*.
 
 ## The univariate (a.k.a. 1-dimensional, scalar) Gaussian
 

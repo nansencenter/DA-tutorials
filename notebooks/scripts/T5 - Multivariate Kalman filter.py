@@ -149,7 +149,7 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 # - It could result from discretizing [exponential decay](https://en.wikipedia.org/wiki/Exponential_decay):
 #   $\frac{d x}{d t} = - \beta x \,,$ for some $\beta \geq 0$, and
 #   adding some white noise, $\frac{d q}{d t}$.
-# - Discretisation
+# - Discretization
 #   - using explicit-Euler produces $\DynMod = (1 - \beta\, \Delta t)$,
 #   - using implicit-Euler produces $\DynMod = 1/(1 + \beta\, \Delta t)$.
 #   - such that $x_{k+1}$ equals the analytic solution requires $\DynMod = e^{- \beta\, \Delta t}$.
@@ -240,16 +240,16 @@ plt.legend();
 # It may be shown that the prior $p(\x) = \NormDist(\x \mid \x\supf,\bP\supf)$
 # and likelihood $p(\y|\x) = \NormDist(\y \mid \ObsMod \x,\R)$,
 # yield the posterior:
-# \begin{align}
+# $$
 # p(\x|\y)
-# &= \NormDist(\x \mid \x\supa, \bP\supa) \tag{4}
+# = \NormDist(\x \mid \x\supa, \bP\supa) \tag{4}
 # \,,
-# \end{align}
+# $$
 # where the posterior/analysis mean (vector) and covariance (matrix) are given by:
-# \begin{align}
+# $$\begin{align}
 #   \bP\supa &= \big(\ObsMod\tr \Ri \ObsMod + (\bP\supf)^{-1}\big)^{-1} \,, \tag{5} \\
 #   \x\supa &= \bP\supa\left[\ObsMod\tr \Ri \y + (\bP\supf)^{-1} \x\supf\right] \tag{6} \,,
-# \end{align}
+# \end{align}$$
 # *PS: all of the objects in the analysis equations could also be subscripted by the time index ($k$), but that seems unnecessary (since it is the same one for all of the objects involved).*
 #
 # **Exc (optional) -- The 'precision' form of the KF:** Prove eqns. (4-6).  
@@ -343,12 +343,11 @@ def plot_correlation_matrix(k=1, analysis=True):
 # #### Exc -- The "Woodbury" matrix inversion identity
 #
 # The following is known as the Sherman-Morrison-Woodbury lemma/identity,
-# $$\begin{align}
-#     \bP = \left( \B^{-1} + \V\tr \R^{-1} \U \right)^{-1}
-#     =
-#     \B - \B \V\tr \left( \R + \U \B \V\tr \right)^{-1} \U \B \,,
-#     \tag{W}
-# \end{align}$$
+# $$
+#   \bP = \left( \B^{-1} + \V\tr \R^{-1} \U \right)^{-1} =
+#   \B - \B \V\tr \left( \R + \U \B \V\tr \right)^{-1} \U \B \,,
+#   \tag{W}
+# $$
 # which holds for any (suitably shaped matrices)
 # $\B$, $\R$, $\V,\U$ *such that the above exists*.
 #
@@ -374,12 +373,10 @@ def plot_correlation_matrix(k=1, analysis=True):
 # Prove that, for any symmetric, positive-definite
 # ([SPD](https://en.wikipedia.org/wiki/Definiteness_of_a_matrix#Properties))
 # matrices $\R$ and $\B$, and any matrix $\ObsMod$,
-# $$\begin{align}
-#   \left(\ObsMod\tr \R^{-1} \ObsMod + \B^{-1}\right)^{-1}
-#     &=
-#     \B - \B \ObsMod\tr \left( \R + \ObsMod \B \ObsMod\tr \right)^{-1} \ObsMod \B \tag{C1}
-#     \,.
-# \end{align}$$
+# $$
+#   \left(\ObsMod\tr \R^{-1} \ObsMod + \B^{-1}\right)^{-1} =
+#   \B - \B \ObsMod\tr \left( \R + \ObsMod \B \ObsMod\tr \right)^{-1} \ObsMod \B \tag{C1} \,.
+# $$
 
 # +
 # show_answer('inv(SPD + SPD)')
@@ -387,12 +384,10 @@ def plot_correlation_matrix(k=1, analysis=True):
 
 # #### Exc (optional) -- Corollary 2
 # Prove that, for the same matrices as for Corollary C1,
-# $$\begin{align}
-#   \left(\ObsMod\tr \R^{-1} \ObsMod + \B^{-1}\right)^{-1}\ObsMod\tr \R^{-1}
-#     &= \B \ObsMod\tr \left( \R + \ObsMod \B \ObsMod\tr \right)^{-1}
-#     \tag{C2}
-#     \, .
-# \end{align}$$
+# $$
+#   \left(\ObsMod\tr \R^{-1} \ObsMod + \B^{-1}\right)^{-1}\ObsMod\tr \R^{-1} =
+#   \B \ObsMod\tr \left( \R + \ObsMod \B \ObsMod\tr \right)^{-1} \tag{C2} \, .
+# $$
 
 # +
 # show_answer('Woodbury C2')
@@ -402,24 +397,24 @@ def plot_correlation_matrix(k=1, analysis=True):
 # Now, let's go back to the KF, eqns. (5) and (6). Since $\bP\supf$ and $\R$ are covariance matrices, they are symmetric-positive. In addition, we will assume that they are full-rank, making them SPD and invertible.  
 #
 # Define the Kalman gain by:
-#  $$\begin{align}
-#     \K &= \bP\supf \ObsMod\tr \big(\ObsMod \bP\supf \ObsMod\tr + \R\big)^{-1} \,. \tag{K1}
-# \end{align}$$
+#  $$
+#   \K = \bP\supf \ObsMod\tr \big(\ObsMod \bP\supf \ObsMod\tr + \R\big)^{-1} \,. \tag{K1}
+# $$
 #  * (a) Apply (C1) to eqn. (5) to obtain the Kalman gain form of analysis/posterior covariance matrix:
-# $$\begin{align}
-#     \bP\supa &= [\I_{\xDim} - \K \ObsMod]\bP\supf \,. \tag{8}
-# \end{align}$$
+# $$
+#   \bP\supa = [\I_{\xDim} - \K \ObsMod]\bP\supf \,. \tag{8}
+# $$
 #
 # * (b) Apply (C2)  to (5) to obtain the identity
-# $$\begin{align}
-#     \K &= \bP\supa \ObsMod\tr \R^{-1}  \,. \tag{K2}
-# \end{align}$$
+# $$
+#   \K = \bP\supa \ObsMod\tr \R^{-1}  \,. \tag{K2}
+# $$
 #
 # * (c) Show that $\bP\supa (\bP\supf)^{-1} = [\I_{\xDim} - \K \ObsMod]$.
 # * (d) Use (b) and (c) to obtain the Kalman gain form of analysis/posterior covariance
-# $$\begin{align}
-#      \x\supa &= \x\supf + \K\left[\y - \ObsMod \x\supf\right] \, . \tag{9}
-# \end{align}$$
+# $$
+#   \x\supa = \x\supf + \K\left[\y - \ObsMod \x\supf\right] \, . \tag{9}
+# $$
 # Together, eqns. (8) and (9) define the Kalman gain form of the KF update.
 # Note that the inversion (eqn. 7) involved is of the size of $\R$, while in eqn. (5) it is of the size of $\bP\supf$.
 #
