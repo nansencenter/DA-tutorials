@@ -45,19 +45,24 @@ As stated by James Bernoulli (1713) and elucidated by [Laplace (1812)](#Referenc
 > cases possible when nothing leads us to expect that any one of these cases should occur more than any other,
 > which renders them, for us, equally possible:
 
-$$ \mathbb{P}(\text{event}) = \frac{\text{# favorable outcomes}}{\text{# possible outcomes}} $$
+$$ \mathbb{P}(\text{event}) = \frac{\text{number of} \textit{ favorable } \text{outcomes}}{\text{number of} \textit{ possible } \text{outcomes}} $$
+
+A **random variable** is a *quantity* taking random values, described in terms of **distributions**.
 
 - A *discrete* random variable, $X$, has a probability *mass* function (**pmf**) defined by $p(x) = \mathbb{P}(X{=}x)$.  
-  Sometimes clarity will necessitate denotering it $p_X(x)$, to distinguish it from $p_Y(y)$.
+  Denotering it $p_X(x)$ -- to distinguish it from $p_Y(y)$ -- will sometimes be necessary.
 - The *joint* probability of two random variables $X$ and $Y$ is defined by the intersections:
   $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$.  
-  The *marginal* $p(x)$ is recovered by summing over all $y$, and vice-versa.
-- The *conditional* probability of $X$ given $Y$ is defined by $p(x|y) = p(x,y)/p(y)$.
-- A *continuous* random variable has a probability *density* function (**pdf**) defined by
-  $p(x) = \mathbb{P}(X \in [x, x+\delta x])/\delta x$, with $\delta x \to 0$.  
-  Equivalently, $p(x) = F'(x)$, where $F$ is the cumulative distribution function (**cdf**), $F(x) = \mathbb{P}(X \le x)$.
+- The *marginal* $p(x)$ is recovered by summing over all $y$, and vice-versa.
+- The *conditional* probability of $X$ given $Y$ is defined by $p(x|y) = \frac{p(x,y)}{p(y)}$.
+- The cumulative distribution function (**cdf**) is defined as $F(x) = \mathbb{P}(X \le x)$.
 
-A **sample average** based on draws from a random variable $x$ (we no longer use uppercase for random variables!)
+We will mainly be concerned with *continuous* random variables.
+Their probability *density* function (**pdf**) can be defined by $p(x) = F'(x)$ or, equivalently,
+
+$$p(x) = \lim_{\delta x \to 0} \frac{\mathbb{P}(X \in [x, x+\delta x])}{\delta x} \,.$$
+
+A **sample average** based on draws from a random variable $x$ (*we no longer use uppercase for random variables!*)
 is denoted with an overhead bar:
 $$ \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,. $$
 By the *law of large numbers (LLN)*, the sample average converges for $N \to \infty$ to the **expected value** (*sometimes* called the **mean**):
@@ -217,7 +222,7 @@ def pdf_U1(x, mu, sigma2):
 ## The multivariate (i.e. vector) Gaussian
 
 A *multivariate* random variable, i.e. **vector**, is simply a collection of scalar variables (on the same probability space).
-I.e. its density is the joint density of its components.
+I.e. its distribution is the *joint* distribution of its components.
 The pdf of the multivariate Gaussian (for any dimension $\ge 1$) is
 
 $$\large \NormDist(\x \mid  \mathbf{\mu}, \mathbf{\Sigma}) = |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM} $$
