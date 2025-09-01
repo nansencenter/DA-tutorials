@@ -316,7 +316,7 @@ What's not to love? Consider
 """]
 
 
-answers['GG BR example'] = ['MD', r'''
+answers['LG BR example'] = ['MD', r'''
 - Eqn. (5) yields $P\supa = \frac{1}{1/4 + 1/4} = \frac{1}{2/4} = 2$.
 - Eqn. (6) yields $x\supa = 2 \cdot (20/4 + 18/4) = \frac{20 + 18}{2} = 19$
 ''']
@@ -356,9 +356,9 @@ answers['Posterior behaviour'] = ['MD', r'''
     - For the uniform-uniform case, yes.
     - For the mixed case, it's not clear what scale/width means,
       but for most (any reasonable?) definitions the answer will be yes.
-    - For the Gaussian-Gaussian case, no.
+    - For the linear-Gaussian case, no.
 - In the mixed cases: Yes. Otherwise: No.
-- In fact, we'll see later that the Gaussian-Gaussian posterior is Gaussian,
+- In fact, we'll see later that the linear-Gaussian posterior is Gaussian,
   and is therefore fully characterized by its mean and its variance.
   So we only need to compute its location and scale.
 - The problem (of computing the posterior) is ill-posed:  
@@ -510,7 +510,7 @@ p(x|y)
 &=       N(x \mid x\supf, P\supf) \, N(y \mid x, R) \\\
 &\propto \exp \Big( \frac{-1}{2} \big[ (x-x\supf)^2/P\supf + (x-y)^2/R \big] \Big) \,.
 \end{align}
-The rest follows by eqn. (S2) and identification with $N(x \mid x\supa, P\supa)$.
+The rest follows by eqn. (LG1) and identification with $N(x \mid x\supa, P\supa)$.
 ''']
 
 answers['BR Gauss'] = ['MD', r'''
@@ -695,7 +695,7 @@ answers['KF1 code'] = ['MD', r'''
 
 answers['Asymptotic Riccati a'] = ['MD', r'''
 Follows directly from eqn. (6) from both this tutorial and
-[the previous one](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes).
+[the previous one](T3%20-%20Bayesian%20inference.ipynb#Exc----BR-LG1).
 ''']
 
 answers['Asymptotic Riccati b'] = ['MD', r'''

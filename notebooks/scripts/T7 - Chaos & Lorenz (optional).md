@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.15.1
+      jupytext_version: 1.17.2
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -202,7 +202,7 @@ The long-run distribution of a system may be called its **climatology**.
 A somewhat rudimentary weather forecasting initialisation (i.e. DA) technique,
 called **optimal interpolation**,
 consists in using the climatology as the prior (as opposed to yesterday's forecast)
-when applying Bayes' rule (in its [Gaussian guise](T3%20-%20Bayesian%20inference.ipynb#Gaussian-Gaussian-Bayes'-rule-(1D))) to the observations of the day.
+when applying Bayes' rule (in its [Gaussian guise](T3%20-%20Bayesian%20inference.ipynb#Linear-Gaussian-Bayes'-rule-(1D))) to the observations of the day.
 
 
 ## The Lorenz-96 model

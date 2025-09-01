@@ -139,7 +139,7 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
     try:
         # (See exercise below)
         H_lin = H(xf)/xf # a simple linear approximation of H(x)
-        xa, Pa = Bayes_rule_G1(xf, Pf, y, H_lin, R)
+        xa, Pa = Bayes_rule_LG1(xf, Pf, y, H_lin, R)
         label = f'Postr, parametric\nN(x | {xa:.4g}, {Pa:.4g})'
         postr_vals_G1 = pdf_G1(x, xa, Pa)
         plt.plot(x, postr_vals_G1, 'purple', label=label)
@@ -232,13 +232,13 @@ It is important to appreciate that the likelihood and its role in Bayes' rule, d
 # show_answer("what's forward?")
 ```
 
-<a name="Gaussian-Gaussian-Bayes'-rule-(1D)"></a>
+<a name="Linear-Gaussian-Bayes'-rule-(1D)"></a>
 
-## Gaussian-Gaussian Bayes' rule (1D)
+## Linear-Gaussian Bayes' rule (1D)
 
 In response to this computational difficulty, we try to be smart and do something more analytical ("pen-and-paper"): we only compute the parameters (mean and (co)variance) of the posterior pdf.
 
-This is doable and quite simple in the Gaussian-Gaussian case, when $\ObsMod$ is linear (i.e. just a number):  
+This is doable and quite simple in the linear-Gaussian case, when $\ObsMod$ is linear (i.e. just a number):
 
 - Given the prior of $p(x) = \NormDist(x \mid x\supf, P\supf)$
 - and a likelihood $p(y|x) = \NormDist(y \mid \ObsMod x,R)$,  
@@ -252,12 +252,14 @@ where, in the 1-dimensional/univariate/scalar (multivariate is discussed in [T5]
 Consider the following identity, where $P\supa$ and $x\supa$ are given by eqns. (5) and (6).
 $$
 \frac{(x-x\supf)^2}{P\supf} + \frac{(\ObsMod x-y)^2}{R} \quad =
-\quad \frac{(x - x\supa)^2}{P\supa} + \frac{(y - \ObsMod x\supf)^2}{R + P\supf} \,, \tag{S2}
+\quad \frac{(x - x\supa)^2}{P\supa} + \frac{(y - \ObsMod x\supf)^2}{R + P\supf} \,, \tag{LG1}
 $$
 Notice that the left hand side (LHS) is the sum of two squares with $x$,
 but the RHS only contains one square with $x$.
 
-- (a) Actually derive the first term of the RHS, i.e. eqns. (5) and (6).  
+#### Exc -- BR-LG1
+
+- (a) Actually derive the first term of the RHS of (LG1), i.e. eqns. (5) and (6).  
   *Hint: you can simplify the task by first "hiding" $\ObsMod$*
 - (b) *Optional*: Derive the full RHS (i.e. also the second term).
 - (c) Derive $p(x|y) = \NormDist(x \mid x\supa, P\supa)$ from eqns. (5) and (6)
@@ -277,14 +279,14 @@ as a shorthand for $p(x) = \NormDist(x \mid \mu, \sigma^2)$. Suppose
 Show that your posterior is $p(x|y) = \NormDist(x \mid 19, 2)$
 
 ```python
-# show_answer('GG BR example')
+# show_answer('LG BR example')
 ```
 
-The following implements a Gaussian-Gaussian Bayes' rule (eqns. 5 and 6).
+The following implements a linear-Gaussian Bayes' rule (eqns. 5 and 6).
 Note that its inputs and outputs are not discretized density values (as for `Bayes_rule()`), but simply 5 numbers: the means, variances and $\ObsMod$.
 
 ```python
-def Bayes_rule_G1(xf, Pf, y, H, R):
+def Bayes_rule_LG1(xf, Pf, y, H, R):
     Pa = 1 / (1/Pf + H**2/R)
     xa = Pa * (xf/Pf + H*y/R)
     return xa, Pa
@@ -294,7 +296,7 @@ def Bayes_rule_G1(xf, Pf, y, H, R):
 
 Re-run/execute the interactive animation code cell up above.
 
-- (a) Under what conditions does `Bayes_rule_G1()` provide a good approximation to `Bayes_rule()`?
+- (a) Under what conditions does `Bayes_rule_LG1()` provide a good approximation to `Bayes_rule()`?
 - (b) Try using one or more of the other [distributions readily available in `scipy`](https://stackoverflow.com/questions/37559470/) in the above animation by inserting them in `pdfs`.
 
 **Exc (optional) -- Gain algebra:** Show that eqn. (5) can be written as
@@ -329,21 +331,28 @@ Let $\ObsMod = 1$ for simplicity.
 # show_answer('KG intuition')
 ```
 
-**Exc -- BR with Gain:** Re-define `Bayes_rule_G1` so to as to use eqns. 9-11. Remember to re-run the cell. Verify that you get the same plots as before.
+**Exc -- BR with Gain:** Re-define `Bayes_rule_LG1` so to as to use eqns. 9-11. Remember to re-run the cell. Verify that you get the same plots as before.
 
 ```python
 # show_answer('BR Kalman1 code')
 ```
 
-#### Exc (optional) -- optimality of the mean
+#### Exc (optional) -- optimality properties
 
-*If you must* pick a single point value for your estimate (for example, an action to be taken), you can **decide** on it by optimising (with respect to the estimate) the expected value of some utility/loss function [[ref](https://en.wikipedia.org/wiki/Bayes_estimator)].
+Note that, in contrast to orthodox statistics,
+Bayes' rule (BR) itself makes no attempt at producing only a single estimate/value.
+It merely states how quantitative belief (weighted possibilities) should be updated in view of new data.
+*If you must* pick a single point value for your estimate
+(for example, an action to be taken),
+you can **decide** on it by optimising (with respect to the estimate)
+the expected value of some utility/loss function [[ref](https://en.wikipedia.org/wiki/Bayes_estimator)],
+for example mean-squared: $\text{Loss}(X - \theta) = (X - \theta)^2$.
 
 - For example, if the density of $X$ is symmetric,
-   and $\text{Loss}$ is convex and symmetric,
-   then $\Expect[\text{Loss}(X - \theta)]$ is minimized
-   by the mean, $\Expect[X]$, which also coincides with the median.
-   <!-- See Corollary 7.19 of Lehmann, Casella -->
+  and $\text{Loss}$ is convex and symmetric,
+  then $\Expect[\text{Loss}(X - \theta)]$ is minimized
+  by the mean, $\Expect[X]$, which also coincides with the median.
+  Ref Corollary 7.19 of Lehmann & Casella (1998).
 - (a) Show that, for the expected *squared* loss, $\Expect[(X - \theta)^2]$,
   the minimum is the mean for *any distribution*.
   *Hint: insert $0 = \,?\, - \,?$.*
@@ -371,3 +380,5 @@ but if Gaussianity can be assumed then it reduces to only 2 formulae.
 
 - **Jaynes (2003)**:
   Edwin T. Jaynes, "Probability theory: the logic of science", 2003.
+- **Lehmann & Casella (1998)**:
+  "Theory of Point Estimation", 1998.

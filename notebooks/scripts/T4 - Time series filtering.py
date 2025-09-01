@@ -167,7 +167,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # then we can update/condition our estimate of $x_1$, i.e. compute the posterior,
 # $p(x_1 | y_1) = \NormDist(x_1 \mid x\supa_1, P\supa_1) \,,$
 # using the formulae we developed for Bayes' rule with
-# [Gaussian distributions](T3%20-%20Bayesian%20inference.ipynb#Gaussian-Gaussian-Bayes'-rule-(1D)).
+# [Gaussian distributions](T3%20-%20Bayesian%20inference.ipynb#Linear-Gaussian-Bayes'-rule-(1D)).
 #
 # $$
 # \begin{align}
@@ -192,7 +192,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 #   $$ p_z(z) = \int p_x(x) \, p_q(z - x) \, d x \,.$$
 #   Show that $z$ is also Gaussian,
 #   whose mean and variance are the sum of the means and variances (respectively).  
-#   *Hint: you will need the result on [completing the square](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes),
+#   *Hint: you will need the result on [completing the square](T3%20-%20Bayesian%20inference.ipynb#Exc----BR-LG1),
 #   specifically the part that we did not make use of for Bayes' rule.  
 #   If you get stuck, you can also view the excellent [`3blue1brown`](https://www.youtube.com/watch?v=d_qvLDhkg00&t=266s&ab_channel=3Blue1Brown) on the topic.*
 

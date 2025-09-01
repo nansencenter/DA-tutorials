@@ -253,7 +253,7 @@ plt.legend();
 # *PS: all of the objects in the analysis equations could also be subscripted by the time index ($k$), but that seems unnecessary (since it is the same one for all of the objects involved).*
 #
 # **Exc (optional) -- The 'precision' form of the KF:** Prove eqns. (4-6).  
-# *Hint: similar to the [univariate case](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes), the main part lies in "completing the square" in $\x$.*
+# *Hint: similar to the [univariate case](T3%20-%20Bayesian%20inference.ipynb#Exc----BR-LG1), the main part lies in "completing the square" in $\x$.*
 
 # +
 # show_answer('KF precision')
