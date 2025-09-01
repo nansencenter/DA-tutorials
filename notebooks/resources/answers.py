@@ -382,27 +382,19 @@ For example, multiplicative noise, i.e. $y = x r$, produces $p(y|x) = \NormDist(
 
 answers['Observation models a'] = ['MD', r'''
 The likelihood simply shifts/translates towards lower values by $15$.
-Apart from the noise corruption, Bayes' rule (BR) effectively inverts $\ObsMod$
-which consists in adding $15$.
 ''']
 answers['Observation models b'] = ['MD', r'''
 The distance from the origin to the likelihood (any point on it) gets halved.  
-In addition, its width/spread gets halved.
-Again, BR effectively inverts $\ObsMod$
-but now with twice the precision (for the same amount of noise),
-since $\ObsMod$ effectively magnifies (stretches out) the domain of $x$.
+In addition, its width/spread gets halved, i.e. its precision doubles.
 
-Note that the likelihood height remains unchanged.  
+*PS*: the height of the likelihood remains unchanged.  
 Thus, it no longer integrates to $1$. But this is not a problem,
-since only densities need integrate to $1$,
-and the likelihood merely *updates* our belief densities.
-*PS: However, from the perspective of $y$, the likelihood _is_ indeed a density*.
-The posterior remains Gaussian.
+since only densities need integrate to $1$;
+the likelihood merely *updates* our beliefs.
 ''']
 answers['Observation models c'] = ['MD', r'''
-The likelihood now has 2 peaks. Providing they're far enough apart, so does the posterior.
-The posterior may look like it's composed of 2 Gaussians,
-but it is also contains some "skewing" on each peak, due to the squaring.
+The likelihood now has 2 peaks, each one $\sqrt{y}$ away from $5$.
+They're not actually quite Gaussian.
 
 Note that a true inverse of $\ObsMod$ does not exist.
 Yet BR gives us the next best thing: the two options, weighted.
@@ -410,7 +402,9 @@ A daring person might call it a "statistically generalized inverse".
 ''']
 answers['Observation models d'] = ['MD', r'''
 This is similar to the previous part of the exercise,
-except without the skewing (the posterior is still not Gaussian though).
+but the peaks are now centered on 0.
+
+PS: the posterior is never quite fully Gaussian.
 ''']
 
 

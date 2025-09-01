@@ -71,9 +71,6 @@ $$
 \large
 \color{red}{\overset{\mbox{Posterior}}{p(\color{black}{x|y})}} = \frac{\color{blue}{\overset{\mbox{  Prior  }}{p(\color{black}{x})}} \, \color{green}{\overset{\mbox{ Likelihood}}{p(\color{black}{y|x})}}}{\color{gray}{\underset{\mbox{Constant wrt. x}}{p(\color{black}{y})}}} \,. \tag{BR} \\[1em]
 $$
-Note that, in contrast to orthodox statistics,
-Bayes' rule (BR) itself makes no attempt at producing only a single estimate/value
-It merely states how quantitative belief (weighted possibilities) should be updated in view of new data.
 
 **Exc -- Bayes' rule derivation:** Derive eqn. (BR) from the definition of [conditional pdf's](https://en.wikipedia.org/wiki/Conditional_probability_distribution#Conditional_continuous_distributions).
 
@@ -108,6 +105,8 @@ $$ p(x|y) \propto p(x) \, p(y|x) \,.  \tag{BR2} $$
 Actually, do we even need to care about $p(y)$ at all? All we really need to know is how much more likely some value of $x$ (or an interval around it) is compared to any other $x$.
 The normalisation is only necessary because of the *convention* that all densities integrate to $1$.
 However, for large models, we usually can only afford to evaluate $p(y|x)$ at a few points (of $x$), so that the integral for $p(y)$ can only be roughly approximated. In such settings, estimation of the normalisation factor becomes an important question too.
+
+<a name="Interactive-illustration"></a>
 
 ## Interactive illustration
 
@@ -210,21 +209,16 @@ Then the likelihood is $$p(y|x) = \NormDist(y| \ObsMod(x), R) \,. \tag{Lklhd}$$
 
 #### Exc -- Obs. model gallery
 
-Go back to the interactive illustration of Bayes' rule above.
-Change `H` to implement the following observation models, $\ObsMod$.
-In each case,
-
-- Explain the impact on the likelihood (and thereby posterior): shape (e.g. Gaussian?), position, variance.
-- Consider to what extent it is reasonable to say that $\ObsMod$ gets "inverted".  
-  *PS: it might be helpful to let $R \rightarrow 0$.*
-
-Try
+Consider the following observation models.
 
 - (a) $\ObsMod(x) = x + 15$.
 - (b) $\ObsMod(x) = 2 x$.
 - (c) $\ObsMod(x) = (x-5)^2$.
   - Explain how negative values of $y$ are possible.
 - (d) Try $\ObsMod(x) = |x|$.
+
+In each case, describe how the likelihood approximately changes as compared to $\ObsMod(x) = x$.
+Then verify your answer by implementing `H` in the [interactive Bayes' rule](#Interactive-illustration).
 
 ```python
 # show_answer('Observation models', 'a')
