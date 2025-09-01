@@ -44,7 +44,7 @@ pdfs = dict(N=pdf_G1, U=pdf_U1)
 #
 # <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
 #   <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
-#     In the Bayesian approach, knowledge and uncertainty about some unknown ($x$) is quantified through probability... (optional reading 🔍🤓)
+#     In the Bayesian approach, knowledge and uncertainty about some unknown ($x$) is quantified through probability ... (optional reading 🔍)
 #   </summary>
 #
 #   For example, what is the temperature at the surface of Mercury (at some given point and time)?
@@ -328,9 +328,9 @@ def Bayes_rule_LG1(xf, Pf, y, H, R):
 # show_answer('BR Kalman1 code')
 # -
 
-# #### Exc (optional) -- optimality properties
+# #### Exc (optional) -- optimalities
 #
-# Note that, in contrast to orthodox statistics,
+# In contrast to orthodox statistics,
 # Bayes' rule (BR) itself makes no attempt at producing only a single estimate/value.
 # It merely states how quantitative belief (weighted possibilities) should be updated in view of new data.
 # *If you must* pick a single point value for your estimate

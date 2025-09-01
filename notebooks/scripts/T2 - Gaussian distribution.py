@@ -218,7 +218,7 @@ def pdf_U1(x, mu, sigma2):
 #
 # <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
 # <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
-#   🔍 $\mathbf{W}$ must be symmetric-positive-definite (SPD) because ... 👇
+#   $\mathbf{W}$ must be symmetric-positive-definite (SPD) because ... (optional reading 🔍)
 # </summary>
 #
 # - The norm (a quadratic form) is invariant to any asymmetry in the weight matrix.

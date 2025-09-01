@@ -93,6 +93,8 @@ plt.legend();
 #
 # What is a ***model***?
 # In the broadest sense, a model is a *simplified representation* of something.
+# Whether it be some laws of nature, or comprising of a set of empirical or statistical relations,
+# the underlying aim is usually that of making **predictions** of some sort.
 # A convenient language for this purpose is mathematics,
 # in which case the model consists of a set of equations, often differential.
 #
@@ -100,12 +102,9 @@ plt.legend();
 # The "stuff", denoted $\x_k$ for time $k$, will be referred to as ***state*** variables/vectors.
 # Regardless of sophistication or how many PhDs worked on coding it up as a computer simulation program,
 # the ***dynamical model*** will henceforth be represented simply as the *function* $\DynMod_k$
-# that **predicts** the state at time $k+1$ from $\x_k$.
+# that **forecasts** (predicts) the state at time $k+1$ from $\x_k$.
 #
-# <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
-# <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
-#   Examples of models include ... 🔍
-# </summary>
+# Examples include
 #
 # - (a) Laws of motion and gravity (Newton, Einstein)
 # - (b) Epidemic (SEIR) and predator-prey (Lotka-Volterra)
@@ -115,9 +114,6 @@ plt.legend();
 # - (f) Traffic flow (Lighthill-Whitham-Richards)
 # - (g) Sports rating (Elo, Glicko, TrueSkill)
 # - (h) Financial pricing (Black-Scholes)
-#
-# - - -
-# </details>
 #
 # **Exc (optional) -- state variables:**  
 #
@@ -132,15 +128,13 @@ plt.legend();
 # show_answer('state variables')
 # -
 
-# Whether describing some fundamental laws of nature,
-# or comprising of a set of empirical or statistical relations,
-# the "goodness" of a model is usually assessed in terms of (some measure of) skill of prediction,
+# The "goodness" of a model is usually assessed in terms of (some measure of) skill of prediction,
 # as expressed by the following maxim.
 #
 # > All models are wrong, but some are useful -- [George E. P. Box](https://en.wikipedia.org/wiki/All_models_are_wrong)
 #
 # **Exc (optional) -- model error:**  
-# For each of model examples above, list the shortcomings (below) that seem relevant.
+# For each of model examples above, select the shortcomings (below) that seem relevant.
 #
 # 1. Inaccurate at relatively high speeds
 # 1. Extreme events do not conform to statistical assumptions
@@ -170,8 +164,10 @@ plt.legend();
 # In other words, we also need good initial conditions,
 # i.e. a good estimate of $\x_k$.
 # This is known as the ***forecast initialisation*** problem.
-# At first this might seem obvious and trifling,
-# but this illusion is quickly dispelled by considering the case of numerical weather prediction.
+# At first it might seem obvious and trifling,
+# but it is not so when we only have limited observations of $\x$ at any given time.
+#
+# For example, consider the case of numerical weather prediction.
 # Clearly, in order to launch the numerical simulator (model), $\DynMod_k$,
 # to forecast (predict) *tomorrow*'s weather,
 # we initially need to know *today*'s state of the atmosphere (wind, pressure, density and temperature)
@@ -179,7 +175,7 @@ plt.legend();
 # Yet despite the quantitative explosion of data since the advent of weather satellites in the 1970s,
 # most parts of the globe are (at any given moment) unobserved.
 # Moreover, the ***measurement/observation data*** available to us, $\y_k$, are not generally a "direct observation"
-# of quantities in the state vector, but rather some function, i.e. model $\ObsMod_{\!k}$ thereof
+# of quantities in the state vector, but rather some function, i.e. model thereof, $\ObsMod_{\!k}$
 # (in the case of satellite radiances: an integral along the vertical column at some lat/long location,
 # or even a more complicated radiative transfer model).
 # Finally, since any measurement includes some amount of inaccuracy,
@@ -188,7 +184,7 @@ plt.legend();
 # $$ \y_k = \ObsMod_{\!k}(\x_k) + \varepsilon_k \,. \tag{ObsMod} $$
 #
 # **Exc (optional) -- observation examples:**  
-# For each of the above dynamical model examples, suggest 1 or more observation kinds.
+# For each of the above dynamical model examples, suggest 1 or more observation kinds (i.e. what will $\y$ consist of?).
 
 # +
 # show_answer('obs examples')
@@ -208,8 +204,8 @@ plt.legend();
 # is the estimation of unknown/uncertain quantities of **dynamical systems**, $\{\x_k\}$,
 # based on imprecise (noisy) data/observations, $\{\y_k\}$.
 # State estimation is similar to time series estimation and signal processing,
-# but focuses on the case where we have a good (skillful) predictive model of the dynamical system,
-# and allows for multivariate, partially observed (hidden) states.
+# but focuses on the case where we have a good (skillful) predictive model of the dynamical system, $\DynMod$,
+# and allows for multivariate, partially observed (hidden) states, only "viewed" through the observation operator $\ObsMod$.
 #
 # The most famous state estimation technique is the ***Kalman filter (KF)***,
 # which was developed to steer the Apollo mission rockets to the moon.
