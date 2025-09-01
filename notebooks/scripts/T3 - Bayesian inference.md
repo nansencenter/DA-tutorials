@@ -237,31 +237,35 @@ It is important to appreciate that the likelihood and its role in Bayes' rule, d
 ## Linear-Gaussian Bayes' rule (1D)
 
 In response to this computational difficulty, we try to be smart and do something more analytical ("pen-and-paper"): we only compute the parameters (mean and (co)variance) of the posterior pdf.
-This is doable and quite simple in the linear-Gaussian case, when $\ObsMod$ is linear (i.e. just a number):
+This is doable and quite simple in the linear-Gaussian case, i.e. when $\ObsMod$ is linear (i.e. just a number). For readability, the unknown, $x$, is colored.
 
-- Given the prior of $p(x) = \NormDist(x \mid x\supf, P\supf)$
-- and a likelihood $p(y|x) = \NormDist(y \mid \ObsMod x,R)$,  
-- $\implies$ posterior
-$
-p(x|y)
-= \NormDist(x \mid x\supa, P\supa) \,,
-$
-where, in the 1-dimensional/univariate/scalar (multivariate is discussed in [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb)) case:
+- Given the prior of $p(\color{darkorange}{x}) = \NormDist(\color{darkorange}{x} \mid x\supf, P\supf)$
+- and a likelihood $p(y|\color{darkorange}{x}) = \NormDist(y \mid \ObsMod \color{darkorange}{x},R)$,  
+- $\implies$ posterior $
+  p(\color{darkorange}{x}|y)
+  = \NormDist(\color{darkorange}{x} \mid x\supa, P\supa) \,, $
+  where, in the 1-dimensional/univariate/scalar (multivariate is discussed in [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb)) case:
+  $$\begin{align}
+    P\supa &= 1/(1/P\supf + \ObsMod^2/R) \,, \tag{5} \\\
+    x\supa &= P\supa (x\supf/P\supf + \ObsMod y/R) \,.  \tag{6}
+  \end{align}$$
+
+The proof is in the following exercise.
+
+#### Exc -- BR-LG1
 
 Consider the following identity, where $P\supa$ and $x\supa$ are given by eqns. (5) and (6).
 $$
-\frac{(x-x\supf)^2}{P\supf} + \frac{(\ObsMod x-y)^2}{R} \quad =
-\quad \frac{(x - x\supa)^2}{P\supa} + \frac{(y - \ObsMod x\supf)^2}{R + P\supf} \,, \tag{LG1}
+\frac{(\color{darkorange}{x}-x\supf)^2}{P\supf} + \frac{(\ObsMod \color{darkorange}{x}-y)^2}{R} \quad =
+\quad \frac{(\color{darkorange}{x} - x\supa)^2}{P\supa} + \frac{(y - \ObsMod x\supf)^2}{R + P\supf} \,, \tag{LG1}
 $$
-Notice that the left hand side (LHS) is the sum of two squares with $x$,
-but the RHS only contains one square with $x$.
-
-#### Exc -- BR-LG1
+Notice that the left hand side (LHS) is the sum of *two* squares with $\color{darkorange}{x}$,
+but the RHS only contains *one*.
 
 - (a) Actually derive the first term of the RHS of (LG1), i.e. eqns. (5) and (6).  
   *Hint: you can simplify the task by first "hiding" $\ObsMod$*
 - (b) *Optional*: Derive the full RHS (i.e. also the second term).
-- (c) Derive $p(x|y) = \NormDist(x \mid x\supa, P\supa)$ from eqns. (5) and (6)
+- (c) Show that $p(\color{darkorange}{x}|y) = \NormDist(\color{darkorange}{x} \mid x\supa, P\supa)$
   using part (a), Bayes' rule (BR2), and the Gaussian pdf (G1).
 
 ```python
