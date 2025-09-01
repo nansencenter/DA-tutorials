@@ -48,10 +48,10 @@ As stated by James Bernoulli (1713) and elucidated by [Laplace (1812)](#Referenc
 $$ \mathbb{P}(\text{event}) = \frac{\text{# favorable outcomes}}{\text{# possible outcomes}} $$
 
 - A *discrete* random variable, $X$, has a probability *mass* function (**pmf**) defined by $p(x) = \mathbb{P}(X{=}x)$.  
-  **NB**: despite us casually using the same $p$ symbol, $p(x)$ and $p(y)$ are generally different functions.
+  Sometimes clarity will necessitate denotering it $p_X(x)$, to distinguish it from $p_Y(y)$.
 - The *joint* probability of two random variables $X$ and $Y$ is defined by the intersections:
   $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$.  
-  The *marginal* $p(x)$ is recovered by summing over all $y$.
+  The *marginal* $p(x)$ is recovered by summing over all $y$, and vice-versa.
 - The *conditional* probability of $X$ given $Y$ is defined by $p(x|y) = p(x,y)/p(y)$.
 - A *continuous* random variable has a probability *density* function (**pdf**) defined by
   $p(x) = \mathbb{P}(X \in [x, x+\delta x])/\delta x$, with $\delta x \to 0$.  
