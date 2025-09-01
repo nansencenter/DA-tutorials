@@ -237,7 +237,6 @@ It is important to appreciate that the likelihood and its role in Bayes' rule, d
 ## Linear-Gaussian Bayes' rule (1D)
 
 In response to this computational difficulty, we try to be smart and do something more analytical ("pen-and-paper"): we only compute the parameters (mean and (co)variance) of the posterior pdf.
-
 This is doable and quite simple in the linear-Gaussian case, when $\ObsMod$ is linear (i.e. just a number):
 
 - Given the prior of $p(x) = \NormDist(x \mid x\supf, P\supf)$
@@ -324,7 +323,7 @@ Let $\ObsMod = 1$ for simplicity.
 
 - (a) Show that $0 < K < 1$ since $0 < P\supf, R$.
 - (b) Show that $P\supa < P\supf, R$.
-- (c) Show that $x\supa \in (x\supf, y)$.
+- (c) Show that $x\supa$ is in the interval $(x\supf, y)$.
 - (d) Why do you think $K$ is called a "gain"?
 
 ```python
