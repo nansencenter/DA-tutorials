@@ -334,20 +334,20 @@ def Bayes_rule_LG1(xf, Pf, y, H, R):
 # #### Exc (optional) -- optimalities
 #
 # In contrast to orthodox statistics,
-# Bayes' rule (BR) itself makes no attempt at producing only a single estimate/value.
+# Bayes' rule (BR) itself makes no attempt at producing only a single estimate/value of $x$.
 # It merely states how quantitative belief (weighted possibilities) should be updated in view of new data.
-# *If you must* pick a single point value for your estimate
-# (for example, an action to be taken),
-# you can **decide** on it by optimising (with respect to the estimate)
+# *But if you must* pick a single point value estimate $\hat{x}$
+# (in order to perform a contingent action, for example),
+# you can **decide** on it by optimising (with respect to $\hat{x}$)
 # the expected value of some utility/loss function [[ref](https://en.wikipedia.org/wiki/Bayes_estimator)],
-# for example mean-squared: $\text{Loss}(X - \theta) = (X - \theta)^2$.
+# for example mean-squared: $\text{Loss}(x - \hat{x}) = (x - \hat{x})^2$.
 #
-# - For example, if the density of $X$ is symmetric,
+# - For example, if the density of $x$ is symmetric,
 #   and $\text{Loss}$ is convex and symmetric,
-#   then $\Expect[\text{Loss}(X - \theta)]$ is minimized
-#   by the mean, $\Expect[X]$, which also coincides with the median.
+#   then $\Expect[\text{Loss}(x - \hat{x})]$ is minimized
+#   by the mean, $\Expect[x]$, which also coincides with the median.
 #   Ref Corollary 7.19 of Lehmann & Casella (1998).
-# - (a) Show that, for the expected *squared* loss, $\Expect[(X - \theta)^2]$,
+# - (a) Show that, for the expected *squared* loss, $\Expect[(x - \hat{x})^2]$,
 #   the minimum is the mean for *any distribution*.
 #   *Hint: insert $0 = \,?\, - \,?$.*
 # - (b) Show that linearity can replace Gaussianity in the 1st bullet point.
