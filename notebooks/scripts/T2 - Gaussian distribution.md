@@ -41,6 +41,7 @@ $
 \newcommand{\tr}{^{\trsign}}
 \newcommand{\xDim}[0]{D}
 \newcommand{\x}[0]{\bvec{x}}
+\newcommand{\X}[0]{\mat{X}}
 $
 
 ## Probability essentials
@@ -68,17 +69,17 @@ Their probability *density* function (**pdf**) can be defined by $p(x) = F'(x)$ 
 
 $$p(x) = \lim_{h \to 0} \frac{\mathbb{P}(X \in [x,\, x{+} h])}{h} \,.$$
 
-A **sample average** based on draws from a random variable $x$ (*we no longer use uppercase for random variables!*)
+A **sample average** based on draws from a random variable $X$
 is denoted with an overhead bar:
 $$ \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,. $$
 By the *law of large numbers (LLN)*, the sample average converges for $N \to \infty$ to the **expected value** (*sometimes* called the **mean**):
-$$ \Expect[x] ≔ \int x \, p(x) \, d x \,, $$
+$$ \Expect[X] ≔ \int x \, p(x) \, d x \,, $$
 where the (omitted) domain of integration is *all values of $x$*.
 
 ## The univariate (a.k.a. 1-dimensional, scalar) Gaussian
 
-If $x$ is Gaussian (a.k.a. "Normal"), we write
-$x \sim \NormDist(\mu, \sigma^2)$, or $p(x) = \NormDist(x \mid \mu, \sigma^2)$,
+If $X$ is Gaussian (a.k.a. "Normal"), we write
+$X \sim \NormDist(\mu, \sigma^2)$, or $p(x) = \NormDist(x \mid \mu, \sigma^2)$,
 where the parameters $\mu$ and $\sigma^2$ are called the mean and variance
 (for reasons that will become clear below).
 The Gaussian pdf is, for $x \in (-\infty, +\infty)$,
@@ -166,12 +167,12 @@ which derive some helpful mnemonics about the distribution.
 
 #### Exc (optional) -- Change of variables
 
-Let $z = \phi(x)$ for some monotonic function $\phi$,
+Let $Z = \phi(X)$ for some monotonic function $\phi$,
 and $p_x$ and $p_z$ be their probability density functions (pdf).
 
 - (a): Show that $p_z(z) = p_x\big(\phi^{-1}(z)\big) \frac{1}{|\phi'(z)|}$,
 - (b): Show that you don't need to derive the density of $z$ in order to compute its expectation, i.e. that
-  $$ \Expect[z] = \int  \phi(x) \, p_x(x) \, d x ≕ \Expect[\phi(x)] \,,$$
+  $$ \Expect[Z] = \int  \phi(x) \, p_x(x) \, d x ≕ \Expect[\phi(x)] \,,$$
   *Hint: while the proof is convoluted, the result itself is [pretty intuitive](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician).*
 
 ```python
@@ -185,10 +186,10 @@ and $p_x$ and $p_z$ be their probability density functions (pdf).
 Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  
 Use pen, paper, and calculus to show that
 
-- (i) the first parameter, $\mu$, indicates its **mean**, i.e. that $$\mu = \Expect[x] \,.$$
+- (i) the first parameter, $\mu$, indicates its **mean**, i.e. that $$\mu = \Expect[X] \,.$$
   *Hint: you can rely on the result of (iii)*
 - (ii) the second parameter, $\sigma^2>0$, indicates its **variance**,
-  i.e. that $$\sigma^2 = \mathbb{Var}(x) \mathrel{≔} \Expect[(x-\mu)^2] \,.$$
+  i.e. that $$\sigma^2 = \mathbb{Var}(X) \mathrel{≔} \Expect[(X-\mu)^2] \,.$$
   *Hint: use $x^2 = x x$ to enable integration by parts.*
 - (iii) $E[1] = 1$,  
   thus proving that (G1) indeed uses the right normalising constant.  
@@ -231,7 +232,8 @@ A *multivariate* random variable, i.e. **vector**, is simply a collection of sca
 I.e. its distribution is the *joint* distribution of its components.
 The pdf of the multivariate Gaussian (for any dimension $\ge 1$) is
 
-$$\large \NormDist(\x \mid  \mathbf{\mu}, \mathbf{\Sigma}) = |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM} $$
+$$\large \NormDist(\x \mid \mathbf{\mu}, \mathbf{\Sigma}) =
+|2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM} $$
 where $|.|$ represents the matrix determinant,  
 and $\|.\|_\mathbf{W}$ represents a weighted 2-norm: $\|\x\|^2_\mathbf{W} = \x^T \mathbf{W}^{-1} \x$.  
 
@@ -249,12 +251,12 @@ and $\|.\|_\mathbf{W}$ represents a weighted 2-norm: $\|\x\|^2_\mathbf{W} = \x^T
 It is important to recognize how similar eqn. (GM) is to the univariate (scalar) case (G1).
 Moreover, [similarly as above](#Exc-(optional)----Integrals), it can be shown that
 
-- $\mathbf{\mu} = \Expect[\x]$,
-- $\mathbf{\Sigma} = \Expect[(\x-\mu)(\x-\mu)\tr]$,
+- $\mathbf{\mu} = \Expect[\X]$,
+- $\mathbf{\Sigma} = \Expect[(\X-\mu)(\X-\mu)\tr]$,
 
 I.e. the elements of $\mathbf{\Sigma}$ are the individual covariances,
-$\Sigma_{i,j} = \Expect[(x_i-\mu_i)(x_j-\mu_j)] =: \mathbb{Cov}(x_i, x_j)$
-and, on the diagonal ($i=j$), variances: $\Sigma_{i,i} = \mathbb{Var}(x_i)$.
+$\Sigma_{i,j} = \Expect[(X_i-\mu_i)(X_j-\mu_j)] =: \mathbb{Cov}(X_i, X_j)$
+and, on the diagonal ($i=j$), variances: $\Sigma_{i,i} = \mathbb{Var}(X_i)$.
 Therefore $\mathbf{\Sigma}$ is called the *covariance (matrix)*.
 
 The following implements the pdf (GM). Take a moment to digest the code, but don't worry if you don't understand it all. Hints:
@@ -302,8 +304,8 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 
 The code defines the covariance `cv_xy` from the input ***correlation*** `corr`.
 This is a coefficient (number), defined for any two random variables $x$ and $y$ (not necessarily Gaussian) by
-$$ \rho[x,y]=\frac{\mathbb{Cov}[x,y]}{\sigma_x \sigma_y} \,. $$
-This correlation quantifies (defines) the ***linear dependence*** between $x$ and $y$. Indeed,
+$$ \rho[x,y]=\frac{\mathbb{Cov}[X,Y]}{\sigma_x \sigma_y} \,. $$
+This correlation quantifies (defines) the ***linear dependence*** between $X$ and $Y$. Indeed,
 
 - $-1\leq \rho \leq 1$ (by Cauchy-Swartz)
 - **If** $X$ and $Y$ are *independent*, i.e. $p(x,y) = p(x) \, p(y)$ for all $x, y$, then $\rho[X,Y]=0$.

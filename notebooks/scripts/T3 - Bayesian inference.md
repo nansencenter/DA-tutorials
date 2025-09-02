@@ -48,6 +48,8 @@ which we implemented and tested alongside the uniform distribution.
 pdfs = dict(N=pdf_G1, U=pdf_U1)
 ```
 
+*We no longer use uppercase to distinguish random variables from their outcomes (an unfortunate consequence of the myriad of notations to keep track of)!*
+
 Now that we have reviewed some probability, we can look at statistical inference and estimation, in particular
 
 # Bayes' rule
