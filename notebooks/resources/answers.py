@@ -188,18 +188,22 @@ answers['thesaurus 2'] = ["TXT", r"""
 """]
 
 answers['Discussion topics 1'] = ['MD', r'''
- * (a) Stuff that changes in time.
- * (b) "State" variables are (potentially unknown) variables that change in time.
+ * (a) State estimation for large systems.
+ * (b) "State variables" are (potentially unknown) variables that change in time.
    By contrast, "parameters" are constant-in-time (but potentially unknown) variables.
-   Arguably, the state vector should also be chosen (by parameterisation) so as to be
-   prognostic and non-redundant.
- * (c) Variables that are *essential* for the prediction of the dynamical system.
-   By contrast, "diagnostic" variables can be computed from the prognostic (state) variables,
-   such as momentum and energy (in case the state contains the velocity),
+ * (c) "Prognostic" variables are *essential* for the prediction of the dynamical system.
+   As such they are to be found among $x$ (contingent on the chosen parameterisation).
+   By contrast, "diagnostic" variables can be derived (computed) from the prognostic/state variables.
+   For example the observations, $y$, or other non-state quantities
+   such as as momentum and energy (in case the state contains the velocity),
    or precipitation (in case the state contains pressure, humidity, salinity, ...).
- * (d) State estimation for large systems.
+ * (d) In priciniple, $t(k)$ is a point in time at which we receive a new observation.
+       In practice, however, we tend to accumulate observations over some amount of time,
+       and only *assimilate* them at regular intervals,
+       determined by the frequency with which we *wish* to launch new forecasts.
+       Note that this practice complicates the theory somewhat.
  * (e) In principle it's a science. In practice...
- * (f) Abstract concept to break the problem down into smaller, recursive, problems.  
+ * (f) Abstract concept to break the problem down into smaller, *recursive*, problems.  
    DAGs. Formalises the concept of hidden variables (states).
 ''']
 

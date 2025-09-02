@@ -99,7 +99,7 @@ plt.legend();
 # in which case the model consists of a set of equations, often differential.
 #
 # We will mainly be concerned with models of **dynamical systems**, meaning *stuff that changes in time*.
-# The "stuff", denoted $\x_k$ for time $k$, will be referred to as ***state*** variables/vectors.
+# The "stuff", denoted $\x_k$ for time index $k$, will be referred to as ***state*** variables/vectors.
 # Regardless of sophistication or how many PhDs worked on coding it up as a computer simulation program,
 # the ***dynamical model*** will henceforth be represented simply as the *function* $\DynMod_k$
 # that **forecasts** (predicts) the state at time $k+1$ from $\x_k$.
@@ -128,10 +128,10 @@ plt.legend();
 # show_answer('state variables')
 # -
 
-# The "goodness" of a model is usually assessed in terms of (some measure of) skill of prediction,
+# A model is usually assessed in terms of (some measure of) skill of prediction,
 # as expressed by the following maxim.
 #
-# > All models are wrong, but some are useful -- [George E. P. Box](https://en.wikipedia.org/wiki/All_models_are_wrong)
+# > All models are wrong, but some are useful — [George E. P. Box](https://en.wikipedia.org/wiki/All_models_are_wrong)
 #
 # **Exc (optional) -- model error:**  
 # For each of model examples above, select the shortcomings (below) that seem relevant.
@@ -159,15 +159,17 @@ plt.legend();
 #
 # However, a good model (i.e. $\q \approx 0$) is not enough to ensure good predictions, because
 #
-# > Garbage in, garbage out (GIGO)
+# > Garbage in, garbage out ([GIGO](https://en.wikipedia.org/wiki/Garbage_in,_garbage_out))
 #
-# In other words, we also need good initial conditions,
+# In other words, we also need accurate initial conditions,
 # i.e. a good estimate of $\x_k$.
 # This is known as the ***forecast initialisation*** problem.
-# At first it might seem obvious and trifling,
-# but it is not so when we only have limited observations of $\x$ at any given time.
-#
-# For example, consider the case of numerical weather prediction.
+# It may seem obvious and trifling if $\x_k$ is some experimental condition that is
+# completely in our control, or if $\x_k$ is a computable steady-state condition of the system
+# (to wit, typically in both cases, $k=0$).
+# But it is not so easy to determine $\x_k$ when it is the state of an ongoing, constantly-evolving process,
+# and/or if we have only very limited observations of it.
+# For example, consider the case of numerical weather prediction (NWP).
 # Clearly, in order to launch the numerical simulator (model), $\DynMod_k$,
 # to forecast (predict) *tomorrow*'s weather,
 # we initially need to know *today*'s state of the atmosphere (wind, pressure, density and temperature)
@@ -178,7 +180,7 @@ plt.legend();
 # of quantities in the state vector, but rather some function, i.e. model thereof, $\ObsMod_{\!k}$
 # (in the case of satellite radiances: an integral along the vertical column at some lat/long location,
 # or even a more complicated radiative transfer model).
-# Finally, since any measurement includes some amount of inaccuracy,
+# Finally, since any measurement is somewhat imprecise,
 # we include an observation noise, $\varepsilon_k$, in our conception of the measuring process, i.e.
 #
 # $$ \y_k = \ObsMod_{\!k}(\x_k) + \varepsilon_k \,. \tag{ObsMod} $$
@@ -198,25 +200,27 @@ plt.legend();
 # incorporate the information from *previous* observations, $\y_1, \ldots, \y_{k-1}$,
 # on top of the "incoming" one, $\y_k$.
 # Thus, model forecasts help out the data, $\y_k$, in the estimation of $\x_k$,
-# which in turn improve the forecast of $\x_{k+1}$, and so on in a virtuous cycle of improved estimation and prediction (❤️).
+# which in turn improve the forecast of $\x_{k+1}$, and so on in a *virtuous cycle* of improved estimation and prediction (❤️).
 #
-# **State estimation** (a.k.a. **sequential inference**)
-# is the estimation of unknown/uncertain quantities of **dynamical systems**, $\{\x_k\}$,
-# based on imprecise (noisy) data/observations, $\{\y_k\}$.
-# State estimation is similar to time series estimation and signal processing,
-# but focuses on the case where we have a good (skillful) predictive model of the dynamical system, $\DynMod$,
-# and allows for multivariate, partially observed (hidden) states, only "viewed" through the observation operator $\ObsMod$.
+# The *cyclic* computational procedure outlined above for the sequence of forecast initialisation problems is known as **filtering**.
+# More generally, the theory of **state estimation** (a.k.a. **sequential inference**)
+# also includes the techniques of **smoothing** (the estimation of *earlier* states)
+# and — as an add-on — the estimation of parameters (uncertain/unknown quantities that do *not* change in time).
+# State estimation can be said to generalize [time series estimation](https://www.google.no/books/edition/Time_Series_Analysis_by_State_Space_Meth/XRCu5iSz_HwC)
+# and [signal processing](https://ocw.mit.edu/courses/6-011-introduction-to-communication-control-and-signal-processing-spring-2010/0009cae26d5218d6ebae14297d111325_MIT6_011S10_chap04.pdf),
+# by allowing for multivariate, hidden states (partially observed, or only through the operator $\ObsMod$),
+# and adding the sophistication (and computational burden) of the predictive model $\DynMod$.
 #
 # The most famous state estimation technique is the ***Kalman filter (KF)***,
 # which was developed to steer the Apollo mission rockets to the moon.
-# For example, in guidance systems, the *state variable* (vector) consists of at least 6 elements: 3 for the current position and 3 for velocity, whose trajectories we wish to track in time. More sophisticated systems can also include acceleration and/or angular quantities. The *dynamical model* then consists of the fact that displacement is the time integral of the velocity, while the velocity is the integral of acceleration. The noisy *observations* can come from altimetry, sextants, speedometers, compass readings, accelerometers, gyroscopes, or fuel-gauges. The essential point is that we have an *observational model* predicting the observations from the state. For example, the altimeter model is simply the function that selects the $z$ coordinate from the state vector, while the force experienced by an accelerometer can be modelled by Newton's second law of motion, $F = m a$.
+# To wit, in guidance systems, the *state variable* (vector) consists of at least 6 elements: 3 for the current position and 3 for velocity, whose trajectories we wish to track in time. More sophisticated systems can also include acceleration and/or angular quantities. The *dynamical model* then consists of the fact that displacement is the time integral of the velocity, while the velocity is the integral of acceleration, which can be determined from Newton/Einstein's laws of gravity as well and the steering controls of the vessel. The noisy *observations* can come from altimetry, sextants, speedometers, compass readings, accelerometers, gyroscopes, or fuel-gauges. The essential point is that we have an *observational model* predicting the observations from the state. For example, the altimeter model is simply the function that selects the $z$ coordinate from the state vector, while the force experienced by an accelerometer can be modelled by Newton's second law of motion.
 #
 # <img align="right" width="400" src="./resources/DA_bridges.jpg" alt='DA "bridges" data and models.'/>
 #
 # In the context of *large* dynamical systems, especially in geoscience (climate, ocean, hydrology, petroleum)
 # state estimation is known as **data assimilation** (DA),
-# and is thought of as a "bridge" between data and models,
-# as illustrated on the right (source: [AICS-Riken](https://aics.riken.jp/en))
+# and is seen as a "bridge" between data and models,
+# as illustrated on the right (source: [AICS-Riken](https://aics.riken.jp/en)).
 # For example, in weather applications, the dynamical model is an atmospheric fluid-mechanical simulator, the state variable consists of the fields of pressure, humidity, and wind quantities discretized on a grid,
 # and the observations may come from satellite or weather stations.
 #
@@ -234,7 +238,7 @@ envisat_video()
 # ## The ensemble Kalman filter (EnKF)
 #
 # The EnKF is a Monte-Carlo formulation of the KF
-# that manages (fairly well) to deal with the above challenges in DA.
+# that manages (to some extent) to deal with the above challenges in DA.
 #
 # For those familiar with the method of 4D-Var, **further advantages of the EnKF** include it being:
 #
@@ -252,11 +256,11 @@ envisat_video()
 #
 # ## DAPPER example
 #
-# This tutorial builds on the underlying package, DAPPER, made for academic research in DA and its dissemination. For example, the code below is taken from  `DAPPER/example_1.py`. It illustrates DA on a small toy problem. At the end of these tutorials, you should be able to reproduce (from the ground up) this type of experiment.
+# This tutorial builds on the underlying package, [DAPPER](https://github.com/nansencenter/DAPPER), made for academic research in DA and its dissemination. For example, the code below is taken from  `DAPPER/example_1.py`. It illustrates DA on a small toy problem. At the end of these tutorials, you should be able to reproduce (from the ground up) this type of experiment.
 #
 # Run the cells in order and try to interpret the output.
 # <mark><font size="-1">
-# <em>Don't worry</em> if you can't understand what's going on -- we will discuss it later throughout the tutorials.
+# <em>Don't worry</em> if you can't understand what's going on — we will discuss it later throughout the tutorials.
 # </font></mark>
 
 # +
@@ -299,13 +303,9 @@ if False:
 # ## Vocabulary exercises
 #
 # **Exc -- Word association:**
-# Fill in the `x`'s in the table to group the words with similar meaning.
+# Group the words below into 3 groups of similar meaning.
 #
-# `Sample, Random, Measurements, Monte-Carlo, Observations, Set of draws`
-#
-# - Ensemble, x, x
-# - Stochastic, x, x
-# - Data, x, x
+# `Sample, Random, Measurements, Ensemble, Data, Stochastic, Monte-Carlo, Observations, Set of draws`
 
 # +
 # show_answer('thesaurus 1')
@@ -315,7 +315,7 @@ if False:
 # - Can you describe the (important!) nuances between the similar words?
 #
 # **Exc (optional) -- Word association 2:**
-# Also group these words:
+# Also group (and nuance!) these words, by filling in the `x`s in the list below.
 #
 # `Inverse problems, Operator, Sample point, Transform(ation), Knowledge, Relation, Probability, Mapping, Particle, Sequential, Inversion, Realization, Relative frequency, Information, Iterative, Estimate, Estimation, Single draw, Serial, Regression, Model, Fitting, Uncertainty`
 #
@@ -331,10 +331,11 @@ if False:
 
 # **Exc (optional) -- intro discussion:** Prepare to discuss the following questions. Use any tool at your disposal.
 #
-# - (a) What is a "dynamical system"?
-# - (b) What are "state variables"? How do they differ from parameters?
-# - (c) What are "prognostic" variables? How do they differ from "diagnostic" variables?
-# - (d) What is DA?
+# - (a) What is DA?
+# - (b) What is the difference between "state variables" and "parameters"?
+# - (c) What are "prognostic" variables?
+#       How do they differ from "diagnostic" variables?
+# - (d) $k$ is the time index, but what determines the times they correspond to?
 # - (e) Is DA a science, an engineering art, or a dark art?
 # - (f) What is the point of "Hidden Markov Models"?
 
