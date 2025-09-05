@@ -1,12 +1,12 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,scripts//py:light
+#     formats: ipynb,scripts//py:light,scripts//md
 #     text_representation:
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.15.1
+#       jupytext_version: 1.17.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -24,12 +24,15 @@ import matplotlib.pyplot as plt
 plt.ion();
 
 # # T7 - Chaos & Lorenz
+#
 # ***Chaos***
 # is also known as the butterfly effect: "a butterfly that flaps its wings in Brazil can 'cause' a hurricane in Texas".
 # As opposed to the opinions of Descartes/Newton/Laplace, chaos effectively means that even in a deterministic (non-stochastic) universe, we can only predict "so far" into the future. This will be illustrated below using two toy-model dynamical systems made by ***Edward Lorenz***.
 # $
-# % ######################################## Loading TeX (MathJax)... Please wait ########################################
-# \newcommand{\Reals}{\mathbb{R}} \newcommand{\Expect}[0]{\mathbb{E}} \newcommand{\NormDist}{\mathscr{N}} \newcommand{\DynMod}[0]{\mathscr{M}} \newcommand{\ObsMod}[0]{\mathscr{H}} \newcommand{\mat}[1]{{\mathbf{{#1}}}} \newcommand{\bvec}[1]{{\mathbf{#1}}} \newcommand{\trsign}{{\mathsf{T}}} \newcommand{\tr}{^{\trsign}} \newcommand{\ceq}[0]{\mathrel{≔}} \newcommand{\xDim}[0]{D} \newcommand{\supa}[0]{^\text{a}} \newcommand{\supf}[0]{^\text{f}} \newcommand{\I}[0]{\mat{I}} \newcommand{\K}[0]{\mat{K}} \newcommand{\bP}[0]{\mat{P}} \newcommand{\bH}[0]{\mat{H}} \newcommand{\bF}[0]{\mat{F}} \newcommand{\R}[0]{\mat{R}} \newcommand{\Q}[0]{\mat{Q}} \newcommand{\B}[0]{\mat{B}} \newcommand{\C}[0]{\mat{C}} \newcommand{\Ri}[0]{\R^{-1}} \newcommand{\Bi}[0]{\B^{-1}} \newcommand{\X}[0]{\mat{X}} \newcommand{\A}[0]{\mat{A}} \newcommand{\Y}[0]{\mat{Y}} \newcommand{\E}[0]{\mat{E}} \newcommand{\U}[0]{\mat{U}} \newcommand{\V}[0]{\mat{V}} \newcommand{\x}[0]{\bvec{x}} \newcommand{\y}[0]{\bvec{y}} \newcommand{\z}[0]{\bvec{z}} \newcommand{\q}[0]{\bvec{q}} \newcommand{\br}[0]{\bvec{r}} \newcommand{\bb}[0]{\bvec{b}} \newcommand{\bx}[0]{\bvec{\bar{x}}} \newcommand{\by}[0]{\bvec{\bar{y}}} \newcommand{\barB}[0]{\mat{\bar{B}}} \newcommand{\barP}[0]{\mat{\bar{P}}} \newcommand{\barC}[0]{\mat{\bar{C}}} \newcommand{\barK}[0]{\mat{\bar{K}}} \newcommand{\D}[0]{\mat{D}} \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}} \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}} \newcommand{\ones}[0]{\bvec{1}} \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
+# \newcommand{\mat}[1]{{\mathbf{{#1}}}}
+# \newcommand{\bvec}[1]{{\mathbf{#1}}}
+# \newcommand{\xDim}[0]{D}
+# \newcommand{\x}[0]{\bvec{x}}
 # $
 
 # ## Dynamical systems
@@ -196,7 +199,7 @@ def histograms():
 # A somewhat rudimentary weather forecasting initialisation (i.e. DA) technique,
 # called **optimal interpolation**,
 # consists in using the climatology as the prior (as opposed to yesterday's forecast)
-# when applying Bayes' rule (in its [Gaussian guise](T3%20-%20Bayesian%20inference.ipynb#Gaussian-Gaussian-Bayes'-rule-(1D))) to the observations of the day.
+# when applying Bayes' rule (in its [Gaussian guise](T3%20-%20Bayesian%20inference.ipynb#Linear-Gaussian-Bayes'-rule-(1D))) to the observations of the day.
 
 # ## The Lorenz-96 model
 #
@@ -253,6 +256,7 @@ def plot_lorenz96(xDim=40,       N=2,      Force=8,       ε=0.01,         Time=
     plt.plot(np.arange(xDim), trajectories[:, -1].T)
     plt.ylim(-10, 20)
     plt.show()
+
 
 # #### Exc -- Bifurcation hunting 96
 # Investigate by moving the sliders (but keep `xDim=40`): Under which settings of the force `F`
@@ -383,10 +387,6 @@ def plot_pendulum2(k=1, N=2):
 #
 # ### Next: [T8 - Monte-Carlo & ensembles](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb)
 #
-# ---
+# <a name="References"></a>
 #
-# ## References
-#
-# - ###### Author (1999):
-# <a name="Author-(1999):"></a> 
-#   Example T.I. Author, "More to come", *Some Journal*, 44(1), 2000.
+# ### References

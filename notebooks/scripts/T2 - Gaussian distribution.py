@@ -1,12 +1,12 @@
 # ---
 # jupyter:
 #   jupytext:
-#     formats: ipynb,scripts//py:light
+#     formats: ipynb,scripts//py:light,scripts//md
 #     text_representation:
 #       extension: .py
 #       format_name: light
 #       format_version: '1.5'
-#       jupytext_version: 1.15.1
+#       jupytext_version: 1.17.2
 #   kernelspec:
 #     display_name: Python 3 (ipykernel)
 #     language: python
@@ -24,53 +24,68 @@ import matplotlib.pyplot as plt
 plt.ion();
 
 
-# We start by reviewing the most useful of probability distributions.
-#
 # # T2 - The Gaussian (Normal) distribution
 #
+# We start by reviewing the most useful of probability distributions.
 # But first, let's refresh some basic theory.
 # $
-# % ######################################## Loading TeX (MathJax)... Please wait ########################################
-# \newcommand{\Reals}{\mathbb{R}} \newcommand{\Expect}[0]{\mathbb{E}} \newcommand{\NormDist}{\mathscr{N}} \newcommand{\DynMod}[0]{\mathscr{M}} \newcommand{\ObsMod}[0]{\mathscr{H}} \newcommand{\mat}[1]{{\mathbf{{#1}}}} \newcommand{\bvec}[1]{{\mathbf{#1}}} \newcommand{\trsign}{{\mathsf{T}}} \newcommand{\tr}{^{\trsign}} \newcommand{\ceq}[0]{\mathrel{≔}} \newcommand{\xDim}[0]{D} \newcommand{\supa}[0]{^\text{a}} \newcommand{\supf}[0]{^\text{f}} \newcommand{\I}[0]{\mat{I}} \newcommand{\K}[0]{\mat{K}} \newcommand{\bP}[0]{\mat{P}} \newcommand{\bH}[0]{\mat{H}} \newcommand{\bF}[0]{\mat{F}} \newcommand{\R}[0]{\mat{R}} \newcommand{\Q}[0]{\mat{Q}} \newcommand{\B}[0]{\mat{B}} \newcommand{\C}[0]{\mat{C}} \newcommand{\Ri}[0]{\R^{-1}} \newcommand{\Bi}[0]{\B^{-1}} \newcommand{\X}[0]{\mat{X}} \newcommand{\A}[0]{\mat{A}} \newcommand{\Y}[0]{\mat{Y}} \newcommand{\E}[0]{\mat{E}} \newcommand{\U}[0]{\mat{U}} \newcommand{\V}[0]{\mat{V}} \newcommand{\x}[0]{\bvec{x}} \newcommand{\y}[0]{\bvec{y}} \newcommand{\z}[0]{\bvec{z}} \newcommand{\q}[0]{\bvec{q}} \newcommand{\br}[0]{\bvec{r}} \newcommand{\bb}[0]{\bvec{b}} \newcommand{\bx}[0]{\bvec{\bar{x}}} \newcommand{\by}[0]{\bvec{\bar{y}}} \newcommand{\barB}[0]{\mat{\bar{B}}} \newcommand{\barP}[0]{\mat{\bar{P}}} \newcommand{\barC}[0]{\mat{\bar{C}}} \newcommand{\barK}[0]{\mat{\bar{K}}} \newcommand{\D}[0]{\mat{D}} \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}} \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}} \newcommand{\ones}[0]{\bvec{1}} \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
+# \newcommand{\Reals}{\mathbb{R}}
+# \newcommand{\Expect}[0]{\mathbb{E}}
+# \newcommand{\NormDist}{\mathscr{N}}
+# \newcommand{\mat}[1]{{\mathbf{{#1}}}}
+# \newcommand{\bvec}[1]{{\mathbf{#1}}}
+# \newcommand{\trsign}{{\mathsf{T}}}
+# \newcommand{\tr}{^{\trsign}}
+# \newcommand{\xDim}[0]{D}
+# \newcommand{\x}[0]{\bvec{x}}
+# \newcommand{\X}[0]{\mat{X}}
 # $
+#
 # ## Probability essentials
 #
-# As stated by James Bernoulli (1713) and elucidated by [Laplace (1812)](#Laplace-(1812):):
+# As stated by James Bernoulli (1713) and elucidated by [Laplace (1812)](#References):
 #
 # > The Probability for an event is the ratio of the number of cases favorable to it, to the number of all
 # > cases possible when nothing leads us to expect that any one of these cases should occur more than any other,
 # > which renders them, for us, equally possible:
 #
-# $$ \mathbb{P}(\text{event}) = \frac{\text{# favorable outcomes}}{\text{# possible outcomes}} $$
+# $$ \mathbb{P}(\text{event}) = \frac{\text{number of} \textit{ favorable } \text{outcomes}}{\text{number of} \textit{ possible } \text{outcomes}} $$
+#
+# A **random variable** is a *quantity* taking random values, described in terms of **distributions**.
 #
 # - A *discrete* random variable, $X$, has a probability *mass* function (**pmf**) defined by $p(x) = \mathbb{P}(X{=}x)$.  
-#   **NB**: despite using the same $p$ symbol, $p(x)$ and $p(y)$ are generally different functions.
-# - A *continuous* random variable has a probability *density* function (**pdf**) defined by
-#   $p(x) = \mathbb{P}(X \in [x, x+\delta x])/\delta x$, with $\delta x \to 0$.  
-#   Equivalently, $p(x) = F'(x)$, where $F$ is the cumulative distribution function (**cdf**), $F(x) = \mathbb{P}(X \le x)$.
+#   Denotering it $p_X(x)$ -- to distinguish it from $p_Y(y)$ -- will sometimes be necessary.
+# - The *joint* probability of two random variables $X$ and $Y$ is defined by the intersections:
+#   $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$.  
+#   - The *marginal* $p(x)$ is recovered by summing over all $y$, and vice-versa.
+#   - The *conditional* probability of $X$ *given* $y$ is defined by $p(x|y) = \frac{p(x,y)}{p(y)}$.
+#   - *Independence* is defined by $p(x,y) = p(x) \, p(y)$ for all $x, y$.
+# - The cumulative distribution function (**cdf**) is defined as $F(x) = \mathbb{P}(X \le x)$.
 #
-# A **sample average** based on draws from a random variable $x$ (we no longer use uppercase for random variables!)
+# We will mainly be concerned with *continuous* random variables.
+# Their probability *density* function (**pdf**) can be defined by $p(x) = F'(x)$ or, equivalently,
+#
+# $$p(x) = \lim_{h \to 0} \frac{\mathbb{P}(X \in [x,\, x{+} h])}{h} \,.$$
+#
+# A **sample average** based on draws from a random variable $X$
 # is denoted with an overhead bar:
-# \begin{equation}
-#   \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,.
-# \end{equation}
-# By the *law of large numbers (LLN)*, the sample average converges for $N \to \infty$ to the **expected value**:
-# \begin{equation}
-#   \Expect[x] ≔ \int x \, p(x) \, d x \,,
-# \end{equation}
-# where the domain of integration is over *all possible values of $x$*.
+# $$ \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,. $$
+# By the *law of large numbers (LLN)*, the sample average converges for $N \to \infty$ to the **expected value** (*sometimes* called the **mean**):
+# $$ \Expect[X] ≔ \int x \, p(x) \, d x \,, $$
+# where the (omitted) domain of integration is *all values of $x$*.
+# Two important properties are immediate:
+#
+# - *Linearity*: $\Expect[aX + Y] = a \Expect[X] + \Expect[Y]$.
+# - *Total expectation*: $\Expect[\Expect[X|Y]] = \Expect[X]$.
 #
 # ## The univariate (a.k.a. 1-dimensional, scalar) Gaussian
 #
-# The Gaussian pdf is given by
+# If $X$ is Gaussian (a.k.a. "Normal"), we write
+# $X \sim \NormDist(\mu, \sigma^2)$, or $p(x) = \NormDist(x \mid \mu, \sigma^2)$,
+# where the parameters $\mu$ and $\sigma^2$ are called the mean and variance
+# (for reasons that will become clear below).
+# The Gaussian pdf is, for $x \in (-\infty, +\infty)$,
 # $$ \large \NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \,. \tag{G1} $$
-# for $x \in (-\infty, +\infty)$.
-# It may look a little scary, but we will build familiarity with it below.
-#
-# The following statements mean the same thing
-#
-# - $p(x) = \NormDist(x \mid \mu, \sigma^2)$
-# - $x \sim \NormDist(\mu, \sigma^2)$.  
 #
 # Run the cell below to define a function to compute the pdf (G1) using the `scipy` library.
 
@@ -107,25 +122,27 @@ def plot_pdf(mu=0, sigma=5):
 
 
 # #### Exc -- parameter influence
+#
 # Play around with `mu` and `sigma` to answer these questions:
-#  * How does the pdf curve change when `mu` changes? Options (several might be right/wrong)
-#    1. It changes the curve into a uniform distribution.
-#    1. It changes the width of the curve.
-#    1. It shifts the peak of the curve to the left or right.
-#    1. It changes the height of the curve.
-#    1. It transforms the curve into a binomial distribution.
-#    1. It makes the curve wider or narrower.
-#    1. It modifies the skewness (asymmetry) of the curve.
-#    1. It causes the curve to expand vertically while keeping the width the same.
-#    1. It translates the curve horizontally.
-#    1. It alters the kurtosis (peakedness) of the curve.
-#    1. It rotates the curve around the origin.
-#    1. It makes the curve a straight line.
-#  * How does the pdf curve change when you increase `sigma`?  
-#    Refer to the same options as previous question.
-#  * In a few words, describe the shape of the Gaussian pdf curve.
-#    Does this ring a bell? *Hint: it should be clear as a bell!*
-
+#
+# - How does the pdf curve change when `mu` changes? Options (several might be right/wrong)
+#   1. It changes the curve into a uniform distribution.
+#   1. It changes the width of the curve.
+#   1. It shifts the peak of the curve to the left or right.
+#   1. It changes the height of the curve.
+#   1. It transforms the curve into a binomial distribution.
+#   1. It makes the curve wider or narrower.
+#   1. It modifies the skewness (asymmetry) of the curve.
+#   1. It causes the curve to expand vertically while keeping the width the same.
+#   1. It translates the curve horizontally.
+#   1. It alters the kurtosis (peakedness) of the curve.
+#   1. It rotates the curve around the origin.
+#   1. It makes the curve a straight line.
+# - How does the pdf curve change when you increase `sigma`?  
+#   Refer to the same options as previous question.
+# - In a few words, describe the shape of the Gaussian pdf curve.
+#   Does this ring a bell? *Hint: it should be clear as a bell!*
+#
 # **Exc -- Implementation:** Change the implementation of `pdf_G1` so as to not use `scipy`, but your own code (using `numpy` only). Re-run all of the above cells and check that you get the same plots as before.  
 # *Hint: `**` is the exponentiation/power operator, but $e^x$ is more efficiently computed with `np.exp(x)`*
 
@@ -133,52 +150,86 @@ def plot_pdf(mu=0, sigma=5):
 # show_answer('pdf_G1')
 # -
 
-# **Exc -- Derivatives:** Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn (G1).  
+# **Exc -- Derivatives:** Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1).  
 # Use pen, paper, and calculus to answer the following questions,  
 # which derive some helpful mnemonics about the distribution.
 #
-#  * (i) Find $x$ such that $p(x) = 0$.
-#  * (ii) Where is the location of the **mode (maximum)** of the density?  
-#    I.e. find $x$ such that $\frac{d p}{d x}(x) = 0$.
-#    *Hint: begin by writing $p(x)$ as $c e^{- J(x)}$ for some $J(x)$.*
-#  * (iii) Where is the **inflection point**? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
-#  * (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
-
+# - (i) Find $x$ such that $p(x) = 0$.
+# - (ii) Where is the location of the **mode (maximum)** of the density?  
+#   I.e. find $x$ such that $\frac{d p}{d x}(x) = 0$.
+#   *Hint: begin by writing $p(x)$ as $c e^{- J(x)}$ for some $J(x)$.*
+# - (iii) Where is the **inflection point**? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
+# - (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
+#
+# <a name="Exc-(optional)----Change-of-variables"></a>
+#
 # #### Exc (optional) -- Change of variables
 #
-# Let $z = \phi(x)$ for some monotonic function $\phi$,
+# Let $Z = \phi(X)$ for some monotonic function $\phi$,
 # and $p_x$ and $p_z$ be their probability density functions (pdf).
+#
 # - (a): Show that $p_z(z) = p_x\big(\phi^{-1}(z)\big) \frac{1}{|\phi'(z)|}$,
 # - (b): Show that you don't need to derive the density of $z$ in order to compute its expectation, i.e. that
-#   $$ \Expect[z] = \int  \phi(x) \, p_x(x) \, d x ≕ \Expect[\phi(x)] \,,$$
+#   $$ \Expect[Z] = \int  \phi(x) \, p_x(x) \, d x ≕ \Expect[\phi(x)] \,,$$
 #   *Hint: while the proof is convoluted, the result itself is [pretty intuitive](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician).*
 
 # +
 # show_answer('CVar in proba')
 # -
 
+# <a name="Exc-(optional)----Integrals"></a>
+#
 # #### Exc (optional) -- Integrals
 #
-# Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  
+# Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  
 # Use pen, paper, and calculus to show that
-#  - (i) the first parameter, $\mu$, indicates its **mean**, i.e. that $$\mu = \Expect[x] \,.$$
-#    *Hint: you can rely on the result of (iii)*
-#  - (ii) the second parameter, $\sigma^2>0$, indicates its **variance**,
-#    i.e. that $$\sigma^2 = \mathbb{Var}(x) \mathrel{≔} \Expect[(x-\mu)^2] \,.$$
-#    *Hint: use $x^2 = x x$ to enable integration by parts.*
-#  - (iii) $E[1] = 1$,  
-#    thus proving that (G1) indeed uses the right normalising constant.  
-#    *Hint: Neither Bernoulli and Laplace managed this,
-#    until [Gauss (1809)](#Gauss-(1809):) did by first deriving $(E[1])^2$.  
-#    For more (visual) help, watch [3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
+#
+# - (i) the first parameter, $\mu$, indicates its **mean**, i.e. that $$\mu = \Expect[X] \,.$$
+#   *Hint: you can rely on the result of (iii)*
+# - (ii) the second parameter, $\sigma^2>0$, indicates its **variance**,
+#   i.e. that $$\sigma^2 = \mathbb{Var}(X) \mathrel{≔} \Expect[(X-\mu)^2] \,.$$
+#   *Hint: use $x^2 = x x$ to enable integration by parts.*
+# - (iii) $E[1] = 1$,  
+#   thus proving that (G1) indeed uses the right normalising constant.  
+#   *Hint: Neither Bernoulli and Laplace managed this,
+#   until [Gauss (1809)](#References) did by first deriving $(E[1])^2$.  
+#   For more (visual) help, watch [3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
 
 # +
 # show_answer('Gauss integrals')
 # -
 
+# **Exc (optional) -- Riemann sums**:
+# Recall that integrals compute the "area under the curve".
+# As such they may be approximated on a discrete grid
+# using the [Trapezoidal rule](https://en.wikipedia.org/wiki/Riemann_sum#Trapezoidal_rule).
+#
+# - (a) Replace the prefab code below with your own implementation, using `sum()`,
+#   to compute the mean and variance of a pdf represented on a grid.
+# - (b) Use `np.trapezoid` to compute the probability that a scalar, Gaussian $X$ lies within $1$ standard deviation of its mean.  
+#   *Hint: the numerical answer you should find is $\mathbb{P}(X \in [\mu {-} \sigma, \mu {+} \sigma]) \approx 68\%$.*
+
+# +
+def mean_and_var(pdf_values, grid):
+    f, x = pdf_values, grid
+    mu = np.trapezoid(f*x, x)
+    s2 = np.trapezoid(f*(x-mu)**2, x)
+    return mu, s2
+
+mu, sigma = 0, 2 # example
+pdf_vals = pdf_G1(grid1d, mu=mu, sigma2=sigma**2)
+'Should equal mu and sigma2: %f, %f' % mean_and_var(pdf_vals, grid1d)
+
+
+# +
+# show_answer('Riemann sums', 'a')
+# -
+
 # **Exc -- The uniform pdf**:
 # Below is the pdf of the [uniform/flat/box distribution](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous))
 # for a given mean and variance.
+#
+# - Use `mean_and_var()` to verify `pdf_U1` (as is).
 # - Replace `_G1` by `_U1` in the code generating the above interactive plot.
 # - Why are the walls (ever so slightly) inclined?
 # - Write your own implementation below, and check that it reproduces the `scipy` version already in place.
@@ -201,38 +252,42 @@ def pdf_U1(x, mu, sigma2):
 
 # ## The multivariate (i.e. vector) Gaussian
 #
-# Here's the pdf of the *multivariate* Gaussian (for any dimension $\ge 1$):
-# $$ \large
-# \NormDist(\x \mid  \mathbf{\mu}, \mathbf{\Sigma})
-# = |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM} $$
+# A *multivariate* random variable, i.e. **vector**, is simply a collection of scalar variables (on the same probability space).
+# I.e. its distribution is the *joint* distribution of its components.
+# The pdf of the multivariate Gaussian (for any dimension $\ge 1$) is
+#
+# $$\large \NormDist(\x \mid \mathbf{\mu}, \mathbf{\Sigma}) =
+# |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM} $$
 # where $|.|$ represents the matrix determinant,  
 # and $\|.\|_\mathbf{W}$ represents a weighted 2-norm: $\|\x\|^2_\mathbf{W} = \x^T \mathbf{W}^{-1} \x$.  
 #
 # <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
-#   <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
-#     🔍 $\mathbf{W}$ must be symmetric-positive-definite (SPD) because ... 👇
-#   </summary>
+# <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
+#   $\mathbf{W}$ must be symmetric-positive-definite (SPD) because ... (optional reading 🔍)
+# </summary>
 #
-#   - The norm (a quadratic form) is invariant to any asymmetry in the weight matrix.
-#   - The density (GM) would not be integrable (over $\Reals^{\xDim}$) if $\x\tr \mathbf{\Sigma} \x > 0$.
+# - The norm (a quadratic form) is invariant to any asymmetry in the weight matrix.
+# - The density (GM) would not be integrable (over $\Reals^{\xDim}$) if $\x\tr \mathbf{\Sigma} \x > 0$.
 #
-#   ---
+# - - -
 # </details>
 #
 # It is important to recognize how similar eqn. (GM) is to the univariate (scalar) case (G1).
-# Moreover, [as above](#Exc-(optional)----Integrals) it can be shown that
-# - $\mathbf{\mu} = \Expect[\x]$,
-# - $\mathbf{\Sigma} = \Expect[(\x-\mu)(\x-\mu)\tr]$.
+# Moreover, [similarly as above](#Exc-(optional)----Integrals), it can be shown that
 #
-# Note that that the elements of $\mathbf{\Sigma}$ are individual covariances,
-# $\Sigma_{i,j} = \Expect[(x_i-\mu_i)(x_j-\mu_j)] = \mathbb{Cov}(x_i, x_j)$.
+# - $\mathbf{\mu} = \Expect[\X]$,
+# - $\mathbf{\Sigma} = \Expect[(\X-\mu)(\X-\mu)\tr]$,
+#
+# I.e. the elements of $\mathbf{\Sigma}$ are the individual covariances,
+# $\Sigma_{i,j} = \Expect[(X_i-\mu_i)(X_j-\mu_j)] =: \mathbb{Cov}(X_i, X_j)$
+# and, on the diagonal ($i=j$), variances: $\Sigma_{i,i} = \mathbb{Var}(X_i)$.
 # Therefore $\mathbf{\Sigma}$ is called the *covariance (matrix)*.
-# and its diagonal entries are simply variances, $\Sigma_{i,i} = \mathbb{Var}(x_i)$.
 #
 # The following implements the pdf (GM). Take a moment to digest the code, but don't worry if you don't understand it all. Hints:
-#  * `@` produces matrix multiplication (`*` in `Matlab`);
-#  * `*` produces array multiplication (`.*` in `Matlab`);
-#  * `axis=-1` makes `np.sum()` work along the last dimension of an ND-array.
+#
+# - `@` produces matrix multiplication (`*` in `Matlab`);
+# - `*` produces array multiplication (`.*` in `Matlab`);
+# - `axis=-1` makes `np.sum()` work along the last dimension of an ND-array.
 
 # +
 from numpy.linalg import det, inv
@@ -273,29 +328,38 @@ def plot_pdf_G2(corr=0.7, std_x=1):
     plt.show()
 # -
 
+# The code defines the covariance `cv_xy` from the input ***correlation*** `corr`.
+# This is a coefficient (number), defined for any two random variables $x$ and $y$ (not necessarily Gaussian) by
+# $$ \rho[x,y]=\frac{\mathbb{Cov}[X,Y]}{\sigma_x \sigma_y} \,. $$
+# This correlation quantifies (defines) the ***linear dependence*** between $X$ and $Y$. Indeed,
+#
+# - $-1\leq \rho \leq 1$ (by Cauchy-Swartz)
+# - **If** $X$ and $Y$ are *independent*, then $\rho[X,Y]=0$.
+#
 # **Exc -- Correlation influence:** How do the contours look? Try to understand why. Cases:
-#  * (a) correlation=0.
-#  * (b) correlation=0.99.
-#  * (c) correlation=0.5. (Note that we've used `plt.axis('equal')`).
-#  * (d) correlation=0.5, but with non-equal variances.
+#
+# - (a) correlation=0.
+# - (b) correlation=0.99.
+# - (c) correlation=0.5. (Note that we've used `plt.axis('equal')`).
+# - (d) correlation=0.5, but with non-equal variances.
 #
 # Finally (optional): why does the code "crash" when `corr = +/- 1` ? Is this a good or a bad thing?  
 # *Hint: do you like playing with fire?*
-
-# **Exc Correlation game:** Play [here](http://guessthecorrelation.com/) until you get a score (gold coins) of 5 or more.  
-# *PS: you can probably tell that the samples are not drawn from Gaussian distributions. However, the quantity $\mathbb{Cov}(x_i, x_i)$ is well defined and can be estimated from the samples.*
-
+#
+# **Exc Correlation game:** [Play](http://guessthecorrelation.com/) until you get a score (gold coins) of 5 or more.  
+#
 # **Exc -- Correlation disambiguation:**
-# * What's the difference between correlation and covariance?
-# * What's the difference between non-zero (C) correlation (or covariance) and (D) dependence?
+#
+# - What's the difference between correlation and covariance (in words)?
+# - What's the difference between non-zero (C) correlation (or covariance) and (D) dependence?
 #   *Hint: consider this [image](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#/media/File:Correlation_examples2.svg).*  
 #   - Does $C \Rightarrow D$ or the converse?  
 #   - What about the negation, $\neg D \Rightarrow \neg C$, or its converse?*  
 #   - What about the (jointly) Gaussian case?
-# * Does correlation (or dependence) imply causation?
-# * Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
+# - Does correlation (or dependence) imply causation?
+# - Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
 #   Does information about $y$ give you information about $x$?
-
+#
 # **Exc (optional) -- Gaussian ubiquity:** Why are we so fond of the Gaussian assumption?
 
 # +
@@ -313,14 +377,9 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 #
 # ### Next: [T3 - Bayesian inference](T3%20-%20Bayesian%20inference.ipynb)
 #
-# ---
+# <a name="References"></a>
 #
-# ## References
+# ### References
 #
-# - ###### Laplace (1812):
-# <a name="Laplace-(1812):"></a>
-#   P. S. Laplace, "Théorie Analytique des Probabilités", 1812.
-#
-# - ###### Gauss (1809):
-# <a name="Gauss-(1809):"></a>
-#   Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares (which will be very relevant to us) and its probabilistic justification based on the normal distribution of errors).
+# - **Laplace (1812)**: P. S. Laplace, "Théorie Analytique des Probabilités", 1812.
+# - **Gauss (1809)**: Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares (which will be very relevant to us) and its probabilistic justification based on the normal distribution of errors).

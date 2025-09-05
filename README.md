@@ -64,3 +64,23 @@ This is a bit snappier than running them online.
 
 - Easier to read git diffs
 - Enable importing from notebook (script mirrors)
+
+## Target audience
+
+Students in their 3rd year or above in university.
+
+Prerequisites: some experience with of numpy (Python) as well as 1st-year, university-level statistics and linear algebra.
+
+## Citing
+
+Please cite as
+
+```bib
+@phdthesis{raanes2016thesis,
+    author = {Raanes, Patrick N.},
+    title = {Improvements to Ensemble Methods for Data Assimilation in the Geosciences},
+    school = {University of Oxford},
+    year = {2016},
+    month = {January}
+}
+```

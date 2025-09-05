@@ -121,13 +121,62 @@ def setup_typeset():
 answers = {}
 
 ###########################################
-# Tut: DA & EnKF
+# Tut: Intro
 ###########################################
+answers['state variables'] = ["MD", r"""
+- (a) Position (x, y, z), velocity (vx, vy, vz).
+- (b)
+    - Epidemic (SEIR):  
+        Susceptible (S), Exposed (E), Infectious (I), Recovered (R) populations.
+    - Predator-prey (Lotka-Volterra):  
+        Foxes (F), Rabbits (R).
+- (c) Pressure, temperature, humidity, wind components (u, v, w), at each grid point.
+- (d) Pressure, fluid saturations (oil, water, gas), possibly temperature, at each grid cell.
+- (e) Concentrations of chemical species, temperature.
+- (f) Vehicle density, average velocity, at each road segment.
+- (g) Rating value(s) for each player/team.
+- (h) Asset price, volatility.
+
+General questions:
+
+- Usually ordering does not affect the mathematics, but it might matters for implementation (e.g., mapping variables to indices).
+- No, not for plain prediction purposes, but it is often convenient to have a fixed-length vector for computational efficiency and simplicity.
+- It might increases computational cost/complexity and may introduce noise or bugs.
+"""]
+
+answers['model error'] = ["MD", r"""
+Most models could be said to be afflicted by most of the shortcomings, but here are what appears most relevant:
+
+- (a) Laws of motion and gravity: 1, 8
+- (b) Epidemic (SEIR): 3, 5, 6, 7
+- (c) Weather/climate forecasting: 3, 4, 7, 9
+- (d) Petroleum reservoir flow: 4, 6, 7, 9
+- (e) Chemical and biological kinetics: 3, 7
+- (f) Traffic flow: 2, 4, 6, 10
+- (g) Sports rating: 2, 7
+- (h) Financial pricing: 2, 4, 7
+"""]
+
+answers['obs examples'] = ["MD", r"""
+- (a) Altimetry, sextants, speedometers, compass readings, accelerometers, gyroscopes, or fuel-gauges
+- (b)
+    - SEIR: Number of positive tests, hospitalized, or dead. Sewage analyses. Google searches for symptoms.
+    - Predator-prey: loss of harvest or poultry; direct (but incomplete) counts of foxes or rabbits,
+        or their tracks, or their droppings.
+- (c) Local weather stations. Satellite data. Weather balloons. Each of which can measure a range of variables,
+  e.g. temperature, humidity, wind speed/direction, precipitation, radiances.
+- (d) Well pressure, production rates (oil, gas, water), oil/water cuts.
+- (e) (Bio)chemical analyses, spectrometry, temperature readings.
+- (f) Vehicle counts, speed measurements, GPS traces, traffic cameras.
+- (g) Game outcomes, scores, player statistics.
+- (h) Asset prices, trading volumes, volatility indices.
+
+"""]
+
 answers['thesaurus 1'] = ["TXT", r"""
 - Ensemble, Sample, Set of draws
 - Stochastic, Random, Monte-Carlo
 - Data, Measurements, Observations
-- Filtering, Forecast initialisation
 """]
 
 answers['thesaurus 2'] = ["TXT", r"""
@@ -139,18 +188,22 @@ answers['thesaurus 2'] = ["TXT", r"""
 """]
 
 answers['Discussion topics 1'] = ['MD', r'''
- * (a) Stuff that changes in time.
- * (b) "State" variables are (potentially unknown) variables that change in time.
+ * (a) State estimation for large systems.
+ * (b) "State variables" are (potentially unknown) variables that change in time.
    By contrast, "parameters" are constant-in-time (but potentially unknown) variables.
-   Arguably, the state vector should also be chosen (by parameterisation) so as to be
-   prognostic and non-redundant.
- * (c) Variables that are *essential* for the prediction of the dynamical system.
-   By contrast, "diagnostic" variables can be computed from the prognostic (state) variables,
-   such as momentum and energy (in case the state contains the velocity),
+ * (c) "Prognostic" variables are *essential* for the prediction of the dynamical system.
+   As such they are to be found among $x$ (contingent on the chosen parameterisation).
+   By contrast, "diagnostic" variables can be derived (computed) from the prognostic/state variables.
+   For example the observations, $y$, or other non-state quantities
+   such as as momentum and energy (in case the state contains the velocity),
    or precipitation (in case the state contains pressure, humidity, salinity, ...).
- * (d) State estimation for large systems.
+ * (d) In priciniple, $t(k)$ is a point in time at which we receive a new observation.
+       In practice, however, we tend to accumulate observations over some amount of time,
+       and only *assimilate* them at regular intervals,
+       determined by the frequency with which we *wish* to launch new forecasts.
+       Note that this practice complicates the theory somewhat.
  * (e) In principle it's a science. In practice...
- * (f) Abstract concept to break the problem down into smaller, recursive, problems.  
+ * (f) Abstract concept to break the problem down into smaller, *recursive*, problems.  
    DAGs. Formalises the concept of hidden variables (states).
 ''']
 
@@ -160,6 +213,24 @@ answers['Discussion topics 1'] = ['MD', r'''
 answers['pdf_G1'] = ['MD', r'''
     const = 1/np.sqrt(2*np.pi*sigma2)
     pdf_values = const * np.exp(-0.5*(x - mu)**2/sigma2)
+''']
+
+answers['Riemann sums a'] = ['MD', r'''
+    # Midpoint rule, dx assumed constant
+    dx = x[1] - x[0]
+    mu = sum(f * x) * dx
+    s2 = sum(f * (x-mu)**2) * dx
+
+    # Alternatively: Right rule
+    dxs = np.diff(x)
+    mu = sum((f * x)[1:] * dxs)
+    s2 = sum((f * (x-mu)**2)[1:] * dxs)
+''']
+
+answers['Riemann sums b'] = ['MD', r'''
+    interval = abs(grid1d - mu) <= sigma
+    prob = np.trapezoid(pdf_vals[interval], grid1d[interval])
+    print(prob)
 ''']
 
 answers['pdf_U1'] = ['MD', r'''
@@ -254,18 +325,25 @@ What's not to love? Consider
  * Self-conjugate: Gaussian prior and likelihood yields Gaussian posterior.
  * Among pdfs with independent components (2 or more),
    the Gaussian is uniquely (up to scaling) rotation-invariant (symmetric).
+ * Gaussians have the maximal entropy for all distributions with a given variance.
+ * Gaussians are invariant to self-convolution (i.e. the addition of two random variables)
+ * The Gaussian is uniquely (among densities) invariant to the Fourier transform.
+ * It is the heat kernel, i.e. the [Green's function](https://en.wikipedia.org/wiki/Green%27s_function#Table_of_Green's_functions)
+   of the diffusion equation: one of the fundamental PDEs.
+ * Uniquely, among elliptical distributions: uncorrelated, jointly distributed, normal random variables are independent.
  * Uniquely for Gaussian sampling distribution: maximizing the likelihood for the mean simply yields the sample average.
+ * Unique in that the sample mean and variance are independent if calculated from a set of independent draws.
  * For more, see [Wikipedia](https://en.wikipedia.org/wiki/Normal_distribution#Properties)
    and Chapter 7 of: [Probability theory: the logic of science (Edwin T. Jaynes)](https://books.google.com/books/about/Probability_Theory.html?id=tTN4HuUNXjgC).
 """]
 
 
-answers['GG BR example'] = ['MD', r'''
+answers['LG BR example'] = ['MD', r'''
 - Eqn. (5) yields $P\supa = \frac{1}{1/4 + 1/4} = \frac{1}{2/4} = 2$.
 - Eqn. (6) yields $x\supa = 2 \cdot (20/4 + 18/4) = \frac{20 + 18}{2} = 19$
 ''']
 
-answers['symmetry of conditioning'] = ['MD', r'''
+answers['symmetry of conjunction'] = ['MD', r'''
 <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem#For_continuous_random_variables" target="_blank">Wikipedia</a>
 
 ''']
@@ -300,9 +378,9 @@ answers['Posterior behaviour'] = ['MD', r'''
     - For the uniform-uniform case, yes.
     - For the mixed case, it's not clear what scale/width means,
       but for most (any reasonable?) definitions the answer will be yes.
-    - For the Gaussian-Gaussian case, no.
+    - For the linear-Gaussian case, no.
 - In the mixed cases: Yes. Otherwise: No.
-- In fact, we'll see later that the Gaussian-Gaussian posterior is Gaussian,
+- In fact, we'll see later that the linear-Gaussian posterior is Gaussian,
   and is therefore fully characterized by its mean and its variance.
   So we only need to compute its location and scale.
 - The problem (of computing the posterior) is ill-posed:  
@@ -326,27 +404,19 @@ For example, multiplicative noise, i.e. $y = x r$, produces $p(y|x) = \NormDist(
 
 answers['Observation models a'] = ['MD', r'''
 The likelihood simply shifts/translates towards lower values by $15$.
-Apart from the noise corruption, Bayes' rule (BR) effectively inverts $\ObsMod$
-which consists in adding $15$.
 ''']
 answers['Observation models b'] = ['MD', r'''
 The distance from the origin to the likelihood (any point on it) gets halved.  
-In addition, its width/spread gets halved.
-Again, BR effectively inverts $\ObsMod$
-but now with twice the precision (for the same amount of noise),
-since $\ObsMod$ effectively magnifies (stretches out) the domain of $x$.
+In addition, its width/spread gets halved, i.e. its precision doubles.
 
-Note that the likelihood height remains unchanged.  
+*PS*: the height of the likelihood remains unchanged.  
 Thus, it no longer integrates to $1$. But this is not a problem,
-since only densities need integrate to $1$,
-and the likelihood merely *updates* our belief densities.
-*PS: However, from the perspective of $y$, the likelihood _is_ indeed a density*.
-The posterior remains Gaussian.
+since only densities need integrate to $1$;
+the likelihood merely *updates* our beliefs.
 ''']
 answers['Observation models c'] = ['MD', r'''
-The likelihood now has 2 peaks. Providing they're far enough apart, so does the posterior.
-The posterior may look like it's composed of 2 Gaussians,
-but it is also contains some "skewing" on each peak, due to the squaring.
+The likelihood now has 2 peaks, each one $\sqrt{y}$ away from $5$.
+They're not actually quite Gaussian.
 
 Note that a true inverse of $\ObsMod$ does not exist.
 Yet BR gives us the next best thing: the two options, weighted.
@@ -354,7 +424,9 @@ A daring person might call it a "statistically generalized inverse".
 ''']
 answers['Observation models d'] = ['MD', r'''
 This is similar to the previous part of the exercise,
-except without the skewing (the posterior is still not Gaussian though).
+but the peaks are now centered on 0.
+
+PS: the posterior is never quite fully Gaussian.
 ''']
 
 
@@ -460,7 +532,7 @@ p(x|y)
 &=       N(x \mid x\supf, P\supf) \, N(y \mid x, R) \\\
 &\propto \exp \Big( \frac{-1}{2} \big[ (x-x\supf)^2/P\supf + (x-y)^2/R \big] \Big) \,.
 \end{align}
-The rest follows by eqn. (S2) and identification with $N(x \mid x\supa, P\supa)$.
+The rest follows by eqn. (LG1) and identification with $N(x \mid x\supa, P\supa)$.
 ''']
 
 answers['BR Gauss'] = ['MD', r'''
@@ -522,6 +594,11 @@ answers['Posterior cov'] =  ['MD', r"""
         This follows from the [law of total variance](https://en.wikipedia.org/wiki/Law_of_total_variance).
   * It probably won't have decreased. Maybe you will just discard the new information entirely, in which case your certainty will remain the same.  
     I.e. humans are capable of thinking hierarchically, which effectively leads to other distributions than the Gaussian one.
+"""]
+
+answers['MMSE'] =  ['MD', r"""
+Inserting $0 = \mu - \mu$ into the expression for the MSE decomposes it into the squared bias (if any)
+plus the variance (of $X$ itself), which is independent of the choice of point estimate.
 """]
 
 ###########################################
@@ -645,7 +722,7 @@ answers['KF1 code'] = ['MD', r'''
 
 answers['Asymptotic Riccati a'] = ['MD', r'''
 Follows directly from eqn. (6) from both this tutorial and
-[the previous one](T3%20-%20Bayesian%20inference.ipynb#Exc----GG-Bayes).
+[the previous one](T3%20-%20Bayesian%20inference.ipynb#Exc----BR-LG1).
 ''']
 
 answers['Asymptotic Riccati b'] = ['MD', r'''
