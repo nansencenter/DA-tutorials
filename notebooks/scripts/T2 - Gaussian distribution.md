@@ -336,7 +336,7 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 
 The code defines the covariance `cv_xy` from the input ***correlation*** `corr`.
 This is a coefficient (number), defined for any two random variables $x$ and $y$ (not necessarily Gaussian) by
-$$ \rho[x,y]=\frac{\mathbb{Cov}[X,Y]}{\sigma_x \sigma_y} \,. $$
+$$ \rho[X,Y]=\frac{\mathbb{Cov}[X,Y]}{\sigma_x \sigma_y} \,. $$
 This correlation quantifies (defines) the ***linear dependence*** between $X$ and $Y$. Indeed,
 
 - $-1\leq \rho \leq 1$ (by Cauchy-Swartz)
