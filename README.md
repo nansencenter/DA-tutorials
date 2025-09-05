@@ -19,7 +19,7 @@ random variables, Python (numpy).
 If you prefer, you can also run these notebooks on your own (Linux/Windows/Mac) computer.
 This is a bit snappier than running them online.
 
-1. **Prerequisite**: Python 3.9.  
+1. **Prerequisite**: Python 3.12.  
    If you're an expert, setup a python environment however you like.
    Otherwise:
    Install [Anaconda](https://www.anaconda.com/download), then
@@ -27,12 +27,12 @@ This is a bit snappier than running them online.
    and run the following commands:
 
    ```bash
-   conda create --yes --name my-env python=3.9
+   conda create --yes --name my-env python=3.12
    conda activate my-env
    python --version
    ```
 
-   Ensure the printed version is 3.9.  
+   Ensure the printed version is 3.12.  
    *Keep using the same terminal for the commands below.*
 
 2. **Install**:
