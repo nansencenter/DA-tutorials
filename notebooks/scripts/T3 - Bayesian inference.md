@@ -22,7 +22,6 @@ remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 from resources import show_answer, interact, import_from_nb, get_jointplotter
 %matplotlib inline
 import numpy as np
-import scipy as sp
 import matplotlib.pyplot as plt
 plt.ion();
 ```
@@ -44,7 +43,7 @@ $$ \large \NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^
 which we implemented and tested alongside the uniform distribution.
 
 ```python
-(pdf_G1, pdf_U1, bounds, dx, grid1d) = import_from_nb("T2", ("pdf_G1", "pdf_U1", "bounds", "dx", "grid1d"))
+(pdf_G1, pdf_U1, bounds, dx, grid1d, mean_and_var) = import_from_nb("T2", ("pdf_G1", "pdf_U1", "bounds", "dx", "grid1d", "mean_and_var"))
 pdfs = dict(N=pdf_G1, U=pdf_U1)
 ```
 
@@ -126,7 +125,7 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
     xf = 10
     Pf = 4**2
 
-    # (See exercise below)
+    # (Ref. later exercise)
     def H(x):
         return 1*x + 0
 
@@ -140,14 +139,14 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 
     plt.figure(figsize=(8, 4))
     plot(x, prior_vals, 'blue'  , f'Prior, {prior_kind}(x | {xf:.4g}, {Pf:.4g})')
-    plot(x, lklhd_vals, 'green' , f'Lklhd, {lklhd_kind}({y} | x, {R:.4g})')
-    plot(x, postr_vals, 'red'   , f'Postr, pointwise')
+    plot(x, lklhd_vals, 'green' , f'Lklhd, {lklhd_kind}({y:<3}| H(x), {R:.4g})')
+    plot(x, postr_vals, 'red'   , 'Postr, pointwise: ?(x | %4.2g, %4.2g)' % mean_and_var(postr_vals, x))
 
+    # (Ref. later exercise)
     try:
-        # (See exercise below)
         H_lin = H(xf)/xf # a simple linear approximation of H(x)
         xa, Pa = Bayes_rule_LG1(xf, Pf, y, H_lin, R)
-        label = f'Postr, parametric\nN(x | {xa:.4g}, {Pa:.4g})'
+        label = f'Postr, parametric: N(x | {xa:4.2g}, {Pa:4.2g})'
         postr_vals_G1 = pdf_G1(x, xa, Pa)
         plt.plot(x, postr_vals_G1, 'purple', label=label)
     except NameError:
@@ -160,7 +159,8 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 
 The illustration uses a
 
-- prior $p(x) = \NormDist(x|x^f, P^f)$ with (fixed) mean and variance, $x^f= 10$, $P^f=4^2$.
+- prior $p(x) = \NormDist(x|x^f, P^f)$ with (fixed) mean and variance, $x^f= 10$, $P^f=4^2$
+  (but you can of course change these in the code above)
 - likelihood $p(y|x) = \NormDist(y|x, R)$, whose parameters are set by the interactive sliders.
 
 We are now dealing with 3 (!) separate distributions,
@@ -214,6 +214,8 @@ Then the likelihood is $$p(y|x) = \NormDist(y| \ObsMod(x), R) \,. \tag{Lklhd}$$
 # show_answer('Likelihood')
 ```
 
+<a name="Exc----Obs.-model-gallery"></a>
+
 #### Exc -- Obs. model gallery
 
 Consider the following observation models.
@@ -224,7 +226,7 @@ Consider the following observation models.
   - Explain how negative values of $y$ are possible.
 - (d) Try $\ObsMod(x) = |x|$.
 
-In each case, describe how the likelihood approximately changes as compared to $\ObsMod(x) = x$.
+In each case, describe how and why you'd expect the likelihood to change (as compared to $\ObsMod(x) = x$).
 Then verify your answer by implementing `H` in the [interactive Bayes' rule](#Interactive-illustration).
 
 ```python
@@ -293,7 +295,7 @@ Show that your posterior is $p(x|y) = \NormDist(x \mid 19, 2)$
 ```
 
 The following implements a linear-Gaussian Bayes' rule (eqns. 5 and 6).
-Note that its inputs and outputs are not discretized density values (as for `Bayes_rule()`), but simply 5 numbers: the means, variances and $\ObsMod$.
+Note that its inputs and outputs are not arrays (as for `Bayes_rule()`), but simply scalar numbers: the means, variances and $\ObsMod$.
 
 ```python
 def Bayes_rule_LG1(xf, Pf, y, H, R):
@@ -304,10 +306,37 @@ def Bayes_rule_LG1(xf, Pf, y, H, R):
 
 #### Exc -- Gaussianity as an approximation
 
-Re-run/execute the interactive animation code cell up above.
+- (a) Again, try the various $\ObsMod$ from the [above exercise](#Exc----Obs.-model-gallery) in the [interactive Bayes' rule widget](#Interactive-illustration).  
+  For which $\ObsMod$ does `Bayes_rule_LG1()` reproduce `Bayes_rule()`?
+- (b) For simplicity, revert back to the identity for $\ObsMod$.
+  Then run the cell below, which fits distributions [from `scipy`s library of distributions](https://stackoverflow.com/questions/37559470/)
+  so as to respect `mu` and `sig2` and adds them to the pdfs in the dropdown menus of the widget
+  (upon re-running its cell). Try them out for the likelihood, and answer the following.
+  Which ones
 
-- (a) Under what conditions does `Bayes_rule_LG1()` provide a good approximation to `Bayes_rule()`?
-- (b) Try using one or more of the other [distributions readily available in `scipy`](https://stackoverflow.com/questions/37559470/) in the above animation by inserting them in `pdfs`.
+  - Are skewed (or at least asymmetric) ?
+  - Have excess kurtosis (tails heavier than for the Gaussian) ?
+  - Produces a posterior variance that increases with the distance prior-observation ?  
+    *PS: this one (the Student's) is frequently used
+    to increase the robustness of the (ensemble) Kalman filter,
+    or [estimate the "inflation" factor](https://rmets.onlinelibrary.wiley.com/doi/10.1002/qj.3386).*
+
+```python
+import scipy.stats as ss
+for dist in [
+  ss.chi2(df=3),
+  ss.beta(a=5, b=2),
+  ss.anglit(),
+  ss.t(df=3),
+]:
+    def pdf_fitted(x, mu, sigma2, dist=dist):
+        mean, var = dist.stats(moments='mv')
+        # mean, var = mean_and_var(dist.pdf(grid1d), grid1d)
+        ratio = np.sqrt(var / sigma2)
+        u = ratio * (x - mu) + mean
+        return ratio * dist.pdf(u)
+    pdfs[dist.dist.name + str(dist.kwds)] = pdf_fitted
+```
 
 **Exc (optional) -- Gain algebra:** Show that eqn. (5) can be written as
 $$P\supa = K R / \ObsMod \,,    \tag{8}$$
@@ -352,25 +381,63 @@ Let $\ObsMod = 1$ for simplicity.
 In contrast to orthodox statistics,
 Bayes' rule (BR) itself makes no attempt at producing only a single estimate/value of $x$.
 It merely states how quantitative belief (weighted possibilities) should be updated in view of new data.
+Barring any approximations (such as the use of `Bayes_rule_LG1` outside of the linear-Gaussian case)
+the (full) posterior will be be **optimal** from the point of view of any [proper scoring rule](https://en.wikipedia.org/wiki/Scoring_rule#Propriety_and_consistency).
 *But if you must* pick a single point value estimate $\hat{x}$
-(in order to perform a contingent action, for example),
+(in order to perform a contingent action, without [robust optimisation](https://en.wikipedia.org/wiki/Robust_optimization)),
 you can **decide** on it by optimising (with respect to $\hat{x}$)
-the expected value of some utility/loss function [[ref](https://en.wikipedia.org/wiki/Bayes_estimator)],
-for example mean-squared: $\text{Loss}(x - \hat{x}) = (x - \hat{x})^2$.
+the expectation (with respect to $x$) of some utility/loss function,
+i.e. $\Expect\, \text{Loss}(x - \hat{x})$.
+For instance, if the posterior pdf happens to be symmetric
+(as in the linear-Gaussian context above),
+and your loss function is convex and symmetric,
+then the mean/median will be be optimal [[Lehmann & Casella (1998)](#References), Corollary 7.19].
+More particularly, for any given distribution of $x$,
+the optimal [Bayes estimator](https://en.wikipedia.org/wiki/Bayes_estimator) is
 
-- For example, if the density of $x$ is symmetric,
-  and $\text{Loss}$ is convex and symmetric,
-  then $\Expect[\text{Loss}(x - \hat{x})]$ is minimized
-  by the mean, $\Expect[x]$, which also coincides with the median.
-  Ref Corollary 7.19 of Lehmann & Casella (1998).
-- (a) Show that, for the expected *squared* loss, $\Expect[(x - \hat{x})^2]$,
-  the minimum is the mean for *any distribution*.
-  *Hint: insert $0 = \,?\, - \,?$.*
-- (b) Show that linearity can replace Gaussianity in the 1st bullet point.
-  *PS: this gives rise to various optimality claims of the Kalman filter,
-  such as it being the best linear-unbiased estimator (BLUE).*
+- the mode if $\text{Loss}(d) = \begin{cases} 0 & \text{if } d = 0 \\ 1 & \text{otherwise} \end{cases}$
+- the median if $\text{Loss}(d) = |d|$
+- the mean if $\text{Loss}(d) = d^2$
 
-In summary, the intuitive idea of **considering the mean of $p(x)$ as the point estimate** has good theoretical foundations.
+The last case (squared-error loss) if most commonly used,
+and the resulting estimator is sometimes called
+the minimum mean-square error (MMSE) estimator.
+*Prove that the MMSE is indeed the mean of the distribution!*
+
+```python
+# show_answer('MMSE')
+```
+
+It is not generally easy to find the posterior mean, median, or mode, however,
+so these optimalities only really serve to justify a preference for $x\supa$
+in the linear-Gaussian case.
+
+<details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
+  <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
+      It is possible to drop the Gaussianity assumption and still
+      claim optimality for $x\supa$ of eqns. (6) and (11) as
+      the best (min. variance), linear, unbiased, estimate (BLUE ... 🔍).
+  </summary>
+  The result requires reformulating the prior
+  as "background" zero-mean noise onto the (non-random) $x$,
+  whose outcome was the prior mean, $x\supf$, and whose covariance is $P\supf$.
+  Then, by explicit augmentation (i.e. pseudo-obs: $[y, x\supf]$) one recovers the linear regression problem
+  of the celebrated Gauss-Markov theorem, generalized by Aitken to the case of correlated noise.
+  A similar proof uses an ansatz linear in both $x\supf$ and $y$ without concatenating them.
+  *PS: this results is also [sometimes](https://en.wikipedia.org/wiki/Minimum_mean_square_error#Linear_MMSE_estimator) reframed as MMSE,
+  causing confusion with the above meaning of the acronym.*
+
+  If Gaussianity is again assumed (but the perspective remains "frequentist"),
+  then one can drop the linearity requirement,
+  yielding the (uniformly) minimum-variance unbiased estimate (UMVUE),
+  as per [Lehmann-Sheffé](https://stats.stackexchange.com/a/398911), or [Cramér-Rao](https://stats.stackexchange.com/a/596307).
+  However, the linearity imposition cannot generally be omitted [Pötscher & Preinerstorfer (2024)](#References).
+
+  - - -
+</details>
+
+All in all, the intuitive idea of **considering the mean of $p(x)$ as the point
+estimate** has good theoretical foundations.
 
 ## Summary
 
@@ -379,8 +446,8 @@ Bayes' rule says how to condition/merge/assimilate/update this belief based on d
 It is simply a re-formulation of the notion of conditional probability.
 Observation can be "inverted" using Bayes' rule,
 in the sense that all possibilities for $x$ are weighted.
-While technically simple, Bayes' rule becomes expensive to compute in high dimensions,
-but if Gaussianity can be assumed then it reduces to only 2 formulae.
+While technically simple, Bayes' rule requires a bunch of point multiplications.
+But if Gaussianity can be assumed then it reduces to only 2 formulae.
 
 ### Next: [T4 - Filtering & time series](T4%20-%20Time%20series%20filtering.ipynb)
 
@@ -392,3 +459,5 @@ but if Gaussianity can be assumed then it reduces to only 2 formulae.
   Edwin T. Jaynes, "Probability theory: the logic of science", 2003.
 - **Lehmann & Casella (1998)**:
   "Theory of Point Estimation", 1998.
+- **Pötscher & Preinerstorfer (2024)**:
+  Benedikt M. Pötscher and David Preinerstorfer, "A Comment on: 'A Modern Gauss--Markov Theorem'", Econometrica, 2024.

@@ -215,6 +215,24 @@ answers['pdf_G1'] = ['MD', r'''
     pdf_values = const * np.exp(-0.5*(x - mu)**2/sigma2)
 ''']
 
+answers['Riemann sums a'] = ['MD', r'''
+    # Midpoint rule, dx assumed constant
+    dx = x[1] - x[0]
+    mu = sum(f * x) * dx
+    s2 = sum(f * (x-mu)**2) * dx
+
+    # Alternatively: Right rule
+    dxs = np.diff(x)
+    mu = sum((f * x)[1:] * dxs)
+    s2 = sum((f * (x-mu)**2)[1:] * dxs)
+''']
+
+answers['Riemann sums b'] = ['MD', r'''
+    interval = abs(grid1d - mu) <= sigma
+    prob = np.trapezoid(pdf_vals[interval], grid1d[interval])
+    print(prob)
+''']
+
 answers['pdf_U1'] = ['MD', r'''
     height = 1/(b - a)
     pdf_values = height * np.ones_like(x)
@@ -576,6 +594,11 @@ answers['Posterior cov'] =  ['MD', r"""
         This follows from the [law of total variance](https://en.wikipedia.org/wiki/Law_of_total_variance).
   * It probably won't have decreased. Maybe you will just discard the new information entirely, in which case your certainty will remain the same.  
     I.e. humans are capable of thinking hierarchically, which effectively leads to other distributions than the Gaussian one.
+"""]
+
+answers['MMSE'] =  ['MD', r"""
+Inserting $0 = \mu - \mu$ into the expression for the MSE decomposes it into the squared bias (if any)
+plus the variance (of $X$ itself), which is independent of the choice of point estimate.
 """]
 
 ###########################################

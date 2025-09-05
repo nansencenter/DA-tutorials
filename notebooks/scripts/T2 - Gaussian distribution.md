@@ -61,7 +61,8 @@ A **random variable** is a *quantity* taking random values, described in terms o
 - The *joint* probability of two random variables $X$ and $Y$ is defined by the intersections:
   $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$.  
   - The *marginal* $p(x)$ is recovered by summing over all $y$, and vice-versa.
-  - The *conditional* probability of $X$ given $Y$ is defined by $p(x|y) = \frac{p(x,y)}{p(y)}$.
+  - The *conditional* probability of $X$ *given* $y$ is defined by $p(x|y) = \frac{p(x,y)}{p(y)}$.
+  - *Independence* is defined by $p(x,y) = p(x) \, p(y)$ for all $x, y$.
 - The cumulative distribution function (**cdf**) is defined as $F(x) = \mathbb{P}(X \le x)$.
 
 We will mainly be concerned with *continuous* random variables.
@@ -75,6 +76,10 @@ $$ \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,. $$
 By the *law of large numbers (LLN)*, the sample average converges for $N \to \infty$ to the **expected value** (*sometimes* called the **mean**):
 $$ \Expect[X] ≔ \int x \, p(x) \, d x \,, $$
 where the (omitted) domain of integration is *all values of $x$*.
+Two important properties are immediate:
+
+- *Linearity*: $\Expect[aX + Y] = a \Expect[X] + \Expect[Y]$.
+- *Total expectation*: $\Expect[\Expect[X|Y]] = \Expect[X]$.
 
 ## The univariate (a.k.a. 1-dimensional, scalar) Gaussian
 
@@ -201,10 +206,37 @@ Use pen, paper, and calculus to show that
 # show_answer('Gauss integrals')
 ```
 
+**Exc (optional) -- Riemann sums**:
+Recall that integrals compute the "area under the curve".
+As such they may be approximated on a discrete grid
+using the [Trapezoidal rule](https://en.wikipedia.org/wiki/Riemann_sum#Trapezoidal_rule).
+
+- (a) Replace the prefab code below with your own implementation, using `sum()`,
+  to compute the mean and variance of a pdf represented on a grid.
+- (b) Use `np.trapezoid` to compute the probability that a scalar, Gaussian $X$ lies within $1$ standard deviation of its mean.  
+  *Hint: the numerical answer you should find is $\mathbb{P}(X \in [\mu {-} \sigma, \mu {+} \sigma]) \approx 68\%$.*
+
+```python
+def mean_and_var(pdf_values, grid):
+    f, x = pdf_values, grid
+    mu = np.trapezoid(f*x, x)
+    s2 = np.trapezoid(f*(x-mu)**2, x)
+    return mu, s2
+
+mu, sigma = 0, 2 # example
+pdf_vals = pdf_G1(grid1d, mu=mu, sigma2=sigma**2)
+'Should equal mu and sigma2: %f, %f' % mean_and_var(pdf_vals, grid1d)
+```
+
+```python
+# show_answer('Riemann sums', 'a')
+```
+
 **Exc -- The uniform pdf**:
 Below is the pdf of the [uniform/flat/box distribution](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous))
 for a given mean and variance.
 
+- Use `mean_and_var()` to verify `pdf_U1` (as is).
 - Replace `_G1` by `_U1` in the code generating the above interactive plot.
 - Why are the walls (ever so slightly) inclined?
 - Write your own implementation below, and check that it reproduces the `scipy` version already in place.
@@ -308,7 +340,7 @@ $$ \rho[x,y]=\frac{\mathbb{Cov}[X,Y]}{\sigma_x \sigma_y} \,. $$
 This correlation quantifies (defines) the ***linear dependence*** between $X$ and $Y$. Indeed,
 
 - $-1\leq \rho \leq 1$ (by Cauchy-Swartz)
-- **If** $X$ and $Y$ are *independent*, i.e. $p(x,y) = p(x) \, p(y)$ for all $x, y$, then $\rho[X,Y]=0$.
+- **If** $X$ and $Y$ are *independent*, then $\rho[X,Y]=0$.
 
 **Exc -- Correlation influence:** How do the contours look? Try to understand why. Cases:
 
