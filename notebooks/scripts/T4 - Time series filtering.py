@@ -201,13 +201,13 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # show_answer('Sum of Gaussians', 'a')
 # -
 
-# #### Exc (optional) -- The Bayesian filtering recursion
+# #### The (general) Bayesian filtering recursions
 #
-# In the particular case of linearity and Gaussianity as assumed above,
-# the KF computes the *exact* Bayesian pdf's for $x_k$.
-# But even without them, a general/abstract Bayesian **recursive** procedure can still be formulated,
+# In the case of linearity and Gaussianity,
+# the KF of eqns. (5)-(8) computes the *exact* Bayesian pdf's for $x_k$.
+# But even without these assumptions,
+# a general/abstract Bayesian **recursive** procedure can still be formulated,
 # relying solely on the remaining ("hidden Markov model") assumptions.
-# Prove the following formulae:
 #
 # - The analysis "assimilates" $y_k$ to compute $p(x_k | y_{1:k})$,
 #   where $y_{1:k} = y_1, \ldots, y_k$ is shorthand notation.
@@ -229,7 +229,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # than that of the joint pdf $p(x_{1:k} | y_{1:k})$.
 #
 # Note, however, that our recursive procedure, called ***filtering***,
-# does *not* compute $p(x_l | y_{1:k})$ for any $l<k$.
+# does *not* compute $p(x_l | y_{1:k})$ for any $l < k$.
 # In other words, any filtering estimate only contains *past* information.
 # Updating estimates of the state at any previous time(s) is called ***smoothing***.
 # However, for the purposes of prediction/forecasting, filtering is all we need:
