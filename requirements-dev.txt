@@ -1,4 +1,5 @@
 -r requirements.txt
+jupyter_nbextensions_configurator<0.6.4 # compatible with "notebook<6.5"
 jupytext
 pre-commit
 requests
