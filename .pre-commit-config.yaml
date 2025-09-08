@@ -8,7 +8,8 @@ repos:
     -   id: detect-private-key
     -   id: check-merge-conflict
     -   id: debug-statements
-    -   id: requirements-txt-fixer
+    # Want to custom organize requirements
+    # -   id: requirements-txt-fixer
     -   id: end-of-file-fixer
     -   id: mixed-line-ending
         args: ['--fix=no']
