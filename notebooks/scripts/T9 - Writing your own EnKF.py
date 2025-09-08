@@ -55,7 +55,7 @@ plt.ion();
 # \newcommand{\x}[0]{\bvec{x}}
 # \newcommand{\y}[0]{\bvec{y}}
 # \newcommand{\q}[0]{\bvec{q}}
-# \newcommand{\br}[0]{\bvec{r}}
+# \newcommand{\r}[0]{\bvec{r}}
 # \newcommand{\bx}[0]{\bvec{\bar{x}}}
 # \newcommand{\by}[0]{\bvec{\bar{y}}}
 # \newcommand{\barP}[0]{\mat{\bar{P}}}
@@ -98,14 +98,14 @@ plt.ion();
 # ### The analysis update step
 # of the ensemble is given by:
 # $$\begin{align}
-# 	\forall n, \quad \x\supa_n &= \x_n\supf + \barK \left\{\y - \br_n - \ObsMod(\x_n\supf) \right\}
+# 	\forall n, \quad \x\supa_n &= \x_n\supf + \barK \left\{\y - \r_n - \ObsMod(\x_n\supf) \right\}
 # 	\,, \\
 # 	\text{or,}\quad
 # 	\E\supa &=  \E\supf  + \barK \left\{\y\ones\tr - \Dobs - \ObsMod(\E\supf)  \right\} \,,
 #     \tag{4}
 # \end{align}
 # $$
-# where the "observation perturbations", $\br_n$, are sampled iid. from the observation noise model, e.g. $\NormDist(\bvec{0},\R)$,  
+# where the "observation perturbations", $\r_n$, are sampled iid. from the observation noise model, e.g. $\NormDist(\bvec{0},\R)$,  
 # and form the columns of $\Dobs$,  
 # and the observation operator (again, any type of function), $\ObsMod$, is applied column-wise to $\E\supf$.
 #
@@ -175,7 +175,7 @@ EnKF_animation()
 # Now, denote the centralized observation perturbations
 # $\D \ceq
 # \begin{bmatrix}
-#     \br_1 -\bar{\br}, & \ldots & \br_n -\bar{\br}, & \ldots & \br_N -\bar{\br}
+#     \r_1 -\bar{\r}, & \ldots & \r_n -\bar{\r}, & \ldots & \r_N -\bar{\r}
 # \end{bmatrix} $.
 # Note that $\D \ones = \bvec{0}$ and that
 # $$

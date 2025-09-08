@@ -196,9 +196,9 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 # In addition, measurement instruments always (at least for continuous variables) have limited accuracy,
 # i.e. there is an **measurement noise/error** corrupting the observation. For simplicity, this noise is usually assumed *additive*, so that the observation, $y$, is related to the true state, $x$, by
 # $$
-# y = \ObsMod(x) + \varepsilon \,, \;\; \qquad \tag{Obs}
+# y = \ObsMod(x) + r \,, \;\; \qquad \tag{Obs}
 # $$
-# and $\varepsilon \sim \NormDist(0, R)$ for some variance $R>0$.
+# and $r \sim \NormDist(0, R)$ for some variance $R>0$.
 # Then the likelihood is $$p(y|x) = \NormDist(y| \ObsMod(x), R) \,. \tag{Lklhd}$$
 #
 # **Exc (optional) -- The likelihood:** Derive the expression (Lklhd) for the likelihood.

@@ -24,6 +24,7 @@ $
 \newcommand{\x}[0]{\bvec{x}}
 \newcommand{\y}[0]{\bvec{y}}
 \newcommand{\q}[0]{\bvec{q}}
+\newcommand{\r}[0]{\bvec{r}}
 $
 
 ## Jupyter
@@ -190,9 +191,9 @@ of quantities in the state vector, but rather some function, i.e. model thereof,
 (in the case of satellite radiances: an integral along the vertical column at some lat/long location,
 or even a more complicated radiative transfer model).
 Finally, since any measurement is somewhat imprecise,
-we include an observation noise, $\varepsilon_k$, in our conception of the measuring process, i.e.
+we include an observation noise, $\r_k$, in our conception of the measuring process, i.e.
 
-$$ \y_k = \ObsMod_{\!k}(\x_k) + \varepsilon_k \,. \tag{ObsMod} $$
+$$ \y_k = \ObsMod_{\!k}(\x_k) + \r_k \,. \tag{ObsMod} $$
 
 **Exc (optional) -- observation examples:**  
 For each of the above dynamical model examples, suggest 1 or more observation kinds (i.e. what will $\y$ consist of?).

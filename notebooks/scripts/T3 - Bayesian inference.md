@@ -203,9 +203,9 @@ Of course, the linear and logarithmic transformations are hardly worthy of the n
 In addition, measurement instruments always (at least for continuous variables) have limited accuracy,
 i.e. there is an **measurement noise/error** corrupting the observation. For simplicity, this noise is usually assumed *additive*, so that the observation, $y$, is related to the true state, $x$, by
 $$
-y = \ObsMod(x) + \varepsilon \,, \;\; \qquad \tag{Obs}
+y = \ObsMod(x) + r \,, \;\; \qquad \tag{Obs}
 $$
-and $\varepsilon \sim \NormDist(0, R)$ for some variance $R>0$.
+and $r \sim \NormDist(0, R)$ for some variance $R>0$.
 Then the likelihood is $$p(y|x) = \NormDist(y| \ObsMod(x), R) \,. \tag{Lklhd}$$
 
 **Exc (optional) -- The likelihood:** Derive the expression (Lklhd) for the likelihood.

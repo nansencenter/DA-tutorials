@@ -1215,7 +1215,7 @@ $$\begin{align}
     \left(\y\ones\tr - \Expect\Dobs - \bH \E\supf \right) \, .
 \end{align}$$
 
-Now, since $\Expect \br_n = \bvec{0}$, it follows that $\Expect \Dobs = \bvec{0}$,
+Now, since $\Expect \r_n = \bvec{0}$, it follows that $\Expect \Dobs = \bvec{0}$,
 and we recover eqn. (6).
 
 The conclusion: the mean EnKF update is unbiased...
