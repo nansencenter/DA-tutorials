@@ -220,14 +220,13 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 #   p(x_{k+1} | y_{1:k}) = \int p(x_{k+1} | x_k) \, p(x_k | y_{1:k}) \, d x_k
 #   $$
 #
-# It is important to appreciate two benefits of the recursion.
-#
-# - The recursiveness of the procedure reflects the recursiveness (Markov property) of nature:
-#   Both in the problem and our solution, time $k+1$ *builds on* time $k$.
-#   It means that we do not have to re-do the entire problem for each $k$.
-# - At every time $k$ we only deal with functions of 1 or 2 variables: $x_k$ and $x_{k+1}$.
-#   This is a significantly smaller domain
-#   (in which to quantify our densities or covariances) than that of the joint pdf $p(x_{1:k} | y_{1:k})$.
+# It is important to appreciate the benefits of the recursive form of the computations:
+# It reflects the recursiveness (Markov property) of nature:
+# Both in the problem and our solution, time $k+1$ *builds on* time $k$,
+# which means that we do re-do the entire problem for each $k$.
+# Indeed, at every time $k$ we only deal with functions of 1 or 2 variables: $x_k$ and $x_{k+1}$,
+# which is a significantly smaller space (in which to quantify our densities or covariances)
+# than that of the joint pdf $p(x_{1:k} | y_{1:k})$.
 #
 # Note, however, that our recursive procedure, called ***filtering***,
 # does *not* compute $p(x_l | y_{1:k})$ for any $l<k$.
