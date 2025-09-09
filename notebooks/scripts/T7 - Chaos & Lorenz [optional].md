@@ -39,8 +39,8 @@ $
 \newcommand{\x}[0]{\bvec{x}}
 $
 
-
 ## Dynamical systems
+
 Dynamical system are systems (sets of equations) whose variables evolve in time (the equations contains time derivatives). As a branch of mathematics, its theory is mainly concerned with understanding the *behaviour* of solutions (trajectories) of the systems.
 
 Below is a function to numerically **integrate**
@@ -79,6 +79,7 @@ they are **"embarrassingly parallelizable"**, which is a good option if the syst
 The exercise below challenges you to implement the first approach, resulting in much faster visualisation further below.
 
 #### Exc (optional) -- speed-up by vectorisation & parallelisation
+
 Replace `odeint` in the code above by `rk4` (which does not care about the size/shape of the input, thereby allowing for matrices, i.e. ensembles). Note that the call signature of `rk4` is similar to `odeint`, except that `time_steps` must be replaced by `t` and `dt`. I.e. it only computes a single time step, `t + dt`, so you must loop over `time_steps` yourself. *Hint: `dxdt(x, t, ...)` generally expect axis-0 (i.e. rows) of `x` to be the dimensions of the state vector -- not independent realisations of the states.*
 
 ```python
@@ -137,9 +138,11 @@ def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0
 ```
 
 #### Exc -- Bifurcation hunting
+
 Classic linear stability analysis involves setting eqn. (1) to zero and considering the eigenvalues (and vectors) of its Jacobian matrix. Here we will go about it mainly by visually inspecting the numerical results of simulations.
 Answer the following (to an approximate degree of precision) by gradually increasing $\rho$.
 Leave the other model parameters at their defaults, but use `ε`, `N`, `Time` and `zoom` to your advantage.
+
 - (a) What is the only fixed point for $\rho = 0$?
 - (b) At what (larger) value of $\rho$ does this change?
   What do you think happened to the original fixed point?
@@ -160,6 +163,7 @@ In conclusion, while a dynamical system naturally depends on its parameter value
 ```
 
 #### Exc -- Doubling time
+
 Re-run the animation cell to get default parameter values.
 Visually investigate the system's (i.e. the trajectories') **sensitivity to initial conditions** by moving `Time`, `N` and `ε`. What do you reckon is the "doubling time" of the perturbations? I.e. how long do you think it takes (on average) for two trajectories to grow twice as far apart as they started (alternatives: 0.03, 0.3, 3, 30)? What are the implications for any prediction/forecasting we might attempt?
 
@@ -207,7 +211,6 @@ called **optimal interpolation**,
 consists in using the climatology as the prior (as opposed to yesterday's forecast)
 when applying Bayes' rule (in its [Gaussian guise](T3%20-%20Bayesian%20inference.ipynb#Linear-Gaussian-Bayes'-rule-(1D))) to the observations of the day.
 
-
 ## The Lorenz-96 model
 
 Lorenz-96 is a "spatially 1D" dynamical system of an astoundingly simple design that resemble atmospheric convection,
@@ -230,7 +233,6 @@ This model is not derived from physics but has similar characteristics, such as
 </ul>
 
 [Further description in the very readable original article](https://www.ecmwf.int/sites/default/files/elibrary/1995/75462-predictability-problem-partly-solved_0.pdf).
-
 
 **Exc (optional) -- Conservation of energy:** Show that the "total energy" $\sum_{i=1}^{\xDim} \x_i^2$ is preserved by the quadratic terms in the ODE.  
 *Hint: consider its time derivative.*
@@ -268,6 +270,7 @@ def plot_lorenz96(xDim=40,       N=2,      Force=8,       ε=0.01,         Time=
 ```
 
 #### Exc -- Bifurcation hunting 96
+
 Investigate by moving the sliders (but keep `xDim=40`): Under which settings of the force `F`
 
 - Do the solutions tend to the steady state $\x_i = F$ for all $i$ ?
@@ -290,6 +293,7 @@ def Hovmoller():
 ```
 
 #### Exc (optional) -- Doubling time
+
 Maximise `N` (for a large sample), minimise `ε` (to approach linear conditions) and set `Time=1` (a reasonable first guess). Compute a rough estimate of the doubling time in the cell below from the data in `store[0]`, which holds the trajectories, and has shape `(N, len(times))`.
 *Hint: The theory for these questions will be described in further detail in the following section.*
 
@@ -298,7 +302,6 @@ Maximise `N` (for a large sample), minimise `ε` (to approach linear conditions)
 ```
 
 ## The double pendulum
-
 
 The [double pendulum](https://en.wikipedia.org/wiki/Double_pendulum) is another classic example of a chaotic system.
 It is a little longer to implement, so we'll just load it from [DAPPER](https://github.com/nansencenter/DAPPER/blob/master/dapper/mods/DoublePendulum/__init__.py).
@@ -329,7 +332,6 @@ def plot_pendulum2(k=1, N=2):
 
 ## Error/perturbation dynamics
 
-
 **Exc (optional) -- Perturbation ODE:** Suppose $x(t)$ and $z(t)$ are "twins": they evolve according to the same law $f$:
 $$
 \begin{align}
@@ -342,26 +344,26 @@ Define the "error": $\varepsilon(t) = x(t) - z(t)$.
 Suppose $z(0)$ is close to $x(0)$.  
 Let $F = \frac{df}{dx}(x(t))$.  
 
-* (a) Show that the error evolves according to the ordinary differential equation (ODE)
+- (a) Show that the error evolves according to the ordinary differential equation (ODE)
 $$\frac{d \varepsilon}{dt} \approx F \varepsilon \,.$$
 
 ```python
 # show_answer("error evolution")
 ```
 
-* (b) Suppose $F$ is constant. Show that the error grows exponentially: $\varepsilon(t) = \varepsilon(0) e^{F t} $.
+- (b) Suppose $F$ is constant. Show that the error grows exponentially: $\varepsilon(t) = \varepsilon(0) e^{F t} $.
 
 ```python
 # show_answer("anti-deriv")
 ```
 
-* (c)
-   * (1) Suppose $F<0$.  
-     What happens to the error?  
-     What does this mean for predictability?
-   * (2) Now suppose $F>0$.  
-     Given that all observations are uncertain (i.e. $R_t>0$, if only ever so slightly),  
-     can we ever hope to estimate $x(t)$ with 0 uncertainty?
+- (c)
+  - (1) Suppose $F<0$.  
+    What happens to the error?  
+    What does this mean for predictability?
+  - (2) Now suppose $F>0$.  
+    Given that all observations are uncertain (i.e. $R_t>0$, if only ever so slightly),  
+    can we ever hope to estimate $x(t)$ with 0 uncertainty?
 
 ```python
 # show_answer("predictability cases")
@@ -373,22 +375,23 @@ $$\frac{d \varepsilon}{dt} \approx F \varepsilon \,.$$
 # show_answer("doubling time, Lyapunov")
 ```
 
-* (e) Consider the ODE derived above.  
-How might we change it in order to model (i.e. emulate) a saturation of the error at some level?  
-Can you solve this equation?
+- (e) Consider the ODE derived above.  
+  How might we change it in order to model (i.e. emulate) a saturation of the error at some level?  
+  Can you solve this equation?
 
 ```python
 # show_answer("saturation term")
 ```
 
-* (f) Now suppose $z(t)$ evolves according to $\frac{dz}{dt} = g(z)$, with $g \neq f$.  
-What is now the differential equation governing the evolution of the error, $\varepsilon$?
+- (f) Now suppose $z(t)$ evolves according to $\frac{dz}{dt} = g(z)$, with $g \neq f$.  
+  What is now the differential equation governing the evolution of the error, $\varepsilon$?
 
 ```python
 # show_answer("linear growth")
 ```
 
 ## Summary
+
 Prediction (forecasting) with these systems is challenging because they are chaotic:
 small errors grow exponentially.
 Therefore there is a limit to how far into the future we can make predictions (skillfully).
@@ -398,7 +401,3 @@ This is a task of DA (filtering).
 Also see this [book on chaos and predictability](https://kuiper2000.github.io/chaos_and_predictability/intro.html).
 
 ### Next: [T8 - Monte-Carlo & ensembles](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb)
-
-<a name="References"></a>
-
-### References

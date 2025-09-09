@@ -52,6 +52,7 @@ N = 15  # ensemble size
 ```
 
 ## Variograms
+
 The "Variogram" of a field is essentially `1 - autocovariance`. Thus, it describes the spatial dependence of the field. The mean (1st moment) of a field is usually estimated and described/parametrized with trend lines/surfaces, while higher moments are usually not worth modelling.
 
 ```python
@@ -115,7 +116,6 @@ ax.matshow(C, cmap="RdBu");
 
 ## Random fields (1D)
 
-
 Gaussian random variables (vectors) are fully specified by their mean and covariance.
 Once in possession of a covariance matrix, we can use it to sample random variables
 by multiplying its Cholesky factor (square root) onto standard normal variables.
@@ -130,9 +130,9 @@ def gaussian_fields(coords, **vg_params):
 ```
 
 #### Exc
+
 Use the plotting functionality below to
 explain the effect of `Range` and `nugget`
-
 
 ```python
 fig, ax = freshfig("1D random fields")
@@ -141,6 +141,7 @@ ax.plot(grid1D, fields, lw=2);
 ```
 
 ## Random fields (2D)
+
 The following sets up a 2d grid.
 
 ```python
@@ -199,7 +200,6 @@ ax.grid(False)
 
 ## Estimation problem
 
-
 For our estimation target we will use one of the above generated random fields.
 
 ```python
@@ -230,13 +230,12 @@ vmin=truth.min()
 vmax=truth.max()
 ```
 
-
 The cells below contain snippets of different spatial interpolation methods,
 followed by a cell that plots the interpolants.
 Complete the code snippets.
 
-
 #### Exc: Nearest neighbour interpolation
+
 Implement the method [(wikipedia)](https://en.wikipedia.org/wiki/Nearest-neighbor_interpolation).  
 
 ```python
@@ -249,6 +248,7 @@ estims["Nearest-n."] = observations[nearest_obs]
 ```
 
 #### Exc: Inverse distance weighting
+
 Implement the method [(wikipedia)](https://en.wikipedia.org/wiki/Inverse_distance_weighting).  
 *Hint: You can ignore the `errstate` line below. It is just used to "silence warnings" resulting from division by 0 (whose special case is treated in a cell further down).*
 
@@ -272,8 +272,8 @@ estims["Inv-dist."] = weights @ observations
 estims["Inv-dist."][obs_idx] = observations
 ```
 
-
 #### Exc: Simple Kriging
+
 Implement the method [(wikipedia)](https://en.wikipedia.org/wiki/Kriging#Simple_kriging).  
 
 *Hint: use `sla.solve` or `sla.inv` (less recommended)*
@@ -293,7 +293,6 @@ regression_coefficients = weights ### FIX THIS ### -- should be cross_xy / covar
 estims["Kriging"] = regression_coefficients @ observations
 ```
 
-
 ### Plot truth, estimates, error
 
 ```python
@@ -310,7 +309,8 @@ cbar = fig.colorbar(c1, cax=fig.add_axes([0.9, 0.15, 0.03, 0.7]))
 axs[1, 0].set_ylabel("Errors");
 ```
 
-#### Exc: Try different values of `Range`.
+#### Exc: Try different values of `Range`
+
 - Run code to re-compute Kriging estimate.
 - What does setting it to `0.1` cause? What about `100`?
 
@@ -334,9 +334,8 @@ def plot_krieged(Range=1):
 - Co-Kriging (vector-valued fields)
 - Trend surfaces (non-stationarity assumptions)
 
-
-
 ## Summary
+
 The covariances of random fields can sometimes be described by the autocorrelation function,
 or equivalently, the (semi-)variogram.
 Covariances form the basis of a family of (geo-)spatial interpolation and approximation
@@ -350,8 +349,4 @@ methods known as Kriging, which can also be called/interpreted as
 - GP regression is derived by conditioning (applying Bayes rule)
   to the (supposedly) Gaussian distribution of the random field.
 
-### Next: [T7 - Chaos & Lorenz](T7%20-%20Chaos%20%26%20Lorenz%20(optional).ipynb)
-
-<a name="References"></a>
-
-### References
+### Next: [T7 - Chaos & Lorenz](T7%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb)

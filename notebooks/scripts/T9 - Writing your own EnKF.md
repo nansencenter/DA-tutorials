@@ -218,7 +218,7 @@ Show that, if no observation perturbations are used in eqn. (4), then $\barP\sup
 
 Before making the EnKF, we'll set up an experiment to test it with, so that you can check if you've implemented a working method or not.
 
-To that end, we'll use the Lorenz-63 model, from [T7](T7%20-%20Chaos%20%26%20Lorenz%20(optional).ipynb). The coupled ODEs are recalled here, but with some of the parameters fixed.
+To that end, we'll use the Lorenz-63 model, from [T7](T7%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb). The coupled ODEs are recalled here, but with some of the parameters fixed.
 
 ```python
 xDim = 3
