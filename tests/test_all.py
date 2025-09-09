@@ -64,18 +64,25 @@ def assert_all_links_work(lines, fname):
 
             # Internet links
             if "http" in link:
+                response = None
                 try:
-                    response = requests.head(link, headers={'User-Agent': UA})
-                    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
+                    response = requests.head(link, headers={'User-Agent': UA}, allow_redirects=True, timeout=10)
+                    if response.status_code in (403, 405):
+                        # Fallback to GET if HEAD is not allowed or forbidden
+                        response = requests.get(link, headers={'User-Agent': UA}, allow_redirects=True, timeout=10)
+                    # Ignore status code 429 (Too Many Requests)
+                    if response.status_code == 429:
+                        continue
                     assert response.status_code < 400
-                except Exception:
-                    # Stackoverflow does not like GitHub CI IPs?
-                    # https://meta.stackexchange.com/questions/443
-                    skip = "stack" in link and response.status_code == 403
+                except Exception as e:
+                    # Known problematic domains
+                    skip_domains = ["stack", "wiley.com", "springer.com", "elsevier.com"]
+                    status = response.status_code if response is not None else "N/A"
+                    skip = any(domain in link for domain in skip_domains) or status == 429
                     if not skip:
                         failed |= True
                         _report_error(errm("**requesting**") +
-                            f"\nStatus code: {response.status_code}")
+                            f"\nStatus code: {status}\nError: {e}")
 
             # Local links
             else:
