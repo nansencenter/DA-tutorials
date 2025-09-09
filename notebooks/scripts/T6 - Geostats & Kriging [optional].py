@@ -37,6 +37,8 @@ plt.ion();
 # $
 # \newcommand{\mat}[1]{{\mathbf{{#1}}}}
 # \newcommand{\bvec}[1]{{\mathbf{#1}}}
+# \newcommand{\Expect}[0]{\mathbb{E}}
+# \newcommand{\NormDist}{\mathscr{N}}
 # $
 #
 # Set some parameters
@@ -48,7 +50,27 @@ N = 15  # ensemble size
 
 # ## Variograms
 #
-# The "Variogram" of a field is essentially `1 - autocovariance`. Thus, it describes the spatial dependence of the field. The mean (1st moment) of a field is usually estimated and described/parametrized with trend lines/surfaces, while higher moments are usually not worth modelling.
+# Denote *physical* location (i.e. a coordinate for 1D/2D/3D space) by $s$.
+# A ***random field***, $Z(s)$ is a function taking random values at each point.
+# Random fields are commonly assumed ***stationary*** (to some degree),
+# meaning that the dependence of $Z(s_{1})$ and $Z(s_{2})$,
+# for any two locations $s_1, s_2$, can be described in terms of the distance separating them, $d = \| s_{1} - s_{2} \|$.
+# For now, we will assume that the mean, $\Expect Z(s)$ is known and constant,
+# leaving the covariance as the most important descriptor.
+# But since the field is stationary, the covariance depends only on the distance,
+# so we can describe the full covariance of the field solely in terms of
+# "(auto-)***covariance function***", $C(d) = \mathbb{Cov}[Z(s_{1}), Z(s_{2})]$.
+# <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
+# <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
+# In practice, geostatistics usually works with a reformulation of $C(d)$ called "(semi-)<strong>variogram"</strong>, $\gamma(d) = C(0) - C(d)$
+# ... (optional reading 🔍)
+# </summary>
+# The variogram can be defined more generally
+# (allowing for infinite-variance processes, and requiring stationarity of increments, not second-order stationarity)
+# as half the variance of $Z(s_{1}) - Z(s_{2})$.
+#
+# - - -
+# </details>
 
 def variogram(dists, Range=1, kind="Gauss", nugget=0):
     """Compute variogram for distance points `dists`."""
@@ -101,7 +123,7 @@ def covar(coords, **vg_params):
 
 fig, ax = freshfig("1D covar")
 C = covar(grid1D[:, None], Range=1, kind="Gauss", nugget=1e-3)
-ax.matshow(C, cmap="RdBu");
+ax.matshow(C, cmap="PuOr");
 
 
 # ## Random fields (1D)
@@ -110,7 +132,7 @@ ax.matshow(C, cmap="RdBu");
 # Once in possession of a covariance matrix, we can use it to sample random variables
 # by multiplying its Cholesky factor (square root) onto standard normal variables.
 
-def gaussian_fields(coords, **vg_params):
+def sample_gaussian_fields(coords, **vg_params):
     """Gen. random (Gaussian) fields at `coords` (no structure/ordering required)."""
     C = covar(coords, **vg_params)
     L = sla.cholesky(C)
@@ -124,7 +146,7 @@ def gaussian_fields(coords, **vg_params):
 # explain the effect of `Range` and `nugget`
 
 fig, ax = freshfig("1D random fields")
-fields = gaussian_fields(grid1D[:, None], Range=1, kind="Gauss", nugget=1e-3)
+fields = sample_gaussian_fields(grid1D[:, None], Range=1, kind="Gauss", nugget=1e-3)
 ax.plot(grid1D, fields, lw=2);
 
 # ## Random fields (2D)
@@ -139,10 +161,10 @@ grid2x.shape
 grid2D = np.dstack([grid2x, grid2y]).reshape((-1, 2))
 grid2D.shape
 
-# Importantly, none of the following methods actually assume any structure to the list. So we could also work with a completely irregularly spaced set of points. For example, `gaussian_fields` is immediately applicable also to this 2D case.
+# Importantly, none of the following methods actually assume any structure to the list. So we could also work with a completely irregularly spaced set of points. For example, `sample_gaussian_fields` is immediately applicable also to this 2D case.
 
 vg_params = dict(Range=1, kind="Gauss", nugget=1e-4)
-fields = gaussian_fields(grid2D, **vg_params)
+fields = sample_gaussian_fields(grid2D, **vg_params)
 
 
 # Of course, for plotting purposes, we undo the flattening.
@@ -309,3 +331,29 @@ def plot_krieged(Range=1):
 #   to the (supposedly) Gaussian distribution of the random field.
 #
 # ### Next: [T7 - Chaos & Lorenz](T7%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb)
+#
+# <a name="References"></a>
+#
+# ### References
+#
+# <!--
+#
+# @book{chiles2009geostatistics,
+#   title={Geostatistics: Modeling Spatial Uncertainty},
+#   author={Chil{\`e}s, J.P. and Delfiner, P.},
+#   isbn={9780470317839},
+#   series={Wiley Series in Probability and Statistics},
+#   url={https://books.google.no/books?id=tZl07WdjYHgC},
+#   year={2009},
+#   publisher={Wiley}
+# }
+#
+# @book{wackernagel2013multivariate,
+#   title={Multivariate Geostatistics: An Introduction with Applications},
+#   author={Wackernagel, H.},
+#   isbn={9783662052945},
+#   year={2013},
+#   publisher={Springer Berlin Heidelberg}
+# }
+#
+# -->
