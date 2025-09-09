@@ -16,6 +16,12 @@
 # # T1 - Introduction
 #
 # *Copyright (c) 2020, Patrick N. Raanes*
+#
+# This tutorial series provides a detailed introduction to *data assimilation (DA)*,
+# starting from the basic mathematical concepts
+# and finishing with (your own implementation of) the EnKF.
+# Alternatively, the article by [Wikle and Berliner (2007)](#References) is short and nice,
+# while the book by [Asch, Bocquet, and Nodet (2016)](#References) is rigorous and detailed.
 # $
 # \newcommand{\DynMod}[0]{\mathscr{M}}
 # \newcommand{\ObsMod}[0]{\mathscr{H}}
@@ -244,8 +250,8 @@ envisat_video()
 # ## The ensemble Kalman filter (EnKF)
 #
 # The EnKF is a Monte-Carlo formulation of the KF
+# resulting in a simple and versatile method for DA,
 # that manages (to some extent) to deal with the above challenges in DA.
-#
 # For those familiar with the method of 4D-Var, **further advantages of the EnKF** include it being:
 #
 # - Non-invasive: the models are treated as black boxes, and no explicit Jacobian is required.
@@ -257,8 +263,6 @@ envisat_video()
 # - Embarrassingly parallelizable:
 #   - distributed across realizations for model forecasting;
 #   - distributed across local domains for observation analysis.
-#
-# The rest of this tutorial provides an EnKF-centric presentation of DA.
 #
 # ## DAPPER example
 #
@@ -350,3 +354,37 @@ if False:
 # -
 
 # ### Next: [T2 - Gaussian distribution](T2%20-%20Gaussian%20distribution.ipynb)
+#
+# <a name="References"></a>
+#
+# ### References
+#
+# <!--
+# @article{wikle2007bayesian,
+#     title={A {B}ayesian tutorial for data assimilation},
+#     author={Wikle, C. K. and Berliner, L. M.},
+#     journal={Physica D: Nonlinear Phenomena},
+#     volume={230},
+#     number={1-2},
+#     pages={1--16},
+#     year={2007},
+#     publisher={Elsevier}
+# }
+#
+# @book{asch2016data,
+#     title={Data assimilation: methods, algorithms, and applications},
+#     author={Asch, Mark and Bocquet, Marc and Nodet, Ma{\"e}lle},
+#     year={2016},
+#     doi={10.1137/1.9781611974546},
+#     series={Fundamentals of Algorithms},
+#     pages={xvii+295},
+#     edition = {},
+#     address = {Philadelphia, PA},
+#     publisher={SIAM}
+# }
+# -->
+#
+# - **Wikle and Berliner (2007)**:
+#   C. K. Wikle and L. M. Berliner, "A Bayesian tutorial for data assimilation", Physica D, 2007.
+# - **Asch, Bocquet, and Nodet (2016)**:
+#   Mark Asch, Marc Bocquet, and Maëlle Nodet, "Data assimilation: methods, algorithms, and applications", 2016.
