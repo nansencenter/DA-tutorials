@@ -49,13 +49,13 @@ pdfs = dict(N=pdf_G1, U=pdf_U1)
 
 *We no longer use uppercase to distinguish random variables from their outcomes (an unfortunate consequence of the myriad of notations to keep track of)!*
 
-Now that we have reviewed some probability, we can look at statistical inference and estimation, in particular
+Now that we have reviewed some probability, we can turn to statistical inference and estimation. In particular, we will focus on
 
 # Bayes' rule
 
 <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
   <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
-    In the Bayesian approach, knowledge and uncertainty about some unknown ($x$) is quantified through probability ... (optional reading 🔍)
+    In the Bayesian approach, uncertain knowledge (i.e. belief) about some unknown ($x$) is quantified through probability ... (optional reading 🔍)
   </summary>
 
   For example, what is the temperature at the surface of Mercury (at some given point and time)?
@@ -71,22 +71,22 @@ Now that we have reviewed some probability, we can look at statistical inference
   - - -
 </details>
 
-And **Bayes' rule** is how we do inference: it says how to condition/merge/assimilate/update this belief based on data/observation ($y$).
-For *continuous* random variables, $x$ and $y$, it reads:
+**Bayes' rule** is the fundamental tool for inference: it tells us how to condition/merge/assimilate/update our beliefs based on data/observation ($y$).
+For *continuous* random variables $x$ and $y$, Bayes' rule reads:
 $$
 \large
 \color{red}{\overset{\mbox{Posterior}}{p(\color{black}{x|y})}} = \frac{\color{blue}{\overset{\mbox{  Prior  }}{p(\color{black}{x})}} \, \color{green}{\overset{\mbox{ Likelihood}}{p(\color{black}{y|x})}}}{\color{gray}{\underset{\mbox{Constant wrt. x}}{p(\color{black}{y})}}} \,. \tag{BR} \\[1em]
 $$
 
-**Exc -- Bayes' rule derivation:** Derive eqn. (BR) from the definition of [conditional pdf's](https://en.wikipedia.org/wiki/Conditional_probability_distribution#Conditional_continuous_distributions).
+**Exc -- Bayes' rule derivation:** Derive eqn. (BR) from the definition of [conditional pdfs](https://en.wikipedia.org/wiki/Conditional_probability_distribution#Conditional_continuous_distributions).
 
 ```python
 # show_answer('symmetry of conjunction')
 ```
 
-It is hard to overstate how simple Bayes' rule, eqn. (BR), is, consisting merely of scalar multiplication and division.
-However, we want to compute the function $p(x|y)$ for **all values of $x$**.
-Thus, upon discretization, eqn. (BR) becomes the multiplication of two *arrays* of values (followed by a normalisation):
+It is hard to overstate the simplicity of Bayes' rule, eqn. (BR): it consists merely of scalar multiplication and division.
+However, our goal is to compute the function $p(x|y)$ for **all values of $x$**.
+Thus, upon discretization, eqn. (BR) becomes the multiplication of two *arrays* of values (followed by normalization):
 
 ```python
 def Bayes_rule(prior_values, lklhd_values, dx):
@@ -103,14 +103,14 @@ Show that the normalization in `Bayes_rule()` amounts to (approximately) the sam
 # show_answer('quadrature marginalisation')
 ```
 
-In fact, since $p(y)$ is thusly implicitly known,
-we often don't bother to write it down, simplifying Bayes' rule (eqn. BR) to
+In fact, since $p(y)$ is implicitly known in this way,
+we often omit it, simplifying Bayes' rule (eqn. BR) to
 
 $$ p(x|y) \propto p(x) \, p(y|x) \,.  \tag{BR2} $$
 
-Actually, do we even need to care about $p(y)$ at all? All we really need to know is how much more likely some value of $x$ (or an interval around it) is compared to any other $x$.
-The normalisation is only necessary because of the *convention* that all densities integrate to $1$.
-However, for large models, we usually can only afford to evaluate $p(y|x)$ at a few points (of $x$), so that the integral for $p(y)$ can only be roughly approximated. In such settings, estimation of the normalisation factor becomes an important question too.
+Do we even need to care about $p(y)$ at all? In practice, all we need to know is how much more likely one value of $x$ (or an interval around it) is compared to another.
+Normalization is only necessary because of the *convention* that all densities integrate to $1$.
+However, for large models, we can usually only afford to evaluate $p(y|x)$ at a few points (of $x$), so the integral for $p(y)$ can only be roughly approximated. In such settings, estimating the normalization factor becomes an important question too.
 
 <a name="Interactive-illustration"></a>
 
@@ -163,8 +163,8 @@ The illustration uses a
   (but you can of course change these in the code above)
 - likelihood $p(y|x) = \NormDist(y|x, R)$, whose parameters are set by the interactive sliders.
 
-We are now dealing with 3 (!) separate distributions,
-giving us a lot of symbols to keep straight in our head -- a necessary evil for later.
+We are now dealing with three (!) separate distributions,
+which introduces a lot of symbols to keep track of — a necessary evil for later.
 
 **Exc -- `Bayes1` properties:** This exercise serves to make you acquainted with how Bayes' rule blends information.
 
@@ -233,7 +233,7 @@ Then verify your answer by implementing `H` in the [interactive Bayes' rule](#In
 # show_answer('Observation models', 'a')
 ```
 
-It is important to appreciate that the likelihood and its role in Bayes' rule, does no "inversion". It simply quantifies how well $x$ fits to the data in terms of its weighting. This approach also inherently handles the fact that multiple values of $x$ may be plausible.
+It is important to appreciate that the likelihood, and its role in Bayes' rule, does not perform any "inversion". It simply quantifies how well each $x$ fits the data, in terms of its weighting. This approach also inherently handles the fact that multiple values of $x$ may be plausible.
 
 **Exc (optional) -- "why inverse":** Laplace called "statistical inference" the reasoning of "inverse probability" (1774). You may also have heard of "inverse problems" in reference to similar problems, but without a statistical framing. In view of this, why do you think we use $x$ for the unknown, and $y$ for the known/given data?
 
@@ -245,8 +245,8 @@ It is important to appreciate that the likelihood and its role in Bayes' rule, d
 
 ## Linear-Gaussian Bayes' rule (1D)
 
-In response to this computational difficulty, we try to be smart and do something more analytical ("pen-and-paper"): we only compute the parameters (mean and (co)variance) of the posterior pdf.
-This is doable and quite simple in the linear-Gaussian case, i.e. when $\ObsMod$ is linear (i.e. just a number). For readability, the unknown, $x$, is colored.
+To address this computational difficulty, we can take a more analytical ("pen-and-paper") approach: instead of computing the full posterior, we compute only its parameters (mean and (co)variance).
+This is straightforward in the linear-Gaussian case, i.e. when $\ObsMod$ is linear (just a number). For readability, the unknown, $x$, is colored.
 
 - Given the prior of $p(\color{darkorange}{x}) = \NormDist(\color{darkorange}{x} \mid x\supf, P\supf)$
 - and a likelihood $p(y|\color{darkorange}{x}) = \NormDist(y \mid \ObsMod \color{darkorange}{x},R)$,  
@@ -294,8 +294,8 @@ Show that your posterior is $p(x|y) = \NormDist(x \mid 19, 2)$
 # show_answer('LG BR example')
 ```
 
-The following implements a linear-Gaussian Bayes' rule (eqns. 5 and 6).
-Note that its inputs and outputs are not arrays (as for `Bayes_rule()`), but simply scalar numbers: the means, variances and $\ObsMod$.
+The following implements the linear-Gaussian Bayes' rule (eqns. 5 and 6).
+Note that its inputs and outputs are not arrays (as in `Bayes_rule()`), but simply scalar numbers: the means, variances, and $\ObsMod$.
 
 ```python
 def Bayes_rule_LG1(xf, Pf, y, H, R):
@@ -379,10 +379,11 @@ Let $\ObsMod = 1$ for simplicity.
 #### Exc (optional) -- optimalities
 
 In contrast to orthodox statistics,
-Bayes' rule (BR) itself makes no attempt at producing only a single estimate/value of $x$.
-It merely states how quantitative belief (weighted possibilities) should be updated in view of new data.
-Barring any approximations (such as the use of `Bayes_rule_LG1` outside of the linear-Gaussian case)
-the (full) posterior will be be **optimal** from the point of view of any [proper scoring rule](https://en.wikipedia.org/wiki/Scoring_rule#Propriety_and_consistency).
+Bayes' rule (BR) does not attempt to produce a single estimate/value of $x$.
+It merely states how to update our quantitative belief (weighted possibilities) in light of new data.
+Barring any approximations (such as using `Bayes_rule_LG1` outside the linear-Gaussian case),
+the (full) posterior will be **optimal** from the perspective of any [proper scoring rule](https://en.wikipedia.org/wiki/Scoring_rule#Propriety_and_consistency).
+
 *But if you must* pick a single point value estimate $\hat{x}$
 (in order to perform a contingent action, without [robust optimisation](https://en.wikipedia.org/wiki/Robust_optimization)),
 you can **decide** on it by optimising (with respect to $\hat{x}$)
@@ -391,15 +392,15 @@ i.e. $\Expect\, \text{Loss}(x - \hat{x})$.
 For instance, if the posterior pdf happens to be symmetric
 (as in the linear-Gaussian context above),
 and your loss function is convex and symmetric,
-then the mean/median will be be optimal [[Lehmann & Casella (1998)](#References), Corollary 7.19].
-More particularly, for any given distribution of $x$,
-the optimal [Bayes estimator](https://en.wikipedia.org/wiki/Bayes_estimator) is
+then the mean/median will be optimal [[Lehmann & Casella (1998)](#References), Corollary 7.19].
+More specifically, for any given distribution of $x$,
+the optimal [Bayes estimator](https://en.wikipedia.org/wiki/Bayes_estimator) is:
 
 - the mode if $\text{Loss}(d) = \begin{cases} 0 & \text{if } d = 0 \\ 1 & \text{otherwise} \end{cases}$
 - the median if $\text{Loss}(d) = |d|$
 - the mean if $\text{Loss}(d) = d^2$
 
-The last case (squared-error loss) if most commonly used,
+The last case (squared-error loss) is most commonly used,
 and the resulting estimator is sometimes called
 the minimum mean-square error (MMSE) estimator.
 *Prove that the MMSE is indeed the mean of the distribution!*
@@ -408,8 +409,8 @@ the minimum mean-square error (MMSE) estimator.
 # show_answer('MMSE')
 ```
 
-It is not generally easy to find the posterior mean, median, or mode, however,
-so these optimalities only really serve to justify a preference for $x\supa$
+However, it is not generally easy to find the posterior mean, median, or mode,
+so these optimalities mainly serve to justify a preference for $x\supa$
 in the linear-Gaussian case.
 
 <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
@@ -441,13 +442,13 @@ estimate** has good theoretical foundations.
 
 ## Summary
 
-Bayesian inference quantifies uncertainty (in $x$) using the notion of probability.
-Bayes' rule says how to condition/merge/assimilate/update this belief based on data/observation ($y$).
-It is simply a re-formulation of the notion of conditional probability.
+Bayesian inference quantifies uncertainty (in $x$) using probability.
+Bayes' rule tells us how to update this belief based on data or observation ($y$).
+It is simply a reformulation of conditional probability.
 Observation can be "inverted" using Bayes' rule,
 in the sense that all possibilities for $x$ are weighted.
-While technically simple, Bayes' rule requires a bunch of point multiplications.
-But if Gaussianity can be assumed then it reduces to only 2 formulae.
+While technically simple, Bayes' rule requires many pointwise multiplications.
+But if Gaussianity can be assumed, it reduces to just two formulae.
 
 ### Next: [T4 - Filtering & time series](T4%20-%20Time%20series%20filtering.ipynb)
 
