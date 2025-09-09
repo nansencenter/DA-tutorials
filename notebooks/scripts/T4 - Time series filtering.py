@@ -25,8 +25,8 @@ plt.ion();
 
 # # T4 - Time series filtering
 #
-# Before we look at the full (multivariate) Kalman filter (KF),
-# let's consider scalar but time-dependent (temporal/sequential) problems.
+# Before exploring the full (multivariate) Kalman filter (KF),
+# let's first consider scalar but time-dependent (temporal/sequential) problems.
 # $
 # \newcommand{\Expect}[0]{\mathbb{E}}
 # \newcommand{\NormDist}{\mathscr{N}}
@@ -41,17 +41,16 @@ plt.ion();
 # Consider the scalar, stochastic process $\{x_k\}$,
 # generated for sequentially increasing time index $k$ by
 #
-# $$ x_{x+1} = \DynMod_k x_k + q_k \,. \tag{DynMod} $$
+# $$ x_{k+1} = \DynMod_k x_k + q_k \,. \tag{DynMod} $$
 #
-# For our present purposes, the **dynamical "model"**,
-# $\DynMod_k$ is just some *number* that we know.
-# Suppose we get observations, $\{y_k\}$, as in
+# For our present purposes, the **dynamical "model"** $\DynMod_k$ is simply a known number.
+# Suppose we get observations $\{y_k\}$ as in:
 #
 # $$ y_k = \ObsMod_k x_k + r_k \,, \tag{ObsMod} $$
 #
-# The noises, and $x_0$, are assumed independent of each other and in time
-# (i.e. $\varepsilon_k$ independent of $\varepsilon_l$ for $k \neq l$),
-# as well as Gaussian (with known parameters):
+# The noises and $x_0$ are assumed to be independent of each other and across time
+# (i.e., $\varepsilon_k$ is independent of $\varepsilon_l$ for $k \neq l$),
+# and Gaussian with known parameters:
 # $$x_0 \sim \NormDist(x\supa_0, P\supa_0),\quad
 # q_k \sim \NormDist(0, Q_k),\quad
 # r_k \sim \NormDist(0, R_k) \,.$$
@@ -60,14 +59,14 @@ plt.ion();
 #
 # ## Example problem: AR(1)
 #
-# For simplicity (the KF does not need these assumptions),
-# suppose that $\DynMod_k = \DynMod$, i.e. that it is constant in time.
-# Then $\{x_k\}$ is a so-called order-1 auto-regressive process, [[Wikipedia](https://en.wikipedia.org/wiki/Autoregressive_model#Example:_An_AR(1)_process)].
+# For simplicity (though the KF does not require these assumptions),
+# suppose that $\DynMod_k = \DynMod$, i.e., it is constant in time.
+# Then $\{x_k\}$ forms a so-called order-1 auto-regressive process [[Wikipedia](https://en.wikipedia.org/wiki/Autoregressive_model#Example:_An_AR(1)_process)].
 # Similarly, we drop the time dependence (subscript $k$) from $\ObsMod_k, Q_k, R_k$.
-# The code below simulates a random realisation of this process.
+# The code below simulates a random realization of this process.
 
 # +
-# Use H=1 so that it makes sense to plot data on same axes as state.
+# Use H=1 so that it makes sense to plot data on the same axes as the state.
 H = 1
 
 # Initial estimate
@@ -89,7 +88,7 @@ def simulate(nTime, xa, Pa, M, H, Q, R):
 
 # -
 
-# The following plots the process. *You don't need to read or understand it*.
+# The following code plots the process. *You don't need to read or understand it*.
 
 @interact(seed=(1, 12), M=(0, 1.03, .01), nTime=(0, 100),
              logR=(-9, 9), logR_bias=(-9, 9),
@@ -164,9 +163,9 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # $$
 #
 # Formulae (5) and (6) are called the **forecast step** of the KF.
-# But when $y_1$ becomes available, according to eqn. (ObsMod),
-# then we can update/condition our estimate of $x_1$, i.e. compute the posterior,
-# $p(x_1 | y_1) = \NormDist(x_1 \mid x\supa_1, P\supa_1) \,,$
+# But when $y_1$ becomes available (according to eqn. (ObsMod)),
+# we can update/condition our estimate of $x_1$, i.e., compute the posterior,
+# $p(x_1 | y_1) = \NormDist(x_1 \mid x\supa_1, P\supa_1)$,
 # using the formulae we developed for Bayes' rule with
 # [Gaussian distributions](T3%20-%20Bayesian%20inference.ipynb#Linear-Gaussian-Bayes'-rule-(1D)).
 #
@@ -177,10 +176,11 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # \end{align}
 # $$
 #
+# This is called the **analysis step** of the KF.
 # We call this the **analysis step** of the KF.
 # We can subsequently apply the same two steps again
 # to produce forecast and analysis estimates for the next time index, $k+1$.
-# Note that if $k$ is a date index, then we can say that "yesterday's forecast becomes today's prior".
+# Note that if $k$ is a date index, then "yesterday's forecast becomes today's prior".
 #
 # #### Exc -- linear algebra of Gaussian random variables
 #
@@ -204,10 +204,10 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # #### The (general) Bayesian filtering recursions
 #
 # In the case of linearity and Gaussianity,
-# the KF of eqns. (5)-(8) computes the *exact* Bayesian pdf's for $x_k$.
+# the KF of eqns. (5)-(8) computes the *exact* Bayesian pdfs for $x_k$.
 # But even without these assumptions,
-# a general/abstract Bayesian **recursive** procedure can still be formulated,
-# relying solely on the remaining ("hidden Markov model") assumptions.
+# a general (abstract) Bayesian **recursive** procedure can still be formulated,
+# relying only on the remaining ("hidden Markov model") assumptions.
 #
 # - The analysis "assimilates" $y_k$ to compute $p(x_k | y_{1:k})$,
 #   where $y_{1:k} = y_1, \ldots, y_k$ is shorthand notation.
@@ -220,26 +220,26 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 #   p(x_{k+1} | y_{1:k}) = \int p(x_{k+1} | x_k) \, p(x_k | y_{1:k}) \, d x_k
 #   $$
 #
-# It is important to appreciate the benefits of the recursive form of the computations:
+# It is important to appreciate the benefits of the recursive form of these computations:
 # It reflects the recursiveness (Markov property) of nature:
 # Both in the problem and our solution, time $k+1$ *builds on* time $k$,
-# which means that we do re-do the entire problem for each $k$.
-# Indeed, at every time $k$ we only deal with functions of 1 or 2 variables: $x_k$ and $x_{k+1}$,
-# which is a significantly smaller space (in which to quantify our densities or covariances)
+# so we do not need to re-do the entire problem for each $k$.
+# At every time $k$, we only deal with functions of one or two variables: $x_k$ and $x_{k+1}$,
+# which is a much smaller space (for quantifying our densities or covariances)
 # than that of the joint pdf $p(x_{1:k} | y_{1:k})$.
 #
 # Note, however, that our recursive procedure, called ***filtering***,
 # does *not* compute $p(x_l | y_{1:k})$ for any $l < k$.
 # In other words, any filtering estimate only contains *past* information.
-# Updating estimates of the state at any previous time(s) is called ***smoothing***.
-# However, for the purposes of prediction/forecasting, filtering is all we need:
+# Updating estimates of the state at previous times is called ***smoothing***.
+# However, for prediction/forecasting, filtering is all we need:
 # accurate initial conditions (estimates of the present moment).
 #
 # #### Exc -- Implementation
 #
-# Below is a very rudimentary sequential estimator (not the KF!), essentially just doing "persistence" forecasts, and setting the analysis estimates to the value of the observations (*which is only generally a possibility in this linear, scalar case*). Run its cell to define it, and then re-run the above interactive animation cell. Then
+# Below is a very rudimentary sequential estimator (not the KF!), which essentially just does "persistence" forecasts and sets the analysis estimates to the value of the observations (*which is only generally possible in this linear, scalar case*). Run its cell to define it, and then re-run the above interactive animation cell. Then:
 #
-# - Implement the KF properly by replace the forecast and analysis steps below. *Re-run the cell.*
+# - Implement the KF properly by replacing the forecast and analysis steps below. *Re-run the cell.*
 # - Try implementing the analysis step both in the "precision" and "gain" forms.
 
 def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
@@ -356,12 +356,12 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # ## Alternative methods
 #
 # When it comes to (especially univariate) time series analysis,
-# the Kalman filter (KF) is not the only game in town.
+# the Kalman filter (KF) is not the only option.
 # For example, **signal processing** offers several alternative filters.
-# Indeed, the word "filter" in the KF originates in that domain,
-# where it originally referred to the removal of high-frequency noise,
-# since this tends to coincide with an improved estimate of the signal.
-# We will not review any signal processing theory here,
+# Indeed, the word "filter" in the KF comes from that domain,
+# where it originally referred to removing high-frequency noise,
+# since this often leads to a better estimate of the signal.
+# We will not review signal processing theory here,
 # but challenge you to make use of what `scipy` already has to offer.
 #
 # #### Exc (optional) -- signal processing
@@ -376,9 +376,9 @@ def trunc(x, n):
     return np.pad(x[:n], (0, len(x)-n))
 
 # Now try to "filter" the `obsrvs` to produce estimates of `truth`.
-# In each case, add your estimate ("filtered signal" in that domain's parlance)
+# For each method, add your estimate ("filtered signal" in signal processing parlance)
 # to the `sigproc` dictionary in the interactive animation cell,
-# with an appropriate name/key (this will automatically include it in the plotting).  
+# using an appropriate name/key (this will automatically include it in the plot).
 # Use
 #
 # - (a) [`sig.wiener`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html).  
@@ -400,25 +400,25 @@ def trunc(x, n):
 # But for the above problem (which is linear-Gaussian!),
 # the KF is guaranteed (on average, in the long run, in terms of mean square error)
 # to outperform any other method.
-# We will see cases later (of full-blown state estimation)
+# We will see cases later (in full-blown state estimation)
 # where the difference is much clearer,
 # and indeed it might not even be clear how to apply signal processing methods.
-# However, the KF has an unfair advantage: we are giving it a ton of information
-# about the problem (`M, H, R, Q`) that the signal processing methods do not get.
-# Therefore, they typically also require a good deal of tuning
-# (in practice, so does the KF, since `Q` and `R` are rarely well determined).
+# However, the KF has an unfair advantage: we are giving it a lot of information
+# about the problem (`M, H, R, Q`) that the signal processing methods do not have.
+# Therefore, those methods typically require a good deal of tuning
+# (but in practice, so does the KF, since `Q` and `R` are rarely well determined).
 #
 # ## Summary
 #
 # The Kalman filter (KF) can be derived by applying linear-Gaussian assumptions
 # to a sequential inference problem.
 # Generally, the uncertainty never converges to 0,
-# and the performance of the filter is wholly contingent on
+# and the performance of the filter depends entirely on
 # accurate system parameters (models and error covariance matrices).
 #
-# As a subset of state estimation (i.e. the KF) we can do time series estimation
-# [(wherein state-estimation is called state-space approach)](https://www.google.com/search?q="We+now+demonstrate+how+to+put+these+models+into+state+space+form").
-# Moreover, DA methods produce uncertainty quantification, something which is usually more obscure with time series analysis methods.
+# As a subset of state estimation (i.e., the KF), we can do time series estimation
+# [(wherein state-estimation is called the state-space approach)](https://www.google.com/search?q="We+now+demonstrate+how+to+put+these+models+into+state+space+form").
+# Moreover, DA methods produce uncertainty quantification, which is usually more obscure with time series analysis methods.
 #
 # ### Next: [T5 - Multivariate Kalman filter](T5%20-%20Multivariate%20Kalman%20filter.ipynb)
 #
