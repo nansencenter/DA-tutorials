@@ -29,6 +29,7 @@ plt.ion();
 ```
 
 # T9 - Writing your own EnKF
+
 In this tutorial we're going to code an EnKF implementation using numpy.
 As with the KF, the EnKF consists of the recursive application of
 a forecast step and an analysis step.
@@ -69,7 +70,6 @@ $
 \newcommand{\ones}[0]{\bvec{1}}
 $
 
-
 This presentation follows the traditional template, presenting the EnKF as the "the Monte Carlo version of the KF
 where the state covariance is estimated by the ensemble covariance".
 It is not obvious that this postulated method should work;
@@ -85,12 +85,13 @@ The superscript $a$ indicates that $\{\x_n\supa\}_{n=1..N}$ is the analysis (pos
 </font></mark>
 
 ### The forecast step
+
 Suppose $\{\x_n\supa\}_{n=1..N}$ is an iid. sample from $p(\x_{k-1} \mid \y_1,\ldots, \y_{k-1})$, which may or may not be Gaussian.
 
 The forecast step of the EnKF consists of a Monte Carlo simulation
 of the forecast dynamics for each $\x_n$:
 $$
-	\forall n, \quad \x\supf_n = \DynMod(\x_n\supa) + \q_n  \,, \\
+  \forall n, \quad \x\supf_n = \DynMod(\x_n\supa) + \q_n  \,, \\
 $$
 where $\{\q_n\}_{n=1..N}$ are sampled iid. from $\NormDist(\bvec{0},\Q)$,
 or whatever noise model is assumed,  
@@ -101,12 +102,13 @@ The ensemble, $\{\x_n\supf\}_{n=1..N}$, is then an iid. sample from the forecast
 $p(\x_k \mid \y_1,\ldots,\y_{k-1})$. This follows from the definition of the latter, so it is a relatively trivial idea and way to obtain this pdf. However, before Monte-Carlo methods were computationally feasible, the computation of the forecast pdf required computing the [Chapman-Kolmogorov equation](https://en.wikipedia.org/wiki/Chapman%E2%80%93Kolmogorov_equation), which constituted a major hurdle for filtering methods.
 
 ### The analysis update step
+
 of the ensemble is given by:
 $$\begin{align}
-	\forall n, \quad \x\supa_n &= \x_n\supf + \barK \left\{\y - \r_n - \ObsMod(\x_n\supf) \right\}
-	\,, \\
-	\text{or,}\quad
-	\E\supa &=  \E\supf  + \barK \left\{\y\ones\tr - \Dobs - \ObsMod(\E\supf)  \right\} \,,
+  \forall n, \quad \x\supa_n &= \x_n\supf + \barK \left\{\y - \r_n - \ObsMod(\x_n\supf) \right\}
+  \,, \\
+  \text{or,}\quad
+  \E\supa &=  \E\supf  + \barK \left\{\y\ones\tr - \Dobs - \ObsMod(\E\supf)  \right\} \,,
     \tag{4}
 \end{align}
 $$
@@ -115,14 +117,15 @@ and form the columns of $\Dobs$,
 and the observation operator (again, any type of function), $\ObsMod$, is applied column-wise to $\E\supf$.
 
 The gain $\barK$ is defined by inserting the ensemble estimates for
- * (i) $\bP\supf \bH\tr$: the cross-covariance between $\x\supf$ and $\ObsMod(\x\supf)$, and
- * (ii) $\bH \bP\supf \bH\tr$: the covariance matrix of $\ObsMod(\x\supf)$,
+
+- (i) $\bP\supf \bH\tr$: the cross-covariance between $\x\supf$ and $\ObsMod(\x\supf)$, and
+- (ii) $\bH \bP\supf \bH\tr$: the covariance matrix of $\ObsMod(\x\supf)$,
 
 in the formula for $\K$, namely eqn. (K1) of [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb).
 Using the estimators from [T7](T7%20-%20Monte-Carlo%20%26%20ensembles.ipynb) yields
 
 $$\begin{align}
-	\barK &= \X \Y\tr ( \Y \Y\tr + (N{-}1) \R )^{-1} \,, \tag{5a}
+  \barK &= \X \Y\tr ( \Y \Y\tr + (N{-}1) \R )^{-1} \,, \tag{5a}
 \end{align}
 $$
 
@@ -140,42 +143,44 @@ EnKF_animation()
 ```
 
 #### Exc -- Woodbury for the ensemble subspace
+
 (a) Use the Woodbury identity (C2) of [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb) to show that eqn. (5a) can also be written
 $$\begin{align}
-	\barK &= \X ( \Y\tr \Ri \Y + (N{-}1)\I_N  )^{-1} \Y\tr \Ri \,. \tag{5b}
+  \barK &= \X ( \Y\tr \Ri \Y + (N{-}1)\I_N  )^{-1} \Y\tr \Ri \,. \tag{5b}
 \end{align}
 $$
 (b) What is the potential benefit of (5b) vs. (5a) ?
 
-
 #### Exc -- KG workings
+
 The above animation assumed that the observation operator is just the identity matrix, $\I$, rather than a general observation operator, $\ObsMod()$. Meanwhile, the Kalman gain used by the EnKF, eqn. (5a), is applicable for any $\ObsMod()$. On the other hand, the formula (5a) consists solely of linear algebra. Therefore it cannot perfectly represent any general (nonlinear) $\ObsMod()$. So how does it actually treat the observation operator? What meaning can we assign to the resulting updates?  
 *Hint*: consider the limit of $\R \rightarrow 0$.
 
-<!-- #region -->
+
 #### Exc -- EnKF nobias (a)
+
 Consider the ensemble averages,
- - $\bx\supa = \frac{1}{N}\sum_{n=1}^N \x\supa_n$, and
- - $\bx\supf = \frac{1}{N}\sum_{n=1}^N \x\supf_n$,
+
+- $\bx\supa = \frac{1}{N}\sum_{n=1}^N \x\supa_n$, and
+- $\bx\supf = \frac{1}{N}\sum_{n=1}^N \x\supf_n$,
 
 and recall that the analysis step, eqn. (4), defines $\x\supa_n$ from $\x\supf_n$.
 
-
 (a) Show that, in case $\ObsMod$ is linear (the matrix $\bH$),
 $$\begin{align}
-	\Expect \bx\supa &=  \bx\supf  + \barK \left\{\y\ones\tr - \bH\bx\supf  \right\} \,, \tag{6}
+  \Expect \bx\supa &=  \bx\supf  + \barK \left\{\y\ones\tr - \bH\bx\supf  \right\} \,, \tag{6}
 \end{align}
 $$
 where the expectation, $\Expect$, is taken with respect to $\Dobs$ only (i.e. not the sampling of the forecast ensemble, $\E\supf$ itself).
 
 What does this mean?
-<!-- #endregion -->
 
 ```python
 # show_answer("EnKF_nobias_a")
 ```
 
 #### Exc (optional) -- EnKF nobias (b)
+
 Consider the ensemble covariance matrices:
 $$\begin{align}
 \barP\supf &= \frac{1}{N-1} \X{\X}\tr \,, \tag{7a} \\\
@@ -190,10 +195,10 @@ $\D \ceq
 Note that $\D \ones = \bvec{0}$ and that
 $$
 \begin{align}
-	\label{eqn:R_sample_cov_of_D}
-	\frac{1}{N-1} \D \D\tr &= \R \,, \tag{9a} \\\
-	\label{eqn:zero_AD_cov}
-	\X \D\tr &= \bvec{0} \tag{9b}
+  \label{eqn:R_sample_cov_of_D}
+  \frac{1}{N-1} \D \D\tr &= \R \,, \tag{9a} \\\
+  \label{eqn:zero_AD_cov}
+  \X \D\tr &= \bvec{0} \tag{9b}
 \end{align}
 $$
 is satisfied in the expected sense, i.e. by taking the expectation on the left-hand side.
@@ -258,7 +263,6 @@ Q = Q12 @ Q12.T
 
 Notice the loop over each ensemble member. For better performance, this should be vectorized, if possible. Or, if the forecast model is computationally demanding (as is typically the case in real applications), the loop should be parallelized: i.e. the forecast simulations should be distributed to separate computers.
 
-
 The following are the time settings that we will use
 
 ```python
@@ -307,7 +311,6 @@ for k in range(1, nTime+1):
 ```
 
 ## EnKF implementation
-
 
 We will make use of `estimate_mean_and_cov` and `estimate_cross_cov` from the previous section. Paste them in below.
 
