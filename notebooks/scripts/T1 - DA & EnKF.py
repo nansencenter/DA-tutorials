@@ -17,9 +17,7 @@
 #
 # *Copyright (c) 2020, Patrick N. Raanes*
 #
-# This tutorial series provides a detailed introduction to *data assimilation (DA)*,
-# starting from the basic mathematical concepts
-# and finishing with (your own implementation of) the EnKF.
+# This tutorial series introduces *data assimilation (DA)*, beginning with basic mathematical concepts and culminating in your own implementation of the EnKF.
 # Alternatively, the article by [Wikle and Berliner (2007)](#References) is short and nice,
 # while the book by [Asch, Bocquet, and Nodet (2016)](#References) is rigorous and detailed.
 # $
@@ -36,8 +34,7 @@
 # ## Jupyter
 #
 # The "document" you're currently reading is a *Jupyter notebook*.
-# As you can see, it consists of a sequence of **cells**,
-# which can be code (Python) or text (markdown).
+# It consists of a sequence of **cells**, which can be either code (Python) or text (markdown).
 # For example, try editing the cell below (double-click it)
 # to insert your name, and running it.
 
@@ -46,13 +43,13 @@ print("Hello world! I'm " + name)
 for i, c in enumerate(name):
     print(i, c)
 
-# You will likely be more efficient if you know these **keyboard shortcuts**:
+# Knowing these **keyboard shortcuts** will help you work more efficiently:
 #
 # | Navigate                      | Edit              | Exit           | Run                              | Run & go to next                  |
 # |-------------------------------|-------------------|----------------|----------------------------------|-----------------------------------|
 # | <kbd>↓</kbd> and <kbd>↑</kbd> | <kbd>Enter</kbd>  | <kbd>Esc</kbd> | <kbd>Ctrl</kbd>+<kbd>Enter</kbd> | <kbd>Shift</kbd>+<kbd>Enter</kbd> |
 #
-# Actually, a notebook connects to a background **session (kernel/runtime/interpreter)** of Python, and all of the code cells (in a given notebook) are connected, meaning that they share variables, functions, and classes. You can start afresh by clicking `restart` somewhere in the top menu bar. The **order** in which you run the cells matters, and from now on,
+# Each notebook connects to a background **session (kernel/runtime/interpreter)** of Python, and all code cells in a given notebook are connected, sharing variables, functions, and classes. You can start afresh by clicking `restart` in the top menu bar. The **order** in which you run the cells matters, and from now on,
 # <mark><font size="-1">
 #     the 1st code cell in each tutorial will be the following, which <em>you must run before others</em>. But if you're on Windows, then you must first delete the line starting with `!wget` (which is only really needed when running on Google Colab).
 # </font></mark>
@@ -186,7 +183,7 @@ plt.legend();
 # to forecast (predict) *tomorrow*'s weather,
 # we initially need to know *today*'s state of the atmosphere (wind, pressure, density and temperature)
 # at each grid point in the model.
-# Yet despite the quantitative explosion of data since the advent of weather satellites in the 1970s,
+# Yet despite the vast increase in data since the advent of weather satellites in the 1970s,
 # most parts of the globe are (at any given moment) unobserved.
 # Moreover, the ***measurement/observation data*** available to us, $\y_k$, are not generally a "direct observation"
 # of quantities in the state vector, but rather some function, i.e. model thereof, $\ObsMod_{\!k}$
@@ -236,8 +233,8 @@ plt.legend();
 # For example, in weather applications, the dynamical model is an atmospheric fluid-mechanical simulator, the state variable consists of the fields of pressure, humidity, and wind quantities discretized on a grid,
 # and the observations may come from satellite or weather stations.
 #
-# But when it was first proposed to apply the KF to DA (specifically, weather forecasting),
-# the idea was though ludicrous because of some severe technical challenges in DA (vs. "classic" state estimation):
+# But when the KF was first proposed for DA (specifically, weather forecasting), the idea seemed ludicrous due to
+# several technical challenges in DA compared to "classic" state estimation:
 #
 # - size of data and models;
 # - nonlinearity of models;
@@ -344,7 +341,7 @@ if False:
 # - (a) What is DA?
 # - (b) What is the difference between "state variables" and "parameters"?
 # - (c) What are "prognostic" variables?
-#       How do they differ from "diagnostic" variables?
+#   How do they differ from "diagnostic" variables?
 # - (d) $k$ is the time index, but what determines the times they correspond to?
 # - (e) Is DA a science, an engineering art, or a dark art?
 # - (f) What is the point of "Hidden Markov Models"?
