@@ -26,7 +26,7 @@ plt.ion();
 
 # # T2 - The Gaussian (Normal) distribution
 #
-# We start by reviewing the most useful of probability distributions.
+# We begin by reviewing the most useful of probability distributions.
 # But first, let's refresh some basic theory.
 # $
 # \newcommand{\Reals}{\mathbb{R}}
@@ -54,38 +54,38 @@ plt.ion();
 # A **random variable** is a *quantity* taking random values, described in terms of **distributions**.
 #
 # - A *discrete* random variable, $X$, has a probability *mass* function (**pmf**) defined by $p(x) = \mathbb{P}(X{=}x)$.  
-#   Denotering it $p_X(x)$ -- to distinguish it from $p_Y(y)$ -- will sometimes be necessary.
-# - The *joint* probability of two random variables $X$ and $Y$ is defined by the intersections:
+#   Sometimes we write $p_X(x)$ to distinguish it from $p_Y(y)$.
+# - The *joint* probability of two random variables $X$ and $Y$ is defined by their intersection:
 #   $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$.  
-#   - The *marginal* $p(x)$ is recovered by summing over all $y$, and vice-versa.
-#   - The *conditional* probability of $X$ *given* $y$ is defined by $p(x|y) = \frac{p(x,y)}{p(y)}$.
-#   - *Independence* is defined by $p(x,y) = p(x) \, p(y)$ for all $x, y$.
+#   - The *marginal* $p(x)$ is obtained by summing over all $y$, and vice versa.
+#   - The *conditional* probability of $X$ *given* $y$ is $p(x|y) = \frac{p(x,y)}{p(y)}$.
+#   - *Independence* means $p(x,y) = p(x) \, p(y)$ for all $x, y$.
 # - The cumulative distribution function (**cdf**) is defined as $F(x) = \mathbb{P}(X \le x)$.
 #
 # We will mainly be concerned with *continuous* random variables.
-# Their probability *density* function (**pdf**) can be defined by $p(x) = F'(x)$ or, equivalently,
+# Their probability *density* function (**pdf**) can be defined as $p(x) = F'(x)$ or, equivalently,
 #
 # $$p(x) = \lim_{h \to 0} \frac{\mathbb{P}(X \in [x,\, x{+} h])}{h} \,.$$
 #
-# A **sample average** based on draws from a random variable $X$
+# The **sample average** of draws from a random variable $X$
 # is denoted with an overhead bar:
 # $$ \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,. $$
-# By the *law of large numbers (LLN)*, the sample average converges for $N \to \infty$ to the **expected value** (*sometimes* called the **mean**):
+# By the *law of large numbers (LLN)*, the sample average converges as $N \to \infty$ to the **expected value** (sometimes called the **mean**):
 # $$ \Expect[X] ≔ \int x \, p(x) \, d x \,, $$
 # where the (omitted) domain of integration is *all values of $x$*.
-# Two important properties are immediate:
+# Two important properties follow immediately:
 #
 # - *Linearity*: $\Expect[aX + Y] = a \Expect[X] + \Expect[Y]$.
 # - *Total expectation*: $\Expect[\Expect[X|Y]] = \Expect[X]$.
 #
 # ## The univariate (a.k.a. 1-dimensional, scalar) Gaussian
 #
-# If $X$ is Gaussian (a.k.a. "Normal"), we write
+# If $X$ is Gaussian (also known as "Normal"), we write
 # $X \sim \NormDist(\mu, \sigma^2)$, or $p(x) = \NormDist(x \mid \mu, \sigma^2)$,
 # where the parameters $\mu$ and $\sigma^2$ are called the mean and variance
 # (for reasons that will become clear below).
-# The Gaussian pdf is, for $x \in (-\infty, +\infty)$,
-# $$ \large \NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \,. \tag{G1} $$
+# The Gaussian pdf, for $x \in (-\infty, +\infty)$, is
+# $$ \large \NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \, . \tag{G1} $$
 #
 # Run the cell below to define a function to compute the pdf (G1) using the `scipy` library.
 
@@ -95,16 +95,16 @@ def pdf_G1(x, mu, sigma2):
     return pdf_values
 
 
-# Computers typically represent functions *numerically* by their values on a grid
-# of points (nodes), an approach called ***discretisation***.
+# Computers typically represent functions *numerically* by their values at a set of grid points (nodes),
+# an approach called ***discretisation***.
 
 bounds = -20, 20
 N = 201                         # num of grid points
 grid1d = np.linspace(*bounds,N) # grid
 dx = grid1d[1] - grid1d[0]      # grid spacing
 
-# Feel free to come back here later and change the grid resolution to see how
-# it affects the cells below (upon re-running them).
+# Feel free to return here later and change the grid resolution to see how
+# it affects the cells below (after re-running them).
 #
 # The following code plots the Gaussian pdf.
 
@@ -123,9 +123,10 @@ def plot_pdf(mu=0, sigma=5):
 
 # #### Exc -- parameter influence
 #
-# Play around with `mu` and `sigma` to answer these questions:
+# Experiment with `mu` and `sigma` to answer these questions:
 #
-# - How does the pdf curve change when `mu` changes? Options (several might be right/wrong)
+# - How does the pdf curve change when `mu` changes? (Several options may be correct or incorrect)
+#
 #   1. It changes the curve into a uniform distribution.
 #   1. It changes the width of the curve.
 #   1. It shifts the peak of the curve to the left or right.
@@ -139,11 +140,11 @@ def plot_pdf(mu=0, sigma=5):
 #   1. It rotates the curve around the origin.
 #   1. It makes the curve a straight line.
 # - How does the pdf curve change when you increase `sigma`?  
-#   Refer to the same options as previous question.
+#   Refer to the same options as the previous question.
 # - In a few words, describe the shape of the Gaussian pdf curve.
-#   Does this ring a bell? *Hint: it should be clear as a bell!*
+#   Does this remind you of anything? *Hint: it should be clear as a bell!*
 #
-# **Exc -- Implementation:** Change the implementation of `pdf_G1` so as to not use `scipy`, but your own code (using `numpy` only). Re-run all of the above cells and check that you get the same plots as before.  
+# **Exc -- Implementation:** Change the implementation of `pdf_G1` so that it does not use `scipy`, but instead uses your own code (with `numpy` only). Re-run all of the above cells and check that you get the same plots as before.  
 # *Hint: `**` is the exponentiation/power operator, but $e^x$ is more efficiently computed with `np.exp(x)`*
 
 # +
@@ -151,8 +152,8 @@ def plot_pdf(mu=0, sigma=5):
 # -
 
 # **Exc -- Derivatives:** Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1).  
-# Use pen, paper, and calculus to answer the following questions,  
-# which derive some helpful mnemonics about the distribution.
+# Use pen, paper, and calculus to answer the following questions,
+# which will help you remember some key properties of the distribution.
 #
 # - (i) Find $x$ such that $p(x) = 0$.
 # - (ii) Where is the location of the **mode (maximum)** of the density?  
@@ -166,7 +167,7 @@ def plot_pdf(mu=0, sigma=5):
 # #### Exc (optional) -- Change of variables
 #
 # Let $Z = \phi(X)$ for some monotonic function $\phi$,
-# and $p_x$ and $p_z$ be their probability density functions (pdf).
+# and let $p_x$ and $p_z$ be their probability density functions (pdf).
 #
 # - (a): Show that $p_z(z) = p_x\big(\phi^{-1}(z)\big) \frac{1}{|\phi'(z)|}$,
 # - (b): Show that you don't need to derive the density of $z$ in order to compute its expectation, i.e. that
@@ -181,7 +182,7 @@ def plot_pdf(mu=0, sigma=5):
 #
 # #### Exc (optional) -- Integrals
 #
-# Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1). Abbreviate it using $c = (2 \pi \sigma^2)^{-1/2}$.  
+# Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1). Abbreviate it as $c = (2 \pi \sigma^2)^{-1/2}$.  
 # Use pen, paper, and calculus to show that
 #
 # - (i) the first parameter, $\mu$, indicates its **mean**, i.e. that $$\mu = \Expect[X] \,.$$
@@ -201,12 +202,11 @@ def plot_pdf(mu=0, sigma=5):
 
 # **Exc (optional) -- Riemann sums**:
 # Recall that integrals compute the "area under the curve".
-# As such they may be approximated on a discrete grid
-# using the [Trapezoidal rule](https://en.wikipedia.org/wiki/Riemann_sum#Trapezoidal_rule).
+# On a discrete grid, they can be approximated using the [Trapezoidal rule](https://en.wikipedia.org/wiki/Riemann_sum#Trapezoidal_rule).
 #
 # - (a) Replace the prefab code below with your own implementation, using `sum()`,
 #   to compute the mean and variance of a pdf represented on a grid.
-# - (b) Use `np.trapezoid` to compute the probability that a scalar, Gaussian $X$ lies within $1$ standard deviation of its mean.  
+# - (b) Use `np.trapezoid` to compute the probability that a scalar Gaussian $X$ lies within $1$ standard deviation of its mean.  
 #   *Hint: the numerical answer you should find is $\mathbb{P}(X \in [\mu {-} \sigma, \mu {+} \sigma]) \approx 68\%$.*
 
 # +
@@ -230,7 +230,7 @@ pdf_vals = pdf_G1(grid1d, mu=mu, sigma2=sigma**2)
 # for a given mean and variance.
 #
 # - Use `mean_and_var()` to verify `pdf_U1` (as is).
-# - Replace `_G1` by `_U1` in the code generating the above interactive plot.
+# - Replace `_G1` with `_U1` in the code generating the above interactive plot.
 # - Why are the walls (ever so slightly) inclined?
 # - Write your own implementation below, and check that it reproduces the `scipy` version already in place.
 
@@ -252,8 +252,8 @@ def pdf_U1(x, mu, sigma2):
 
 # ## The multivariate (i.e. vector) Gaussian
 #
-# A *multivariate* random variable, i.e. **vector**, is simply a collection of scalar variables (on the same probability space).
-# I.e. its distribution is the *joint* distribution of its components.
+# A *multivariate* random variable, i.e. a **vector**, is simply a collection of scalar variables (on the same probability space).
+# Its distribution is the *joint* distribution of its components.
 # The pdf of the multivariate Gaussian (for any dimension $\ge 1$) is
 #
 # $$\large \NormDist(\x \mid \mathbf{\mu}, \mathbf{\Sigma}) =
@@ -273,15 +273,15 @@ def pdf_U1(x, mu, sigma2):
 # </details>
 #
 # It is important to recognize how similar eqn. (GM) is to the univariate (scalar) case (G1).
-# Moreover, [similarly as above](#Exc-(optional)----Integrals), it can be shown that
+# Moreover, [as above](#Exc-(optional)----Integrals), it can be shown that
 #
 # - $\mathbf{\mu} = \Expect[\X]$,
 # - $\mathbf{\Sigma} = \Expect[(\X-\mu)(\X-\mu)\tr]$,
 #
-# I.e. the elements of $\mathbf{\Sigma}$ are the individual covariances,
-# $\Sigma_{i,j} = \Expect[(X_i-\mu_i)(X_j-\mu_j)] =: \mathbb{Cov}(X_i, X_j)$
-# and, on the diagonal ($i=j$), variances: $\Sigma_{i,i} = \mathbb{Var}(X_i)$.
-# Therefore $\mathbf{\Sigma}$ is called the *covariance (matrix)*.
+# That is, the elements of $\mathbf{\Sigma}$ are the individual covariances:
+# $\Sigma_{i,j} = \Expect[(X_i-\mu_i)(X_j-\mu_j)] =: \mathbb{Cov}(X_i, X_j)$.
+# On the diagonal ($i=j$), they are variances: $\Sigma_{i,i} = \mathbb{Var}(X_i)$.
+# Therefore $\mathbf{\Sigma}$ is called the *covariance matrix*.
 #
 # The following implements the pdf (GM). Take a moment to digest the code, but don't worry if you don't understand it all. Hints:
 #
@@ -330,7 +330,7 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 
 # The code defines the covariance `cv_xy` from the input ***correlation*** `corr`.
 # This is a coefficient (number), defined for any two random variables $x$ and $y$ (not necessarily Gaussian) by
-# $$ \rho[X,Y]=\frac{\mathbb{Cov}[X,Y]}{\sigma_x \sigma_y} \,. $$
+# $$ \rho[X,Y]=\frac{\mathbb{Cov}[X,Y]}{\sigma_x \sigma_y} \,.$$
 # This correlation quantifies (defines) the ***linear dependence*** between $X$ and $Y$. Indeed,
 #
 # - $-1\leq \rho \leq 1$ (by Cauchy-Swartz)
@@ -343,8 +343,7 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # - (c) correlation=0.5. (Note that we've used `plt.axis('equal')`).
 # - (d) correlation=0.5, but with non-equal variances.
 #
-# Finally (optional): why does the code "crash" when `corr = +/- 1` ? Is this a good or a bad thing?  
-# *Hint: do you like playing with fire?*
+# Finally (optional): why does the code "crash" when `corr = +/- 1`? Is this a good or a bad thing?  
 #
 # **Exc Correlation game:** [Play](http://guessthecorrelation.com/) until you get a score (gold coins) of 5 or more.  
 #
@@ -382,4 +381,4 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # ### References
 #
 # - **Laplace (1812)**: P. S. Laplace, "Théorie Analytique des Probabilités", 1812.
-# - **Gauss (1809)**: Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares (which will be very relevant to us) and its probabilistic justification based on the normal distribution of errors).
+# - **Gauss (1809)**: Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares (which will be very relevant to us) and its probabilistic justification based on the normal distribution of errors.
