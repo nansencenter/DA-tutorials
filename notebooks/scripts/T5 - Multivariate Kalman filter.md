@@ -467,4 +467,4 @@ state vector. Still, the best is yet to come: the ability to handle very large a
 But first (optionally), we will try to gain some understanding of covariance-based estimation
 in the case of spatial fields.
 
-### Next: [T6 - Spatial statistics ("geostatistics") & Kriging](T6%20-%20Geostats%20%26%20Kriging%20[optional].ipynb)
+### Next: [T6 - Chaos & Lorenz](T6%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb)

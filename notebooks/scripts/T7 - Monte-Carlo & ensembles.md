@@ -34,7 +34,8 @@ plt.ion();
 (pdf_G1, grid1d) = import_from_nb("T2", ("pdf_G1", "grid1d"))
 ```
 
-# T8 - The ensemble (Monte-Carlo) approach
+# T7 - The ensemble (Monte-Carlo) approach
+
 **Monte-Carlo methods** are a class of computational algorithms that rely on random/stochastic sampling. They generally trade off higher (though random!) error for lower technical complexity [<sup>[1]</sup>](#Footnote-1:). Examples from optimisation include randomly choosing search directions, swarms, evolutionary mutations, or perturbations for gradient approximation. Another application area is the computation of (deterministic) integrals via sample averages, which is rooted in the fact that any integral can be formulated as expectations, as well as the law of large numbers (LLN). This is actually a surprisingly large class of problems, including for example a way to [approximate the value of $\pi$](https://en.wikipedia.org/wiki/Monte_Carlo_method#Overview). Moreover, many integrals of interest are inherently expectations, but over probability distributions that are not tractable, as they arise from a complicated random or uncertain process [<sup>[2]</sup>](#Footnote-2:), whereas a Monte-Carlo sample thereof can be obtained simply by simulating the process.
 $
 \newcommand{\Expect}[0]{\mathbb{E}}
@@ -271,7 +272,7 @@ def estimate_cross_cov(Ex, Ey):
 Parametric assumptions (e.g. assuming Gaussianity) can be useful in approximating distributions.
 Sample covariance estimates can be expressed and computed in a vectorized form.
 
-### Next: [T9 - Writing your own EnKF](T9%20-%20Writing%20your%20own%20EnKF.ipynb)
+### Next: [T8 - Spatial statistics ("geostatistics") & Kriging](T8%20-%20Geostats%20%26%20Kriging%20[optional].ipynb)
 
 - - -
 

@@ -119,7 +119,7 @@ The gain $\barK$ is defined by inserting the ensemble estimates for
  * (ii) $\bH \bP\supf \bH\tr$: the covariance matrix of $\ObsMod(\x\supf)$,
 
 in the formula for $\K$, namely eqn. (K1) of [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb).
-Using the estimators from [T8](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb) yields
+Using the estimators from [T7](T7%20-%20Monte-Carlo%20%26%20ensembles.ipynb) yields
 
 $$\begin{align}
 	\barK &= \X \Y\tr ( \Y \Y\tr + (N{-}1) \R )^{-1} \,, \tag{5a}
@@ -218,7 +218,7 @@ Show that, if no observation perturbations are used in eqn. (4), then $\barP\sup
 
 Before making the EnKF, we'll set up an experiment to test it with, so that you can check if you've implemented a working method or not.
 
-To that end, we'll use the Lorenz-63 model, from [T7](T7%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb). The coupled ODEs are recalled here, but with some of the parameters fixed.
+To that end, we'll use the Lorenz-63 model, from [T6](T6%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb). The coupled ODEs are recalled here, but with some of the parameters fixed.
 
 ```python
 xDim = 3

@@ -27,7 +27,7 @@ import matplotlib.pyplot as plt
 plt.ion();
 ```
 
-# T7 - Chaos & Lorenz
+# T6 - Chaos & Lorenz
 
 ***Chaos***
 is also known as the butterfly effect: "a butterfly that flaps its wings in Brazil can 'cause' a hurricane in Texas".
@@ -400,4 +400,4 @@ This is a task of DA (filtering).
 
 Also see this [book on chaos and predictability](https://kuiper2000.github.io/chaos_and_predictability/intro.html).
 
-### Next: [T8 - Monte-Carlo & ensembles](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb)
+### Next: [T7 - Monte-Carlo & ensembles](T7%20-%20Monte-Carlo%20%26%20ensembles.ipynb)

@@ -31,7 +31,7 @@ from mpl_tools.place import freshfig
 plt.ion();
 ```
 
-# T6 - Spatial statistics ("geostatistics") & Kriging
+# T8 - Spatial statistics ("geostatistics") & Kriging
 
 Covariances between two (or a few) variables is very well,
 but if you have not seen it before, the connection between covariances
@@ -371,7 +371,7 @@ methods known as Kriging, which can also be called/interpreted as
 - GP regression is derived by conditioning (applying Bayes rule)
   to the (supposedly) Gaussian distribution of the random field.
 
-### Next: [T7 - Chaos & Lorenz](T7%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb)
+### Next: [T9 - Writing your own EnKF](T9%20-%20Writing%20your%20own%20EnKF.ipynb)
 
 <a name="References"></a>
 
