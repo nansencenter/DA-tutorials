@@ -26,8 +26,8 @@ plt.ion();
 
 # # T5 - The Kalman filter (KF) -- multivariate
 #
-# We have seen the KF in the scalar/univariate/1D case. Now we'll derive it for the multivariate (vector) case.
-# Dealing with vectors and matrices is a lot like plain numbers, but we use bold text to denote them, and some things do get more complicated...
+# We have already seen the Kalman filter (KF) in the scalar/univariate/1D case. Now, we will derive it for the multivariate (vector) case.
+# Vectors are denoted using bold typeface, matrices are bold and uppercase.
 # $
 # \newcommand{\NormDist}{\mathscr{N}}
 # \newcommand{\DynMod}[0]{\mathscr{M}}
@@ -56,14 +56,14 @@ plt.ion();
 #
 # ## Prelude: Multivariate Bayes
 #
-# In the following we will see Bayes' rule in the 2D (i.e. multivariate) case. Recall from T3
+# In the following, we will see Bayes' rule in the 2D (i.e. multivariate) case. Recall from T3:
 # $$
 # p(\x|\y) \propto p(\x) \, p(\y|\x) \,.  \tag{BR}
 # $$
 
 Bayes_rule, = import_from_nb("T3", ["Bayes_rule"])
 
-# The prior is set to a Gaussian distribution whose density we also recall:
+# The prior is a Gaussian distribution, whose density we also recall:
 # $$
 # \NormDist(\x \mid  \mathbf{\mu}, \mathbf{\Sigma})
 # = |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,. \tag{GM}
@@ -122,7 +122,7 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 
 # -
 
-# Note that the likelihood is again defined as eqn. (Lklhd),
+# Note that the likelihood is again defined as in eqn. (Lklhd):
 # $$ p(\y|\x) = \NormDist(\y| \ObsMod(\x), \R) \,. \tag{Lklhd} $$
 #
 # Examples of $\ObsMod(\x)$ for multivariate $\x$ (and possibly $\y$) include:
@@ -147,7 +147,7 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 # show_answer('Multivariate Observations')
 # -
 
-# While conceptually and technically simple, the sheer **amount** of computations done by `Bayes_rule` quickly becomes a difficulty in higher dimensions. This is hammered home in the following exercise.
+# While conceptually and technically simple, the sheer **amount** of computations done by `Bayes_rule` quickly becomes a difficulty in higher dimensions. This is highlighted in the following exercise.
 #
 # <a name="Exc-(optional)----Curse-of-dimensionality"></a>
 #
@@ -169,30 +169,28 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 # - It could result from discretizing [exponential decay](https://en.wikipedia.org/wiki/Exponential_decay):
 #   $\frac{d x}{d t} = - \beta x \,,$ for some $\beta \geq 0$, and
 #   adding some white noise, $\frac{d q}{d t}$.
-# - Discretization
+# - Discretization alternatives (*should share the same 1-st order Taylor expansion!*):
 #   - using explicit-Euler produces $\DynMod = (1 - \beta\, \Delta t)$,
-#   - using implicit-Euler produces $\DynMod = 1/(1 + \beta\, \Delta t)$.
-#   - such that $x_{k+1}$ equals the analytic solution requires $\DynMod = e^{- \beta\, \Delta t}$.
-#   - *PS: note that the 1-st order Taylor expansion of each scheme is the same.*
+#   - using implicit-Euler produces $\DynMod = 1/(1 + \beta\, \Delta t)$.  
+#   - setting $x_{k+1}$ equal to the analytic solution produces $\DynMod = e^{- \beta\, \Delta t}$.
 # - Recall that $\{x_k\}$ became a (noisy) constant (horizontal) line when $\DynMod = 1$,
 #   which makes sense since then $\beta = 0$.  
 #   Similarly, a straight (sloping) line would result from
 #   $\frac{d^2 x}{d t^2} = 0 \,.$
 #
-# To make matters more interesting we're now going to consider the $\xDim$-th order model:
-#   $\displaystyle \frac{d^{\xDim} x}{d t^\xDim} = 0 \,.$
+# The above properties motivate the following $\xDim$-th order generalisation:
+# $\displaystyle \frac{d^{\xDim} x}{d t^\xDim} = 0 \,$,
+# which can be rewritten as a 1st-order *vector* (i.e. coupled system of) ODEs:
+# $\frac{d x_i}{d t} = x_{i+1}$
+# for dimensions $i = 1, \ldots, D{-}1$, and $x_{{\xDim}+1} = 0$.
+# Again we add noise, $\frac{d q_i}{d t}$, to each component,
+# but also friction/damping/decay, $- \beta x_i$, so that, all in all,
+# $$ \frac{d x_i}{d t} = x_{i+1} - \beta x_i + \frac{d q_i}{d t} \, .$$
 #
-# - This can be rewritten as a 1-st order *vector* (i.e. coupled system of) ODE:
-#   $\frac{d x_i}{d t} = x_{i+1} \,,$ and $x_{{\xDim}+1} = 0$  
-#   where the subscript $i$ is now instead the *index* of the state vector element.
-# - Again we include noise, $\frac{d q_i}{d t}$,
-#   and damping (exponential decay), $- \beta x_i$, to each component.
-# - In total, $ \frac{d x_i}{d t} = x_{i+1} - \beta x_i + \frac{d q_i}{d t} \, .$
-# - Discretizing with time step $\Delta t=1$ produces
-#   $ x_{k+1, i} = x_{k, i+1} + 0.9 x_{k, i} + q_{k, i}\,,$  
-#   i.e. $\beta = 0.1$ or $\beta = -\log(0.9)$ depending on which scheme was used.
-#
-# Thus, $\x_{k+1} = \DynMod \x_k + \q_k$, with $\DynMod$ the matrix specified below.
+# Discretizing with time step $\Delta t=1$ produces
+# $ x_{k+1, i} = x_{k, i+1} + 0.9 x_{k, i} + q_{k, i}\,,$
+# i.e. $\beta = 0.1$ or $\beta = -\log(0.9)$ depending on which scheme was used.
+# Thus, $\x_{k+1} = \DynMod \x_k + \q_k$, where $\DynMod$ is the matrix specified below.
 
 # +
 xDim = 4 # state (x) length, also model order
@@ -206,8 +204,8 @@ Q = 0.01**2 * np.diag(1+np.arange(xDim))
 # #### Observing system
 #
 # The above will generate a $\xDim$-dimensional time series.
-# But we will only observe the 1st (`0`th in Python) element/component of the state vector.
-# We say that the other components are **hidden**.
+# However, we will only observe the 1st (i.e., `0`th in Python) element/component of the state vector.
+# The other components are considered **hidden**.
 
 # +
 H = np.zeros((1, xDim))
@@ -220,7 +218,7 @@ R = 30**2 * np.identity(1)
 # #### Simulation
 #
 # The following simulates a synthetic truth (x) time series and observations (y).
-# In particular, note the use of `@` for matrix/vector algebra, in place of `*` as in the [scalar case of the previous tutorial](T4%20-%20Time%20series%20filtering.ipynb#Example-problem:-AR(1)).
+# In particular, note the use of `@` for matrix/vector algebra, instead of `*` as in the [scalar case of the previous tutorial](T4%20-%20Time%20series%20filtering.ipynb#Example-problem:-AR(1)).
 
 # +
 rnd.seed(4)
@@ -247,7 +245,7 @@ plt.legend();
 # ## The KF forecast step
 #
 # The forecast step (and its derivation) remains essentially unchanged from the [univariate case](T4%20-%20Time%20series%20filtering.ipynb#The-(univariate)-Kalman-filter-(KF)).
-# The only difference is that $\DynMod$ is now a *matrix*, as well as the use of the transpose ${}^T$ in the covariance equation:
+# The only difference is that $\DynMod$ is now a *matrix*, and we use the transpose ${}^T$ in the covariance equation:
 # $\begin{align}
 # \x\supf_k
 # &= \DynMod_{k-1} \x\supa_{k-1} \,, \tag{1a} \\\
@@ -257,8 +255,8 @@ plt.legend();
 #
 # ## The KF analysis step
 #
-# It may be shown that the prior $p(\x) = \NormDist(\x \mid \x\supf,\bP\supf)$
-# and likelihood $p(\y|\x) = \NormDist(\y \mid \ObsMod \x,\R)$,
+# It can be shown that the prior $p(\x) = \NormDist(\x \mid \x\supf,\bP\supf)$
+# and likelihood $p(\y|\x) = \NormDist(\y \mid \ObsMod \x,\R)$
 # yield the posterior:
 # $$
 # p(\x|\y)
@@ -266,14 +264,16 @@ plt.legend();
 # \,,
 # $$
 # where the posterior/analysis mean (vector) and covariance (matrix) are given by:
-# $$\begin{align}
+# $$
+# \begin{align}
 #   \bP\supa &= \big(\ObsMod\tr \Ri \ObsMod + (\bP\supf)^{-1}\big)^{-1} \,, \tag{5} \\
 #   \x\supa &= \bP\supa\left[\ObsMod\tr \Ri \y + (\bP\supf)^{-1} \x\supf\right] \tag{6} \,,
-# \end{align}$$
+# \end{align}
+# $$
 # *PS: all of the objects in the analysis equations could also be subscripted by the time index ($k$), but that seems unnecessary (since it is the same one for all of the objects involved).*
 #
 # **Exc (optional) -- The 'precision' form of the KF:** Prove eqns. (4-6).  
-# *Hint: similar to the [univariate case](T3%20-%20Bayesian%20inference.ipynb#Exc----BR-LG1), the main part lies in "completing the square" in $\x$.*
+# *Hint: As in the [univariate case](T3%20-%20Bayesian%20inference.ipynb#Exc----BR-LG1), the main part lies in "completing the square" in $\x$.**
 
 # +
 # show_answer('KF precision')
@@ -297,9 +297,9 @@ for k in range(nTime):
     estims[k] = xf, xa
     covars[k] = Pf, Pa
 
-# Using `inv` is very bad practice, since it is not numerically stable.
-# You generally want to use `scipy.linalg.solve` instead, or a more fine-grained matrix decomposition routine.
-# But that is not possible here, since we have no "right hand side" to solve for in the formula for `Pa`.
+# Using `inv` is generally bad practice, since it is not numerically stable.
+# You typically want to use `scipy.linalg.solve` instead, or a more fine-grained matrix decomposition routine.
+# However, that is not possible here, since we have no "right hand side" to solve for in the formula for `Pa`.
 # We'll address this point later.
 #
 # <mark><font size="-1">
@@ -321,7 +321,7 @@ for i, (ax, truth, estim) in enumerate(zip(axs, truths.T, estims.T)):
     ax.set_xlim([0, nTime])
 
 
-# Note that the other, *unobserved* components also get updated. As you can tell from eqn. (5), the KF will update such *hidden* components as long as $\bP\supf$ is not diagonal (i.e. as long as there are correlations between the state components). Let us inspect this correlation matrix. Run the cell below, and note that
+# Note that the other, *unobserved* components also get updated. As you can see from eqn. (5), the KF will update such *hidden* components as long as $\bP\supf$ is not diagonal (i.e., as long as there are correlations between the state components). Let us inspect this correlation matrix. Run the cell below, and note:
 #
 # - It converges in time to a fixed value, as we might expect from [T4](T4%20-%20Time%20series%20filtering.ipynb#Exc----Temporal-convergence).
 # - There are no negative correlations in this case, which is perhaps a bit boring.
@@ -358,7 +358,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # show_answer('nD-covars are big')
 # -
 
-# This is one of the principal reasons why basic extended KF is infeasible for DA. In the following we derive the "gain" form of the KF analysis update, which should help at least a little bit.
+# This is one of the main reasons why the basic extended KF is infeasible for data assimilation (DA). In the following, we derive the "gain" form of the KF analysis update, which should help at least a little bit.
 #
 # #### Exc -- The "Woodbury" matrix inversion identity
 #
@@ -403,6 +403,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # -
 
 # #### Exc (optional) -- Corollary 2
+#
 # Prove that, for the same matrices as for Corollary C1,
 # $$
 #   \left(\ObsMod\tr \R^{-1} \ObsMod + \B^{-1}\right)^{-1}\ObsMod\tr \R^{-1} =
@@ -414,27 +415,20 @@ def plot_correlation_matrix(k=1, analysis=True):
 # -
 
 # #### Exc -- The "Gain" form of the KF
-# Now, let's go back to the KF, eqns. (5) and (6). Since $\bP\supf$ and $\R$ are covariance matrices, they are symmetric-positive. In addition, we will assume that they are full-rank, making them SPD and invertible.  
 #
-# Define the Kalman gain by:
-#  $$
-#   \K = \bP\supf \ObsMod\tr \big(\ObsMod \bP\supf \ObsMod\tr + \R\big)^{-1} \,. \tag{K1}
-# $$
-#  * (a) Apply (C1) to eqn. (5) to obtain the Kalman gain form of analysis/posterior covariance matrix:
-# $$
-#   \bP\supa = [\I_{\xDim} - \K \ObsMod]\bP\supf \,. \tag{8}
-# $$
+# Now, let's return to the KF, eqns. (5) and (6). Since $\bP\supf$ and $\R$ are covariance matrices, they are symmetric and positive. In addition, we will assume that they are full-rank, i.e. definite (i.e. SPD) and invertible.
 #
-# * (b) Apply (C2)  to (5) to obtain the identity
-# $$
-#   \K = \bP\supa \ObsMod\tr \R^{-1}  \,. \tag{K2}
-# $$
+# Define the Kalman gain as:
+# $$ \K = \bP\supf \ObsMod\tr \big(\ObsMod \bP\supf \ObsMod\tr + \R\big)^{-1} \,. \tag{K1} $$
 #
-# * (c) Show that $\bP\supa (\bP\supf)^{-1} = [\I_{\xDim} - \K \ObsMod]$.
-# * (d) Use (b) and (c) to obtain the Kalman gain form of analysis/posterior covariance
-# $$
-#   \x\supa = \x\supf + \K\left[\y - \ObsMod \x\supf\right] \, . \tag{9}
-# $$
+# - (a) Apply (C1) to eqn. (5) to obtain the Kalman gain form of analysis/posterior covariance matrix:
+#   $$ \bP\supa = [\I_{\xDim} - \K \ObsMod]\bP\supf \,. \tag{8} $$
+# - (b) Apply (C2)  to (5) to obtain the identity
+#   $$ \K = \bP\supa \ObsMod\tr \R^{-1}  \,. \tag{K2} $$
+# - (c) Show that $\bP\supa (\bP\supf)^{-1} = [\I_{\xDim} - \K \ObsMod]$.
+# - (d) Use (b) and (c) to obtain the Kalman gain form of analysis/posterior covariance
+#   $$ \x\supa = \x\supf + \K\left[\y - \ObsMod \x\supf\right] \, . \tag{9} $$
+#
 # Together, eqns. (8) and (9) define the Kalman gain form of the KF update.
 # Note that the inversion (eqn. 7) involved is of the size of $\R$, while in eqn. (5) it is of the size of $\bP\supf$.
 #
@@ -455,14 +449,10 @@ def plot_correlation_matrix(k=1, analysis=True):
 # ## Summary
 #
 # We have derived two forms of the multivariate KF analysis update step: the
-# "precision matrix" form, and the "Kalman gain" form. The latter is especially
+# "precision matrix" form and the "Kalman gain" form. The latter is especially
 # practical when the number of observations is smaller than the length of the
 # state vector. Still, the best is yet to come: the ability to handle very
 # large and chaotic systems
-# (which are more fun than stochastically driven signals such as above).
+# (which are more interesting than stochastically driven signals such as above).
 #
 # ### Next: [T6 - Spatial statistics ("geostatistics") & Kriging](T6%20-%20Geostats%20%26%20Kriging%20(optional).ipynb)
-#
-# <a name="References"></a>
-#
-# ### References
