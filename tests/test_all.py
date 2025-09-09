@@ -9,6 +9,7 @@ Why: Mainly because it did not seem necessary. Also I find debugging with pytest
 """
 
 from pathlib import Path
+import os
 import subprocess
 import sys
 import requests
@@ -78,7 +79,7 @@ def assert_all_links_work(lines, fname):
                     # Known problematic domains
                     skip_domains = ["stack", "wiley.com", "springer.com", "elsevier.com"]
                     status = response.status_code if response is not None else "N/A"
-                    skip = any(domain in link for domain in skip_domains) or status == 429
+                    skip = os.getenv("GITHUB_ACTIONS") and any(domain in link for domain in skip_domains) or status == 429
                     if not skip:
                         failed |= True
                         _report_error(errm("**requesting**") +
