@@ -99,7 +99,7 @@ and $\DynMod$ is the model dynamics.
 The dynamics could consist of *any* function, i.e. the EnKF can be applied with nonlinear models.
 
 The ensemble, $\{\x_n^\tf\}_{n=1..N}$, is then an iid. sample from the forecast pdf,
-$p(\x_k \mid \y_1,\ldots,\y_{k-1})$. This follows from the definition of the latter, so it is a relatively trivial idea and way to obtain this pdf. However, before Monte-Carlo methods were computationally feasible, the computation of the forecast pdf required computing the [Chapman-Kolmogorov equation](https://en.wikipedia.org/wiki/Chapman%E2%80%93Kolmogorov_equation), which constituted a major hurdle for filtering methods.
+$p(\x_k \mid \y_1,\ldots,\y_{k-1})$. This follows from the definition of the latter, so it is a relatively trivial idea and way to obtain this pdf. However, before Monte-Carlo methods were computationally feasible, the computation of the forecast pdf required computing the [Chapman-Kolmogorov equation](T4%20-%20Time%20series%20filtering.ipynb#The-(general)-Bayesian-filtering-recursions), which constituted a major hurdle for filtering methods.
 
 ### The analysis update step
 

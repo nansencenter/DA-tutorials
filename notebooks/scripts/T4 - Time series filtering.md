@@ -212,15 +212,15 @@ But even without these assumptions,
 a general (abstract) Bayesian **recursive** procedure can still be formulated,
 relying only on the remaining ("hidden Markov model") assumptions.
 
-- The analysis "assimilates" $y_k$ to compute $p(x_k | y_{1:k})$,
+- The analysis "assimilates" $y_k$ according to Bayes' rule to compute $p(x_k | y_{1:k})$,
   where $y_{1:k} = y_1, \ldots, y_k$ is shorthand notation.
   $$
-  p(x_k | y_{1:k}) \propto p(y_k | x_k) \, p(x_k | x_{1:k-1})
+  p(x_k | y_{1:k}) \propto p(y_k | x_k) \, p(x_k | x_{1:k-1}) \,.
   $$
-- The forecast "propagates" the estimate with its uncertainty
+- The forecast "propagates" the uncertainty (i.e. density) according to the Chapman-Kolmogorov equation
   to produce $p(x_{k+1}| y_{1:k})$.
   $$
-  p(x_{k+1} | y_{1:k}) = \int p(x_{k+1} | x_k) \, p(x_k | y_{1:k}) \, d x_k
+  p(x_{k+1} | y_{1:k}) = \int p(x_{k+1} | x_k) \, p(x_k | y_{1:k}) \, d x_k \,.
   $$
 
 It is important to appreciate the benefits of the recursive form of these computations:

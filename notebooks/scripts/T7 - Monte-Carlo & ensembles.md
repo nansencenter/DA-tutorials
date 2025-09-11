@@ -34,7 +34,7 @@ plt.ion();
 (pdf_G1, grid1d) = import_from_nb("T2", ("pdf_G1", "grid1d"))
 ```
 
-In [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb) we derived the classical Kalman filter (KF),
+In [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb#Exc----The-%22Gain%22-form-of-the-KF) we derived the classical Kalman filter (KF),
 $
 \newcommand{\Expect}[0]{\mathbb{E}}
 \newcommand{\NormDist}{\mathscr{N}}
@@ -68,13 +68,14 @@ But [T6](T6%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb)
 illustrated several *non-linear* dynamical systems
 that we would like to be able track (estimate).
 The classical approach to handle non-linearity
-(which is still highly useful in many engineering problems)
-is called the *extended* KF,
-wherein the non-linear model**s** are applied to the state's mean estimate, $\x^{\tf/\ta}$,
-and the tangent-linear model ([T6](T6%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb#Error/perturbation-propagation))
-are applied to the state uncertainty/error covariance matrix, $\bP^{\tf/\ta}$.
-For the class of problems generally found in geoscience,
-however, this linearisation is often too inaccurate,
+is called the *extended* KF (**EKF**), and its derivation is straightforward:
+replace $\DynMod \x^a$ by $\DynMod(\x^a)$,
+and $\DynMod \, \bP^a$ by $\frac{\partial \DynMod}{\partial \x}(\x^a) \, \bP^a$
+(where the Jacobian is the integrated TLM seen in [T6](T6%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb#Error/perturbation-propagation))
+and do likewise for $\ObsMod$ with $\x^f$ and $\bP^f$.
+The EKF is still highly useful in many engineering problems,
+but for the class of problems generally found in geoscience,
+the TLM linearisation is sometimes too inaccurate (or insufficiently robust to the uncertainty),
 and the process of deriving and coding up the TLM too arduous
 (several PhD years, unless auto-differentiable frameworks have been used)
 or downright illegal (proprietary software).
@@ -82,12 +83,39 @@ Therefore, another approach is needed...
 
 # T7 - The ensemble (Monte-Carlo) approach
 
-**Monte-Carlo (M-C) methods** are a class of computational algorithms that rely on random/stochastic sampling. They generally trade off higher (though random!) error for lower technical complexity [<sup>[1]</sup>](#Footnote-1:). Examples from optimisation include randomly choosing search directions, swarms, evolutionary mutations, or perturbations for gradient approximation. Another application area is the computation of (deterministic) integrals via sample averages, which is rooted in the fact that any integral can be formulated as expectations, as well as the law of large numbers (LLN). This is actually a surprisingly large class of problems, including for example a way to [inefficiently approximate the value of $\pi$](https://en.wikipedia.org/wiki/Monte_Carlo_method#Overview). Moreover, many integrals of interest are inherently expectations, but over probability distributions that are not tractable, as they arise from a complicated random or uncertain process [<sup>[2]</sup>](#Footnote-2:), whereas a Monte-Carlo sample thereof can be obtained simply by simulating the process. Computing the forecast distribution, and thereby its moments, $\x^{\tf/\ta}$ and $\bP^{\tf/\ta}$), and doing the same for the observation distribution.
+**Monte-Carlo (M-C) methods** are a class of computational algorithms that rely on random/stochastic sampling.
+They generally trade off higher (though random!) error for lower technical complexity [<sup>[1]</sup>](#Footnote-1:).
+Examples from optimisation include randomly choosing search directions, swarms,
+evolutionary mutations, or perturbations for gradient approximation.
+But the main application area is the computation of (deterministic) integrals via sample averages,
+which is rooted in the fact that any integral can be formulated as expectations,
+as well as the law of large numbers (LLN).
+Thus M-C methods apply to surprisingly large class of problems, including for
+example a way to [inefficiently approximate the value of
+$\pi$](https://en.wikipedia.org/wiki/Monte_Carlo_method#Overview).
+Indeed, many of the integrals of interest are inherently expectations.
+But arising from complicated processes, they are often intractable [<sup>[2]</sup>](#Footnote-2:),
+whereas a Monte-Carlo sample thereof is obtained simply by repeated simulation.
+Indeed, the forecast distribution can be expressed precisely by such an integral
+[[T4]](T4%20-%20Time%20series%20filtering.ipynb#The-(general)-Bayesian-filtering-recursions).
 
-**An ensemble** is an *i.i.d.* sample. I.e. a set of "members" ("particles", "realizations", or "sample points") that have been drawn ("sampled") independently from the same distribution. With the EnKF, these assumptions are generally tenuous, but pragmatic.
-In particular, an ensemble can be used to characterize uncertainty: either by using it to compute (estimate) *statistics* thereof, such as the mean, median, variance, covariance, skewness, confidence intervals, etc (any function of the ensemble can be seen as a "statistic"), or by using it to reconstruct the distribution/density from which it is sampled. The latter is illustrated by the plot below.
+Then, similarly to the EKF, the ensemble Kalman filter (**EnKF**) can be derived by replacing
+$\DynMod \x^a$ and $\DynMod \, \bP^a$ by the appropriate ensemble moments (statistics)[<sup>[3]</sup>](#Footnote-3:).
+The EnKF will be developed in full later -- at present, our purpose is to focus on the generation of Monte-Carlo ensembles,
+and their use to reconstruct (estimate) the underlying distribution.
 
-Take a moment to digest its code. Note:
+**An ensemble** is an *i.i.d.* sample. I.e. a set of "members"
+("particles", "realizations", or "sample points") that have been drawn ("sampled")
+independently from the same distribution.
+With the EnKF, these assumptions are generally tenuous, but pragmatic.
+In particular, an ensemble can be used to characterize uncertainty:
+either by using it to compute (estimate) *statistics* thereof, such as the mean, median,
+variance, covariance, skewness, confidence intervals, etc
+(any function of the ensemble can be seen as a "statistic"),
+or by using it to reconstruct the distribution/density from which it is sampled.
+The latter is illustrated by the plot below.
+Take a moment to digest its code.
+Note:
 
 - The sample/ensemble is plotted as thin narrow lines.
   Note that it is generated via `randn`, which samples from $\NormDist(0, 1)$.
@@ -125,8 +153,8 @@ def pdf_reconstructions(seed=5,       nbins=10,      bw=.3):
   What about the "Histogram" method?  
   *PS: we might say that the KDE method "bridges" the other two.*.
 
-
-The widget above illustrated how to estimate or reconstruct a distribution on the basis of a sample. But for the EnKF, we also need to know how to go the other way: drawing a sample from a (multivariate) Gaussian distribution...
+The widget above illustrated how to estimate or reconstruct a distribution on the basis of a sample.
+But for the EnKF, we also need to know how to go the other way: drawing a sample from a (multivariate) Gaussian distribution...
 
 **Exc -- Multivariate Gaussian sampling:**
 Suppose $\z$ is a standard Gaussian,
@@ -134,12 +162,15 @@ i.e. $p(\z) = \NormDist(\z \mid \vect{0},\I_{\xDim})$,
 where $\I_{\xDim}$ is the $\xDim$-dimensional identity matrix.  
 Let $\x = \mat{L}\z + \mu$.
 
- * (a -- optional). Refer to the exercise on [change of variables](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Change-of-variables) to show that $p(\x) = \NormDist(\x \mid \mu, \mat{C})$, where $\mat{C} = \mat{L}^{}\mat{L}^T$.
- * (b). The code below samples $N = 100$ realizations of $\x$
-   and collects them in an ${\xDim}$-by-$N$ "ensemble matrix" $\E$.
-   But `for` loops are slow in plain Python (and Matlab).
-   Replace it with something akin to `E = mu + L@Z`.
-   *Hint: this code snippet fails because it's trying to add a vector to a matrix.*
+- (a -- optional) Refer to the exercise on
+  [change of variables](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Change-of-variables)
+  to show that $p(\x) = \NormDist(\x \mid \mu, \mat{C})$,
+  where $\mat{C} = \mat{L}^{}\mat{L}^T$.
+- (b) The code below samples $N = 100$ realizations of $\x$
+  and collects them in an ${\xDim}$-by-$N$ "ensemble matrix" $\E$.
+  But `for` loops are slow in plain Python (and Matlab).
+  Replace it with something akin to `E = mu + L@Z`.
+  *Hint: this code snippet fails because it's trying to add a vector to a matrix.*
 
 ```python
 mu = np.array([1, 100, 5])
@@ -295,37 +326,47 @@ def estimate_cross_cov(Ex, Ey):
 ### What about linearisation?
 
 We began this tutorial mentioning that M-C can improve on the TLM
-for propagating the errors of the state distribution.
-This is intuitive,
-and the use of the moments of the forecast distribution into the KF equations suggests itself.
-But we have not tied this back into the discussion of linearisation.
+for propagating uncertainty (represented by covariances, or an ensemble).
+But we yet to tie this back into the discussion of linearisation.
 More specifically, what can we say about the way non-linearity is handled by the EnKF?
-As it turns out, the EnKF is doing linear least-squares regression
-(this was recognized from very early on, ref Anderson)
-therefore one can reference the Gauss-Markov theorem to make certain BLUE claims.
-Meanwhile, from the perspective of FD, it has been popular to say that the ensemble methods
-compute an **"average"** linear model somewhat.
-This was formalized by Raanes, and could have made an earlier paper much shorter
-(chain rule applies for LLS regression).
-It is important to note that this derivation of the ensemble linearisation
-shows that errors (from different members) cancel out,
-and shows exactly the linearisation converges to,
-both of which are not present in any derivation starting with Taylor-series expansions.
-A similar result was recognized by Stordal (2016).
+As it turns out, the EnKF is doing linear least-squares regression [[Anderson (2001)]](#References)
+and therefore one can reference the Gauss-Markov theorem to make certain optimality (e.g., BLUE) claims.
+Meanwhile, by viewing the ensemble as a set of finite difference perturbations (with large, pseudo-random spread),
+ensemble methods were intuitively but heuristically thought to compute an **"average"** linear model somewhat.
+This was formalized by [[Raanes (2019)]](#References),
+and could have made [[Raanes (2017)]](#References) much shorter (chain rule applies for LLS regression).
 
+#### Exc: Stein's lemma
+
+TODO:
+- Univariate
+- Proof
+  It is important to note that this derivation of the ensemble linearisation
+  shows that errors (from different members) cancel out,
+  and shows exactly the linearisation converges to,
+  both of which are not present in any derivation starting with Taylor-series expansions.
+- A similar result was recognized by [[Stordal (2016)]](#References).
 
 ## Summary
 
+Monte-Carlo methods use random sampling to estimate expectations and distributions,
+making them powerful for complex or nonlinear problems.
+Ensembles—i.i.d. samples — allow us to estimate statistics and reconstruct distributions,
+with accuracy improving as the ensemble size grows.
 Parametric assumptions (e.g. assuming Gaussianity) can be useful in approximating distributions.
-Sample covariance estimates can be expressed and computed in a vectorized form.
+Sample mean and covariance estimators are consistent and unbiased,
+but nonlinear functions of these (like the inverse covariance) may be biased.
+Vectorized computation of ensemble statistics is both efficient and essential for practical use.
+The ensemble approach naturally handles nonlinearity by simulating the full system,
+forming the basis for methods like the EnKF.
 
 ### Next: [T8 - Spatial statistics ("geostatistics") & Kriging](T8%20-%20Geostats%20%26%20Kriging%20[optional].ipynb)
 
 - - -
 
 - ###### Footnote 1:
-<a name="Footnote-1:"></a> 
-Essentially its (pseudo) randomness means that it is easy to avoid biases.
+<a name="Footnote-1:"></a>
+Essentially its (pseudo) randomness means that it is easy to avoid nefarious or hard-to-detect biases.
 For example, the Monte-Carlo approach is particularly useful
 when grid-based quadrature is difficult, as is often the case for high-dimensional problems.
 A common misconception in DA is that M-C is somehow more efficient
@@ -333,17 +374,18 @@ than deterministic quadrature in high dimensions, $D$.
 The confusion arises because, from Chebyshev inequality, we know that
 the error of the M-C approximation asymptotically converges to zero at a rate proportional to $1/\sqrt{N}$,
 while that of quadrature methods typically converges proportional to $1 / N^{1/D}$.
-But not only is the coefficient dependent on $D$ (and worse for M-C),
-also (conjecture!) for any $D$ and $N$ you can always find a gridding strategy that has lower error.
-For example, quasi-random (latin hypercube, etc) are easily recommended
-in the pure context of hypercube integrals.
+But not only is the "starting" coefficient (not shown) dependent on $D$ (and worse for M-C),
+also (conjecture:) for any $D$ and $N$ you can always find a gridding strategy that has lower error
+(for example, quasi-random methods such as latin hypercube sampling are easy to recommended
+in the pure context of hypercube integrals).
 - ###### Footnote 2:
-<a name="Footnote-2:"></a> 
-The derivation of the corresponding density might involve
-high-dimensional Jacobians for the change-of-variables formula,
-or its generalisation for non-bijective transformations,
-or to the Chapman-Kolmogorov equations in the case of interacting random variables,
-or its time-continuous form of Fokker-Planck.
+<a name="Footnote-2:"></a>
+The corresponding density might involve high-dimensional Jacobians for the change-of-variables formula,
+or require the Chapman-Kolmogorov equations (or Fokker-Planck in case of continuous time) in the case of interacting random variables.
+- ###### Footnote 3:
+<a name="Footnote-3:"></a>
+Another derivation consists in **hiding** away the non-linearity of $\ObsMod$ by augmenting the state vector with the observations.
+We do not favor this approach pedagogically, since it makes it even less clear just what approximations are being made due to the non-linearity.
 
 <a name="References"></a>
 
