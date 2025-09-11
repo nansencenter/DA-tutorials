@@ -30,7 +30,7 @@ plt.ion();
 # \newcommand{\NormDist}{\mathscr{N}}
 # \newcommand{\ObsMod}[0]{\mathscr{H}}
 # \newcommand{\mat}[1]{{\mathbf{{#1}}}}
-# \newcommand{\bvec}[1]{{\mathbf{#1}}}
+# \newcommand{\vect}[1]{{\mathbf{#1}}}
 # \newcommand{\supa}[0]{^\text{a}}
 # \newcommand{\supf}[0]{^\text{f}}
 # $

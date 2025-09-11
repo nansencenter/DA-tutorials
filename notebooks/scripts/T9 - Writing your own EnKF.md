@@ -40,7 +40,7 @@ $
 \newcommand{\DynMod}[0]{\mathscr{M}}
 \newcommand{\ObsMod}[0]{\mathscr{H}}
 \newcommand{\mat}[1]{{\mathbf{{#1}}}}
-\newcommand{\bvec}[1]{{\mathbf{#1}}}
+\newcommand{\vect}[1]{{\mathbf{#1}}}
 \newcommand{\trsign}{{\mathsf{T}}}
 \newcommand{\tr}{^{\trsign}}
 \newcommand{\ceq}[0]{\mathrel{≔}}
@@ -57,17 +57,17 @@ $
 \newcommand{\X}[0]{\mat{X}}
 \newcommand{\Y}[0]{\mat{Y}}
 \newcommand{\E}[0]{\mat{E}}
-\newcommand{\x}[0]{\bvec{x}}
-\newcommand{\y}[0]{\bvec{y}}
-\newcommand{\q}[0]{\bvec{q}}
-\newcommand{\r}[0]{\bvec{r}}
-\newcommand{\bx}[0]{\bvec{\bar{x}}}
-\newcommand{\by}[0]{\bvec{\bar{y}}}
+\newcommand{\x}[0]{\vect{x}}
+\newcommand{\y}[0]{\vect{y}}
+\newcommand{\q}[0]{\vect{q}}
+\newcommand{\r}[0]{\vect{r}}
+\newcommand{\bx}[0]{\vect{\bar{x}}}
+\newcommand{\by}[0]{\vect{\bar{y}}}
 \newcommand{\barP}[0]{\mat{\bar{P}}}
 \newcommand{\barK}[0]{\mat{\bar{K}}}
 \newcommand{\D}[0]{\mat{D}}
 \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}}
-\newcommand{\ones}[0]{\bvec{1}}
+\newcommand{\ones}[0]{\vect{1}}
 $
 
 This presentation follows the traditional template, presenting the EnKF as the "the Monte Carlo version of the KF
@@ -93,7 +93,7 @@ of the forecast dynamics for each $\x_n$:
 $$
   \forall n, \quad \x\supf_n = \DynMod(\x_n\supa) + \q_n  \,, \\
 $$
-where $\{\q_n\}_{n=1..N}$ are sampled iid. from $\NormDist(\bvec{0},\Q)$,
+where $\{\q_n\}_{n=1..N}$ are sampled iid. from $\NormDist(\vect{0},\Q)$,
 or whatever noise model is assumed,  
 and $\DynMod$ is the model dynamics.
 The dynamics could consist of *any* function, i.e. the EnKF can be applied with nonlinear models.
@@ -112,7 +112,7 @@ $$\begin{align}
     \tag{4}
 \end{align}
 $$
-where the "observation perturbations", $\r_n$, are sampled iid. from the observation noise model, e.g. $\NormDist(\bvec{0},\R)$,  
+where the "observation perturbations", $\r_n$, are sampled iid. from the observation noise model, e.g. $\NormDist(\vect{0},\R)$,  
 and form the columns of $\Dobs$,  
 and the observation operator (again, any type of function), $\ObsMod$, is applied column-wise to $\E\supf$.
 
@@ -192,13 +192,13 @@ $\D \ceq
 \begin{bmatrix}
     \r_1 -\bar{\r}, & \ldots & \r_n -\bar{\r}, & \ldots & \r_N -\bar{\r}
 \end{bmatrix} $.
-Note that $\D \ones = \bvec{0}$ and that
+Note that $\D \ones = \vect{0}$ and that
 $$
 \begin{align}
   \label{eqn:R_sample_cov_of_D}
   \frac{1}{N-1} \D \D\tr &= \R \,, \tag{9a} \\\
   \label{eqn:zero_AD_cov}
-  \X \D\tr &= \bvec{0} \tag{9b}
+  \X \D\tr &= \vect{0} \tag{9b}
 \end{align}
 $$
 is satisfied in the expected sense, i.e. by taking the expectation on the left-hand side.

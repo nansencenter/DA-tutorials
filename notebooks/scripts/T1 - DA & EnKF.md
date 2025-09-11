@@ -24,11 +24,11 @@ $
 \newcommand{\DynMod}[0]{\mathscr{M}}
 \newcommand{\ObsMod}[0]{\mathscr{H}}
 \newcommand{\mat}[1]{{\mathbf{{#1}}}}
-\newcommand{\bvec}[1]{{\mathbf{#1}}}
-\newcommand{\x}[0]{\bvec{x}}
-\newcommand{\y}[0]{\bvec{y}}
-\newcommand{\q}[0]{\bvec{q}}
-\newcommand{\r}[0]{\bvec{r}}
+\newcommand{\vect}[1]{{\mathbf{#1}}}
+\newcommand{\x}[0]{\vect{x}}
+\newcommand{\y}[0]{\vect{y}}
+\newcommand{\q}[0]{\vect{q}}
+\newcommand{\r}[0]{\vect{r}}
 $
 
 ## Jupyter

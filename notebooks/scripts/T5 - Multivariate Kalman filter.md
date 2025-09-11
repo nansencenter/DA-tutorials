@@ -37,7 +37,7 @@ $
 \newcommand{\DynMod}[0]{\mathscr{M}}
 \newcommand{\ObsMod}[0]{\mathscr{H}}
 \newcommand{\mat}[1]{{\mathbf{{#1}}}}
-\newcommand{\bvec}[1]{{\mathbf{#1}}}
+\newcommand{\vect}[1]{{\mathbf{#1}}}
 \newcommand{\trsign}{{\mathsf{T}}}
 \newcommand{\tr}{^{\trsign}}
 \newcommand{\xDim}[0]{D}
@@ -53,9 +53,9 @@ $
 \newcommand{\Ri}[0]{\R^{-1}}
 \newcommand{\U}[0]{\mat{U}}
 \newcommand{\V}[0]{\mat{V}}
-\newcommand{\x}[0]{\bvec{x}}
-\newcommand{\y}[0]{\bvec{y}}
-\newcommand{\q}[0]{\bvec{q}}
+\newcommand{\x}[0]{\vect{x}}
+\newcommand{\y}[0]{\vect{y}}
+\newcommand{\q}[0]{\vect{q}}
 $
 
 ## Prelude: Multivariate Bayes

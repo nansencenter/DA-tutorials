@@ -40,7 +40,7 @@ The purpose of this tutorial is to familiarise you with random (spatial) fields
 and their estimation.
 $
 \newcommand{\mat}[1]{{\mathbf{{#1}}}}
-\newcommand{\bvec}[1]{{\mathbf{#1}}}
+\newcommand{\vect}[1]{{\mathbf{#1}}}
 \newcommand{\Expect}[0]{\mathbb{E}}
 \newcommand{\NormDist}{\mathscr{N}}
 $

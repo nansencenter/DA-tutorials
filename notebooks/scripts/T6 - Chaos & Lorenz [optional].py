@@ -30,9 +30,9 @@ plt.ion();
 # As opposed to the opinions of Descartes/Newton/Laplace, chaos effectively means that even in a deterministic (non-stochastic) universe, we can only predict "so far" into the future. This will be illustrated below using two toy-model dynamical systems made by ***Edward Lorenz***.
 # $
 # \newcommand{\mat}[1]{{\mathbf{{#1}}}}
-# \newcommand{\bvec}[1]{{\mathbf{#1}}}
+# \newcommand{\vect}[1]{{\mathbf{#1}}}
 # \newcommand{\xDim}[0]{D}
-# \newcommand{\x}[0]{\bvec{x}}
+# \newcommand{\x}[0]{\vect{x}}
 # \newcommand{\DynMod}[0]{\mathscr{M}}
 # $
 #
@@ -98,7 +98,7 @@ def integrate(dxdt, initial_states, final_time, **params):
 # \end{aligned}
 # \tag{1}
 # $$
-# Here, the "dot" represents the time derivative, $\frac{d}{dt}$. The state vector is $\x = (x,y,z)$, and the equations are often abbreviated in vector form as $\dot{\x} = \bvec{f}(\x)$. The parameters are typically set to $\sigma = 10, \beta=8/3, \rho=28$. The ODEs can be coded as follows (yes, Python supports Unicode, but it might be cumbersome to type out!)
+# Here, the "dot" represents the time derivative, $\frac{d}{dt}$. The state vector is $\x = (x,y,z)$, and the equations are often abbreviated in vector form as $\dot{\x} = \vect{f}(\x)$. The parameters are typically set to $\sigma = 10, \beta=8/3, \rho=28$. The ODEs can be coded as follows (yes, Python supports Unicode, but it might be cumbersome to type out!)
 
 def dxdt63(state, time, σ, β, ρ):
     x, y, z = state
@@ -296,7 +296,7 @@ def Hovmoller():
 #
 # The [double pendulum](https://en.wikipedia.org/wiki/Double_pendulum) is another classic example of a chaotic system.
 # It is a little longer to implement, so we'll just load it from [DAPPER](https://github.com/nansencenter/DAPPER/blob/master/dapper/mods/DoublePendulum/__init__.py).
-# Unlike the Lorenz systems, the divergence of its "$\bvec{f}$" flow field is 0,
+# Unlike the Lorenz systems, the divergence of its "$\vect{f}$" flow field is 0,
 # so it is conservative, and all of the trajectories preserve their initial energy
 # (except for what friction our numerical integration causes).
 # Therefore it does not strictly speaking possess an attractor
@@ -325,16 +325,16 @@ def plot_pendulum2(k=1, N=2):
 #
 # ## Error/perturbation propagation
 #
-# **Exc (optional) -- Perturbation ODE:** Suppose $\x(t)$ and $\x'(t)$ are "twins": they evolve according to the same law $\bvec{f}$:
+# **Exc (optional) -- Perturbation ODE:** Suppose $\x(t)$ and $\x'(t)$ are "twins": they evolve according to the same law $\vect{f}$:
 # $$
 # \begin{align}
-# \frac{d \x}{d t} &= \bvec{f}(\x) \\
-# \frac{d \x'}{d t} &= \bvec{f}(\x') \,.
+# \frac{d \x}{d t} &= \vect{f}(\x) \\
+# \frac{d \x'}{d t} &= \vect{f}(\x') \,.
 # \end{align}
 # $$
 #
 # Define the "error": $\boldsymbol{\varepsilon} = \x - \x'$, and suppose $\boldsymbol{\varepsilon}(0) = \boldsymbol{\varepsilon}_0$ is small.
-# Let $\mat{F} = \frac{\partial \bvec{f}}{\partial \x}$, which is called the ***tangent-linear model*** (TLM, non-"adjoint").
+# Let $\mat{F} = \frac{\partial \vect{f}}{\partial \x}$, which is called the ***tangent-linear model*** (TLM, non-"adjoint").
 #
 # - (a) Show that the error evolves according to the following **linear** ordinary differential equation (ODE)
 #   $\frac{d \boldsymbol{\varepsilon}}{d t} \approx \mat{F} \, \boldsymbol{\varepsilon} \,. \tag{TLM}$
@@ -354,12 +354,12 @@ def plot_pendulum2(k=1, N=2):
 #   What is the differential equation governing the error, $\varepsilon$, to leading order?
 #   What new phenomenon does it prescribe, as compared to eqn. (TLM)?
 # - (g, optional) Now drop the scalar assumption.
-#   Assuming diagonalizability, $\mat{F} = \mat{T} \operatorname{diag}(\bvec{d}) \, \mat{T}^{-1}$,
+#   Assuming diagonalizability, $\mat{F} = \mat{T} \operatorname{diag}(\vect{d}) \, \mat{T}^{-1}$,
 #   show that the solution to eqn. (TLM) is
 #   $\boldsymbol{\varepsilon} = \mat{M} \, \boldsymbol{\varepsilon}_0$,
-#   where $\mat{M} = \mat{T} \operatorname{diag}(e^{\bvec{d} \, t}) \, \mat{T}^{-1}$
+#   where $\mat{M} = \mat{T} \operatorname{diag}(e^{\vect{d} \, t}) \, \mat{T}^{-1}$
 #   is called the ***resolvent*** (or fundamental matrix).
-#   *PS: It can also be expressed as $\mat{M} = \frac{\partial \DynMod}{\partial \bvec{x}}$,
+#   *PS: It can also be expressed as $\mat{M} = \frac{\partial \DynMod}{\partial \vect{x}}$,
 #   if $\x(t) = \DynMod(\x_0)$ for any $\x_0$.*
 
 # +

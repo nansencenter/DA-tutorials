@@ -36,11 +36,11 @@ $
 \newcommand{\Expect}[0]{\mathbb{E}}
 \newcommand{\NormDist}{\mathscr{N}}
 \newcommand{\mat}[1]{{\mathbf{{#1}}}}
-\newcommand{\bvec}[1]{{\mathbf{#1}}}
+\newcommand{\vect}[1]{{\mathbf{#1}}}
 \newcommand{\trsign}{{\mathsf{T}}}
 \newcommand{\tr}{^{\trsign}}
 \newcommand{\xDim}[0]{D}
-\newcommand{\x}[0]{\bvec{x}}
+\newcommand{\x}[0]{\vect{x}}
 \newcommand{\X}[0]{\mat{X}}
 $
 

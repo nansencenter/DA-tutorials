@@ -35,7 +35,7 @@ plt.ion();
 # \newcommand{\DynMod}[0]{\mathscr{M}}
 # \newcommand{\ObsMod}[0]{\mathscr{H}}
 # \newcommand{\mat}[1]{{\mathbf{{#1}}}}
-# \newcommand{\bvec}[1]{{\mathbf{#1}}}
+# \newcommand{\vect}[1]{{\mathbf{#1}}}
 # \newcommand{\trsign}{{\mathsf{T}}}
 # \newcommand{\tr}{^{\trsign}}
 # \newcommand{\ceq}[0]{\mathrel{≔}}
@@ -46,14 +46,14 @@ plt.ion();
 # \newcommand{\X}[0]{\mat{X}}
 # \newcommand{\Y}[0]{\mat{Y}}
 # \newcommand{\E}[0]{\mat{E}}
-# \newcommand{\x}[0]{\bvec{x}}
-# \newcommand{\y}[0]{\bvec{y}}
-# \newcommand{\z}[0]{\bvec{z}}
-# \newcommand{\bx}[0]{\bvec{\bar{x}}}
-# \newcommand{\by}[0]{\bvec{\bar{y}}}
+# \newcommand{\x}[0]{\vect{x}}
+# \newcommand{\y}[0]{\vect{y}}
+# \newcommand{\z}[0]{\vect{z}}
+# \newcommand{\bx}[0]{\vect{\bar{x}}}
+# \newcommand{\by}[0]{\vect{\bar{y}}}
 # \newcommand{\bP}[0]{\mat{P}}
 # \newcommand{\barC}[0]{\mat{\bar{C}}}
-# \newcommand{\ones}[0]{\bvec{1}}
+# \newcommand{\ones}[0]{\vect{1}}
 # \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 # $
 # wherein the dynamics (and measurements) are assumed linear,
@@ -125,7 +125,7 @@ def pdf_reconstructions(seed=5,       nbins=10,      bw=.3):
 #
 # **Exc -- Multivariate Gaussian sampling:**
 # Suppose $\z$ is a standard Gaussian,
-# i.e. $p(\z) = \NormDist(\z \mid \bvec{0},\I_{\xDim})$,
+# i.e. $p(\z) = \NormDist(\z \mid \vect{0},\I_{\xDim})$,
 # where $\I_{\xDim}$ is the $\xDim$-dimensional identity matrix.  
 # Let $\x = \mat{L}\z + \mu$.
 #
