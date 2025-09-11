@@ -38,8 +38,8 @@ $
 \newcommand{\ObsMod}[0]{\mathscr{H}}
 \newcommand{\mat}[1]{{\mathbf{{#1}}}}
 \newcommand{\vect}[1]{{\mathbf{#1}}}
-\newcommand{\supa}[0]{^\text{a}}
-\newcommand{\supf}[0]{^\text{f}}
+\newcommand{\ta}[0]{\text{a}}
+\newcommand{\tf}[0]{\text{f}}
 $
 
 Consider the scalar, stochastic process $\{x_k\}$,
@@ -55,7 +55,7 @@ $$ y_k = \ObsMod_k x_k + r_k \,, \tag{ObsMod} $$
 The noises and $x_0$ are assumed to be independent of each other and across time
 (i.e., $\varepsilon_k$ is independent of $\varepsilon_l$ for $k \neq l$),
 and Gaussian with known parameters:
-$$x_0 \sim \NormDist(x\supa_0, P\supa_0),\quad
+$$x_0 \sim \NormDist(x^\ta_0, P^\ta_0),\quad
 q_k \sim \NormDist(0, Q_k),\quad
 r_k \sim \NormDist(0, R_k) \,.$$
 
@@ -154,28 +154,28 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 Now we have a random variable that evolves in time, that we can *pretend* is unknown,
 in order to estimate (or "track") it.
 From above,
-$p(x_0) = \NormDist(x_0 | x\supa_0, P\supa_0)$ with given parameters.
+$p(x_0) = \NormDist(x_0 | x^\ta_0, P^\ta_0)$ with given parameters.
 We also know that $x_k$ evolves according to eqn. (DynMod).
 Therefore, as shown in the following exercise,
-$p(x_1) = \NormDist(x_1 | x\supf_1, P\supf_1)$, with
+$p(x_1) = \NormDist(x_1 | x^\tf_1, P^\tf_1)$, with
 $$
 \begin{align}
-x\supf_k &= \DynMod \, x\supa_{k-1} \tag{5} \\
-P\supf_k &= \DynMod^2 \, P\supa_{k-1} + Q \tag{6}
+x^\tf_k &= \DynMod \, x^\ta_{k-1} \tag{5} \\
+P^\tf_k &= \DynMod^2 \, P^\ta_{k-1} + Q \tag{6}
 \end{align}
 $$
 
 Formulae (5) and (6) are called the **forecast step** of the KF.
 But when $y_1$ becomes available (according to eqn. (ObsMod)),
 we can update/condition our estimate of $x_1$, i.e., compute the posterior,
-$p(x_1 | y_1) = \NormDist(x_1 \mid x\supa_1, P\supa_1)$,
+$p(x_1 | y_1) = \NormDist(x_1 \mid x^\ta_1, P^\ta_1)$,
 using the formulae we developed for Bayes' rule with
 [Gaussian distributions](T3%20-%20Bayesian%20inference.ipynb#Linear-Gaussian-Bayes'-rule-(1D)).
 
 $$
 \begin{align}
-  P\supa_k &= 1/(1/P\supf_k + \ObsMod^2/R) \,, \tag{7} \\\
-  x\supa_k  &= P\supa_k (x\supf/P\supf_k + \ObsMod y_k/R) \,.  \tag{8}
+  P^\ta_k &= 1/(1/P^\tf_k + \ObsMod^2/R) \,, \tag{7} \\\
+  x^\ta_k  &= P^\ta_k (x^\tf/P^\tf_k + \ObsMod y_k/R) \,.  \tag{8}
 \end{align}
 $$
 
@@ -293,12 +293,12 @@ But, we assumed that they are all stationary.
 In addition, suppose $Q=0$ and $\ObsMod = 1$.
 Show that
 
-- (a) $1/P\supa_k = 1/(\DynMod^2 P\supa_{k-1}) + 1/R$,
+- (a) $1/P^\ta_k = 1/(\DynMod^2 P^\ta_{k-1}) + 1/R$,
   by combining the forecast and analysis equations for the variance.
-- (b) $1/P\supa_k = 1/P\supa_0 + k/R$, if $\DynMod = 1$.
-- (c) $P\supa_{\infty} = 0$, if $\DynMod = 1$.
-- (d) $P\supa_{\infty} = 0$, if $\DynMod < 1$.  
-- (e) $P\supa_{\infty} = R (1-1/\DynMod^2)$, if $\DynMod > 1$.  
+- (b) $1/P^\ta_k = 1/P^\ta_0 + k/R$, if $\DynMod = 1$.
+- (c) $P^\ta_{\infty} = 0$, if $\DynMod = 1$.
+- (d) $P^\ta_{\infty} = 0$, if $\DynMod < 1$.  
+- (e) $P^\ta_{\infty} = R (1-1/\DynMod^2)$, if $\DynMod > 1$.  
   *Hint: Look for the fixed point of the recursion of part (a).*
 
 ```python
@@ -308,12 +308,12 @@ Show that
 **Exc (optional) -- Temporal CV, part 2:**
 Now we don't assume that $Q$ is zero. Instead
 
-- (a) Suppose $\DynMod = 0$. What does $P\supa_k$ equal?
-- (b) Suppose $\DynMod = 1$. Show that $P\supa_\infty$
+- (a) Suppose $\DynMod = 0$. What does $P^\ta_k$ equal?
+- (b) Suppose $\DynMod = 1$. Show that $P^\ta_\infty$
   satisfies the quadratic equation: $0 = P^2 + Q P - Q R$.  
   Thereby, without solving the quadratic equation, show that
-  - (c) $P\supa_\infty \rightarrow R$ (from below) if $Q \rightarrow +\infty$.
-  - (d) $P\supa_\infty \rightarrow \sqrt{ Q R}$ (from above) if $Q \rightarrow 0^+$.
+  - (c) $P^\ta_\infty \rightarrow R$ (from below) if $Q \rightarrow +\infty$.
+  - (d) $P^\ta_\infty \rightarrow \sqrt{ Q R}$ (from above) if $Q \rightarrow 0^+$.
 
 ```python
 # show_answer('Asymptotes when Q>0')

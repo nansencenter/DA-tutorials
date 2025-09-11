@@ -41,8 +41,8 @@ plt.ion();
 # \newcommand{\tr}{^{\trsign}}
 # \newcommand{\ceq}[0]{\mathrel{≔}}
 # \newcommand{\xDim}[0]{D}
-# \newcommand{\supa}[0]{^\text{a}}
-# \newcommand{\supf}[0]{^\text{f}}
+# \newcommand{\ta}[0]{\text{a}}
+# \newcommand{\tf}[0]{\text{f}}
 # \newcommand{\I}[0]{\mat{I}}
 # \newcommand{\K}[0]{\mat{K}}
 # \newcommand{\bP}[0]{\mat{P}}
@@ -76,7 +76,7 @@ plt.ion();
 # <b>NB:</b>
 # Since we're going to focus on a single filtering cycle (at a time),
 # the subscript $k$ is dropped. Moreover, <br>
-# The superscript $f$ indicates that $\{\x_n\supf\}_{n=1..N}$ is the forecast (prior) ensemble.<br>
+# The superscript $f$ indicates that $\{\x_n^\tf\}_{n=1..N}$ is the forecast (prior) ensemble.<br>
 # The superscript $a$ indicates that $\{\x_n\supa\}_{n=1..N}$ is the analysis (posterior) ensemble.
 # </font></mark>
 #
@@ -87,35 +87,35 @@ plt.ion();
 # The forecast step of the EnKF consists of a Monte Carlo simulation
 # of the forecast dynamics for each $\x_n$:
 # $$
-#   \forall n, \quad \x\supf_n = \DynMod(\x_n\supa) + \q_n  \,, \\
+#   \forall n, \quad \x^\tf_n = \DynMod(\x_n^\ta) + \q_n  \,, \\
 # $$
 # where $\{\q_n\}_{n=1..N}$ are sampled iid. from $\NormDist(\vect{0},\Q)$,
 # or whatever noise model is assumed,  
 # and $\DynMod$ is the model dynamics.
 # The dynamics could consist of *any* function, i.e. the EnKF can be applied with nonlinear models.
 #
-# The ensemble, $\{\x_n\supf\}_{n=1..N}$, is then an iid. sample from the forecast pdf,
+# The ensemble, $\{\x_n^\tf\}_{n=1..N}$, is then an iid. sample from the forecast pdf,
 # $p(\x_k \mid \y_1,\ldots,\y_{k-1})$. This follows from the definition of the latter, so it is a relatively trivial idea and way to obtain this pdf. However, before Monte-Carlo methods were computationally feasible, the computation of the forecast pdf required computing the [Chapman-Kolmogorov equation](https://en.wikipedia.org/wiki/Chapman%E2%80%93Kolmogorov_equation), which constituted a major hurdle for filtering methods.
 #
 # ### The analysis update step
 #
 # of the ensemble is given by:
 # $$\begin{align}
-#   \forall n, \quad \x\supa_n &= \x_n\supf + \barK \left\{\y - \r_n - \ObsMod(\x_n\supf) \right\}
+#   \forall n, \quad \x^\ta_n &= \x_n^\tf + \barK \left\{\y - \r_n - \ObsMod(\x_n^\tf) \right\}
 #   \,, \\
 #   \text{or,}\quad
-#   \E\supa &=  \E\supf  + \barK \left\{\y\ones\tr - \Dobs - \ObsMod(\E\supf)  \right\} \,,
+#   \E^\ta &=  \E^\tf  + \barK \left\{\y\ones\tr - \Dobs - \ObsMod(\E^\tf)  \right\} \,,
 #     \tag{4}
 # \end{align}
 # $$
 # where the "observation perturbations", $\r_n$, are sampled iid. from the observation noise model, e.g. $\NormDist(\vect{0},\R)$,  
 # and form the columns of $\Dobs$,  
-# and the observation operator (again, any type of function), $\ObsMod$, is applied column-wise to $\E\supf$.
+# and the observation operator (again, any type of function), $\ObsMod$, is applied column-wise to $\E^\tf$.
 #
 # The gain $\barK$ is defined by inserting the ensemble estimates for
 #
-# - (i) $\bP\supf \bH\tr$: the cross-covariance between $\x\supf$ and $\ObsMod(\x\supf)$, and
-# - (ii) $\bH \bP\supf \bH\tr$: the covariance matrix of $\ObsMod(\x\supf)$,
+# - (i) $\bP^\tf \bH\tr$: the cross-covariance between $\x^\tf$ and $\ObsMod(\x^\tf)$, and
+# - (ii) $\bH \bP^\tf \bH\tr$: the covariance matrix of $\ObsMod(\x^\tf)$,
 #
 # in the formula for $\K$, namely eqn. (K1) of [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb).
 # Using the estimators from [T7](T7%20-%20Monte-Carlo%20%26%20ensembles.ipynb) yields
@@ -130,7 +130,7 @@ plt.ion();
 # $\Y \ceq
 # \begin{bmatrix}
 #     \y_1 -\by, & \ldots & \y_n -\by, & \ldots & \y_N -\by
-# \end{bmatrix} \,,$ where $\y_n = \ObsMod(\x_n\supf)$.
+# \end{bmatrix} \,,$ where $\y_n = \ObsMod(\x_n^\tf)$.
 #
 # The EnKF is summarized in the animation below.
 
@@ -154,17 +154,17 @@ EnKF_animation()
 #
 # Consider the ensemble averages,
 #
-# - $\bx\supa = \frac{1}{N}\sum_{n=1}^N \x\supa_n$, and
-# - $\bx\supf = \frac{1}{N}\sum_{n=1}^N \x\supf_n$,
+# - $\bx^\ta = \frac{1}{N}\sum_{n=1}^N \x^\ta_n$, and
+# - $\bx^\tf = \frac{1}{N}\sum_{n=1}^N \x^\tf_n$,
 #
-# and recall that the analysis step, eqn. (4), defines $\x\supa_n$ from $\x\supf_n$.
+# and recall that the analysis step, eqn. (4), defines $\x^\ta_n$ from $\x^\tf_n$.
 #
 # (a) Show that, in case $\ObsMod$ is linear (the matrix $\bH$),
 # $$\begin{align}
-#   \Expect \bx\supa &=  \bx\supf  + \barK \left\{\y\ones\tr - \bH\bx\supf  \right\} \,, \tag{6}
+#   \Expect \bx^\ta &=  \bx^\tf  + \barK \left\{\y\ones\tr - \bH\bx^\tf  \right\} \,, \tag{6}
 # \end{align}
 # $$
-# where the expectation, $\Expect$, is taken with respect to $\Dobs$ only (i.e. not the sampling of the forecast ensemble, $\E\supf$ itself).
+# where the expectation, $\Expect$, is taken with respect to $\Dobs$ only (i.e. not the sampling of the forecast ensemble, $\E^\tf$ itself).
 #
 # What does this mean?
 
@@ -176,8 +176,8 @@ EnKF_animation()
 #
 # Consider the ensemble covariance matrices:
 # $$\begin{align}
-# \barP\supf &= \frac{1}{N-1} \X{\X}\tr \,, \tag{7a} \\\
-# \barP\supa &= \frac{1}{N-1} \X\supa{\X\supa}\tr \,. \tag{7b}
+# \barP^\tf &= \frac{1}{N-1} \X{\X}\tr \,, \tag{7a} \\\
+# \barP^\ta &= \frac{1}{N-1} \x^\ta{\x^\ta}\tr \,. \tag{7b}
 # \end{align}$$
 #
 # Now, denote the centralized observation perturbations
@@ -198,7 +198,7 @@ EnKF_animation()
 # Thereby, show that
 #
 # $$\begin{align}
-#     \Expect \, \barP\supa &= [\I_{\xDim} - \barK \bH]\barP\supf \, . \tag{10}
+#     \Expect \, \barP^\ta &= [\I_{\xDim} - \barK \bH]\barP^\tf \, . \tag{10}
 # \end{align}$$
 
 # +
@@ -206,7 +206,7 @@ EnKF_animation()
 # -
 
 # #### Exc (optional) -- EnKF bias (c)
-# Show that, if no observation perturbations are used in eqn. (4), then $\barP\supa$ would be too small.
+# Show that, if no observation perturbations are used in eqn. (4), then $\barP^\ta$ would be too small.
 
 # +
 # show_answer("EnKF_without_perturbations")
@@ -398,7 +398,7 @@ average_rmse(truths, ens_means)
 # show_answer('Repeat experiment b')
 # -
 
-#  * (c). Use $N=5$, and repeat the experiments. This is quite a small ensemble size, and quite often it will yield divergence: the EnKF "definitely loses track" of the truth, typically because of strong nonlinearity in the forecast models, and underestimation (by $\barP\supa)$ of the actual errors. Repeat the experiment with different seeds until you observe in the plots that divergence has happened.
+#  * (c). Use $N=5$, and repeat the experiments. This is quite a small ensemble size, and quite often it will yield divergence: the EnKF "definitely loses track" of the truth, typically because of strong nonlinearity in the forecast models, and underestimation (by $\barP^\ta)$ of the actual errors. Repeat the experiment with different seeds until you observe in the plots that divergence has happened.
 #  * (d). Implement "multiplicative inflation" to remedy the situation; this is a factor that should spread the ensemble further apart; a simple version is to inflate the perturbations. Implement it, and tune its value to try to avoid divergence.
 
 # +

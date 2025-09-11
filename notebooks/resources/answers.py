@@ -339,8 +339,8 @@ What's not to love? Consider
 
 
 answers['LG BR example'] = ['MD', r'''
-- Eqn. (5) yields $P\supa = \frac{1}{1/4 + 1/4} = \frac{1}{2/4} = 2$.
-- Eqn. (6) yields $x\supa = 2 \cdot (20/4 + 18/4) = \frac{20 + 18}{2} = 19$
+- Eqn. (5) yields $P^\ta = \frac{1}{1/4 + 1/4} = \frac{1}{2/4} = 2$.
+- Eqn. (6) yields $x^\ta = 2 \cdot (20/4 + 18/4) = \frac{20 + 18}{2} = 19$
 ''']
 
 answers['symmetry of conjunction'] = ['MD', r'''
@@ -463,29 +463,29 @@ answers['BR Gauss, a.k.a. completing the square a'] = ['MD', r'''
 Expanding the squares of the left hand side (LHS),
 and gathering terms in powers of $x$ yields
 $$
-    \frac{(x-x\supf)^2}{P\supf} + \frac{(x-y)^2}{R}
-    =  x^2 (1/P\supf + 1/R)
-    - 2 x (x\supf/P\supf + y/R)
+    \frac{(x-x^\tf)^2}{P^\tf} + \frac{(x-y)^2}{R}
+    =  x^2 (1/P^\tf + 1/R)
+    - 2 x (x^\tf/P^\tf + y/R)
     + c_1
     \,, \tag{a1}
 $$
-with $c_1 = (x\supf)^2/P\supf + y^2/R$.
+with $c_1 = (x^\tf)^2/P^\tf + y^2/R$.
 Meanwhile
 $$
-    \frac{(x-x\supa)^2}{P\supf}
-    = x^2 / P\supa
-    - 2 x x\supa/P\supa
-    + (x\supa)^2/P\supa
+    \frac{(x-x^\ta)^2}{P^\tf}
+    = x^2 / P^\ta
+    - 2 x x^\ta/P^\ta
+    + (x^\ta)^2/P^\ta
     \,.
 \tag{a2}
 $$
 Both (a1) and (a2) are quadratics in $x$,
 so we can equate them by setting
 $$ \begin{align}
-1/P\supa = 1/P\supf + 1/R \,, \tag{a3} \\\
-x\supa/P\supa = x\supf/P\supf + y/R \,, \tag{a4}
+1/P^\ta = 1/P^\tf + 1/R \,, \tag{a3} \\\
+x^\ta/P^\ta = x^\tf/P^\tf + y/R \,, \tag{a4}
 \end{align} $$
-whereupon we immediately recover $P\supa$ and $x\supa$ of eqns. (5) and (6).
+whereupon we immediately recover $P^\ta$ and $x^\ta$ of eqns. (5) and (6).
 
 *PS: The above process is called "completing the square"
 since it involves writing a quadratic polynomial as a single squared term
@@ -495,32 +495,32 @@ plus a "constant" that we add and subtract.*
 answers['BR Gauss, a.k.a. completing the square b'] = ['MD', r'''
 From part (a),
 $$
-    \frac{(x-x\supf)^2}{P\supf} + \frac{(x-y)^2}{R}
+    \frac{(x-x^\tf)^2}{P^\tf} + \frac{(x-y)^2}{R}
     =
-    \frac{(x-x\supa)^2}{P\supf} + c_2
+    \frac{(x-x^\ta)^2}{P^\tf} + c_2
     \,,
 \tag{a5}
 $$
-with $c_2 = c_1 - (x\supa)^2/P\supa$.
-Substituting in the formulae for $c_1$ and $x\supa$ produces
+with $c_2 = c_1 - (x^\ta)^2/P^\ta$.
+Substituting in the formulae for $c_1$ and $x^\ta$ produces
 $$
-c_2 = (x\supf)^2/P\supf + y^2/R - P\supa (x\supf/P\supf + y/R)^2
-= y^2 ( 1/R - P\supa/R^2 ) - 2 y x\supf \frac{P\supa}{P\supf R} + \frac{(x\supf)^2}{P\supf} - P\supa \frac{(x\supf)^2}{(P\supf)^2}  
+c_2 = (x^\tf)^2/P^\tf + y^2/R - P^\ta (x^\tf/P^\tf + y/R)^2
+= y^2 ( 1/R - P^\ta/R^2 ) - 2 y x^\tf \frac{P^\ta}{P^\tf R} + \frac{(x^\tf)^2}{P^\tf} - P^\ta \frac{(x^\tf)^2}{(P^\tf)^2}  
 \tag{a6}
 $$
-Now, multiplying eqn. (a3) with $P\supf R$, it can be seen that
+Now, multiplying eqn. (a3) with $P^\tf R$, it can be seen that
 
-- $\frac{P\supa}{P\supf R} = \frac{1}{P\supf + R}$, whence
-- $\frac{P\supa}{P\supf} = \frac{R}{P\supf + R}$, and
-- $\frac{P\supa}{R} = \frac{P\supf}{P\supf + R}$ so that
-- $1/R - P\supa/R^2 = \frac{1}{R}(1 - \frac{P\supa}{R} ) = \frac{1}{R} \frac{R}{P\supf + R} = \frac{1}{P\supf + R}$.
+- $\frac{P^\ta}{P^\tf R} = \frac{1}{P^\tf + R}$, whence
+- $\frac{P^\ta}{P^\tf} = \frac{R}{P^\tf + R}$, and
+- $\frac{P^\ta}{R} = \frac{P^\tf}{P^\tf + R}$ so that
+- $1/R - P^\ta/R^2 = \frac{1}{R}(1 - \frac{P^\ta}{R} ) = \frac{1}{R} \frac{R}{P^\tf + R} = \frac{1}{P^\tf + R}$.
 
 Thus eqn. (a6) simplifies to
 $$ \begin{align}
 c_2
-&= y^2 \frac{1}{P\supf + R}  - 2 y x\supf \frac{1}{P\supf + R} + \frac{(x\supf)^2}{P\supf} - \frac{(x\supf)^2}{P\supf}\frac{R}{P\supf + R} \\\
-&= \frac{1}{P\supf + R} \Bigl[ y^2 - 2 y x\supf + (x\supf)^2 \bigl( \frac{P\supf + R}{P\supf} - \frac{R}{P\supf}\bigr ) \Bigr ] \\\
-&= \frac{(y - x\supf)^2}{P\supf + R}
+&= y^2 \frac{1}{P^\tf + R}  - 2 y x^\tf \frac{1}{P^\tf + R} + \frac{(x^\tf)^2}{P^\tf} - \frac{(x^\tf)^2}{P^\tf}\frac{R}{P^\tf + R} \\\
+&= \frac{1}{P^\tf + R} \Bigl[ y^2 - 2 y x^\tf + (x^\tf)^2 \bigl( \frac{P^\tf + R}{P^\tf} - \frac{R}{P^\tf}\bigr ) \Bigr ] \\\
+&= \frac{(y - x^\tf)^2}{P^\tf + R}
 \tag{a7}
 \end{align} $$
 ''']
@@ -529,10 +529,10 @@ answers['BR Gauss, a.k.a. completing the square c'] = ['MD', r'''
 \begin{align}
 p(x|y)
 &\propto p(x) \, p(y|x) \\\
-&=       N(x \mid x\supf, P\supf) \, N(y \mid x, R) \\\
-&\propto \exp \Big( \frac{-1}{2} \big[ (x-x\supf)^2/P\supf + (x-y)^2/R \big] \Big) \,.
+&=       N(x \mid x^\tf, P^\tf) \, N(y \mid x, R) \\\
+&\propto \exp \Big( \frac{-1}{2} \big[ (x-x^\tf)^2/P^\tf + (x-y)^2/R \big] \Big) \,.
 \end{align}
-The rest follows by eqn. (LG1) and identification with $N(x \mid x\supa, P\supa)$.
+The rest follows by eqn. (LG1) and identification with $N(x \mid x^\ta, P^\ta)$.
 ''']
 
 answers['BR Gauss'] = ['MD', r'''
@@ -542,38 +542,38 @@ We can ignore factors that do not depend on $x$.
 p(x|y)
 &= \frac{p(x) \, p(y|x)}{p(y)} \\\
 &\propto p(x) \, p(y|x) \\\
-&=       N(x \mid x\supf, P\supf) \, N(y \mid x, R) \\\
-&\propto \exp \Big( \frac{-1}{2} \Big( (x-x\supf)^2/P\supf + (x-y)^2/R \Big) \Big) \\\
-&\propto \exp \Big( \frac{-1}{2} \Big( (1/P\supf + 1/R)x^2 - 2(x\supf/P\supf + y/R)x \Big) \Big) \\\
-&\propto \exp \Big( \frac{-1}{2} \Big( x - \frac{x\supf/P\supf + y/R}{1/P\supf + 1/R} \Big)^2 \cdot (1/P\supf + 1/R) \Big) \,.
+&=       N(x \mid x^\tf, P^\tf) \, N(y \mid x, R) \\\
+&\propto \exp \Big( \frac{-1}{2} \Big( (x-x^\tf)^2/P^\tf + (x-y)^2/R \Big) \Big) \\\
+&\propto \exp \Big( \frac{-1}{2} \Big( (1/P^\tf + 1/R)x^2 - 2(x^\tf/P^\tf + y/R)x \Big) \Big) \\\
+&\propto \exp \Big( \frac{-1}{2} \Big( x - \frac{x^\tf/P^\tf + y/R}{1/P^\tf + 1/R} \Big)^2 \cdot (1/P^\tf + 1/R) \Big) \,.
 \end{align}
 
-Identifying the last line with $N(x \mid x\supa, P\supa)$ yields eqns (5) and (6).
+Identifying the last line with $N(x \mid x^\ta, P^\ta)$ yields eqns (5) and (6).
 ''']
 
 answers['BR Kalman1 algebra'] = ['MD', r'''
-- Multiplying eqn. (5) by $1 = \frac{P\supf R}{P\supf R}$ yields
-  $P\supa = \frac{P\supf R}{P\supf + R} = \frac{P\supf}{P\supf + R} R$, i.e. eqn. (8).
-- We also get $P\supa = \frac{R}{P\supf + R} P\supf$.
-  Adding $0 = P\supf - P\supf$ to the numerator yields eqn. (10).
-- Applying formulae (8) and (10) for $P\supa$
+- Multiplying eqn. (5) by $1 = \frac{P^\tf R}{P^\tf R}$ yields
+  $P^\ta = \frac{P^\tf R}{P^\tf + R} = \frac{P^\tf}{P^\tf + R} R$, i.e. eqn. (8).
+- We also get $P^\ta = \frac{R}{P^\tf + R} P^\tf$.
+  Adding $0 = P^\tf - P^\tf$ to the numerator yields eqn. (10).
+- Applying formulae (8) and (10) for $P^\ta$
   in eqn. (6) immediately produces eqn. (11).
 ''']
 
 answers['KG intuition'] = ['MD', r'''
 Consider eqn. (9). Both nominator and denominator are strictly larger than $0$, hence $K > 0$.
 Meanwhile, note that $K$ weights the observation uncertainty $(R)$
-vs. the total uncertainty $(P\supf + R)$, whence $P\supf + R > P\supf$, i.e. $K<1$.
+vs. the total uncertainty $(P^\tf + R)$, whence $P^\tf + R > P^\tf$, i.e. $K<1$.
 
-Since $0<K<1$, eqn. (8) yields $P\supa < R$,
-while eqn. (10) yields $P\supa < P\supf$.
+Since $0<K<1$, eqn. (8) yields $P^\ta < R$,
+while eqn. (10) yields $P^\ta < P^\tf$.
 
-From eqn. (11), $x\supa = (1-K) x\supf + K y$.
-Since $0<K<1$, we can see that $x\supa$
+From eqn. (11), $x^\ta = (1-K) x^\tf + K y$.
+Since $0<K<1$, we can see that $x^\ta$
 is a 'convex combination' or 'weighted average'.
-*For even more detail, consider the case $x\supf<y$ and then case $y<x\supf$.*
+*For even more detail, consider the case $x^\tf<y$ and then case $y<x^\tf$.*
 
-Because it describes how much the esimate is "dragged" from $x\supf$ "towards" $y$.  
+Because it describes how much the esimate is "dragged" from $x^\tf$ "towards" $y$.  
 I.e. it is a multiplification (amplification) factor,
 which French (signal processing) people like to call "gain".  
 ''']
@@ -656,13 +656,13 @@ answers['RV sums'] = ['MD', r'''
 By the [linearity of the expected value](https://en.wikipedia.org/wiki/Expected_value#Linearity),
 and that of (Dyn),
 the mean parameter becomes:
-$$ \\Expect(\\DynMod x+q) =  \\DynMod \\Expect(x) + \\Expect(q) = \\DynMod x\supa \,. $$
+$$ \\Expect(\\DynMod x+q) =  \\DynMod \\Expect(x) + \\Expect(q) = \\DynMod x^\ta \,. $$
 
 Moreover, by independence,
 $ \\text{Var}(\\DynMod x+q) = \\text{Var}(\\DynMod x) + \\text{Var}(q) $,
 and so
 the variance parameter becomes:
-$$ \\text{Var}(\\DynMod x+q) = \\DynMod^2 P\supa + Q \,.  $$
+$$ \\text{Var}(\\DynMod x+q) = \\DynMod^2 P^\ta + Q \,.  $$
 ''']
 
 answers['LinReg deriv a'] = ['MD', r'''
@@ -680,14 +680,14 @@ Neither does diving by $c$. Multiplying by $-2 R$ means that the maximum becomes
 answers['x_KF == x_LinReg'] = ['MD', r'''
 We'll proceed by induction.  
 
-With $P\supf_1 = \infty$, we get $P\supa_1 = R$,
+With $P^\tf_1 = \infty$, we get $P^\ta_1 = R$,
 which initializes (13).  
 
 Now, inserting (13) in (12) yields:
 
 $$
 \begin{align}
-P\supa_{K+1} &= 1\Big/\big(1/R + \textstyle (\frac{K}{K+1})^2 / P\supa_K\big)
+P^\ta_{K+1} &= 1\Big/\big(1/R + \textstyle (\frac{K}{K+1})^2 / P^\ta_K\big)
 \\\
 &= R\Big/\big(1 + \textstyle (\frac{K}{K+1})^2 \frac{\sum_{k=1}^K k^2}{K^2}\big)
 \\\
@@ -701,7 +701,7 @@ P\supa_{K+1} &= 1\Big/\big(1/R + \textstyle (\frac{K}{K+1})^2 / P\supa_K\big)
 $$
 which concludes the induction.
 
-The proof for $x\supa_k$ is similar.
+The proof for $x^\ta_k$ is similar.
 ''']
 
 
@@ -728,21 +728,21 @@ Follows directly from eqn. (6) from both this tutorial and
 answers['Asymptotic Riccati b'] = ['MD', r'''
 From the previous part of the exercise,
 if $\DynMod = 1$ then
-$1/P\supa_k = 1/P\supa_{k-1} + 1/R$
-and so the difference $1/P\supa_k - 1/P\supa_{k-1}$
+$1/P^\ta_k = 1/P^\ta_{k-1} + 1/R$
+and so the difference $1/P^\ta_k - 1/P^\ta_{k-1}$
 is always $1/R$.
-In other words, $1/P\supa_k$ grows linearly with $1/R$,
-starting from $1/P\supa_0$.
+In other words, $1/P^\ta_k$ grows linearly with $1/R$,
+starting from $1/P^\ta_0$.
 ''']
 
 answers['Asymptotic Riccati c'] = ['MD', r'''
 From the previous part of the exercise,
-$1/P\supa_k \xrightarrow[k \rightarrow \infty]{} +\infty$
+$1/P^\ta_k \xrightarrow[k \rightarrow \infty]{} +\infty$
 ''']
 
 answers['Asymptotic Riccati d'] = ['MD', r'''
 Since $1 / \DynMod^2 > 1$,
-$1/P\supa_k$ now grows quicker than
+$1/P^\ta_k$ now grows quicker than
 in the previous parts of the exercise,
 whence the result.
 
@@ -752,14 +752,14 @@ as long as they're less than 1.
 ''']
 
 answers['Asymptotic Riccati e'] = ['MD', r'''
-The fixed point $P\supa_\infty$ should satisfy
-$P\supa_\infty = 1/\big(1/R + 1/[\\DynMod^2 P\supa_\infty]\big)$,
+The fixed point $P^\ta_\infty$ should satisfy
+$P^\ta_\infty = 1/\big(1/R + 1/[\\DynMod^2 P^\ta_\infty]\big)$,
 yielding the answer.
 
 Note that this asymptote is **not 0**!
 In other words, even though the KF keeps gaining observational data/information,
 this gets balanced out by the growth in error/uncertainty during the forecast.
-Also note that the asymptotic state uncertainty ($P\supa_\infty$)
+Also note that the asymptotic state uncertainty ($P^\ta_\infty$)
 is directly proportional to the observation uncertainty ($R$).
 ''']
 
@@ -833,7 +833,7 @@ answers['KF precision'] = ['MD', r'''
 By Bayes' rule:
 $$\begin{align}
 - 2 \log p(\x|\y) =
-\|\ObsMod \x-\y \|\_\R^2 + \| \x - \x\supf \|\_{\bP\supf}^2
+\|\ObsMod \x-\y \|\_\R^2 + \| \x - \x^\tf \|\_{\bP^\tf}^2
  + \text{const}_1
 \,.
 \end{align}$$
@@ -841,15 +841,15 @@ Expanding, and gathering terms of equal powers in $\x$ yields:
 $$\begin{align}
 - 2 \log p(\x|\y)
 &=
-\x\tr \left( \ObsMod\tr \Ri \ObsMod + (\bP\supf)^{-1}  \right)\x
-- 2\x\tr \left[\ObsMod\tr \Ri \y + (\bP\supf)^{-1} \x\supf\right] + \text{const}_2
+\x\tr \left( \ObsMod\tr \Ri \ObsMod + (\bP^\tf)^{-1}  \right)\x
+- 2\x\tr \left[\ObsMod\tr \Ri \y + (\bP^\tf)^{-1} \x^\tf\right] + \text{const}_2
 \, .
 \end{align}$$
 Meanwhile
 $$\begin{align}
-\| \x-\x\supa \|\_{\bP\supa}^2
+\| \x-\x^\ta \|\_{\bP^\ta}^2
 &=
-\x\tr (\bP\supa)^{-1} \x - 2 \x\tr (\bP\supa)^{-1} \x\supa + \text{const}_3
+\x\tr (\bP^\ta)^{-1} \x - 2 \x\tr (\bP^\ta)^{-1} \x^\ta + \text{const}_3
 \, .
 \end{align}$$
 Eqns (5) and (6) follow by identification.
@@ -862,8 +862,8 @@ answers['nD-covars are big b'] = ['MD', r'''
 $2 {\\xDim}^3/3$.
 ''']
 answers['nD-covars are big c'] = ['MD', r'''
-Assume ${\bP\supf}$ stored as float (double). Then it's 8 bytes/element.
-And the number of elements in ${\bP\supf}$: ${\\xDim}^2$. So the total memory is $8 {\\xDim}^2$.
+Assume ${\bP^\tf}$ stored as float (double). Then it's 8 bytes/element.
+And the number of elements in ${\bP^\tf}$: ${\\xDim}^2$. So the total memory is $8 {\\xDim}^2$.
 ''']
 answers['nD-covars are big d'] = ['MD', r'''
 8 trillion bytes. I.e. 8 million MB.
@@ -987,7 +987,7 @@ with $f$ and $g$ both evaluated in $x$.
 Phenomenon: initial, linear (rather than exponential) growth.
 """]
 answers["error dynamics g"] = ["MD", r"""
-Substitute $\bvec{u} = \mat{T}^{-1} \bvec{x}$ into eqn. (TLM).
+Substitute $\vect{u} = \mat{T}^{-1} \vect{x}$ into eqn. (TLM).
 """]
 
 answers["Bifurcations63 a"] = ["MD", r"""
@@ -1209,35 +1209,35 @@ Residual: discrepancy from explained to observed data.
 answers["EnKF_nobias_a"] = ['MD', r'''
 Let $\ones$ be the vector of ones of length $N$. Then
 $$\begin{align}
-    \bx\supa
-    &= \frac{1}{N} \E\supa \ones \tag{because $\sum_{n=1}^N \x\supa_n = \E\supa \ones$.} \\\
-    &= \frac{1}{N} \E\supf \ones + \frac{1}{N} \barK
-    \left(\y\ones\tr - \Dobs - \bH \E\supf \right) \ones \tag{inserting eqn. (4).}
+    \bx^\ta
+    &= \frac{1}{N} \E^\ta \ones \tag{because $\sum_{n=1}^N \x^\ta_n = \E^\ta \ones$.} \\\
+    &= \frac{1}{N} \E^\tf \ones + \frac{1}{N} \barK
+    \left(\y\ones\tr - \Dobs - \bH \E^\tf \right) \ones \tag{inserting eqn. (4).}
 \end{align}$$
-Assuming $\Dobs \ones=\\bvec{0}$ yields eqn. (6).
+Assuming $\Dobs \ones=\\vect{0}$ yields eqn. (6).
 One might say that the mean of the EnKF update conforms to the KF mean update.  
 
 "Conforming" is not a well-defined math word.
-However, the above expression makes it clear that $\bx\supa$ is linear with respect to $\Dobs$, so that
+However, the above expression makes it clear that $\bx^\ta$ is linear with respect to $\Dobs$, so that
 $$\begin{align}
-    \Expect \bx\supa
-    &= \frac{1}{N} \E\supf \ones + \frac{1}{N} \barK
-    \left(\y\ones\tr - \Expect\Dobs - \bH \E\supf \right) \, .
+    \Expect \bx^\ta
+    &= \frac{1}{N} \E^\tf \ones + \frac{1}{N} \barK
+    \left(\y\ones\tr - \Expect\Dobs - \bH \E^\tf \right) \, .
 \end{align}$$
 
-Now, since $\Expect \r_n = \bvec{0}$, it follows that $\Expect \Dobs = \bvec{0}$,
+Now, since $\Expect \r_n = \vect{0}$, it follows that $\Expect \Dobs = \vect{0}$,
 and we recover eqn. (6).
 
 The conclusion: the mean EnKF update is unbiased...
-However, this is only when $\E\supf$ is considered fixed, and its moments assumed correct.
+However, this is only when $\E^\tf$ is considered fixed, and its moments assumed correct.
 ''']
 
 answers["EnKF_nobias_b"] = ['MD', r'''
-First, compute the updated anomalies, $\X\supa$, by inserting  eqn. (4) for $\E\supa$:
+First, compute the updated anomalies, $\x^\ta$, by inserting  eqn. (4) for $\E^\ta$:
 $$\begin{align}
-	\X\supa
-	&= \E\supa \AN \\\
-	%&= {\X} + \barK\left(\y \ones\tr - \D - \bH \E\supf\right) \AN \\\
+	\x^\ta
+	&= \E^\ta \AN \\\
+	%&= {\X} + \barK\left(\y \ones\tr - \D - \bH \E^\tf\right) \AN \\\
 	&= {\X} - \barK \left[\D + \bH \X\right] \,, \tag{A1}
 \end{align}$$
 where the definition of $\D$ has been used.
@@ -1245,17 +1245,17 @@ where the definition of $\D$ has been used.
 Inserting eqn. (A1) for the updated ensemble covariance matrix, eqn. (7b):
 $$\begin{align}
 	\barP
-	&= \frac{1}{N-1} \X\supa{\X\supa}\tr \\\
+	&= \frac{1}{N-1} \x^\ta{\x^\ta}\tr \\\
     %
 	&= \frac{1}{N-1} \left({\X} - \barK\left[\D + \bH \X\right]\right)
 	\left({\X} - \barK\left[\D + \bH \X\right]\right)\tr \, .  \tag{A2}
 \end{align}$$
 
 Writing this out, and employing
-the definition of $\barP\supf$, eqn. (7a), yields:
+the definition of $\barP^\tf$, eqn. (7a), yields:
 $$\begin{align}
     \barP
-	&= \barP\supf + \barK \bH \barP\supf \bH\tr \barK{}\tr -  \barP\supf \bH\tr \barK{}\tr - \barK \bH \barP\supf \tag{A3} \\\
+	&= \barP^\tf + \barK \bH \barP^\tf \bH\tr \barK{}\tr -  \barP^\tf \bH\tr \barK{}\tr - \barK \bH \barP^\tf \tag{A3} \\\
 	&\phantom{= } - \frac{1}{N-1}\left[
 		{\X}\D\tr \barK{}\tr
 		+ \barK\D {\X}\tr
@@ -1268,10 +1268,10 @@ $$\begin{align}
 Substituting eqns. (9) into eqn. (A3) yields
 $$\begin{align}
 	\barP
-	&=  \barP\supf  + \barK \bH \barP\supf \bH\tr \barK{}\tr -  \barP\supf \bH\tr \barK{}\tr - \barK \bH \barP\supf  + \barK \R \barK{}\tr \tag{A4} \\\
-	&=  (\I_{\\xDim} - \barK \bH) \barP\supf + \barK(\bH \barP\supf \bH\tr + \R)\barK{}\tr -  \barP\supf \bH\tr \barK{}\tr \tag{regrouped.} \\\
-	&=  (\I_{\\xDim} - \barK \bH) \barP\supf + \barP\supf \bH\tr \barK{}\tr -  \barP\supf \bH\tr \barK{}\tr \,, \tag{inserted eqn. (5a).} \\\
-    &=  (\I_{\\xDim} - \barK \bH) \barP\supf \,. \tag{10}
+	&=  \barP^\tf  + \barK \bH \barP^\tf \bH\tr \barK{}\tr -  \barP^\tf \bH\tr \barK{}\tr - \barK \bH \barP^\tf  + \barK \R \barK{}\tr \tag{A4} \\\
+	&=  (\I_{\\xDim} - \barK \bH) \barP^\tf + \barK(\bH \barP^\tf \bH\tr + \R)\barK{}\tr -  \barP^\tf \bH\tr \barK{}\tr \tag{regrouped.} \\\
+	&=  (\I_{\\xDim} - \barK \bH) \barP^\tf + \barP^\tf \bH\tr \barK{}\tr -  \barP^\tf \bH\tr \barK{}\tr \,, \tag{inserted eqn. (5a).} \\\
+    &=  (\I_{\\xDim} - \barK \bH) \barP^\tf \,. \tag{10}
     \end{align}$$
 Thus the covariance of the EnKF update "conforms" to the KF covariance update.
 
@@ -1285,10 +1285,10 @@ The conclusion: the analysis/posterior/updated covariance produced by the EnKF i
 ''']
 
 answers["EnKF_without_perturbations"] = ['MD', r'''
-If $\Dobs = \bvec{0}$, then eqn. (A3) from the previous answer becomes
+If $\Dobs = \vect{0}$, then eqn. (A3) from the previous answer becomes
 $$\begin{align}
     \barP
-	&= (\I_{\\xDim}-\barK \bH)\barP\supf(\I_{\\xDim}-\bH\tr \barK{}\tr) \tag{A5} \,,
+	&= (\I_{\\xDim}-\barK \bH)\barP^\tf(\I_{\\xDim}-\bH\tr \barK{}\tr) \tag{A5} \,,
 \end{align}$$
 which shows that the updated covariance would be too small.
 ''']

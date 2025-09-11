@@ -31,8 +31,8 @@ plt.ion();
 # \newcommand{\ObsMod}[0]{\mathscr{H}}
 # \newcommand{\mat}[1]{{\mathbf{{#1}}}}
 # \newcommand{\vect}[1]{{\mathbf{#1}}}
-# \newcommand{\supa}[0]{^\text{a}}
-# \newcommand{\supf}[0]{^\text{f}}
+# \newcommand{\ta}[0]{\text{a}}
+# \newcommand{\tf}[0]{\text{f}}
 # $
 # studied the Gaussian probability density function (pdf), defined in 1D by:
 # $$ \large \NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \,,\tag{G1} $$
@@ -241,25 +241,25 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 # To address this computational difficulty, we can take a more analytical ("pen-and-paper") approach: instead of computing the full posterior, we compute only its parameters (mean and (co)variance).
 # This is straightforward in the linear-Gaussian case, i.e. when $\ObsMod$ is linear (just a number). For readability, the unknown, $x$, is colored.
 #
-# - Given the prior of $p(\color{darkorange}{x}) = \NormDist(\color{darkorange}{x} \mid x\supf, P\supf)$
+# - Given the prior of $p(\color{darkorange}{x}) = \NormDist(\color{darkorange}{x} \mid x^\tf, P^\tf)$
 # - and a likelihood $p(y|\color{darkorange}{x}) = \NormDist(y \mid \ObsMod \color{darkorange}{x},R)$,  
 # - $\implies$ posterior $
 #   p(\color{darkorange}{x}|y)
-#   = \NormDist(\color{darkorange}{x} \mid x\supa, P\supa) \,, $
+#   = \NormDist(\color{darkorange}{x} \mid x^\ta, P^\ta) \,, $
 #   where, in the 1-dimensional/univariate/scalar (multivariate is discussed in [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb)) case:
 #   $$\begin{align}
-#     P\supa &= 1/(1/P\supf + \ObsMod^2/R) \,, \tag{5} \\\
-#     x\supa &= P\supa (x\supf/P\supf + \ObsMod y/R) \,.  \tag{6}
+#     P^\ta &= 1/(1/P^\tf + \ObsMod^2/R) \,, \tag{5} \\\
+#     x^\ta &= P^\ta (x^\tf/P^\tf + \ObsMod y/R) \,.  \tag{6}
 #   \end{align}$$
 #
 # The proof is in the following exercise.
 #
 # #### Exc -- BR-LG1
 #
-# Consider the following identity, where $P\supa$ and $x\supa$ are given by eqns. (5) and (6).
+# Consider the following identity, where $P^\ta$ and $x^\ta$ are given by eqns. (5) and (6).
 # $$
-# \frac{(\color{darkorange}{x}-x\supf)^2}{P\supf} + \frac{(\ObsMod \color{darkorange}{x}-y)^2}{R} \quad =
-# \quad \frac{(\color{darkorange}{x} - x\supa)^2}{P\supa} + \frac{(y - \ObsMod x\supf)^2}{R + P\supf} \,, \tag{LG1}
+# \frac{(\color{darkorange}{x}-x^\tf)^2}{P^\tf} + \frac{(\ObsMod \color{darkorange}{x}-y)^2}{R} \quad =
+# \quad \frac{(\color{darkorange}{x} - x^\ta)^2}{P^\ta} + \frac{(y - \ObsMod x^\tf)^2}{R + P^\tf} \,, \tag{LG1}
 # $$
 # Notice that the left hand side (LHS) is the sum of *two* squares with $\color{darkorange}{x}$,
 # but the RHS only contains *one*.
@@ -267,7 +267,7 @@ def Bayes1(y=9.0, logR=1.0, lklhd_kind="N", prior_kind="N"):
 # - (a) Actually derive the first term of the RHS of (LG1), i.e. eqns. (5) and (6).  
 #   *Hint: you can simplify the task by first "hiding" $\ObsMod$*
 # - (b) *Optional*: Derive the full RHS (i.e. also the second term).
-# - (c) Show that $p(\color{darkorange}{x}|y) = \NormDist(\color{darkorange}{x} \mid x\supa, P\supa)$
+# - (c) Show that $p(\color{darkorange}{x}|y) = \NormDist(\color{darkorange}{x} \mid x^\ta, P^\ta)$
 #   using part (a), Bayes' rule (BR2), and the Gaussian pdf (G1).
 
 # +
@@ -329,17 +329,17 @@ for dist in [
     pdfs[dist.dist.name + str(dist.kwds)] = pdf_fitted
 
 # **Exc (optional) -- Gain algebra:** Show that eqn. (5) can be written as
-# $$P\supa = K R / \ObsMod \,,    \tag{8}$$
+# $$P^\ta = K R / \ObsMod \,,    \tag{8}$$
 # where
-# $$K = \frac{\ObsMod P\supf}{\ObsMod^2 P\supf + R} \,,    \tag{9}$$
+# $$K = \frac{\ObsMod P^\tf}{\ObsMod^2 P^\tf + R} \,,    \tag{9}$$
 # is called the "Kalman gain".  
 # *Hint: again, try to "hide away" $\ObsMod$ among the other objects before proceeding.*
 #
 # Then shown that eqns. (5) and (6) can be written as
 # $$
 # \begin{align}
-#     P\supa &= (1-K \ObsMod) P\supf \,,  \tag{10} \\\
-#   x\supa &= x\supf + K (y- \ObsMod x\supf) \tag{11} \,,
+#     P^\ta &= (1-K \ObsMod) P^\tf \,,  \tag{10} \\\
+#   x^\ta &= x^\tf + K (y- \ObsMod x^\tf) \tag{11} \,,
 # \end{align}
 # $$
 
@@ -351,9 +351,9 @@ for dist in [
 #
 # Let $\ObsMod = 1$ for simplicity.
 #
-# - (a) Show that $0 < K < 1$ since $0 < P\supf, R$.
-# - (b) Show that $P\supa < P\supf, R$.
-# - (c) Show that $x\supa$ is in the interval $(x\supf, y)$.
+# - (a) Show that $0 < K < 1$ since $0 < P^\tf, R$.
+# - (b) Show that $P^\ta < P^\tf, R$.
+# - (c) Show that $x^\ta$ is in the interval $(x^\tf, y)$.
 # - (d) Why do you think $K$ is called a "gain"?
 
 # +
@@ -400,21 +400,21 @@ for dist in [
 # -
 
 # However, it is not generally easy to find the posterior mean, median, or mode,
-# so these optimalities mainly serve to justify a preference for $x\supa$
+# so these optimalities mainly serve to justify a preference for $x^\ta$
 # in the linear-Gaussian case.
 #
 # <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
 #   <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
 #       It is possible to drop the Gaussianity assumption and still
-#       claim optimality for $x\supa$ of eqns. (6) and (11) as
+#       claim optimality for $x^\ta$ of eqns. (6) and (11) as
 #       the best (min. variance), linear, unbiased, estimate (BLUE ... 🔍).
 #   </summary>
 #   The result requires reformulating the prior
 #   as "background" zero-mean noise onto the (non-random) $x$,
-#   whose outcome was the prior mean, $x\supf$, and whose covariance is $P\supf$.
-#   Then, by explicit augmentation (i.e. pseudo-obs: $[y, x\supf]$) one recovers the linear regression problem
+#   whose outcome was the prior mean, $x^\tf$, and whose covariance is $P^\tf$.
+#   Then, by explicit augmentation (i.e. pseudo-obs: $[y, x^\tf]$) one recovers the linear regression problem
 #   of the celebrated Gauss-Markov theorem, generalized by Aitken to the case of correlated noise.
-#   A similar proof uses an ansatz linear in both $x\supf$ and $y$ without concatenating them.
+#   A similar proof uses an ansatz linear in both $x^\tf$ and $y$ without concatenating them.
 #   *PS: this results is also [sometimes](https://en.wikipedia.org/wiki/Minimum_mean_square_error#Linear_MMSE_estimator) reframed as MMSE,
 #   causing confusion with the above meaning of the acronym.*
 #

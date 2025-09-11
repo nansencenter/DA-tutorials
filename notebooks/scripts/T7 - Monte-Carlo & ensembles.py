@@ -40,8 +40,8 @@ plt.ion();
 # \newcommand{\tr}{^{\trsign}}
 # \newcommand{\ceq}[0]{\mathrel{≔}}
 # \newcommand{\xDim}[0]{D}
-# \newcommand{\supa}[0]{\text{a}}
-# \newcommand{\supf}[0]{\text{f}}
+# \newcommand{\ta}[0]{\text{a}}
+# \newcommand{\tf}[0]{\text{f}}
 # \newcommand{\I}[0]{\mat{I}}
 # \newcommand{\X}[0]{\mat{X}}
 # \newcommand{\Y}[0]{\mat{Y}}
@@ -64,9 +64,9 @@ plt.ion();
 # The classical approach to handle non-linearity
 # (which is still highly useful in many engineering problems)
 # is called the *extended* KF,
-# wherein the non-linear model**s** are applied to the state's mean estimate, $\x^{\supf/\supa}$,
+# wherein the non-linear model**s** are applied to the state's mean estimate, $\x^{\tf/\ta}$,
 # and the tangent-linear model ([T6](T6%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb#Error/perturbation-propagation))
-# are applied to the state uncertainty/error covariance matrix, $\bP^{\supf/\supa}$.
+# are applied to the state uncertainty/error covariance matrix, $\bP^{\tf/\ta}$.
 # For the class of problems generally found in geoscience,
 # however, this linearisation is often too inaccurate,
 # and the process of deriving and coding up the TLM too arduous
@@ -76,7 +76,7 @@ plt.ion();
 #
 # # T7 - The ensemble (Monte-Carlo) approach
 #
-# **Monte-Carlo (M-C) methods** are a class of computational algorithms that rely on random/stochastic sampling. They generally trade off higher (though random!) error for lower technical complexity [<sup>[1]</sup>](#Footnote-1:). Examples from optimisation include randomly choosing search directions, swarms, evolutionary mutations, or perturbations for gradient approximation. Another application area is the computation of (deterministic) integrals via sample averages, which is rooted in the fact that any integral can be formulated as expectations, as well as the law of large numbers (LLN). This is actually a surprisingly large class of problems, including for example a way to [inefficiently approximate the value of $\pi$](https://en.wikipedia.org/wiki/Monte_Carlo_method#Overview). Moreover, many integrals of interest are inherently expectations, but over probability distributions that are not tractable, as they arise from a complicated random or uncertain process [<sup>[2]</sup>](#Footnote-2:), whereas a Monte-Carlo sample thereof can be obtained simply by simulating the process. Computing the forecast distribution, and thereby its moments, $\x^{\supf/\supa}$ and $\bP^{\supf/\supa}$), and doing the same for the observation distribution.
+# **Monte-Carlo (M-C) methods** are a class of computational algorithms that rely on random/stochastic sampling. They generally trade off higher (though random!) error for lower technical complexity [<sup>[1]</sup>](#Footnote-1:). Examples from optimisation include randomly choosing search directions, swarms, evolutionary mutations, or perturbations for gradient approximation. Another application area is the computation of (deterministic) integrals via sample averages, which is rooted in the fact that any integral can be formulated as expectations, as well as the law of large numbers (LLN). This is actually a surprisingly large class of problems, including for example a way to [inefficiently approximate the value of $\pi$](https://en.wikipedia.org/wiki/Monte_Carlo_method#Overview). Moreover, many integrals of interest are inherently expectations, but over probability distributions that are not tractable, as they arise from a complicated random or uncertain process [<sup>[2]</sup>](#Footnote-2:), whereas a Monte-Carlo sample thereof can be obtained simply by simulating the process. Computing the forecast distribution, and thereby its moments, $\x^{\tf/\ta}$ and $\bP^{\tf/\ta}$), and doing the same for the observation distribution.
 #
 # **An ensemble** is an *i.i.d.* sample. I.e. a set of "members" ("particles", "realizations", or "sample points") that have been drawn ("sampled") independently from the same distribution. With the EnKF, these assumptions are generally tenuous, but pragmatic.
 # In particular, an ensemble can be used to characterize uncertainty: either by using it to compute (estimate) *statistics* thereof, such as the mean, median, variance, covariance, skewness, confidence intervals, etc (any function of the ensemble can be seen as a "statistic"), or by using it to reconstruct the distribution/density from which it is sampled. The latter is illustrated by the plot below.

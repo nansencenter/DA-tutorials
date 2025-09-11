@@ -41,8 +41,8 @@ $
 \newcommand{\trsign}{{\mathsf{T}}}
 \newcommand{\tr}{^{\trsign}}
 \newcommand{\xDim}[0]{D}
-\newcommand{\supa}[0]{^\text{a}}
-\newcommand{\supf}[0]{^\text{f}}
+\newcommand{\ta}[0]{\text{a}}
+\newcommand{\tf}[0]{\text{f}}
 \newcommand{\I}[0]{\mat{I}}
 \newcommand{\K}[0]{\mat{K}}
 \newcommand{\bP}[0]{\mat{P}}
@@ -253,27 +253,27 @@ plt.legend();
 The forecast step (and its derivation) remains essentially unchanged from the [univariate case](T4%20-%20Time%20series%20filtering.ipynb#The-(univariate)-Kalman-filter-(KF)).
 The only difference is that $\DynMod$ is now a *matrix*, and we use the transpose ${}^T$ in the covariance equation:
 $\begin{align}
-\x\supf_k
-&= \DynMod_{k-1} \x\supa_{k-1} \,, \tag{1a} \\\
-\bP\supf_k
-&= \DynMod_{k-1} \bP\supa_{k-1} \DynMod_{k-1}^T + \Q_{k-1} \,. \tag{1b}
+\x^\tf_k
+&= \DynMod_{k-1} \x^\ta_{k-1} \,, \tag{1a} \\\
+\bP^\tf_k
+&= \DynMod_{k-1} \bP^\ta_{k-1} \DynMod_{k-1}^T + \Q_{k-1} \,. \tag{1b}
 \end{align}$
 
 ## The KF analysis step
 
-It can be shown that the prior $p(\x) = \NormDist(\x \mid \x\supf,\bP\supf)$
+It can be shown that the prior $p(\x) = \NormDist(\x \mid \x^\tf,\bP^\tf)$
 and likelihood $p(\y|\x) = \NormDist(\y \mid \ObsMod \x,\R)$
 yield the posterior:
 $$
 p(\x|\y)
-= \NormDist(\x \mid \x\supa, \bP\supa) \tag{4}
+= \NormDist(\x \mid \x^\ta, \bP^\ta) \tag{4}
 \,,
 $$
 where the posterior/analysis mean (vector) and covariance (matrix) are given by:
 $$
 \begin{align}
-  \bP\supa &= \big(\ObsMod\tr \Ri \ObsMod + (\bP\supf)^{-1}\big)^{-1} \,, \tag{5} \\
-  \x\supa &= \bP\supa\left[\ObsMod\tr \Ri \y + (\bP\supf)^{-1} \x\supf\right] \tag{6} \,,
+  \bP^\ta &= \big(\ObsMod\tr \Ri \ObsMod + (\bP^\tf)^{-1}\big)^{-1} \,, \tag{5} \\
+  \x^\ta &= \bP^\ta\left[\ObsMod\tr \Ri \y + (\bP^\tf)^{-1} \x^\tf\right] \tag{6} \,,
 \end{align}
 $$
 *PS: all of the objects in the analysis equations could also be subscripted by the time index ($k$), but that seems unnecessary (since it is the same one for all of the objects involved).*
@@ -330,7 +330,7 @@ for i, (ax, truth, estim) in enumerate(zip(axs, truths.T, estims.T)):
     ax.set_xlim([0, nTime])
 ```
 
-Note that the other, *unobserved* components also get updated. As you can see from eqn. (5), the KF will update such *hidden* components as long as $\bP\supf$ is not diagonal (i.e., as long as there are correlations between the state components). Let us inspect this correlation matrix. Run the cell below, and note:
+Note that the other, *unobserved* components also get updated. As you can see from eqn. (5), the KF will update such *hidden* components as long as $\bP^\tf$ is not diagonal (i.e., as long as there are correlations between the state components). Let us inspect this correlation matrix. Run the cell below, and note:
 
 - It converges in time to a fixed value, as we might expect from [T4](T4%20-%20Time%20series%20filtering.ipynb#Exc----Temporal-convergence).
 - There are no negative correlations in this case, which is perhaps a bit boring.
@@ -427,21 +427,21 @@ $$
 
 #### Exc -- The "Gain" form of the KF
 
-Now, let's return to the KF, eqns. (5) and (6). Since $\bP\supf$ and $\R$ are covariance matrices, they are symmetric and positive. In addition, we will assume that they are full-rank, i.e. definite (i.e. SPD) and invertible.
+Now, let's return to the KF, eqns. (5) and (6). Since $\bP^\tf$ and $\R$ are covariance matrices, they are symmetric and positive. In addition, we will assume that they are full-rank, i.e. definite (i.e. SPD) and invertible.
 
 Define the Kalman gain as:
-$$ \K = \bP\supf \ObsMod\tr \big(\ObsMod \bP\supf \ObsMod\tr + \R\big)^{-1} \,. \tag{K1} $$
+$$ \K = \bP^\tf \ObsMod\tr \big(\ObsMod \bP^\tf \ObsMod\tr + \R\big)^{-1} \,. \tag{K1} $$
 
 - (a) Apply (C1) to eqn. (5) to obtain the Kalman gain form of analysis/posterior covariance matrix:
-  $$ \bP\supa = [\I_{\xDim} - \K \ObsMod]\bP\supf \,. \tag{8} $$
+  $$ \bP^\ta = [\I_{\xDim} - \K \ObsMod]\bP^\tf \,. \tag{8} $$
 - (b) Apply (C2)  to (5) to obtain the identity
-  $$ \K = \bP\supa \ObsMod\tr \R^{-1}  \,. \tag{K2} $$
-- (c) Show that $\bP\supa (\bP\supf)^{-1} = [\I_{\xDim} - \K \ObsMod]$.
+  $$ \K = \bP^\ta \ObsMod\tr \R^{-1}  \,. \tag{K2} $$
+- (c) Show that $\bP^\ta (\bP^\tf)^{-1} = [\I_{\xDim} - \K \ObsMod]$.
 - (d) Use (b) and (c) to obtain the Kalman gain form of analysis/posterior covariance
-  $$ \x\supa = \x\supf + \K\left[\y - \ObsMod \x\supf\right] \, . \tag{9} $$
+  $$ \x^\ta = \x^\tf + \K\left[\y - \ObsMod \x^\tf\right] \, . \tag{9} $$
 
 Together, eqns. (8) and (9) define the Kalman gain form of the KF update.
-Note that the inversion (eqn. 7) involved is of the size of $\R$, while in eqn. (5) it is of the size of $\bP\supf$.
+Note that the inversion (eqn. 7) involved is of the size of $\R$, while in eqn. (5) it is of the size of $\bP^\tf$.
 
 #### Exc -- KF implemented with gain
 

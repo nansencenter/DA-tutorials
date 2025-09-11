@@ -23,14 +23,14 @@ macros=r'''
 
 \newcommand{\mat}[1]{{\mathbf{{#1}}}} % ALWAYS
 %\newcommand{\mat}[1]{{\pmb{\mathsf{#1}}}}
-\newcommand{\bvec}[1]{{\mathbf{#1}}} % ALWAYS
+\newcommand{\vect}[1]{{\mathbf{#1}}} % ALWAYS
 
 \newcommand{\trsign}{{\mathsf{T}}} % ALWAYS
 \newcommand{\tr}{^{\trsign}} % ALWAYS
 \newcommand{\ceq}[0]{\mathrel{≔}}
 \newcommand{\xDim}[0]{D}
-\newcommand{\supa}[0]{^\text{a}}
-\newcommand{\supf}[0]{^\text{f}}
+\newcommand{\ta}[0]{\text{a}}
+\newcommand{\tf}[0]{\text{f}}
 
 \newcommand{\I}[0]{\mat{I}} % ALWAYS
 \newcommand{\K}[0]{\mat{K}}
@@ -50,15 +50,15 @@ macros=r'''
 \newcommand{\U}[0]{\mat{U}}
 \newcommand{\V}[0]{\mat{V}}
 
-\newcommand{\x}[0]{\bvec{x}}
-\newcommand{\y}[0]{\bvec{y}}
-\newcommand{\z}[0]{\bvec{z}}
-\newcommand{\q}[0]{\bvec{q}}
-\newcommand{\r}[0]{\bvec{r}}
-\newcommand{\bb}[0]{\bvec{b}}
+\newcommand{\x}[0]{\vect{x}}
+\newcommand{\y}[0]{\vect{y}}
+\newcommand{\z}[0]{\vect{z}}
+\newcommand{\q}[0]{\vect{q}}
+\newcommand{\r}[0]{\vect{r}}
+\newcommand{\bb}[0]{\vect{b}}
 
-\newcommand{\bx}[0]{\bvec{\bar{x}}}
-\newcommand{\by}[0]{\bvec{\bar{y}}}
+\newcommand{\bx}[0]{\vect{\bar{x}}}
+\newcommand{\by}[0]{\vect{\bar{y}}}
 \newcommand{\barB}[0]{\mat{\bar{B}}}
 \newcommand{\barP}[0]{\mat{\bar{P}}}
 \newcommand{\barC}[0]{\mat{\bar{C}}}
@@ -68,7 +68,7 @@ macros=r'''
 \newcommand{\Dobs}[0]{\mat{D}_{\text{obs}}}
 \newcommand{\Dmod}[0]{\mat{D}_{\text{obs}}}
 
-\newcommand{\ones}[0]{\bvec{1}} % ALWAYS
+\newcommand{\ones}[0]{\vect{1}} % ALWAYS
 \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 '''
 macros = [ln for ln in macros.splitlines() if ln and not ln.startswith('%')]
