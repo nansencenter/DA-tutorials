@@ -37,6 +37,7 @@ $
 \newcommand{\bvec}[1]{{\mathbf{#1}}}
 \newcommand{\xDim}[0]{D}
 \newcommand{\x}[0]{\bvec{x}}
+\newcommand{\DynMod}[0]{\mathscr{M}}
 $
 
 ## Dynamical systems
@@ -93,14 +94,13 @@ This produces the following 3 *coupled, nonlinear* ordinary differential equatio
 
 $$
 \begin{aligned}
-\dot{x} & = \sigma(y-x) \\
-\dot{y} & = \rho x - y - xz \\
-\dot{z} & = -\beta z + xy
+\dot{x} & = \sigma(y-x) \,,\\
+\dot{y} & = \rho x - y - xz \,., \\
+\dot{z} & = -\beta z + xy \,.
 \end{aligned}
 \tag{1}
 $$
-
-where the "dot" represents the time derivative, $\frac{d}{dt}$. The state vector is $\x = (x,y,z)$, and the parameters are typically set to $\sigma = 10, \beta=8/3, \rho=28$. The ODEs can be coded as follows (yes, Python supports Unicode, but it might be cumbersome to type out!)
+Here, the "dot" represents the time derivative, $\frac{d}{dt}$. The state vector is $\x = (x,y,z)$, and the equations are often abbreviated in vector form as $\dot{\x} = \bvec{f}(\x)$. The parameters are typically set to $\sigma = 10, \beta=8/3, \rho=28$. The ODEs can be coded as follows (yes, Python supports Unicode, but it might be cumbersome to type out!)
 
 ```python
 def dxdt63(state, time, σ, β, ρ):
@@ -213,26 +213,24 @@ when applying Bayes' rule (in its [Gaussian guise](T3%20-%20Bayesian%20inference
 
 ## The Lorenz-96 model
 
-Lorenz-96 is a "spatially 1D" dynamical system of an astoundingly simple design that resemble atmospheric convection,
+The model of [Lorenz (1996)](#References) is a "spatially 1D" dynamical system
+of an astoundingly simple and *design* that resemble atmospheric convection,
 including nonlinear terms and chaoticity.
-Each state variable $\x_i$ can be considered some atmospheric quantity at grid point at a fixed latitude of Earth.  The system
-is given by the coupled set of ODEs,
+Each state variable $\x_i$ can be considered
+some atmospheric quantity at grid point at a fixed latitude of Earth.
+The system is given by the coupled set of ODEs,
 $$
-\frac{d \x_i}{dt} = (\x_{i+1} − \x_{i-2}) \x_{i-1} − \x_i + F
+\frac{d \x_i}{dt} = (\x_{i+1} − \x_{i-2}) \x_{i-1} − \x_i + \text{Force}
 \,,
 \quad \quad i \in \{1,\ldots,\xDim\}
 \,,
 $$
 where the subscript indices apply periodically.
+This model is not derived from physics but has similar characteristics:
 
-This model is not derived from physics but has similar characteristics, such as
-<ul>
-    <li> there is external forcing, determined by a parameter $F$;</li>
-    <li> there is internal dissipation, emulated by the linear term;</li>
-    <li> there is energy-conserving advection, emulated by quadratic terms.</li>
-</ul>
-
-[Further description in the very readable original article](https://www.ecmwf.int/sites/default/files/elibrary/1995/75462-predictability-problem-partly-solved_0.pdf).
+- external forcing, determined by a parameter $\text{Force}$;
+- internal dissipation, emulated by the linear term;
+- energy-conserving advection, emulated by quadratic terms.
 
 **Exc (optional) -- Conservation of energy:** Show that the "total energy" $\sum_{i=1}^{\xDim} \x_i^2$ is preserved by the quadratic terms in the ODE.  
 *Hint: consider its time derivative.*
@@ -271,9 +269,9 @@ def plot_lorenz96(xDim=40,       N=2,      Force=8,       ε=0.01,         Time=
 
 #### Exc -- Bifurcation hunting 96
 
-Investigate by moving the sliders (but keep `xDim=40`): Under which settings of the force `F`
+Investigate by moving the sliders (but keep `xDim=40`): Under which settings of the forcing
 
-- Do the solutions tend to the steady state $\x_i = F$ for all $i$ ?
+- Do the solutions tend to the steady state, i.e. $\x_i = \text{Force}$ for all $i$ ?
 - Are the solutions periodic?
 - Is the system chaotic (i.e., the solutions are extremely sensitive to initial conditions,
   meaning that the predictability horizon is finite) ?
@@ -305,7 +303,7 @@ Maximise `N` (for a large sample), minimise `ε` (to approach linear conditions)
 
 The [double pendulum](https://en.wikipedia.org/wiki/Double_pendulum) is another classic example of a chaotic system.
 It is a little longer to implement, so we'll just load it from [DAPPER](https://github.com/nansencenter/DAPPER/blob/master/dapper/mods/DoublePendulum/__init__.py).
-Unlike the Lorenz systems, the divergence of its "$f$" flow field is 0,
+Unlike the Lorenz systems, the divergence of its "$\bvec{f}$" flow field is 0,
 so it is conservative, and all of the trajectories preserve their initial energy
 (except for what friction our numerical integration causes).
 Therefore it does not strictly speaking possess an attractor
@@ -330,64 +328,49 @@ def plot_pendulum2(k=1, N=2):
     plt.show()
 ```
 
-## Error/perturbation dynamics
+<a name="Error/perturbation-propagation"></a>
 
-**Exc (optional) -- Perturbation ODE:** Suppose $x(t)$ and $z(t)$ are "twins": they evolve according to the same law $f$:
+## Error/perturbation propagation
+
+**Exc (optional) -- Perturbation ODE:** Suppose $\x(t)$ and $\x'(t)$ are "twins": they evolve according to the same law $\bvec{f}$:
 $$
 \begin{align}
-\frac{dx}{dt} &= f(x) \\
-\frac{dz}{dt} &= f(z) \,.
+\frac{d \x}{d t} &= \bvec{f}(\x) \\
+\frac{d \x'}{d t} &= \bvec{f}(\x') \,.
 \end{align}
 $$
 
-Define the "error": $\varepsilon(t) = x(t) - z(t)$.  
-Suppose $z(0)$ is close to $x(0)$.  
-Let $F = \frac{df}{dx}(x(t))$.  
+Define the "error": $\boldsymbol{\varepsilon} = \x - \x'$, and suppose $\boldsymbol{\varepsilon}(0) = \boldsymbol{\varepsilon}_0$ is small.
+Let $\mat{F} = \frac{\partial \bvec{f}}{\partial \x}$, which is called the ***tangent-linear model*** (TLM, non-"adjoint").
 
-- (a) Show that the error evolves according to the ordinary differential equation (ODE)
-$$\frac{d \varepsilon}{dt} \approx F \varepsilon \,.$$
-
-```python
-# show_answer("error evolution")
-```
-
-- (b) Suppose $F$ is constant. Show that the error grows exponentially: $\varepsilon(t) = \varepsilon(0) e^{F t} $.
-
-```python
-# show_answer("anti-deriv")
-```
-
+- (a) Show that the error evolves according to the following **linear** ordinary differential equation (ODE)
+  $\frac{d \boldsymbol{\varepsilon}}{d t} \approx \mat{F} \, \boldsymbol{\varepsilon} \,. \tag{TLM}$
+- (b) Until further notice, assume we're in the scalar case, and suppose $F$ is constant.
+  Show that the error grows exponentially: $\varepsilon(t) = \varepsilon_{0} \, e^{F \, t} $.  
 - (c)
-  - (1) Suppose $F<0$.  
-    What happens to the error?  
-    What does this mean for predictability?
-  - (2) Now suppose $F>0$.  
-    Given that all observations are uncertain (i.e. $R_t>0$, if only ever so slightly),  
+  - (1) Suppose $F<0$. What happens to the error? What does this mean for predictability?
+  - (2) Now suppose $F>0$. Given that all observations are uncertain (i.e. $R_t>0$, if only ever so slightly),
     can we ever hope to estimate $x(t)$ with 0 uncertainty?
-
-```python
-# show_answer("predictability cases")
-```
-
+    *PS: [T4](T4%20-%20Time%20series%20filtering.ipynb#Exc----Temporal-convergence) goes into further detail*
 - (d) What is the doubling time of the error?
+- (e) Consider the modified ODE
+  $\frac{d \varepsilon}{d t} \approx F \varepsilon (1 - \varepsilon / \varepsilon_{\infty})$.
+  What new phenomenon does it model compared to eqn. (TLM)?
+  Find the solution.
+- (f) Now suppose $x'(t)$ evolves according to $\frac{d x'}{d t} = g(x')$, with $g \neq f$.  
+  What is the differential equation governing the error, $\varepsilon$, to leading order?
+  What new phenomenon does it prescribe, as compared to eqn. (TLM)?
+- (g, optional) Now drop the scalar assumption.
+  Assuming diagonalizability, $\mat{F} = \mat{T} \operatorname{diag}(\bvec{d}) \, \mat{T}^{-1}$,
+  show that the solution to eqn. (TLM) is
+  $\boldsymbol{\varepsilon} = \mat{M} \, \boldsymbol{\varepsilon}_0$,
+  where $\mat{M} = \mat{T} \operatorname{diag}(e^{\bvec{d} \, t}) \, \mat{T}^{-1}$
+  is called the ***resolvent*** (or fundamental matrix).
+  *PS: It can also be expressed as $\mat{M} = \frac{\partial \DynMod}{\partial \bvec{x}}$,
+  if $\x(t) = \DynMod(\x_0)$ for any $\x_0$.*
 
 ```python
-# show_answer("doubling time, Lyapunov")
-```
-
-- (e) Consider the ODE derived above.  
-  How might we change it in order to model (i.e. emulate) a saturation of the error at some level?  
-  Can you solve this equation?
-
-```python
-# show_answer("saturation term")
-```
-
-- (f) Now suppose $z(t)$ evolves according to $\frac{dz}{dt} = g(z)$, with $g \neq f$.  
-  What is now the differential equation governing the evolution of the error, $\varepsilon$?
-
-```python
-# show_answer("linear growth")
+# show_answer("error dynamics", "a")
 ```
 
 ## Summary
@@ -398,6 +381,27 @@ Therefore there is a limit to how far into the future we can make predictions (s
 Therefore it is crucial to minimize the initial error as much as possible.
 This is a task of DA (filtering).
 
-Also see this [book on chaos and predictability](https://kuiper2000.github.io/chaos_and_predictability/intro.html).
-
 ### Next: [T7 - Monte-Carlo & ensembles](T7%20-%20Monte-Carlo%20%26%20ensembles.ipynb)
+
+<a name="References"></a>
+
+### References
+
+<!--
+
+@inproceedings{lorenz1996predictability,
+    title={Predictability: A problem partly solved},
+    author={Lorenz, Edward N.},
+    file={~/P/Refs/articles/lorenz1996predictability.pdf},
+    booktitle={Proc. {ECMWF} Seminar on Predictability},
+    volume={1},
+    address={Reading, UK},
+    pages={1--18},
+    year={1996}
+}
+-->
+
+- **Tseng (2022)**:
+  Kai-Chih Tseng, "Chaos and predictability" [(Jupyter book)](https://kuiper2000.github.io/chaos_and_predictability/intro.html).
+- **Lorenz (1996)**:
+  E. N. Lorenz, "Predictability: A problem partly solved", Proc. ECMWF Seminar on Predictability, 1996.

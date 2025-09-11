@@ -34,18 +34,20 @@ plt.ion();
 (pdf_G1, grid1d) = import_from_nb("T2", ("pdf_G1", "grid1d"))
 ```
 
-# T7 - The ensemble (Monte-Carlo) approach
-
-**Monte-Carlo methods** are a class of computational algorithms that rely on random/stochastic sampling. They generally trade off higher (though random!) error for lower technical complexity [<sup>[1]</sup>](#Footnote-1:). Examples from optimisation include randomly choosing search directions, swarms, evolutionary mutations, or perturbations for gradient approximation. Another application area is the computation of (deterministic) integrals via sample averages, which is rooted in the fact that any integral can be formulated as expectations, as well as the law of large numbers (LLN). This is actually a surprisingly large class of problems, including for example a way to [approximate the value of $\pi$](https://en.wikipedia.org/wiki/Monte_Carlo_method#Overview). Moreover, many integrals of interest are inherently expectations, but over probability distributions that are not tractable, as they arise from a complicated random or uncertain process [<sup>[2]</sup>](#Footnote-2:), whereas a Monte-Carlo sample thereof can be obtained simply by simulating the process.
+In [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb) we derived the classical Kalman filter (KF),
 $
 \newcommand{\Expect}[0]{\mathbb{E}}
 \newcommand{\NormDist}{\mathscr{N}}
+\newcommand{\DynMod}[0]{\mathscr{M}}
+\newcommand{\ObsMod}[0]{\mathscr{H}}
 \newcommand{\mat}[1]{{\mathbf{{#1}}}}
 \newcommand{\bvec}[1]{{\mathbf{#1}}}
 \newcommand{\trsign}{{\mathsf{T}}}
 \newcommand{\tr}{^{\trsign}}
 \newcommand{\ceq}[0]{\mathrel{≔}}
 \newcommand{\xDim}[0]{D}
+\newcommand{\supa}[0]{\text{a}}
+\newcommand{\supf}[0]{\text{f}}
 \newcommand{\I}[0]{\mat{I}}
 \newcommand{\X}[0]{\mat{X}}
 \newcommand{\Y}[0]{\mat{Y}}
@@ -55,10 +57,32 @@ $
 \newcommand{\z}[0]{\bvec{z}}
 \newcommand{\bx}[0]{\bvec{\bar{x}}}
 \newcommand{\by}[0]{\bvec{\bar{y}}}
+\newcommand{\bP}[0]{\mat{P}}
 \newcommand{\barC}[0]{\mat{\bar{C}}}
 \newcommand{\ones}[0]{\bvec{1}}
 \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
 $
+wherein the dynamics (and measurements) are assumed linear,
+i.e. $\DynMod, \ObsMod$ are matrices.
+But [T6](T6%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb)
+illustrated several *non-linear* dynamical systems
+that we would like to be able track (estimate).
+The classical approach to handle non-linearity
+(which is still highly useful in many engineering problems)
+is called the *extended* KF,
+wherein the non-linear model**s** are applied to the state's mean estimate, $\x^{\supf/\supa}$,
+and the tangent-linear model ([T6](T6%20-%20Chaos%20%26%20Lorenz%20[optional].ipynb#Error/perturbation-propagation))
+are applied to the state uncertainty/error covariance matrix, $\bP^{\supf/\supa}$.
+For the class of problems generally found in geoscience,
+however, this linearisation is often too inaccurate,
+and the process of deriving and coding up the TLM too arduous
+(several PhD years, unless auto-differentiable frameworks have been used)
+or downright illegal (proprietary software).
+Therefore, another approach is needed...
+
+# T7 - The ensemble (Monte-Carlo) approach
+
+**Monte-Carlo (M-C) methods** are a class of computational algorithms that rely on random/stochastic sampling. They generally trade off higher (though random!) error for lower technical complexity [<sup>[1]</sup>](#Footnote-1:). Examples from optimisation include randomly choosing search directions, swarms, evolutionary mutations, or perturbations for gradient approximation. Another application area is the computation of (deterministic) integrals via sample averages, which is rooted in the fact that any integral can be formulated as expectations, as well as the law of large numbers (LLN). This is actually a surprisingly large class of problems, including for example a way to [inefficiently approximate the value of $\pi$](https://en.wikipedia.org/wiki/Monte_Carlo_method#Overview). Moreover, many integrals of interest are inherently expectations, but over probability distributions that are not tractable, as they arise from a complicated random or uncertain process [<sup>[2]</sup>](#Footnote-2:), whereas a Monte-Carlo sample thereof can be obtained simply by simulating the process. Computing the forecast distribution, and thereby its moments, $\x^{\supf/\supa}$ and $\bP^{\supf/\supa}$), and doing the same for the observation distribution.
 
 **An ensemble** is an *i.i.d.* sample. I.e. a set of "members" ("particles", "realizations", or "sample points") that have been drawn ("sampled") independently from the same distribution. With the EnKF, these assumptions are generally tenuous, but pragmatic.
 In particular, an ensemble can be used to characterize uncertainty: either by using it to compute (estimate) *statistics* thereof, such as the mean, median, variance, covariance, skewness, confidence intervals, etc (any function of the ensemble can be seen as a "statistic"), or by using it to reconstruct the distribution/density from which it is sampled. The latter is illustrated by the plot below.
@@ -268,7 +292,30 @@ def estimate_cross_cov(Ex, Ey):
 # show_answer('estimate cross')
 ```
 
+### What about linearisation?
+
+We began this tutorial mentioning that M-C can improve on the TLM
+for propagating the errors of the state distribution.
+This is intuitive,
+and the use of the moments of the forecast distribution into the KF equations suggests itself.
+But we have not tied this back into the discussion of linearisation.
+More specifically, what can we say about the way non-linearity is handled by the EnKF?
+As it turns out, the EnKF is doing linear least-squares regression
+(this was recognized from very early on, ref Anderson)
+therefore one can reference the Gauss-Markov theorem to make certain BLUE claims.
+Meanwhile, from the perspective of FD, it has been popular to say that the ensemble methods
+compute an **"average"** linear model somewhat.
+This was formalized by Raanes, and could have made an earlier paper much shorter
+(chain rule applies for LLS regression).
+It is important to note that this derivation of the ensemble linearisation
+shows that errors (from different members) cancel out,
+and shows exactly the linearisation converges to,
+both of which are not present in any derivation starting with Taylor-series expansions.
+A similar result was recognized by Stordal (2016).
+
+
 ## Summary
+
 Parametric assumptions (e.g. assuming Gaussianity) can be useful in approximating distributions.
 Sample covariance estimates can be expressed and computed in a vectorized form.
 
@@ -281,12 +328,12 @@ Sample covariance estimates can be expressed and computed in a vectorized form.
 Essentially its (pseudo) randomness means that it is easy to avoid biases.
 For example, the Monte-Carlo approach is particularly useful
 when grid-based quadrature is difficult, as is often the case for high-dimensional problems.
-A common misconception in DA is that MC is somehow more efficient
+A common misconception in DA is that M-C is somehow more efficient
 than deterministic quadrature in high dimensions, $D$.
 The confusion arises because, from Chebyshev inequality, we know that
-the error of the MC approximation asymptotically converges to zero at a rate proportional to $1/\sqrt{N}$,
+the error of the M-C approximation asymptotically converges to zero at a rate proportional to $1/\sqrt{N}$,
 while that of quadrature methods typically converges proportional to $1 / N^{1/D}$.
-But not only is the coefficient dependent on $D$ (and worse for MC),
+But not only is the coefficient dependent on $D$ (and worse for M-C),
 also (conjecture!) for any $D$ and $N$ you can always find a gridding strategy that has lower error.
 For example, quasi-random (latin hypercube, etc) are easily recommended
 in the pure context of hypercube integrals.

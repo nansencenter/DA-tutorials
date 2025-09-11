@@ -955,29 +955,39 @@ $
 Finally, apply the periodicity of the indices.
 ''']
 
-answers["error evolution"] = ["MD", r"""
+answers["error dynamics a"] = ["MD", r"""
 $\frac{d \varepsilon}{dt} = \frac{d (x-z)}{dt}
 = \frac{dx}{dt} - \frac{dz}{dt} = f(x) - f(z) \approx f(x) - [f(x) - \frac{df}{dx}\varepsilon ] = F \varepsilon$
 """]
-answers["anti-deriv"] = ["MD", r"""
+answers["error dynamics b"] = ["MD", r"""
 Differentiate $e^{F t}$.
 """]
-answers["predictability cases"] = ["MD", r"""
-* (1). Dissipates to 0.
-* (2). No.
-      A balance is always reached between
-      the uncertainty reduction $(1-K)$ and growth $F^2$.  
+answers["error dynamics c"] = ["MD", r"""
+- (1) Dissipates to 0.
+- (2) No.
+  A balance is always reached between
+  the uncertainty reduction $(1-K)$ and growth $F^2$.  
 """]
-answers["doubling time, Lyapunov"] = ["MD", r"""
+answers["error dynamics d"] = ["MD", r"""
 Since we want
-$\varepsilon(t) = 2 \varepsilon(0)$
+$\varepsilon(t) = 2 \varepsilon_0$
 we need $2 = e^{F t}$, i.e. $t = \log(2) / F$.
 """]
-answers["saturation term"] = ["MD", r"""
-[link](https://en.wikipedia.org/wiki/Logistic_function#Logistic_differential_equation)
+answers["error dynamics e"] = ["MD", r"""
+It models (i.e. emulate) asymptotic ($t \to \infty$) saturation
+of the error at $\varepsilon_\infty$, rather than indefinite exponential growth.
+Ref [Wikipedia](https://en.wikipedia.org/wiki/Logistic_function#Logistic_differential_equation)
+
+Solution: $\varepsilon(t) = \frac{\varepsilon_{\infty}}{1 + e^{F \, t}}$.
 """]
-answers["linear growth"] = ["MD", r"""
+answers["error dynamics f"] = ["MD", r"""
 $\frac{d \varepsilon}{dt} \approx F \varepsilon + (f-g)$
+with $f$ and $g$ both evaluated in $x$.
+
+Phenomenon: initial, linear (rather than exponential) growth.
+"""]
+answers["error dynamics g"] = ["MD", r"""
+Substitute $\bvec{u} = \mat{T}^{-1} \bvec{x}$ into eqn. (TLM).
 """]
 
 answers["Bifurcations63 a"] = ["MD", r"""
