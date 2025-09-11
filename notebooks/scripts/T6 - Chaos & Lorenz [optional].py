@@ -38,12 +38,12 @@ plt.ion();
 #
 # ## Dynamical systems
 #
-# Dynamical system are systems (sets of equations) whose variables evolve in time (the equations contains time derivatives). As a branch of mathematics, its theory is mainly concerned with understanding the *behaviour* of solutions (trajectories) of the systems.
+# Dynamical systems are sets of equations whose variables evolve over time (the equations contain time derivatives). As a branch of mathematics, the theory of dynamical systems is mainly concerned with understanding the *behaviour* of solutions (trajectories) to these systems.
 #
 # Below is a function to numerically **integrate**
 # (i.e. step-wise evolve the system forward in time) a set of coupled ODEs.
-# It relies on `scipy`, but adds some conveniences,
-# notably taking advantage of Python's `**kwargs` (key-word argument) feature,
+# It relies on `scipy`, but adds some conveniences—
+# notably, it takes advantage of Python's `**kwargs` (keyword argument) feature—
 # to define an internal `dxdt` whose only two arguments are
 # `x` for the current state, and `t` for time.
 
@@ -68,12 +68,12 @@ def integrate(dxdt, initial_states, final_time, **params):
 
 # In addition, it takes care of looping over `initial_states`,
 # computing a solution ("phase space trajectory") for each one,
-# so that we can ask it to compute multiple trajectories at once,
-# which we call Monte-Carlo simulation, or **ensemble forecasting**.
-# But *loops are generally slow in Python*.
+# so that we can compute multiple trajectories at once—
+# this is called a Monte-Carlo simulation, or **ensemble forecasting**.
+# However, *loops are generally slow in Python*.
 # Fortunately, for simple systems,
-# we can write our code such that the dynamics get independently (but simultaneously) computed for rows of a *matrix* (rather than a single vector), meaning that each row in the input produces a corresponding row in the output. This in effect leaves `numpy` to do the looping (which it does much quicker than pure Python).
-# Alternatively, since each simulation is completely independent of another realisation,
+# we can write our code so that the dynamics are computed independently (but simultaneously) for the rows of a *matrix* (rather than a single vector), meaning each row in the input produces a corresponding row in the output. This lets `numpy` handle the looping, which is much faster than pure Python.
+# Alternatively, since each simulation is completely independent of the others,
 # they are **"embarrassingly parallelizable"**, which is a good option if the system is very costly to simulate.
 # The exercise below challenges you to implement the first approach, resulting in much faster visualisation further below.
 #
@@ -87,8 +87,8 @@ def integrate(dxdt, initial_states, final_time, **params):
 
 # ## The Lorenz (1963) attractor
 #
-# The [Lorenz-63 dynamical system](https://en.wikipedia.org/wiki/Lorenz_system) can be derived as an extreme simplification of *Rayleigh-Bénard convection*: fluid circulation in a shallow layer of fluid uniformly heated (cooled) from below (above).
-# This produces the following 3 *coupled, nonlinear* ordinary differential equations (ODE):
+# The [Lorenz-63 dynamical system](https://en.wikipedia.org/wiki/Lorenz_system) can be derived as an extreme simplification of *Rayleigh-Bénard convection*: fluid circulation in a shallow layer of fluid that is uniformly heated from below (and cooled from above).
+# This leads to the following 3 *coupled, nonlinear* ordinary differential equations (ODEs):
 #
 # $$
 # \begin{aligned}
@@ -98,7 +98,7 @@ def integrate(dxdt, initial_states, final_time, **params):
 # \end{aligned}
 # \tag{1}
 # $$
-# Here, the "dot" represents the time derivative, $\frac{d}{dt}$. The state vector is $\x = (x,y,z)$, and the equations are often abbreviated in vector form as $\dot{\x} = \vect{f}(\x)$. The parameters are typically set to $\sigma = 10, \beta=8/3, \rho=28$. The ODEs can be coded as follows (yes, Python supports Unicode, but it might be cumbersome to type out!)
+# Here, the "dot" represents the time derivative, $\frac{d}{dt}$. The state vector is $\x = (x,y,z)$, and the equations are often abbreviated in vector form as $\dot{\x} = \vect{f}(\x)$. The parameters are typically set to $\sigma = 10, \beta=8/3, \rho=28$. The ODEs can be coded as follows (yes, Python supports Unicode, but it might be cumbersome to type out!):
 
 def dxdt63(state, time, σ, β, ρ):
     x, y, z = state
@@ -107,7 +107,7 @@ def dxdt63(state, time, σ, β, ρ):
                        x * y - β * z])
 
 
-# The following illustrated the system.
+# The following illustrates the system.
 
 store = ['placeholder']
 @interact(        σ=(0.,200), β=(0.,5), ρ=(0.,50),            N=(1,100), ε=(0.01,10), Time=(0.,100), zoom=(.1, 4))
@@ -135,7 +135,7 @@ def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0
 
 # #### Exc -- Bifurcation hunting
 #
-# Classic linear stability analysis involves setting eqn. (1) to zero and considering the eigenvalues (and vectors) of its Jacobian matrix. Here we will go about it mainly by visually inspecting the numerical results of simulations.
+# Classic linear stability analysis involves setting eqn. (1) to zero and considering the eigenvalues (and vectors) of its Jacobian matrix. Here, we will approach it mainly by visually inspecting the numerical results of simulations.
 # Answer the following (to an approximate degree of precision) by gradually increasing $\rho$.
 # Leave the other model parameters at their defaults, but use `ε`, `N`, `Time` and `zoom` to your advantage.
 #
@@ -169,7 +169,7 @@ def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0
 
 # ### Averages
 #
-# The result actually depends on where in "phase space" the particles started. For example, predictability in the Lorenz system is much shorter when the state is near the center, where the trajectories diverge into the two wings of the butterfly. So to get a universal answer one must average these experiments for many different initial conditions.
+# The result actually depends on where in "phase space" the particles started. For example, predictability in the Lorenz system is much shorter when the state is near the center, where the trajectories diverge into the two wings of the butterfly. So, to get a universal answer, one must average these experiments over many different initial conditions.
 # Alternatively, since the above system is [ergodic](https://en.wikipedia.org/wiki/Ergodic_theory#Ergodic_theorems), we could also average a single experiment over a very, very long time, obtaining the same statistics (assuming they have converged). Though not strictly implied, ergodicity is closely related to chaos. It means that
 #
 # - A trajectory/orbit never quite repeats (the orbit is aperiodic).
@@ -201,18 +201,18 @@ def histograms():
 
 
 # The long-run distribution of a system may be called its **climatology**.
-# A somewhat rudimentary weather forecasting initialisation (i.e. DA) technique,
+# A somewhat rudimentary weather forecasting initialization (i.e. DA) technique,
 # called **optimal interpolation**,
-# consists in using the climatology as the prior (as opposed to yesterday's forecast)
+# consists of using the climatology as the prior (as opposed to yesterday's forecast)
 # when applying Bayes' rule (in its [Gaussian guise](T3%20-%20Bayesian%20inference.ipynb#Linear-Gaussian-Bayes'-rule-(1D))) to the observations of the day.
 #
 # ## The Lorenz-96 model
 #
 # The model of [Lorenz (1996)](#References) is a "spatially 1D" dynamical system
-# of an astoundingly simple and *design* that resemble atmospheric convection,
+# with an astoundingly simple *design* that resembles atmospheric convection,
 # including nonlinear terms and chaoticity.
 # Each state variable $\x_i$ can be considered
-# some atmospheric quantity at grid point at a fixed latitude of Earth.
+# as some atmospheric quantity at a grid point at a fixed latitude of Earth.
 # The system is given by the coupled set of ODEs,
 # $$
 # \frac{d \x_i}{dt} = (\x_{i+1} − \x_{i-2}) \x_{i-1} − \x_i + \text{Force}
@@ -221,7 +221,7 @@ def histograms():
 # \,,
 # $$
 # where the subscript indices apply periodically.
-# This model is not derived from physics but has similar characteristics:
+# This model is not derived directly from physics, but it has similar characteristics:
 #
 # - external forcing, determined by a parameter $\text{Force}$;
 # - internal dissipation, emulated by the linear term;
@@ -370,9 +370,9 @@ def plot_pendulum2(k=1, N=2):
 #
 # Prediction (forecasting) with these systems is challenging because they are chaotic:
 # small errors grow exponentially.
-# Therefore there is a limit to how far into the future we can make predictions (skillfully).
-# Therefore it is crucial to minimize the initial error as much as possible.
-# This is a task of DA (filtering).
+# Therefore, there is a limit to how far into the future we can make predictions (skillfully).
+# As such, it is crucial to minimize the initial error *as much as possible*.
+# This is a task for DA (filtering).
 #
 # ### Next: [T7 - Monte-Carlo & ensembles](T7%20-%20Monte-Carlo%20%26%20ensembles.ipynb)
 #
