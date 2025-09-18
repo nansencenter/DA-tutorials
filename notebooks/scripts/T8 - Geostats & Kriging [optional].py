@@ -266,7 +266,7 @@ estims["Inv-dist."][obs_idx] = observations
 ### ANSWER HERE ###
 covar_yy = ...
 cross_xy = ...
-regression_coefficients = weights ### FIX THIS ### -- should be cross_xy / covar_yy
+regression_coefficients = weights ### FIX THIS ### – should be cross_xy / covar_yy
 
 # +
 # show_answer('Kriging code')

@@ -46,8 +46,8 @@ Dynamical systems are sets of equations whose variables evolve over time (the eq
 
 Below is a function to numerically **integrate**
 (i.e. step-wise evolve the system forward in time) a set of coupled ODEs.
-It relies on `scipy`, but adds some conveniences—
-notably, it takes advantage of Python's `**kwargs` (keyword argument) feature—
+It relies on `scipy`, but adds some conveniences –
+notably, it takes advantage of Python's `**kwargs` (keyword argument) feature –
 to define an internal `dxdt` whose only two arguments are
 `x` for the current state, and `t` for time.
 
@@ -70,7 +70,7 @@ def integrate(dxdt, initial_states, final_time, **params):
 
 In addition, it takes care of looping over `initial_states`,
 computing a solution ("phase space trajectory") for each one,
-so that we can compute multiple trajectories at once—
+so that we can compute multiple trajectories at once –
 this is called a Monte-Carlo simulation, or **ensemble forecasting**.
 However, *loops are generally slow in Python*.
 Fortunately, for simple systems,
@@ -79,9 +79,9 @@ Alternatively, since each simulation is completely independent of the others,
 they are **"embarrassingly parallelizable"**, which is a good option if the system is very costly to simulate.
 The exercise below challenges you to implement the first approach, resulting in much faster visualisation further below.
 
-#### Exc (optional) -- speed-up by vectorisation & parallelisation
+#### Exc (optional) – speed-up by vectorisation & parallelisation
 
-Replace `odeint` in the code above by `rk4` (which does not care about the size/shape of the input, thereby allowing for matrices, i.e. ensembles). Note that the call signature of `rk4` is similar to `odeint`, except that `time_steps` must be replaced by `t` and `dt`. I.e. it only computes a single time step, `t + dt`, so you must loop over `time_steps` yourself. *Hint: `dxdt(x, t, ...)` generally expect axis-0 (i.e. rows) of `x` to be the dimensions of the state vector -- not independent realisations of the states.*
+Replace `odeint` in the code above by `rk4` (which does not care about the size/shape of the input, thereby allowing for matrices, i.e. ensembles). Note that the call signature of `rk4` is similar to `odeint`, except that `time_steps` must be replaced by `t` and `dt`. I.e. it only computes a single time step, `t + dt`, so you must loop over `time_steps` yourself. *Hint: `dxdt(x, t, ...)` generally expect axis-0 (i.e. rows) of `x` to be the dimensions of the state vector – not independent realisations of the states.*
 
 ```python
 # show_answer('rk4')
@@ -137,7 +137,7 @@ def plot_lorenz63(σ=10,       β=8/3,    ρ=28     , in3D=True, N=2,       ε=0
     plt.show()
 ```
 
-#### Exc -- Bifurcation hunting
+#### Exc – Bifurcation hunting
 
 Classic linear stability analysis involves setting eqn. (1) to zero and considering the eigenvalues (and vectors) of its Jacobian matrix. Here, we will approach it mainly by visually inspecting the numerical results of simulations.
 Answer the following (to an approximate degree of precision) by gradually increasing $\rho$.
@@ -162,7 +162,7 @@ In conclusion, while a dynamical system naturally depends on its parameter value
 # show_answer("Bifurcations63")
 ```
 
-#### Exc -- Doubling time
+#### Exc – Doubling time
 
 Re-run the animation cell to get default parameter values.
 Visually investigate the system's (i.e. the trajectories') **sensitivity to initial conditions** by moving `Time`, `N` and `ε`. What do you reckon is the "doubling time" of the perturbations? I.e. how long do you think it takes (on average) for two trajectories to grow twice as far apart as they started (alternatives: 0.03, 0.3, 3, 30)? What are the implications for any prediction/forecasting we might attempt?
@@ -232,7 +232,7 @@ This model is not derived directly from physics, but it has similar characterist
 - internal dissipation, emulated by the linear term;
 - energy-conserving advection, emulated by quadratic terms.
 
-**Exc (optional) -- Conservation of energy:** Show that the "total energy" $\sum_{i=1}^{\xDim} \x_i^2$ is preserved by the quadratic terms in the ODE.  
+**Exc (optional) – Conservation of energy:** Show that the "total energy" $\sum_{i=1}^{\xDim} \x_i^2$ is preserved by the quadratic terms in the ODE.  
 *Hint: consider its time derivative.*
 
 ```python
@@ -267,7 +267,7 @@ def plot_lorenz96(xDim=40,       N=2,      Force=8,       ε=0.01,         Time=
     plt.show()
 ```
 
-#### Exc -- Bifurcation hunting 96
+#### Exc – Bifurcation hunting 96
 
 Investigate by moving the sliders (but keep `xDim=40`): Under which settings of the forcing
 
@@ -290,7 +290,7 @@ def Hovmoller():
 # show_answer('Bifurcations96', 'a')
 ```
 
-#### Exc (optional) -- Doubling time
+#### Exc (optional) – Doubling time
 
 Maximise `N` (for a large sample), minimise `ε` (to approach linear conditions) and set `Time=1` (a reasonable first guess). Compute a rough estimate of the doubling time in the cell below from the data in `store[0]`, which holds the trajectories, and has shape `(N, len(times))`.
 *Hint: The theory for these questions will be described in further detail in the following section.*
@@ -332,7 +332,7 @@ def plot_pendulum2(k=1, N=2):
 
 ## Error/perturbation propagation
 
-**Exc (optional) -- Perturbation ODE:** Suppose $\x(t)$ and $\x'(t)$ are "twins": they evolve according to the same law $\vect{f}$:
+**Exc (optional) – Perturbation ODE:** Suppose $\x(t)$ and $\x'(t)$ are "twins": they evolve according to the same law $\vect{f}$:
 $$
 \begin{align}
 \frac{d \x}{d t} &= \vect{f}(\x) \\

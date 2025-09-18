@@ -78,7 +78,7 @@ $$
 \color{red}{\overset{\mbox{Posterior}}{p(\color{black}{x|y})}} = \frac{\color{blue}{\overset{\mbox{  Prior  }}{p(\color{black}{x})}} \, \color{green}{\overset{\mbox{ Likelihood}}{p(\color{black}{y|x})}}}{\color{gray}{\underset{\mbox{Constant wrt. x}}{p(\color{black}{y})}}} \,. \tag{BR} \\[1em]
 $$
 
-**Exc -- Bayes' rule derivation:** Derive eqn. (BR) from the definition of [conditional pdfs](https://en.wikipedia.org/wiki/Conditional_probability_distribution#Conditional_continuous_distributions).
+**Exc – Bayes' rule derivation:** Derive eqn. (BR) from the definition of [conditional pdfs](https://en.wikipedia.org/wiki/Conditional_probability_distribution#Conditional_continuous_distributions).
 
 ```python
 # show_answer('symmetry of conjunction')
@@ -95,7 +95,7 @@ def Bayes_rule(prior_values, lklhd_values, dx):
     return posterior_values
 ```
 
-#### Exc (optional) -- BR normalization
+#### Exc (optional) – BR normalization
 
 Show that the normalization in `Bayes_rule()` amounts to (approximately) the same as dividing by $p(y)$.
 
@@ -164,9 +164,9 @@ The illustration uses a
 - likelihood $p(y|x) = \NormDist(y|x, R)$, whose parameters are set by the interactive sliders.
 
 We are now dealing with three (!) separate distributions,
-which introduces a lot of symbols to keep track of — a necessary evil for later.
+which introduces a lot of symbols to keep track of – a necessary evil for later.
 
-**Exc -- `Bayes1` properties:** This exercise serves to make you acquainted with how Bayes' rule blends information.
+**Exc – `Bayes1` properties:** This exercise serves to make you acquainted with how Bayes' rule blends information.
 
 Move the sliders (use arrow keys?) to animate it, and answer the following (with the boolean checkmarks both on and off).
 
@@ -208,7 +208,7 @@ $$
 and $r \sim \NormDist(0, R)$ for some variance $R>0$.
 Then the likelihood is $$p(y|x) = \NormDist(y| \ObsMod(x), R) \,. \tag{Lklhd}$$
 
-**Exc (optional) -- The likelihood:** Derive the expression (Lklhd) for the likelihood.
+**Exc (optional) – The likelihood:** Derive the expression (Lklhd) for the likelihood.
 
 ```python
 # show_answer('Likelihood')
@@ -216,7 +216,7 @@ Then the likelihood is $$p(y|x) = \NormDist(y| \ObsMod(x), R) \,. \tag{Lklhd}$$
 
 <a name="Exc----Obs.-model-gallery"></a>
 
-#### Exc -- Obs. model gallery
+#### Exc – Obs. model gallery
 
 Consider the following observation models.
 
@@ -235,7 +235,7 @@ Then verify your answer by implementing `H` in the [interactive Bayes' rule](#In
 
 It is important to appreciate that the likelihood, and its role in Bayes' rule, does not perform any "inversion". It simply quantifies how well each $x$ fits the data, in terms of its weighting. This approach also inherently handles the fact that multiple values of $x$ may be plausible.
 
-**Exc (optional) -- "why inverse":** Laplace called "statistical inference" the reasoning of "inverse probability" (1774). You may also have heard of "inverse problems" in reference to similar problems, but without a statistical framing. In view of this, why do you think we use $x$ for the unknown, and $y$ for the known/given data?
+**Exc (optional) – "why inverse":** Laplace called "statistical inference" the reasoning of "inverse probability" (1774). You may also have heard of "inverse problems" in reference to similar problems, but without a statistical framing. In view of this, why do you think we use $x$ for the unknown, and $y$ for the known/given data?
 
 ```python
 # show_answer("what's forward?")
@@ -261,7 +261,7 @@ This is straightforward in the linear-Gaussian case, i.e. when $\ObsMod$ is line
 
 The proof is in the following exercise.
 
-#### Exc -- BR-LG1
+#### Exc – BR-LG1
 
 Consider the following identity, where $P^\ta$ and $x^\ta$ are given by eqns. (5) and (6).
 $$
@@ -281,7 +281,7 @@ but the RHS only contains *one*.
 # show_answer('BR Gauss, a.k.a. completing the square', 'a')
 ```
 
-**Exc -- Temperature example:**
+**Exc – Temperature example:**
 The statement $x = \mu \pm \sigma$ is *sometimes* used
 as a shorthand for $p(x) = \NormDist(x \mid \mu, \sigma^2)$. Suppose
 
@@ -304,7 +304,7 @@ def Bayes_rule_LG1(xf, Pf, y, H, R):
     return xa, Pa
 ```
 
-#### Exc -- Gaussianity as an approximation
+#### Exc – Gaussianity as an approximation
 
 - (a) Again, try the various $\ObsMod$ from the [above exercise](#Exc----Obs.-model-gallery) in the [interactive Bayes' rule widget](#Interactive-illustration).  
   For which $\ObsMod$ does `Bayes_rule_LG1()` reproduce `Bayes_rule()`?
@@ -338,7 +338,7 @@ for dist in [
     pdfs[dist.dist.name + str(dist.kwds)] = pdf_fitted
 ```
 
-**Exc (optional) -- Gain algebra:** Show that eqn. (5) can be written as
+**Exc (optional) – Gain algebra:** Show that eqn. (5) can be written as
 $$P^\ta = K R / \ObsMod \,,    \tag{8}$$
 where
 $$K = \frac{\ObsMod P^\tf}{\ObsMod^2 P^\tf + R} \,,    \tag{9}$$
@@ -357,7 +357,7 @@ $$
 # show_answer('BR Kalman1 algebra')
 ```
 
-#### Exc (optional) -- Gain intuition
+#### Exc (optional) – Gain intuition
 
 Let $\ObsMod = 1$ for simplicity.
 
@@ -370,13 +370,13 @@ Let $\ObsMod = 1$ for simplicity.
 # show_answer('KG intuition')
 ```
 
-**Exc -- BR with Gain:** Re-define `Bayes_rule_LG1` so to as to use eqns. 9-11. Remember to re-run the cell. Verify that you get the same plots as before.
+**Exc – BR with Gain:** Re-define `Bayes_rule_LG1` so to as to use eqns. 9-11. Remember to re-run the cell. Verify that you get the same plots as before.
 
 ```python
 # show_answer('BR Kalman1 code')
 ```
 
-#### Exc (optional) -- optimalities
+#### Exc (optional) – optimalities
 
 In contrast to orthodox statistics,
 Bayes' rule (BR) does not attempt to produce a single estimate/value of $x$.
@@ -461,4 +461,4 @@ But if Gaussianity can be assumed, it reduces to just two formulae.
 - **Lehmann & Casella (1998)**:
   "Theory of Point Estimation", 1998.
 - **Pötscher & Preinerstorfer (2024)**:
-  Benedikt M. Pötscher and David Preinerstorfer, "A Comment on: 'A Modern Gauss--Markov Theorem'", Econometrica, 2024.
+  Benedikt M. Pötscher and David Preinerstorfer, "A Comment on: 'A Modern Gauss-Markov Theorem'", Econometrica, 2024.

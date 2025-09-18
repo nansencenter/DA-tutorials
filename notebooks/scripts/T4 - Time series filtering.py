@@ -128,7 +128,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
     plt.show()
 
 
-# **Exc -- AR1 properties:** Answer the following.
+# **Exc – AR1 properties:** Answer the following.
 #
 # - What does `seed` control?
 # - Explain what happens when `M=0`. Also consider $Q \rightarrow 0$.  
@@ -182,7 +182,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # to produce forecast and analysis estimates for the next time index, $k+1$.
 # Note that if $k$ is a date index, then "yesterday's forecast becomes today's prior".
 #
-# #### Exc -- linear algebra of Gaussian random variables
+# #### Exc – linear algebra of Gaussian random variables
 #
 # - (a) Show the linearity of the expectation operator:
 #   $\Expect [ \DynMod  x + b ] = \DynMod \Expect[x] + b$, for some constant $b$.
@@ -235,7 +235,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # However, for prediction/forecasting, filtering is all we need:
 # accurate initial conditions (estimates of the present moment).
 #
-# #### Exc -- Implementation
+# #### Exc – Implementation
 #
 # Below is a very rudimentary sequential estimator (not the KF!), which essentially just does "persistence" forecasts and sets the analysis estimates to the value of the observations (*which is only generally possible in this linear, scalar case*). Run its cell to define it, and then re-run the above interactive animation cell. Then:
 #
@@ -266,7 +266,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # show_answer('KF1 code')
 # -
 
-# #### Exc -- KF behaviour
+# #### Exc – KF behaviour
 #
 # - Set `logQ` to its minimum, and `M=1`.  
 #   We established in Exc "AR1" that the true states are now constant in time (but unknown).  
@@ -280,7 +280,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 
 # <a name="Exc----Temporal-convergence"></a>
 #
-# #### Exc -- Temporal convergence
+# #### Exc – Temporal convergence
 #
 # In general, $\DynMod$, $\ObsMod$, $Q$, and $R$ depend on time, $k$
 # (often to parameterize exogenous/outside factors/forces/conditions),
@@ -301,7 +301,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # show_answer('Asymptotic Riccati', 'a')
 # -
 
-# **Exc (optional) -- Temporal CV, part 2:**
+# **Exc (optional) – Temporal CV, part 2:**
 # Now we don't assume that $Q$ is zero. Instead
 #
 # - (a) Suppose $\DynMod = 0$. What does $P^\ta_k$ equal?
@@ -315,7 +315,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # show_answer('Asymptotes when Q>0')
 # -
 
-# #### Exc (optional) -- Analytic simplification in the case of an unknown constant
+# #### Exc (optional) – Analytic simplification in the case of an unknown constant
 #
 # - Note that in case $Q = 0$,
 # then $x_{k+1} = \DynMod^k x_0$.  
@@ -332,7 +332,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # *Hint: while this is straightforward for the variance,
 # you will probably want to prove the mean using induction.*
 #
-# #### Exc -- Impact of biases
+# #### Exc – Impact of biases
 #
 # Re-run the above interactive animation to set the default control values. Answer the following
 #
@@ -364,7 +364,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # We will not review signal processing theory here,
 # but challenge you to make use of what `scipy` already has to offer.
 #
-# #### Exc (optional) -- signal processing
+# #### Exc (optional) – signal processing
 #
 # Run the following cell to import and define some more tools.
 

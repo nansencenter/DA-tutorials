@@ -128,7 +128,7 @@ Examples include
 - (g) Sports rating (Elo, Glicko, TrueSkill)
 - (h) Financial pricing (Black-Scholes)
 
-**Exc (optional) -- state variables:**  
+**Exc (optional) – state variables:**
 
 - For the above model examples above that you are familiar with, list the elements of the state variable.
 
@@ -144,9 +144,9 @@ Examples include
 A model is usually assessed in terms of (some measure of) skill of prediction,
 as expressed by the following maxim.
 
-> All models are wrong, but some are useful — [George E. P. Box](https://en.wikipedia.org/wiki/All_models_are_wrong)
+> All models are wrong, but some are useful – [George E. P. Box](https://en.wikipedia.org/wiki/All_models_are_wrong)
 
-**Exc (optional) -- model error:**  
+**Exc (optional) – model error:**  
 For each of model examples above, select the shortcomings (below) that seem relevant.
 
 1. Inaccurate at relatively high speeds
@@ -198,7 +198,7 @@ we include an observation noise, $\r_k$, in our conception of the measuring proc
 
 $$ \y_k = \ObsMod_{\!k}(\x_k) + \r_k \,. \tag{ObsMod} $$
 
-**Exc (optional) -- observation examples:**  
+**Exc (optional) – observation examples:**  
 For each of the above dynamical model examples, suggest 1 or more observation kinds (i.e. what will $\y$ consist of?).
 
 ```python
@@ -218,7 +218,7 @@ which in turn improve the forecast of $\x_{k+1}$, and so on in a *virtuous cycle
 The *cyclic* computational procedure outlined above for the sequence of forecast initialisation problems is known as **filtering**.
 More generally, the theory of **state estimation** (a.k.a. **sequential inference**)
 also includes the techniques of **smoothing** (the estimation of *earlier* states)
-and — as an add-on — the estimation of parameters (uncertain/unknown quantities that do *not* change in time).
+and – as an add-on – the estimation of parameters (uncertain/unknown quantities that do *not* change in time).
 State estimation can be said to generalize [time series estimation](https://www.google.no/books/edition/Time_Series_Analysis_by_State_Space_Meth/XRCu5iSz_HwC)
 and [signal processing](https://ocw.mit.edu/courses/6-011-introduction-to-communication-control-and-signal-processing-spring-2010/0009cae26d5218d6ebae14297d111325_MIT6_011S10_chap04.pdf),
 by allowing for multivariate, hidden states (partially observed, or only through the operator $\ObsMod$),
@@ -273,7 +273,7 @@ This tutorial builds on the underlying package, [DAPPER](https://github.com/nans
 
 Run the cells in order and try to interpret the output.
 <mark><font size="-1">
-<em>Don't worry</em> if you can't understand what's going on — we will discuss it later throughout the tutorials.
+<em>Don't worry</em> if you can't understand what's going on – we will discuss it later throughout the tutorials.
 </font></mark>
 
 ```python
@@ -319,7 +319,7 @@ if False:
 
 ## Vocabulary exercises
 
-**Exc -- Word association:**
+**Exc – Word association:**
 Group the words below into 3 groups of similar meaning.
 
 `Sample, Random, Measurements, Ensemble, Data, Stochastic, Monte-Carlo, Observations, Set of draws`
@@ -331,7 +331,7 @@ Group the words below into 3 groups of similar meaning.
 - "The answer" is given from the perspective of DA. Do you agree with it?
 - Can you describe the (important!) nuances between the similar words?
 
-**Exc (optional) -- Word association 2:**
+**Exc (optional) – Word association 2:**
 Also group (and nuance!) these words, by filling in the `x`s in the list below.
 
 `Inverse problems, Operator, Sample point, Transform(ation), Knowledge, Relation, Probability, Mapping, Particle, Sequential, Inversion, Realization, Relative frequency, Information, Iterative, Estimate, Estimation, Single draw, Serial, Regression, Model, Fitting, Uncertainty`
@@ -346,7 +346,7 @@ Also group (and nuance!) these words, by filling in the `x`s in the list below.
 # show_answer('thesaurus 2')
 ```
 
-**Exc (optional) -- intro discussion:** Prepare to discuss the following questions. Use any tool at your disposal.
+**Exc (optional) – intro discussion:** Prepare to discuss the following questions. Use any tool at your disposal.
 
 - (a) What is DA?
 - (b) What is the difference between "state variables" and "parameters"?

@@ -136,7 +136,7 @@ plt.ion();
 
 EnKF_animation()
 
-# #### Exc -- Woodbury for the ensemble subspace
+# #### Exc – Woodbury for the ensemble subspace
 #
 # (a) Use the Woodbury identity (C2) of [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb) to show that eqn. (5a) can also be written
 # $$\begin{align}
@@ -145,12 +145,12 @@ EnKF_animation()
 # $$
 # (b) What is the potential benefit of (5b) vs. (5a) ?
 #
-# #### Exc -- KG workings
+# #### Exc – KG workings
 #
 # The above animation assumed that the observation operator is just the identity matrix, $\I$, rather than a general observation operator, $\ObsMod()$. Meanwhile, the Kalman gain used by the EnKF, eqn. (5a), is applicable for any $\ObsMod()$. On the other hand, the formula (5a) consists solely of linear algebra. Therefore it cannot perfectly represent any general (nonlinear) $\ObsMod()$. So how does it actually treat the observation operator? What meaning can we assign to the resulting updates?  
 # *Hint*: consider the limit of $\R \rightarrow 0$.
 
-# #### Exc -- EnKF nobias (a)
+# #### Exc – EnKF nobias (a)
 #
 # Consider the ensemble averages,
 #
@@ -172,7 +172,7 @@ EnKF_animation()
 # show_answer("EnKF_nobias_a")
 # -
 
-# #### Exc (optional) -- EnKF nobias (b)
+# #### Exc (optional) – EnKF nobias (b)
 #
 # Consider the ensemble covariance matrices:
 # $$\begin{align}
@@ -205,7 +205,7 @@ EnKF_animation()
 # show_answer("EnKF_nobias_b")
 # -
 
-# #### Exc (optional) -- EnKF bias (c)
+# #### Exc (optional) – EnKF bias (c)
 # Show that, if no observation perturbations are used in eqn. (4), then $\barP^\ta$ would be too small.
 
 # +
@@ -305,7 +305,7 @@ for k in range(1, nTime+1):
 # def estimate_mean_and_cov ...
 # -
 
-# **Exc -- EnKF implementation:** Complete the code below
+# **Exc – EnKF implementation:** Complete the code below
 
 # +
 # Useful linear algebra: compute B/A
@@ -370,7 +370,7 @@ plt.xlabel("Time (t)");
 
 # -
 
-# **Exc -- Diagnostics:** The visuals of the plots are nice. But it would be good to have a summary statistic of the accuracy performance of the filter. Make a function `average_rmse(truths, means)` that computes $ \frac{1}{K+1} \sum_{k=0}^K \sqrt{\frac{1}{\xDim} \| \bx_k - \x_k \|_2^2} \,.$
+# **Exc – Diagnostics:** The visuals of the plots are nice. But it would be good to have a summary statistic of the accuracy performance of the filter. Make a function `average_rmse(truths, means)` that computes $ \frac{1}{K+1} \sum_{k=0}^K \sqrt{\frac{1}{\xDim} \| \bx_k - \x_k \|_2^2} \,.$
 
 # +
 def average_rmse(truth, estimates):
@@ -385,7 +385,7 @@ average_rmse(truths, ens_means)
 # show_answer('rmse')
 # -
 
-# **Exc -- Experiment variations:**
+# **Exc – Experiment variations:**
 #  * (a). Repeat the above experiment, but now observing only the first (0th) component of the state.
 
 # +

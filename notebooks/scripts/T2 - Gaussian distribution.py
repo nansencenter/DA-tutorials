@@ -121,7 +121,7 @@ def plot_pdf(mu=0, sigma=5):
     plt.show()
 
 
-# #### Exc -- parameter influence
+# #### Exc – parameter influence
 #
 # Experiment with `mu` and `sigma` to answer these questions:
 #
@@ -144,14 +144,14 @@ def plot_pdf(mu=0, sigma=5):
 # - In a few words, describe the shape of the Gaussian pdf curve.
 #   Does this remind you of anything? *Hint: it should be clear as a bell!*
 #
-# **Exc -- Implementation:** Change the implementation of `pdf_G1` so that it does not use `scipy`, but instead uses your own code (with `numpy` only). Re-run all of the above cells and check that you get the same plots as before.  
+# **Exc – Implementation:** Change the implementation of `pdf_G1` so that it does not use `scipy`, but instead uses your own code (with `numpy` only). Re-run all of the above cells and check that you get the same plots as before.  
 # *Hint: `**` is the exponentiation/power operator, but $e^x$ is more efficiently computed with `np.exp(x)`*
 
 # +
 # show_answer('pdf_G1')
 # -
 
-# **Exc -- Derivatives:** Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1).  
+# **Exc – Derivatives:** Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1).  
 # Use pen, paper, and calculus to answer the following questions,
 # which will help you remember some key properties of the distribution.
 #
@@ -164,7 +164,7 @@ def plot_pdf(mu=0, sigma=5):
 #
 # <a name="Exc-(optional)----Change-of-variables"></a>
 #
-# #### Exc (optional) -- Change of variables
+# #### Exc (optional) – Change of variables
 #
 # Let $Z = \phi(X)$ for some monotonic function $\phi$,
 # and let $p_x$ and $p_z$ be their probability density functions (pdf).
@@ -180,7 +180,7 @@ def plot_pdf(mu=0, sigma=5):
 
 # <a name="Exc-(optional)----Integrals"></a>
 #
-# #### Exc (optional) -- Integrals
+# #### Exc (optional) – Integrals
 #
 # Recall $p(x) = \NormDist(x \mid \mu, \sigma^2)$ from eqn. (G1). Abbreviate it as $c = (2 \pi \sigma^2)^{-1/2}$.  
 # Use pen, paper, and calculus to show that
@@ -200,7 +200,7 @@ def plot_pdf(mu=0, sigma=5):
 # show_answer('Gauss integrals')
 # -
 
-# **Exc (optional) -- Riemann sums**:
+# **Exc (optional) – Riemann sums**:
 # Recall that integrals compute the "area under the curve".
 # On a discrete grid, they can be approximated using the [Trapezoidal rule](https://en.wikipedia.org/wiki/Riemann_sum#Trapezoidal_rule).
 #
@@ -225,7 +225,7 @@ pdf_vals = pdf_G1(grid1d, mu=mu, sigma2=sigma**2)
 # show_answer('Riemann sums', 'a')
 # -
 
-# **Exc -- The uniform pdf**:
+# **Exc – The uniform pdf**:
 # Below is the pdf of the [uniform/flat/box distribution](https://en.wikipedia.org/wiki/Uniform_distribution_(continuous))
 # for a given mean and variance.
 #
@@ -297,7 +297,7 @@ def weighted_norm22(points, Wi):
     return np.sum( (points @ inv(Wi)) * points, axis=-1)
 
 def pdf_GM(points, mu, Sigma):
-    "pdf -- Gaussian, Multivariate: N(x | mu, Sigma) for each x in `points`."
+    "pdf – Gaussian, Multivariate: N(x | mu, Sigma) for each x in `points`."
     c = np.sqrt(det(2*np.pi*Sigma))
     return 1/c * np.exp(-0.5*weighted_norm22(points - mu, Sigma))
 
@@ -336,7 +336,7 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # - $-1\leq \rho \leq 1$ (by Cauchy-Swartz)
 # - **If** $X$ and $Y$ are *independent*, then $\rho[X,Y]=0$.
 #
-# **Exc -- Correlation influence:** How do the contours look? Try to understand why. Cases:
+# **Exc – Correlation influence:** How do the contours look? Try to understand why. Cases:
 #
 # - (a) correlation=0.
 # - (b) correlation=0.99.
@@ -347,7 +347,7 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 #
 # **Exc Correlation game:** [Play](http://guessthecorrelation.com/) until you get a score (gold coins) of 5 or more.  
 #
-# **Exc -- Correlation disambiguation:**
+# **Exc – Correlation disambiguation:**
 #
 # - What's the difference between correlation and covariance (in words)?
 # - What's the difference between non-zero (C) correlation (or covariance) and (D) dependence?
@@ -359,7 +359,7 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # - Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
 #   Does information about $y$ give you information about $x$?
 #
-# **Exc (optional) -- Gaussian ubiquity:** Why are we so fond of the Gaussian assumption?
+# **Exc (optional) – Gaussian ubiquity:** Why are we so fond of the Gaussian assumption?
 
 # +
 # show_answer('Why Gaussian')

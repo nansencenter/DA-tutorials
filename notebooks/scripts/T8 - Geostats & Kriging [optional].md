@@ -304,7 +304,7 @@ Implement the method [(wikipedia)](https://en.wikipedia.org/wiki/Kriging#Simple_
 ### ANSWER HERE ###
 covar_yy = ...
 cross_xy = ...
-regression_coefficients = weights ### FIX THIS ### -- should be cross_xy / covar_yy
+regression_coefficients = weights ### FIX THIS ### – should be cross_xy / covar_yy
 ```
 
 ```python

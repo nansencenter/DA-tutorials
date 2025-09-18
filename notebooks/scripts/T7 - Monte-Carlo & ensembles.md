@@ -101,7 +101,7 @@ Indeed, the forecast distribution can be expressed precisely by such an integral
 
 Then, similarly to the EKF, the ensemble Kalman filter (**EnKF**) can be derived by replacing
 $\DynMod \x^a$ and $\DynMod \, \bP^a$ by the appropriate ensemble moments (statistics)[<sup>[3]</sup>](#Footnote-3:).
-The EnKF will be developed in full later -- at present, our purpose is to focus on the generation of Monte-Carlo ensembles,
+The EnKF will be developed in full later – at present, our purpose is to focus on the generation of Monte-Carlo ensembles,
 and their use to reconstruct (estimate) the underlying distribution.
 
 **An ensemble** is an *i.i.d.* sample. I.e. a set of "members"
@@ -144,7 +144,7 @@ def pdf_reconstructions(seed=5,       nbins=10,      bw=.3):
     plt.show()
 ```
 
-**Exc -- A matter of taste?:**
+**Exc – A matter of taste?:**
 - Which approximation to the true pdf looks better?
 - Which approximation starts with more information?  
   What is the downside of making such assumptions?
@@ -156,13 +156,13 @@ def pdf_reconstructions(seed=5,       nbins=10,      bw=.3):
 The widget above illustrated how to estimate or reconstruct a distribution on the basis of a sample.
 But for the EnKF, we also need to know how to go the other way: drawing a sample from a (multivariate) Gaussian distribution...
 
-**Exc -- Multivariate Gaussian sampling:**
+**Exc – Multivariate Gaussian sampling:**
 Suppose $\z$ is a standard Gaussian,
 i.e. $p(\z) = \NormDist(\z \mid \vect{0},\I_{\xDim})$,
 where $\I_{\xDim}$ is the $\xDim$-dimensional identity matrix.  
 Let $\x = \mat{L}\z + \mu$.
 
-- (a -- optional) Refer to the exercise on
+- (a – optional) Refer to the exercise on
   [change of variables](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Change-of-variables)
   to show that $p(\x) = \NormDist(\x \mid \mu, \mat{C})$,
   where $\mat{C} = \mat{L}^{}\mat{L}^T$.
@@ -199,7 +199,7 @@ with np.printoptions(precision=1, suppress=True):
     print("Estimated cov =", np.cov(E), sep="\n")
 ```
 
-**Exc -- Moment estimation code:** Above, we used numpy's (`np`) functions to compute the sample-estimated mean and covariance matrix,
+**Exc – Moment estimation code:** Above, we used numpy's (`np`) functions to compute the sample-estimated mean and covariance matrix,
 $\bx$ and $\barC$,
 from the ensemble matrix $\E$.
 Now, instead, implement these estimators yourself:
@@ -227,7 +227,7 @@ with np.printoptions(precision=1):
 # show_answer('ensemble moments, loop')
 ```
 
-**Exc -- An obsession?:** Why do we normalize by $(N-1)$ for the covariance computation?
+**Exc – An obsession?:** Why do we normalize by $(N-1)$ for the covariance computation?
 
 ```python
 # show_answer('Why (N-1)')
@@ -260,7 +260,7 @@ def var_and_precision_estimates(N=4):
     plt.show()
 ```
 
-**Exc -- There's bias, and then there's bias:**
+**Exc – There's bias, and then there's bias:**
 - Note that $1/\barC$ does not appear to be an unbiased estimate of $1/C = 1$.  
   Explain this by referring to a well-known property of the expectation, $\Expect$.  
   In view of this, consider the role and utility of "unbiasedness" in estimation.
@@ -273,7 +273,7 @@ def var_and_precision_estimates(N=4):
 # show_answer('variance estimate statistics')
 ```
 
-**Exc (optional) -- Error notions:**
+**Exc (optional) – Error notions:**
  * (a). What's the difference between error and residual?
  * (b). What's the difference between error and bias?
  * (c). Show that `"mean-square-error" (RMSE^2) = Bias^2 + Var`.  
@@ -284,7 +284,7 @@ def var_and_precision_estimates(N=4):
 # show_answer('errors')
 ```
 
-**Exc -- Vectorization:** Python (numpy) is quicker if you "vectorize" loops (similar to Matlab and other high-level languages).
+**Exc – Vectorization:** Python (numpy) is quicker if you "vectorize" loops (similar to Matlab and other high-level languages).
 This is eminently possible with computations of ensemble moments:
 Let $\X \ceq
 \begin{bmatrix}
@@ -300,7 +300,7 @@ Let $\X \ceq
 # show_answer('ensemble moments vectorized')
 ```
 
-**Exc -- Moment estimation code, part 2:** The cross-covariance between two random vectors, $\bx$ and $\by$, is given by
+**Exc – Moment estimation code, part 2:** The cross-covariance between two random vectors, $\bx$ and $\by$, is given by
 $$\begin{align}
 \barC_{\x,\y}
 &\ceq \frac{1}{N-1} \sum_{n=1}^N
@@ -351,7 +351,7 @@ TODO:
 
 Monte-Carlo methods use random sampling to estimate expectations and distributions,
 making them powerful for complex or nonlinear problems.
-Ensembles—i.i.d. samples — allow us to estimate statistics and reconstruct distributions,
+Ensembles – i.i.d. samples – allow us to estimate statistics and reconstruct distributions,
 with accuracy improving as the ensemble size grows.
 Parametric assumptions (e.g. assuming Gaussianity) can be useful in approximating distributions.
 Sample mean and covariance estimators are consistent and unbiased,

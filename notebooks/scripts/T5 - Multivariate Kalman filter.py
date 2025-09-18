@@ -24,7 +24,7 @@ from scipy.linalg import inv
 import matplotlib.pyplot as plt
 plt.ion();
 
-# # T5 - The Kalman filter (KF) -- multivariate
+# # T5 - The Kalman filter (KF) – multivariate
 #
 # We have already seen the Kalman filter (KF) in the scalar/univariate/1D case. Now, we will derive it for the multivariate (vector) case.
 # Vectors are denoted using bold typeface, matrices are bold and uppercase.
@@ -133,7 +133,7 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 # - $\ObsMod(\x) = (x_{i+1} - x_i, \forall i)$ if interested in the slope/roughness of the state field.
 # - $\ObsMod(\x) = g(\|\x\|^2)$ for some $g$ that only depends on some distance or magnitude.
 #
-# #### Exc -- Multivariate observation models
+# #### Exc – Multivariate observation models
 #
 # - (a) Does the posterior (pdf) generally lie "between" the prior and likelihood?
 # - (b) Try the different observation models in the dropdown menu.  
@@ -151,7 +151,7 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 #
 # <a name="Exc-(optional)----Curse-of-dimensionality"></a>
 #
-# #### Exc (optional) -- Curse of dimensionality
+# #### Exc (optional) – Curse of dimensionality
 #
 # - (a) How many point-multiplications are needed on a grid with $N$ points in $\xDim$ dimensions? Imagine an $\xDim$-dimensional cube where each side has a grid with $N$ points on it.
 #   *PS: Of course, if the likelihood contains an actual model $\ObsMod(x)$ as well, its evaluations (computations) could be significantly more costly than the point-multiplications of Bayes' rule itself.*
@@ -272,7 +272,7 @@ plt.legend();
 # $$
 # *PS: all of the objects in the analysis equations could also be subscripted by the time index ($k$), but that seems unnecessary (since it is the same one for all of the objects involved).*
 #
-# **Exc (optional) -- The 'precision' form of the KF:** Prove eqns. (4-6).  
+# **Exc (optional) – The 'precision' form of the KF:** Prove eqns. (4-6).  
 # *Hint: As in the [univariate case](T3%20-%20Bayesian%20inference.ipynb#Exc----BR-LG1), the main part lies in "completing the square" in $\x$.**
 
 # +
@@ -341,7 +341,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 #
 # The KF formulae, as specified above, can be pretty expensive...
 #
-# #### Exc -- flops and MBs
+# #### Exc – flops and MBs
 #
 # Suppose the length of $\x$ is $\xDim$ and denote its covariance matrix by $\bP$.
 #
@@ -360,7 +360,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 
 # This is one of the main reasons why the basic extended KF is infeasible for data assimilation (DA). In the following, we derive the "gain" form of the KF analysis update, which should help at least a little bit.
 #
-# #### Exc -- The "Woodbury" matrix inversion identity
+# #### Exc – The "Woodbury" matrix inversion identity
 #
 # The following is known as the Sherman-Morrison-Woodbury lemma/identity,
 # $$
@@ -377,7 +377,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # show_answer('Woodbury general')
 # -
 
-# #### Exc (optional) -- Matrix shape compatibility
+# #### Exc (optional) – Matrix shape compatibility
 #
 # With reference to eqn. (W),
 #
@@ -388,7 +388,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # The above exercise makes it clear that the Woodbury identity may be used to compute $\bP$ by inverting matrices of the size of $\R$ rather than the size of $\B$.
 # Of course, if $\R$ is bigger than $\B$, then the identity is useful the other way around.
 #
-# #### Exc (optional) -- Corollary 1
+# #### Exc (optional) – Corollary 1
 #
 # Prove that, for any symmetric, positive-definite
 # ([SPD](https://en.wikipedia.org/wiki/Definiteness_of_a_matrix#Properties))
@@ -402,7 +402,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # show_answer('inv(SPD + SPD)')
 # -
 
-# #### Exc (optional) -- Corollary 2
+# #### Exc (optional) – Corollary 2
 #
 # Prove that, for the same matrices as for Corollary C1,
 # $$
@@ -414,7 +414,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # show_answer('Woodbury C2')
 # -
 
-# #### Exc -- The "Gain" form of the KF
+# #### Exc – The "Gain" form of the KF
 #
 # Now, let's return to the KF, eqns. (5) and (6). Since $\bP^\tf$ and $\R$ are covariance matrices, they are symmetric and positive. In addition, we will assume that they are full-rank, i.e. definite (i.e. SPD) and invertible.
 #
@@ -432,7 +432,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # Together, eqns. (8) and (9) define the Kalman gain form of the KF update.
 # Note that the inversion (eqn. 7) involved is of the size of $\R$, while in eqn. (5) it is of the size of $\bP^\tf$.
 #
-# #### Exc -- KF implemented with gain
+# #### Exc – KF implemented with gain
 #
 # - Implement the Kalman gain form (eqns. K1, 8, 9) of the KF in place of the precision form (eqns. 5, 6)
 #   that is [implemented above](#Implementation-and-illustration).
