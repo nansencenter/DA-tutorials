@@ -446,6 +446,33 @@ for dist in [
 #
 # ### References
 #
+# <!--
+# @book{jaynes2003probability,
+#   title={Probability theory: the logic of science},
+#   author={Jaynes, Edwin T},
+#   year={2003},
+#   publisher={Cambridge university press}
+# }
+#
+# @book{lehmann1998theory,
+#     title={Theory of Point Estimation},
+#     author={Lehmann, Erich Leo and Casella, George},
+#     volume={31},
+#     year={1998},
+#     publisher={Springer}
+# }
+# @article{potscher2024comment,
+#   title={A Comment on:“A Modern Gauss--Markov Theorem”},
+#   author={P{\"o}tscher, Benedikt M and Preinerstorfer, David},
+#   journal={Econometrica},
+#   volume={92},
+#   number={3},
+#   pages={913--924},
+#   year={2024},
+#   publisher={Wiley Online Library}
+# }
+# -->
+#
 # - **Jaynes (2003)**:
 #   Edwin T. Jaynes, "Probability theory: the logic of science", 2003.
 # - **Lehmann & Casella (1998)**:

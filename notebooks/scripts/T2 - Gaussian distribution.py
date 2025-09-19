@@ -380,5 +380,23 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 #
 # ### References
 #
+# <!--
+# @book{laplace1820theorie,
+# title={Th{\'e}orie analytique des probabilit{\'e}s},
+# author={de Laplace, Pierre Simon},
+# volume={7},
+# year={1820},
+# publisher={Courcier}
+# }
+#
+# @book{gauss1877theoria,
+# title={Theoria motus corporum coelestium in sectionibus conicis solem ambientium},
+# author={Gauss, Carl Friedrich},
+# volume={7},
+# year={1877},
+# publisher={FA Perthes}
+# }
+# -->
+#
 # - **Laplace (1812)**: P. S. Laplace, "Théorie Analytique des Probabilités", 1812.
 # - **Gauss (1809)**: Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares (which will be very relevant to us) and its probabilistic justification based on the normal distribution of errors.
