@@ -1135,16 +1135,6 @@ answers['ensemble moments, loop'] = ['MD', r'''
     C_bar /= (N-1)
 ''']
 
-answers['Why (N-1)'] = ['MD', r'''
-Because it is the [unbiased](https://en.wikipedia.org/wiki/Variance#Sample_variance)
-estimates in the case of an unknown mean.
-
-*PS: in practice, in DA,
-this is more of a convention than a requirement,
-since its impact is overshadowed by that of repeat cycling,
-as well as inflation and localisation.*
-''']
-
 answers['variance estimate statistics'] = ['MD', r'''
  * Visibly, the expected value (mean) of $1/\barC$ is not $1$,
    so $1/\barC$ is not unbiased. This is to be expected,
@@ -1199,6 +1189,7 @@ answers['errors'] = ['MD', r'''
  * (a). Error: discrepancy from estimator to the parameter targeted.
 Residual: discrepancy from explained to observed data.
  * (b). Bias = *average* (i.e. systematic) error.
+        Seeing as it's random, the other part/aspect of the error may be termed **sampling error**.
  * (c). [Wiki](https://en.wikipedia.org/wiki/Mean_squared_error#Proof_of_variance_and_bias_relationship)
 ''']
 
