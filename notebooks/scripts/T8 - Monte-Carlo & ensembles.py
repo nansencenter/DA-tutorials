@@ -78,11 +78,11 @@ plt.ion();
 # (several PhD years, unless auto-differentiable frameworks have been used)
 # or downright illegal (proprietary software).
 # - the size of the covariances $\bP^{\tf / \ta}$ is simply too large to keep in memory,
-#   as highlighted in TX (TODO).
+#   as highlighted in [T7](T7%20-%20Geostats%20%26%20Kriging%20%5Boptional%5D.ipynb).
 #
 # Therefore, another approach is needed...
 #
-# # T7 - The ensemble (Monte-Carlo) approach
+# # T8 - The ensemble (Monte-Carlo) approach
 #
 # **Monte-Carlo (M-C) methods** are a class of computational algorithms that rely on random/stochastic sampling.
 # They generally trade off higher (though random!) error for lower technical complexity [<sup>[1]</sup>](#Footnote-1:).
@@ -345,8 +345,8 @@ def pdf_reconstructions(seed=5,       nbins=10,      bw=.3):
 # The ensemble approach naturally handles nonlinearity by simulating the full system,
 # forming the basis for methods like the EnKF.
 #
-# ### Next: [T8 - Spatial statistics ("geostatistics") & Kriging](T8%20-%20Geostats%20%26%20Kriging%20[optional].ipynb)
-#
+# ### Next: [T9 - Writing your own EnKF](T9%20-%20Writing%20your%20own%20EnKF.ipynb)
+
 # - - -
 #
 # - ###### Footnote 1:

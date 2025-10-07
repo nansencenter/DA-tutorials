@@ -374,7 +374,7 @@ def plot_pendulum2(k=1, N=2):
 # As such, it is crucial to minimize the initial error *as much as possible*.
 # This is a task for DA (filtering).
 #
-# ### Next: [T7 - Monte-Carlo & ensembles](T7%20-%20Monte-Carlo%20%26%20ensembles.ipynb)
+# ### Next: [T7 - Spatial statistics ("geostatistics") & Kriging](T7%20-%20Geostats%20%26%20Kriging%20[optional].ipynb)
 #
 # <a name="References"></a>
 #
