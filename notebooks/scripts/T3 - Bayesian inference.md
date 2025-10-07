@@ -66,7 +66,7 @@ Now that we have reviewed some probability, we can turn to statistical inference
   Ultimately (in the limit) the complete way to express your belief is as a *distribution*
   (essentially just a list) of plausibilities for all possibilities.
   Furthermore, the only coherent way to reason in the presence of such uncertainty
-  is to obey the laws of probability ([Jaynes (2003)](#References)).
+  is to obey the laws of probability [[Jaynes (2003)](#References)].
 
   - - -
 </details>

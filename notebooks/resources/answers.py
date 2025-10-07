@@ -1126,10 +1126,16 @@ answers['Gaussian sampling b'] = ['MD', r'''
 ''']
 
 answers['ensemble moments, loop'] = ['MD', r'''
-    x_bar = np.sum(E, axis=1)/N
+    xDim, N = E.shape
+    x_bar = np.zeros(xDim)
     C_bar = np.zeros((xDim, xDim))
+
     for n in range(N):
-        xc = (E[:, n] - x_bar)[:, None] # x_centered
+        x_bar += E[:, n]
+    x_bar /= N
+
+    for n in range(N):
+        xc = (E[:, n] - x_bar)[:, None]  # "x_centered"
         C_bar += xc @ xc.T
         # C_bar += np.outer(xc, xc)
     C_bar /= (N-1)
@@ -1146,6 +1152,20 @@ answers['variance estimate statistics'] = ['MD', r'''
 
 ''']
 
+
+answers['rotations'] = ['MD', r'''
+Because there are (infinitely) many such Cholesky factors that would fit,
+each separated from one another by a $\xDim$ rotation matrix applied on the right,
+since any unitary matrix satisfies $\mat{\Omega} \mat{\Omega}\tr = \mat{I}_{\xDim}$.
+
+As elaborated by [Sakov (2008)](#References),
+the non-uniqueness reflects the fact that many different ensembles (think scatter plots)
+will have the same estimated covariance matrix, i.e. "represent" the same distribution.
+Discriminating between different ensembles with the same covariance
+leads to the theory of **optimal transport**.
+An important result is that the (unique) symmetric Cholesky factor is the one closest to the identity matrix,
+i.e. yielding the smallest transport, in some metric [(Ott, 2004)](#References).
+''']
 
 answers['ensemble moments vectorized'] = ['MD', r'''
  * (a). Note that $\E \ones / N = \bx$.  
@@ -1186,13 +1206,24 @@ answers['estimate cross'] = ['MD', r'''
 ''']
 
 answers['errors'] = ['MD', r'''
- * (a). Error: discrepancy from estimator to the parameter targeted.
-Residual: discrepancy from explained to observed data.
+ * (a). Error: discrepancy between estimator and truth.
+   Residual: discrepancy between explained and observed data.
  * (b). Bias = *average* (i.e. systematic) error.
-        Seeing as it's random, the other part/aspect of the error may be termed **sampling error**.
+        The remainder, being closer to unbiased "noise", is often termed **sampling error**.
  * (c). [Wiki](https://en.wikipedia.org/wiki/Mean_squared_error#Proof_of_variance_and_bias_relationship)
 ''']
 
+answers['associativity'] = ['MD', r'''
+Let $X = \E^\tf \AN$ be the centered ensemble,
+where $\AN$ was defined above,
+and let $Y = \ObsMod \, \E^\tf \AN$.
+Then
+$ \ObsMod \, \barC_\x^\tf
+= \ObsMod \, \X \X\tr
+= \Y \X\tr \,,$
+which can be identified as the cross covariance.
+
+''']
 
 ###########################################
 # Tut: Writing your own EnKF

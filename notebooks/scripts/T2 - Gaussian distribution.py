@@ -21,7 +21,9 @@ from resources import show_answer, interact
 import numpy as np
 import scipy as sp
 import matplotlib.pyplot as plt
+import numpy.random as rnd
 plt.ion();
+rnd.seed(3000)
 
 
 # # T2 - The Gaussian (Normal) distribution
@@ -36,10 +38,15 @@ plt.ion();
 # \newcommand{\vect}[1]{{\mathbf{#1}}}
 # \newcommand{\trsign}{{\mathsf{T}}}
 # \newcommand{\tr}{^{\trsign}}
+# \newcommand{\z}[0]{\vect{z}}
+# \newcommand{\E}[0]{\mat{E}}
+# \newcommand{\I}[0]{\mat{I}}
 # \newcommand{\xDim}[0]{D}
 # \newcommand{\x}[0]{\vect{x}}
 # \newcommand{\X}[0]{\mat{X}}
 # $
+#
+# <a name="Probability-essentials"></a>
 #
 # ## Probability essentials
 #
@@ -54,7 +61,7 @@ plt.ion();
 # A **random variable** is a *quantity* taking random values, described in terms of **distributions**.
 #
 # - A *discrete* random variable, $X$, has a probability *mass* function (**pmf**) defined by $p(x) = \mathbb{P}(X{=}x)$.  
-#   Sometimes we write $p_X(x)$ to distinguish it from $p_Y(y)$.
+#   *Sometimes* we write $p_X(x)$ to distinguish it from $p_Y(y)$.
 # - The *joint* probability of two random variables $X$ and $Y$ is defined by their intersection:
 #   $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$.  
 #   - The *marginal* $p(x)$ is obtained by summing over all $y$, and vice versa.
@@ -63,17 +70,17 @@ plt.ion();
 # - The cumulative distribution function (**cdf**) is defined as $F(x) = \mathbb{P}(X \le x)$.
 #
 # We will mainly be concerned with *continuous* random variables.
-# Their probability *density* function (**pdf**) can be defined as $p(x) = F'(x)$ or, equivalently,
+# Their probability *density* function (**pdf**) can be defined as $p(x) = F'(x)$ or
 #
 # $$p(x) = \lim_{h \to 0} \frac{\mathbb{P}(X \in [x,\, x{+} h])}{h} \,.$$
 #
 # The **sample average** of draws from a random variable $X$
 # is denoted with an overhead bar:
 # $$ \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,. $$
-# By the *law of large numbers (LLN)*, the sample average converges as $N \to \infty$ to the **expected value** (sometimes called the **mean**):
+# The *law of large numbers (LLN)* states that the sample average converges (as $N \to \infty$) to the **expected value** (sometimes called the **mean**):
 # $$ \Expect[X] ≔ \int x \, p(x) \, d x \,, $$
 # where the (omitted) domain of integration is *all values of $x$*.
-# Two important properties follow immediately:
+# Two important properties that follow immediately from the definition are:
 #
 # - *Linearity*: $\Expect[aX + Y] = a \Expect[X] + \Expect[Y]$.
 # - *Total expectation*: $\Expect[\Expect[X|Y]] = \Expect[X]$.
@@ -96,7 +103,7 @@ def pdf_G1(x, mu, sigma2):
 
 
 # Computers typically represent functions *numerically* by their values at a set of grid points (nodes),
-# an approach called ***discretisation***.
+# an approach called ***discretization***.
 
 bounds = -20, 20
 N = 201                         # num of grid points
@@ -311,6 +318,7 @@ grid2d = np.dstack(np.meshgrid(grid1d, grid1d))
 
 @interact(corr=(-1, 1, .001), std_x=(1e-5, 10, 1))
 def plot_pdf_G2(corr=0.7, std_x=1):
+    mu = 0
     # Form covariance matrix (C) from input and some constants
     var_x = std_x**2
     var_y = 1
@@ -318,14 +326,23 @@ def plot_pdf_G2(corr=0.7, std_x=1):
     C = 25 * np.array([[var_x, cv_xy],
                        [cv_xy, var_y]])
     # Evaluate (compute)
-    density_values = pdf_GM(grid2d, mu=0, Sigma=C)
+    density_values = pdf_GM(grid2d, mu=mu, Sigma=C)
     # Plot
     plt.figure(figsize=(4, 4))
     height = 1/np.sqrt(det(2*np.pi*C))
     plt.contour(grid1d, grid1d, density_values,
                levels=np.linspace(1e-4, height, 11), cmap="plasma")
+    
+    # Also plot sample (see exc. below)
+    try:
+        plt.scatter(*sample_GM(mu, C=C, N=100))
+    except NameError:
+        pass
+    
     plt.axis('equal');
     plt.show()
+
+
 # -
 
 # The code defines the covariance `cv_xy` from the input ***correlation*** `corr`.
@@ -349,7 +366,7 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 #
 # **Exc – Correlation disambiguation:**
 #
-# - What's the difference between correlation and covariance (in words)?
+# - What's the difference between correlation and covariance (in a single sentence)?
 # - What's the difference between non-zero (C) correlation (or covariance) and (D) dependence?
 #   *Hint: consider this [image](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient#/media/File:Correlation_examples2.svg).*  
 #   - Does $C \Rightarrow D$ or the converse?  
@@ -359,6 +376,49 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # - Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
 #   Does information about $y$ give you information about $x$?
 #
+# **Exc – Gaussian sampling:**
+# Suppose $\z$ is a standard Gaussian,
+# i.e. $p(\z) = \NormDist(\z \mid \vect{0},\I_{\xDim})$,
+# where $\I_{\xDim}$ is the $\xDim$-dimensional identity matrix.
+# Each component, $z_i$, is independent of all others,
+# and pseudo-random samples thereof can be generated on any modern computer
+# using one of [these algorithms](https://en.wikipedia.org/wiki/Normal_distribution#Computational_methods).
+# Now, let $\x = \mat{L}\z + \mu$.
+#
+# - (a – optional) Refer to the exercise on
+#   [change of variables](#Exc-(optional)----Change-of-variables)
+#   to show that $p(\x) = \NormDist(\x \mid \mu, \mat{C})$,
+#   where $\mat{C} = \mat{L}^{}\mat{L}^T$.
+#   In other words, the linear (affine) transformation into $\x$
+#   yields a shifted (by $\mu$) and correlated ("colored" by $\mat{C}$) random variable.
+#   *PS: Going the other way (computing $\mat{L}$ from $\mat{C}$) requires `cholesky()`, which will not be detailed here.*
+# - (b) The code below samples $N$ realizations of $\x$
+#   and collects them in an ${\xDim}$-by-$N$ "ensemble matrix" $\E$.
+#   But `for` loops are slow in Python (and Matlab).
+#   Replace it with something akin to `E = mu + L@Z`.
+#   *Hint: this snippet will fail because it's trying to add a vector to a matrix.*
+
+def sample_GM(mu=0, L=None, C=None, N=1):
+    """Draw `N` realisations of multivar. Gaussian with mean `mu` and covariance `L L'`."""  
+    # L not provided ⇒ compute (may be costly) from C
+    if L is None:
+        from numpy.linalg import cholesky
+        L = cholesky(C)
+    xDim = len(L)
+    Z = rnd.randn(xDim, N)
+
+    # Using a loop ("slow"):
+    E = np.zeros((xDim, N))
+    for n in range(N):
+        E[:, n] = mu + L@Z[:, n]
+    return E
+
+# Go back up to the interactive illustration of the 2D Gaussian distribution re-run its cell to check (eyeball measure) your implementation.
+
+# +
+# show_answer('Gaussian sampling', 'b')
+# -
+
 # **Exc (optional) – Gaussian ubiquity:** Why are we so fond of the Gaussian assumption?
 
 # +
