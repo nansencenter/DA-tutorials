@@ -40,5 +40,5 @@ if python -c "import google.colab" 2>/dev/null; then
 
     echo "Initialization for Colab done."
 else
-    echo "Not running on Colab => Didn't do anything."
+    echo "Not running on Colab ⇒ Didn't do anything."
 fi
