@@ -58,12 +58,18 @@ rnd.seed(3000)
 #
 # $$ \mathbb{P}(\text{event}) = \frac{\text{number of} \textit{ favorable } \text{outcomes}}{\text{number of} \textit{ possible } \text{outcomes}} $$
 #
+# The probability of *both* events $A$ and $B$ occurring is given by their intersection:
+# $\mathbb{P}(A \cap B)$, while the probability of *either (or)* is obtained by their union $\mathbb{P}(A \cup B)$.
+# The *conditional* probability of $A$ given $B$ restricts our attention (count)
+# to cases where $B$ occurs: $\mathbb{P}(A | B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}$.
 #
-# The probability of *both* events $A$ and $B$ occuring is given by their intersection:
-#   $\mathbb{P}(A \cap B)$, while the probability of *either (or)* is obtained by their union $\mathbb{P}(A \cup B)$.
-#   The *conditional* probability of $A$ given $B$ is the result of restricting our count to $B$, i.e. $\mathbb{P}(A | B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}$.
-#
-# A **random variable**, $X$, is a *quantity* taking values as a function of some underlying random outcome. This means that each possible value, $x$, defines an event disjoint from all others, and may itself be seen as an outcome. If $X$ is *discrete*, then the listing/mapping of values (outcomes) to probabilities, $\mathbb{P}(X{=}x)$, is called its probability *mass* function (**pmf**), sums to 1, and is abbreviated $p_X(x)$ or $p(x)$ if the distinction from any other $p_Y$ is obvious. The 2D table of *joint* probabilities of $X$ and $Y$ are denoted $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$, while the conditionals are denoted $p(x|y) = \frac{p(x,y)}{p(y)}$.
+# A **random variable**, $X$, is a *quantity* taking values as a function of some underlying random process.
+# This means that each possible value, $x$, defines an event disjoint from all others, and may itself be seen as an outcome.
+# If $X$ is *discrete*, then the listing/mapping of outcomes to probabilities, $\mathbb{P}(X{=}x)$,
+# is called its probability *mass* function (**pmf**), sums to 1,
+# and is abbreviated $p_X(x)$ or $p(x)$ if the distinction from any other $p_Y$ is obvious.
+# The 2D table of *joint* probabilities of $X$ and $Y$ are denoted $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$,
+# while the conditionals are denoted $p(x|y) = \frac{p(x,y)}{p(y)}$.
 #
 # - The *marginal* pmf, $p(x)$, can be recovered from the joint pmf, $p(x, y)$, by summing over all $y$.
 # - *Independence* means $p(x, y) = p(x) \, p(y)$ for all $x, y$, i.e. $p(x|y) = p(x)$.
@@ -80,7 +86,7 @@ rnd.seed(3000)
 # The *law of large numbers (LLN)* states that the sample average converges (as $N \to \infty$) to the **expected value** (sometimes called the **mean**):
 # $$ \Expect[X] ≔ \int x \, p(x) \, d x \,, $$
 # where the (omitted) domain of integration is *all values of $x$*.
-# Two important properties that follow immediately from the definition are:
+# Two key properties are:
 #
 # - *Linearity*: $\Expect[aX + Y] = a \Expect[X] + \Expect[Y]$.
 # - *Total expectation*: $\Expect[\Expect[X|Y]] = \Expect[X]$.
@@ -332,13 +338,13 @@ def plot_pdf_G2(corr=0.7, std_x=1):
     height = 1/np.sqrt(det(2*np.pi*C))
     plt.contour(grid1d, grid1d, density_values,
                levels=np.linspace(1e-4, height, 11), cmap="plasma")
-    
+
     # Also plot sample (see exc. below)
     try:
         plt.scatter(*sample_GM(mu, C=C, N=100))
     except NameError:
         pass
-    
+
     plt.axis('equal');
     plt.show()
 
@@ -460,3 +466,4 @@ def sample_GM(mu=0, L=None, C=None, N=1):
 #
 # - **Laplace (1812)**: P. S. Laplace, "Théorie Analytique des Probabilités", 1812.
 # - **Gauss (1809)**: Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares (which will be very relevant to us) and its probabilistic justification based on the normal distribution of errors.
+# hello
