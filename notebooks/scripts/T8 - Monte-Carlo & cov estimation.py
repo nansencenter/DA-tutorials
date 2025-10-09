@@ -82,7 +82,7 @@ plt.ion();
 #
 # Therefore, another approach is needed...
 #
-# # T8 - Monte-Carlo & covariance estimation
+# # T8 - Monte-Carlo & cov. estimation
 #
 # **Monte-Carlo (M-C) methods** are a class of computational algorithms that rely on random/stochastic sampling.
 # They generally trade off higher (though random!) error for lower technical complexity [<sup>[1]</sup>](#Footnote-1:).
