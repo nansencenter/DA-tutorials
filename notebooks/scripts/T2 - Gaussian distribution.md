@@ -29,6 +29,7 @@ plt.ion();
 rnd.seed(3000)
 ```
 
+<!-- #region -->
 # T2 - The Gaussian (Normal) distribution
 
 We begin by reviewing the most useful of probability distributions.
@@ -61,15 +62,15 @@ As stated by James Bernoulli (1713) and elucidated by [Laplace (1812)](#Referenc
 
 $$ \mathbb{P}(\text{event}) = \frac{\text{number of} \textit{ favorable } \text{outcomes}}{\text{number of} \textit{ possible } \text{outcomes}} $$
 
-A **random variable** is a *quantity* taking random values, described in terms of **distributions**.
 
-- A *discrete* random variable, $X$, has a probability *mass* function (**pmf**) defined by $p(x) = \mathbb{P}(X{=}x)$.  
-  *Sometimes* we write $p_X(x)$ to distinguish it from $p_Y(y)$.
-- The *joint* probability of two random variables $X$ and $Y$ is defined by their intersection:
-  $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$.  
-  - The *marginal* $p(x)$ is obtained by summing over all $y$, and vice versa.
-  - The *conditional* probability of $X$ *given* $y$ is $p(x|y) = \frac{p(x,y)}{p(y)}$.
-  - *Independence* means $p(x,y) = p(x) \, p(y)$ for all $x, y$.
+The probability of *both* events $A$ and $B$ occuring is given by their intersection:
+  $\mathbb{P}(A \cap B)$, while the probability of *either (or)* is obtained by their union $\mathbb{P}(A \cup B)$.
+  The *conditional* probability of $A$ given $B$ is the result of restricting our count to $B$, i.e. $\mathbb{P}(A | B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}$.
+
+A **random variable**, $X$, is a *quantity* taking values as a function of some underlying random outcome. This means that each possible value, $x$, defines an event disjoint from all others, and may itself be seen as an outcome. If $X$ is *discrete*, then the listing/mapping of values (outcomes) to probabilities, $\mathbb{P}(X{=}x)$, is called its probability *mass* function (**pmf**), sums to 1, and is abbreviated $p_X(x)$ or $p(x)$ if the distinction from any other $p_Y$ is obvious. The 2D table of *joint* probabilities of $X$ and $Y$ are denoted $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$, while the conditionals are denoted $p(x|y) = \frac{p(x,y)}{p(y)}$.
+
+- The *marginal* pmf, $p(x)$, can be recovered from the joint pmf, $p(x, y)$, by summing over all $y$.
+- *Independence* means $p(x, y) = p(x) \, p(y)$ for all $x, y$, i.e. $p(x|y) = p(x)$.
 - The cumulative distribution function (**cdf**) is defined as $F(x) = \mathbb{P}(X \le x)$.
 
 We will mainly be concerned with *continuous* random variables.
@@ -98,6 +99,7 @@ The Gaussian pdf, for $x \in (-\infty, +\infty)$, is
 $$ \large \NormDist(x \mid \mu, \sigma^2) = (2 \pi \sigma^2)^{-1/2} e^{-(x-\mu)^2/2 \sigma^2} \, . \tag{G1} $$
 
 Run the cell below to define a function to compute the pdf (G1) using the `scipy` library.
+<!-- #endregion -->
 
 ```python
 def pdf_G1(x, mu, sigma2):

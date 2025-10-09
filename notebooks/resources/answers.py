@@ -1153,36 +1153,51 @@ answers['variance estimate statistics'] = ['MD', r'''
 ''']
 
 
-answers['rotations'] = ['MD', r'''
-Because there are (infinitely) many such Cholesky factors that would fit,
+answers['ensemble moments vectorized a'] = ['MD', r'''
+Show that 
+
+- $\E \ones / N = \bx$, and
+- $\bx \ones^T = \begin{bmatrix} \bx, & \ldots & \bx \end{bmatrix} \,.$  
+''']
+
+answers['ensemble moments vectorized b'] = ['MD', r'''
+Show that element $(i, j)$ of the matrix product $\X^{} \Y^T$  
+equals element $(i, j)$ of the sum of the outer product of their columns:
+$\sum_n \x_n \y_n^T$.  
+Put this in the context of $\barC$.
+''']
+
+answers['ensemble moments vectorized c'] = ['MD', r'''
+On the one hand, note one such Cholesky factor is the (centered) ensemble matrix itself, $\mat{X}$,
+divided by $\sqrt{N{-}1}$. Thus the ensemble characterises/represents a covariance matrix (estimate) and
+– by extension (Gaussianity assumptions) – a particular distribution.
+
+On the other hand, because there are (infinitely) many such Cholesky factors that would fit,
 each separated from one another by a $\xDim$ rotation matrix applied on the right,
-since any unitary matrix satisfies $\mat{\Omega} \mat{\Omega}\tr = \mat{I}_{\xDim}$.
+since any unitary $\mat{\Omega}$ matrix satisfies $\mat{\Omega} \mat{\Omega}\tr = \mat{I}_{\xDim}$.
 
 As elaborated by [Sakov (2008)](#References),
 the non-uniqueness reflects the fact that many different ensembles (think scatter plots)
-will have the same estimated covariance matrix, i.e. "represent" the same distribution.
-Discriminating between different ensembles with the same covariance
-leads to the theory of **optimal transport**.
-An important result is that the (unique) symmetric Cholesky factor is the one closest to the identity matrix,
+will have the same estimated covariance matrix, i.e. represent the same distribution.
+In the context of an ensemble _update_,
+discriminating between different ensembles with the same covariance
+leads to the theory of **optimal transport**;
+an important result is that the (unique) symmetric Cholesky factor is the one closest to the identity matrix,
 i.e. yielding the smallest transport, in some metric [(Ott, 2004)](#References).
 ''']
 
-answers['ensemble moments vectorized'] = ['MD', r'''
- * (a). Note that $\E \ones / N = \bx$.  
- And that $\bx \ones^T = \begin{bmatrix} \bx, & \ldots & \bx \end{bmatrix} \,.$  
- Use this to write out $\E \AN$.
- * (b). Show that element $(i, j)$ of the matrix product $\X^{} \Y^T$  
- equals element $(i, j)$ of the sum of the outer product of their columns:
- $\sum_n \x_n \y_n^T$.  
- Put this in the context of $\barC$.
- * (c). Use the following code:
+answers['ensemble moments vectorized e'] = ['MD', r'''
+$\X$ only has $\xDim \times N$ elements, while $C$ has $xDim \times \xDim$ elements.
+''']
 
-...
+answers['ensemble moments vectorized e'] = ['MD', r'''
+Use the following code:
 
     x_bar = np.sum(E, axis=1, keepdims=True)/N
     X     = E - x_bar
     C_bar = X @ X.T / (N-1)   
 ''']
+
 
 # Skipped
 answers['Why matrix notation'] = ['MD', r'''

@@ -87,7 +87,7 @@ or downright illegal (proprietary software).
 
 Therefore, another approach is needed...
 
-# T8 - The ensemble (Monte-Carlo) approach
+# T8 - Monte-Carlo & covariance estimation
 
 **Monte-Carlo (M-C) methods** are a class of computational algorithms that rely on random/stochastic sampling.
 They generally trade off higher (though random!) error for lower technical complexity [<sup>[1]</sup>](#Footnote-1:).
@@ -102,14 +102,15 @@ Indeed, many of the integrals of interest are inherently expectations,
 in particular the forecast distribution. Its [integral](T4%20-%20Time%20series%20filtering.ipynb#The-(general)-Bayesian-filtering-recursions)
 is intractable, due to the non-trivial nature of the generating process.
 However, a Monte-Carlo sample of the forecast distribution
-can be generated simply by repeated simulation of eqn. (DynMod).
-Then, the ensemble Kalman filter (**EnKF**) analysis update is obtained by replacing
+can be generated simply by repeated simulation of eqn. (DynMod),
+constituting the forecast step of the ensemble Kalman filter (**EnKF**).
+Meanwhile, its analysis update is obtained by replacing
 $\ObsMod \x^\tf$ and $\ObsMod \, \bP^\tf$ by the appropriate ensemble moments/statistics[<sup>2</sup>](#Footnote-2:).
 Outside of the linear-Gaussian case, this swap is an approximation,
 but the computational cost and/or accuracy may be improved compared with the EKF.
 The EnKF will be developed in full later;
 at present, our focus is on the use of a sample
-to reconstruct (estimate) the underlying distribution.
+to reconstruct, estimate, or represent the underlying distribution.
 If it is assumed Gaussian, this mostly comes down to the estimation of its covariance matrix.
 
 ### Moment estimation
@@ -152,25 +153,22 @@ with np.printoptions(precision=1, suppress=True):
 ```python
 # show_answer('ensemble moments, loop')
 ```
+**Exc – representation and vectorization**
+Denote the *centered* ensemble matrix
+$\X \ceq \begin{bmatrix} \x_1 -\bx, & \ldots & \x_N -\bx \end{bmatrix} \,.$
 
-**Exc – Cholesky factors**: Why don't we try to estimate the "square root", `L`, of $C$?
-
-```python
-# show_answer('rotations')
-```
-
-**Exc – Vectorization:** Python (numpy) is quicker if you "vectorize" loops (similar to Matlab and other high-level languages).
-This is eminently possible with computations of ensemble moments.
-To that end, denote $\X \ceq \begin{bmatrix} \x_1 -\bx, & \ldots & \x_N -\bx \end{bmatrix} \,.$
-
-- (a). Show that $\X = \E \AN$, where $\ones$ is the column vector of length $N$ with all elements equal to $1$.  
+- (a): Show that $\X = \E \AN$, where $\ones$ is the column vector of length $N$ with all elements equal to $1$.  
   *Hint: consider column $n$ of $\X$.*  
   *PS: it can be shown that $\ones \ones\tr / N$ and its complement is a "projection matrix".*
-- (b). Show that $\barC = \X \X^T /(N-1)$.
-- (c). Code up this latest formula for $\barC$ and insert it in `estimate_mean_and_cov(E)`
+- (b): Python (numpy) is quicker if you "vectorize" loops (similar to Matlab and other high-level languages).
+  This is eminently possible with computations of ensemble moments.
+  Show that $$\barC = \X \X^T /(N-1) \,.$$
+- (c) *Optional*: But why don't we try to estimate the "square root" (Cholesky factor), `L`, instead of $\mat{C}$ ?
+- (d): What is the memory requirement of $\X$ vs $\barC$?
+- (e): Code up this latest formula for $\barC$ and insert it in `estimate_mean_and_cov(E)`
 
 ```python
-# show_answer('ensemble moments vectorized')
+# show_answer('ensemble moments vectorized', 'a')
 ```
 
 **Exc – cross-cov:** The cross-covariance between two random vectors, $\bx$ and $\by$, is given by
@@ -257,7 +255,7 @@ def var_and_precision_estimates(N=4):
 # show_answer('errors')
 ```
 
-### Density reconstruction
+### Ensemble *representation*
 
 We have seen that a sample can be used to estimate the underlying mean and covariance.
 Indeed, it can be used to estimate any statistic (expected value) of (wrt.) the distribution.
