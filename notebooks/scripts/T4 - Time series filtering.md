@@ -6,7 +6,7 @@ jupyter:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.17.2
+      jupytext_version: 1.17.3
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -156,12 +156,12 @@ in order to estimate (or "track") it.
 From above,
 $p(x_0) = \NormDist(x_0 | x^\ta_0, P^\ta_0)$ with given parameters.
 We also know that $x_k$ evolves according to eqn. (DynMod).
-Therefore, as shown in the following exercise,
+Therefore, as shown in [T2](T2%20-%20Gaussian%20distribution.ipynb),
 $p(x_1) = \NormDist(x_1 | x^\tf_1, P^\tf_1)$, with
 $$
 \begin{align}
-x^\tf_k &= \DynMod \, x^\ta_{k-1} \tag{5} \\
-P^\tf_k &= \DynMod^2 \, P^\ta_{k-1} + Q \tag{6}
+x^\tf_k &= \DynMod \, x^\ta_{k-1} \,, \tag{5} \\
+P^\tf_k &= \DynMod^2 \, P^\ta_{k-1} + Q \,. \tag{6}
 \end{align}
 $$
 
@@ -185,58 +185,53 @@ We can subsequently apply the same two steps again
 to produce forecast and analysis estimates for the next time index, $k+1$.
 Note that if $k$ is a date index, then "yesterday's forecast becomes today's prior".
 
-#### Exc – linear algebra of Gaussian random variables
-
-- (a) Show the linearity of the expectation operator:
-  $\Expect [ \DynMod  x + b ] = \DynMod \Expect[x] + b$, for some constant $b$.
-- (b) Thereby, show that $\mathbb{Var}[ \DynMod  x + b ] = \DynMod^2 \mathbb{Var} [x]$.
-- (c) *Optional*: Now let $z = x + q$, with $x$ and $q$ independent and Gaussian.
-  Then the pdf of this sum of random variables, $p_z(z)$, is given by convolution
-  (hopefully this makes intuitive sense, at least in the discrete case):
-  $$ p_z(z) = \int p_x(x) \, p_q(z - x) \, d x \,.$$
-  Show that $z$ is also Gaussian,
-  whose mean and variance are the sum of the means and variances (respectively).  
-  *Hint: you will need the result on [completing the square](T3%20-%20Bayesian%20inference.ipynb#Exc----BR-LG1),
-  specifically the part that we did not make use of for Bayes' rule.  
-  If you get stuck, you can also view the excellent [`3blue1brown`](https://www.youtube.com/watch?v=d_qvLDhkg00&t=266s&ab_channel=3Blue1Brown) on the topic.*
-
-```python
-# show_answer('Sum of Gaussians', 'a')
-```
-
-#### The (general) Bayesian filtering recursions
-
 In the case of linearity and Gaussianity,
 the KF of eqns. (5)-(8) computes the *exact* Bayesian pdfs for $x_k$.
-But even without these assumptions,
-a general (abstract) Bayesian **recursive** procedure can still be formulated,
-relying only on the remaining ("hidden Markov model") assumptions.
+<details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
+  <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
+  But even without these assumptions,
+  a general (abstract) Bayesian recursive procedure can still be formulated  ... (optional reading 🔍)
+  </summary>
 
-- The analysis "assimilates" $y_k$ according to Bayes' rule to compute $p(x_k | y_{1:k})$,
-  where $y_{1:k} = y_1, \ldots, y_k$ is shorthand notation.
-  $$
-  p(x_k | y_{1:k}) \propto p(y_k | x_k) \, p(x_k | x_{1:k-1}) \,.
-  $$
-- The forecast "propagates" the uncertainty (i.e. density) according to the Chapman-Kolmogorov equation
-  to produce $p(x_{k+1}| y_{1:k})$.
-  $$
-  p(x_{k+1} | y_{1:k}) = \int p(x_{k+1} | x_k) \, p(x_k | y_{1:k}) \, d x_k \,.
-  $$
+  The following does relies only on the ("hidden Markov model") assumptions.
 
-It is important to appreciate the benefits of the recursive form of these computations:
-It reflects the recursiveness (Markov property) of nature:
-Both in the problem and our solution, time $k+1$ *builds on* time $k$,
-so we do not need to re-do the entire problem for each $k$.
-At every time $k$, we only deal with functions of one or two variables: $x_k$ and $x_{k+1}$,
-which is a much smaller space (for quantifying our densities or covariances)
-than that of the joint pdf $p(x_{1:k} | y_{1:k})$.
+  - The analysis "assimilates" $y_k$ according to Bayes' rule to compute $p(x_k | y_{1:k})$,
+    where $y_{1:k} = y_1, \ldots, y_k$ is shorthand notation.
+    $$
+    p(x_k | y_{1:k}) \propto p(y_k | x_k) \, p(x_k | x_{1:k-1}) \,.
+    $$
+  - The forecast "propagates" the uncertainty (i.e. density) according to the Chapman-Kolmogorov equation
+    to produce $p(x_{k+1}| y_{1:k})$.
+    $$
+    p(x_{k+1} | y_{1:k}) = \int p(x_{k+1} | x_k) \, p(x_k | y_{1:k}) \, d x_k \,.
+    $$
 
-Note, however, that our recursive procedure, called ***filtering***,
-does *not* compute $p(x_l | y_{1:k})$ for any $l < k$.
-In other words, any filtering estimate only contains *past* information.
-Updating estimates of the state at previous times is called ***smoothing***.
-However, for prediction/forecasting, filtering is all we need:
-accurate initial conditions (estimates of the present moment).
+  It is important to appreciate the benefits of the recursive form of these computations:
+  It reflects the recursiveness (Markov property) of nature:
+  Both in the problem and our solution, time $k+1$ *builds on* time $k$,
+  so we do not need to re-do the entire problem for each $k$.
+  At every time $k$, we only deal with functions of one or two variables: $x_k$ and $x_{k+1}$,
+  which is a much smaller space (for quantifying our densities or covariances)
+  than that of the joint pdf $p(x_{1:k} | y_{1:k})$.
+  Of course, this recursiveness also manifests in the special case of the Kalman filter above.
+
+  The above recursive procedure, called ***filtering***, always computes $p(x_l | y_{1:k})$ with $l \geq k$.
+  I.e. a filtering estimate only builds on *past* information.
+  Of course, in the case of real-time forecast initialisations (for prediction),
+  future observations are not available,
+  but this is not so if the computations are carried out later.
+  For example, for climate hindcasts, or reanalyses,
+  the use of relatively-speaking "future" observations ($k > l$) is a possibility,
+  that should improve estimates by adding information,
+  and indeed a necessity (often neglected in climate reanalyses) for physical realism
+  (to avoid artificial jumps due to changing observational information content).
+  The associated computational problem and procedures are called ***smoothing***.
+  Recursive formulations are available, with ensemble formulations reviewed by [Raanes (2016)](#References).
+
+  - - -
+</details>
+
+
 
 #### Exc – Implementation
 
@@ -368,7 +363,7 @@ since this often leads to a better estimate of the signal.
 We will not review signal processing theory here,
 but challenge you to make use of what `scipy` already has to offer.
 
-#### Exc (optional) – signal processing
+#### Exc – signal processing
 
 Run the following cell to import and define some more tools.
 
@@ -431,3 +426,20 @@ Moreover, DA methods produce uncertainty quantification, which is usually more o
 <a name="References"></a>
 
 ### References
+
+<!--
+@article{raanes2015rts,
+    author = {Raanes, Patrick Nima},
+    title = {On the ensemble {R}auch-{T}ung-{S}triebel smoother and its equivalence to the ensemble {K}alman smoother},
+    file={~/P/Refs/articles/raanes2015rts.pdf},
+    doi={10.1002/qj.2728},
+    journal = {Quarterly Journal of the Royal Meteorological Society},
+    volume = {142},
+    number = {696},
+    pages = {1259--1264},
+    year = {2016}
+}
+-->
+
+- **Raanes (2016)**:
+  Patrick N. Raanes, "On the ensemble Rauch-Tung-Striebel smoother and its equivalence to the ensemble Kalman smoother", Quarterly Journal of the Royal Meteorological Society, 2016.

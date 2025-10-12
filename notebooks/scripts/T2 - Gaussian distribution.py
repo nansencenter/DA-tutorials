@@ -41,7 +41,6 @@ rnd.seed(3000)
 # \newcommand{\z}[0]{\vect{z}}
 # \newcommand{\E}[0]{\mat{E}}
 # \newcommand{\I}[0]{\mat{I}}
-# \newcommand{\xDim}[0]{D}
 # \newcommand{\x}[0]{\vect{x}}
 # \newcommand{\X}[0]{\mat{X}}
 # $
@@ -63,33 +62,37 @@ rnd.seed(3000)
 # The *conditional* probability of $A$ given $B$ restricts our attention (count)
 # to cases where $B$ occurs: $\mathbb{P}(A | B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}$.
 #
-# A **random variable**, $X$, is a *quantity* taking values as a function of some underlying random process.
-# This means that each possible value, $x$, defines an event disjoint from all others, and may itself be seen as an outcome.
-# If $X$ is *discrete*, then the listing/mapping of outcomes to probabilities, $\mathbb{P}(X{=}x)$,
-# is called its probability *mass* function (**pmf**), sums to 1,
-# and is abbreviated $p_X(x)$ or $p(x)$ if the distinction from any other $p_Y$ is obvious.
-# The 2D table of *joint* probabilities of $X$ and $Y$ are denoted $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$,
+# A **random variable**, $X$, is a *numeric quantity* taking values as a function of some underlying random process.
+# Rather than "*did* event $A$ occur or no?",
+# random variables conveniently enable the question
+# "*what* was the value of $X$?".
+# Each value, $x$, constitutes an event that is disjoint from all others (functions never being one-to-many),
+# and so they define a probability space of outcomes with associated probabilities,
+# which can be tabulated into *distributions*.
+# If $X$ is *discrete*, then $p_X(x) := \mathbb{P}(X{=}x)$ is a list mapping outcomes to probabilities
+# called the probability *mass* function (**pmf**).
+# It sums to 1, and may be written $p(x)$ if contextually unambiguous.
+# The cumulative distribution function (**cdf**) is defined as $F(x) := \mathbb{P}(X \le x)$.
+# The 2D table of *joint* probabilities of $X$ and $Y$ is denoted $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$,
 # while the conditionals are denoted $p(x|y) = \frac{p(x,y)}{p(y)}$.
 #
 # - The *marginal* pmf, $p(x)$, can be recovered from the joint pmf, $p(x, y)$, by summing over all $y$.
-# - *Independence* means $p(x, y) = p(x) \, p(y)$ for all $x, y$, i.e. $p(x|y) = p(x)$.
-# - The cumulative distribution function (**cdf**) is defined as $F(x) = \mathbb{P}(X \le x)$.
+# - *Independence* means $p(x, y) = p(x) \, p(y)$ for all possible $x, y$. Equivalently $p(x|y) = p(x)$.
 #
-# We will mainly be concerned with *continuous* random variables.
-# Their probability *density* function (**pdf**) can be defined as $p(x) = F'(x)$ or
+# We will mainly be concerned with *continuous* random variables,
+# for which $\mathbb{P}(X \in I)$ may be non-zero for any interval, $I$.
+# The distribution of $X$ is then characterised by its probability *density* function (**pdf**),
+# defined as $p(x) = F'(x)$ or
 #
 # $$p(x) = \lim_{h \to 0} \frac{\mathbb{P}(X \in [x,\, x{+} h])}{h} \,.$$
 #
 # The **sample average** of draws from a random variable $X$
 # is denoted with an overhead bar:
 # $$ \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,. $$
-# The *law of large numbers (LLN)* states that the sample average converges (as $N \to \infty$) to the **expected value** (sometimes called the **mean**):
+# The *law of large numbers (LLN)* states that, as $N \to \infty$,
+# the sample average converges to the **expected value** (sometimes called the **mean**):
 # $$ \Expect[X] ≔ \int x \, p(x) \, d x \,, $$
 # where the (omitted) domain of integration is *all values of $x$*.
-# Two key properties are:
-#
-# - *Linearity*: $\Expect[aX + Y] = a \Expect[X] + \Expect[Y]$.
-# - *Total expectation*: $\Expect[\Expect[X|Y]] = \Expect[X]$.
 #
 # ## The univariate (a.k.a. 1-dimensional, scalar) Gaussian
 #
@@ -139,6 +142,10 @@ def plot_pdf(mu=0, sigma=5):
 # Experiment with `mu` and `sigma` to answer these questions:
 #
 # - How does the pdf curve change when `mu` changes? (Several options may be correct or incorrect)
+# <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
+# <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
+#   Click to view options 🔍
+# </summary>
 #
 #   1. It changes the curve into a uniform distribution.
 #   1. It changes the width of the curve.
@@ -152,6 +159,8 @@ def plot_pdf(mu=0, sigma=5):
 #   1. It alters the kurtosis (peakedness) of the curve.
 #   1. It rotates the curve around the origin.
 #   1. It makes the curve a straight line.
+# </details>
+#
 # - How does the pdf curve change when you increase `sigma`?  
 #   Refer to the same options as the previous question.
 # - In a few words, describe the shape of the Gaussian pdf curve.
@@ -179,13 +188,15 @@ def plot_pdf(mu=0, sigma=5):
 #
 # #### Exc (optional) – Change of variables
 #
-# Let $Z = \phi(X)$ for some monotonic function $\phi$,
-# and let $p_x$ and $p_z$ be their probability density functions (pdf).
+# Let $U = \phi(X)$ for some monotonic function $\phi$,
+# and let $p_x$ and $p_u$ be their probability density functions (pdf).
 #
-# - (a): Show that $p_z(z) = p_x\big(\phi^{-1}(z)\big) \frac{1}{|\phi'(z)|}$,
-# - (b): Show that you don't need to derive the density of $z$ in order to compute its expectation, i.e. that
-#   $$ \Expect[Z] = \int  \phi(x) \, p_x(x) \, d x ≕ \Expect[\phi(x)] \,,$$
-#   *Hint: while the proof is convoluted, the result itself is [pretty intuitive](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician).*
+# - (a): Show that $p_u(u) = p_x\big(\phi^{-1}(u)\big) \frac{1}{|\phi'(u)|}$,
+# - (b): Show that you don't need to derive the density of $u$ in order to compute its expectation, i.e. that
+#   $$ \Expect[U] = \int  \phi(x) \, p_x(x) \, d x ≕ \Expect[\phi(x)] \,,$$
+#   *PS: this result is [pretty intuitive](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician),
+#   and also holds for non-injective transformations, $\phi$,
+#   as well as functions of multiple random variables.*
 
 # +
 # show_answer('CVar in proba')
@@ -203,23 +214,23 @@ def plot_pdf(mu=0, sigma=5):
 # - (ii) the second parameter, $\sigma^2>0$, indicates its **variance**,
 #   i.e. that $$\sigma^2 = \mathbb{Var}(X) \mathrel{≔} \Expect[(X-\mu)^2] \,.$$
 #   *Hint: use $x^2 = x x$ to enable integration by parts.*
-# - (iii) $E[1] = 1$,  
-#   thus proving that (G1) indeed uses the right normalising constant.  
+# - (iii) $c$ is indeed the right normalizing constant, i.e. that
+#   $$E[1] = 1 \,.$$
 #   *Hint: Neither Bernoulli and Laplace managed this,
-#   until [Gauss (1809)](#References) did by first deriving $(E[1])^2$.  
-#   For more (visual) help, watch [3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
+#   until [Gauss (1809)](#References) did by first deriving $(E[1])^2$.
+#   Here is a nice [video demonstration by 3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
 
 # +
 # show_answer('Gauss integrals')
 # -
 
 # **Exc (optional) – Riemann sums**:
-# Recall that integrals compute the "area under the curve".
-# On a discrete grid, they can be approximated using the [Trapezoidal rule](https://en.wikipedia.org/wiki/Riemann_sum#Trapezoidal_rule).
+# Recall that integrals (for example for the mean and variance)
+# compute an "area under the curve".
+# On a discrete grid, integrals can be approximated using the [Trapezoidal rule](https://en.wikipedia.org/wiki/Riemann_sum#Trapezoidal_rule).
 #
-# - (a) Replace the prefab code below with your own implementation, using `sum()`,
-#   to compute the mean and variance of a pdf represented on a grid.
-# - (b) Use `np.trapezoid` to compute the probability that a scalar Gaussian $X$ lies within $1$ standard deviation of its mean.  
+# - (a) Replace `np.trapezoid` below with your own implementation (using `sum()`).
+# - (b) Use `np.trapezoid` to compute the probability that a scalar Gaussian $X$ lies within $1$ standard deviation of its mean.
 #   *Hint: the numerical answer you should find is $\mathbb{P}(X \in [\mu {-} \sigma, \mu {+} \sigma]) \approx 68\%$.*
 
 # +
@@ -267,12 +278,13 @@ def pdf_U1(x, mu, sigma2):
 #
 # A *multivariate* random variable, i.e. a **vector**, is simply a collection of scalar variables (on the same probability space).
 # Its distribution is the *joint* distribution of its components.
-# The pdf of the multivariate Gaussian (for any dimension $\ge 1$) is
+# The pdf of the multivariate Gaussian $\X$ (for any dimension $\ge 1$) is
 #
 # $$\large \NormDist(\x \mid \mathbf{\mu}, \mathbf{\Sigma}) =
 # |2 \pi \mathbf{\Sigma}|^{-1/2} \, \exp\Big(-\frac{1}{2}\|\x-\mathbf{\mu}\|^2_\mathbf{\Sigma} \Big) \,, \tag{GM} $$
-# where $|.|$ represents the matrix determinant,  
-# and $\|.\|_\mathbf{W}$ represents a weighted 2-norm: $\|\x\|^2_\mathbf{W} = \x^T \mathbf{W}^{-1} \x$.  
+# which is very similar to the univariate (scalar) case (G1),
+# but with $|.|$ representing the matrix determinant,
+# and $\|.\|_\mathbf{W}$ representing the weighted 2-norm: $\|\x\|^2_\mathbf{W} = \x^T \mathbf{W}^{-1} \x$.  
 #
 # <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
 # <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
@@ -280,26 +292,25 @@ def pdf_U1(x, mu, sigma2):
 # </summary>
 #
 # - The norm (a quadratic form) is invariant to any asymmetry in the weight matrix.
-# - The density (GM) would not be integrable (over $\Reals^{\xDim}$) if $\x\tr \mathbf{\Sigma} \x > 0$.
+# - The density (GM) would not be integrable (over $\Reals^{d}$) if $\x\tr \mathbf{\Sigma} \x > 0$.
 #
 # - - -
 # </details>
 #
-# It is important to recognize how similar eqn. (GM) is to the univariate (scalar) case (G1).
 # Moreover, [as above](#Exc-(optional)----Integrals), it can be shown that
 #
 # - $\mathbf{\mu} = \Expect[\X]$,
-# - $\mathbf{\Sigma} = \Expect[(\X-\mu)(\X-\mu)\tr]$,
+# - $\mathbf{\Sigma} = \Expect[(\X-\mu)(\X-\mu)\tr]  =: \mathbb{Cov}(\X)$.
 #
-# That is, the elements of $\mathbf{\Sigma}$ are the individual covariances:
-# $\Sigma_{i,j} = \Expect[(X_i-\mu_i)(X_j-\mu_j)] =: \mathbb{Cov}(X_i, X_j)$.
-# On the diagonal ($i=j$), they are variances: $\Sigma_{i,i} = \mathbb{Var}(X_i)$.
-# Therefore $\mathbf{\Sigma}$ is called the *covariance matrix*.
+# As such, $\mathbf{\Sigma}$ is called the **covariance matrix**,
+# whose individual elements are individual covariances,
+# $\Sigma_{i,j} = \Expect[(X_i-\mu_i)(X_j-\mu_j)] =: \mathbb{Cov}(X_i, X_j)$,
+# and – on the diagonal – variances: $\Sigma_{i,i} = \mathbb{Var}(X_i)$.
 #
 # The following implements the pdf (GM). Take a moment to digest the code, but don't worry if you don't understand it all. Hints:
 #
 # - `@` produces matrix multiplication (`*` in `Matlab`);
-# - `*` produces array multiplication (`.*` in `Matlab`);
+# - `*` produces array (i.e. element-wise) multiplication (`.*` in `Matlab`);
 # - `axis=-1` makes `np.sum()` work along the last dimension of an ND-array.
 
 # +
@@ -322,28 +333,28 @@ def pdf_GM(points, mu, Sigma):
 # +
 grid2d = np.dstack(np.meshgrid(grid1d, grid1d))
 
-@interact(corr=(-1, 1, .001), std_x=(1e-5, 10, 1))
-def plot_pdf_G2(corr=0.7, std_x=1):
+@interact(corr=(-1, 1, .001), std_x=(1e-5, 10, 1), seed=(0, 9))
+def plot_pdf_G2(corr=0.7, std_x=1, seed=0):
     mu = 0
-    # Form covariance matrix (C) from input and some constants
     var_x = std_x**2
     var_y = 1
     cv_xy = np.sqrt(var_x * var_y) * corr
+
+    # Assemble covariance matrix (C)
     C = 25 * np.array([[var_x, cv_xy],
                        [cv_xy, var_y]])
+
     # Evaluate (compute)
     density_values = pdf_GM(grid2d, mu=mu, Sigma=C)
+
     # Plot
     plt.figure(figsize=(4, 4))
     height = 1/np.sqrt(det(2*np.pi*C))
     plt.contour(grid1d, grid1d, density_values,
                levels=np.linspace(1e-4, height, 11), cmap="plasma")
 
-    # Also plot sample (see exc. below)
-    try:
-        plt.scatter(*sample_GM(mu, C=C, N=100))
-    except NameError:
-        pass
+    if seed:
+        plt.scatter(*sample_GM(mu, C=C, N=100, rng=rnd.default_rng(seed)))
 
     plt.axis('equal');
     plt.show()
@@ -351,13 +362,12 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 
 # -
 
-# The code defines the covariance `cv_xy` from the input ***correlation*** `corr`.
-# This is a coefficient (number), defined for any two random variables $x$ and $y$ (not necessarily Gaussian) by
+# Note that the code defines the covariance `cv_xy` from the input ***correlation*** `corr`.
+# This is a coefficient (number),
+# defined for any two random variables $X$ and $Y$ (not necessarily Gaussian) as
 # $$ \rho[X,Y]=\frac{\mathbb{Cov}[X,Y]}{\sigma_x \sigma_y} \,.$$
-# This correlation quantifies (defines) the ***linear dependence*** between $X$ and $Y$. Indeed,
-#
-# - $-1\leq \rho \leq 1$ (by Cauchy-Swartz)
-# - **If** $X$ and $Y$ are *independent*, then $\rho[X,Y]=0$.
+# It quantifies (defines) the ***linear dependence*** between $X$ and $Y$,
+# as illustrated by the following exercises.
 #
 # **Exc – Correlation influence:** How do the contours look? Try to understand why. Cases:
 #
@@ -368,6 +378,22 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 #
 # Finally (optional): why does the code "crash" when `corr = +/- 1`? Is this a good or a bad thing?  
 #
+# <a name="Exc-–-correlation-extremes"></a>
+#
+# **Exc (optional) – Correlation extremes**
+#
+# Show that
+#
+# - (a) $\rho[X,Y] = 0$ if $X$ and $Y$ are independent.
+# - (b) $\rho = 1$ if $Y = a X$ for some $a > 0$.
+# - (c) $\rho = -1$ if $Y = a X$ for some $a < 0$.
+#
+# Otherwise, it can be shown by Cauchy-Swartz, that $-1\leq \rho \leq 1$.
+
+# +
+# show_answer('Correlation extremes', 'a')
+# -
+
 # **Exc Correlation game:** [Play](http://guessthecorrelation.com/) until you get a score (gold coins) of 5 or more.  
 #
 # **Exc – Correlation disambiguation:**
@@ -382,47 +408,62 @@ def plot_pdf_G2(corr=0.7, std_x=1):
 # - Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
 #   Does information about $y$ give you information about $x$?
 #
-# **Exc – Gaussian sampling:**
-# Suppose $\z$ is a standard Gaussian,
-# i.e. $p(\z) = \NormDist(\z \mid \vect{0},\I_{\xDim})$,
-# where $\I_{\xDim}$ is the $\xDim$-dimensional identity matrix.
-# Each component, $z_i$, is independent of all others,
-# and pseudo-random samples thereof can be generated on any modern computer
-# using one of [these algorithms](https://en.wikipedia.org/wiki/Normal_distribution#Computational_methods).
-# Now, let $\x = \mat{L}\z + \mu$.
+# <a name="Exc-–-linear-algebra-of-Gaussian-random-variables"></a>
 #
-# - (a – optional) Refer to the exercise on
-#   [change of variables](#Exc-(optional)----Change-of-variables)
-#   to show that $p(\x) = \NormDist(\x \mid \mu, \mat{C})$,
-#   where $\mat{C} = \mat{L}^{}\mat{L}^T$.
-#   In other words, the linear (affine) transformation into $\x$
-#   yields a shifted (by $\mu$) and correlated ("colored" by $\mat{C}$) random variable.
-#   *PS: Going the other way (computing $\mat{L}$ from $\mat{C}$) requires `cholesky()`, which will not be detailed here.*
-# - (b) The code below samples $N$ realizations of $\x$
-#   and collects them in an ${\xDim}$-by-$N$ "ensemble matrix" $\E$.
-#   But `for` loops are slow in Python (and Matlab).
-#   Replace it with something akin to `E = mu + L@Z`.
-#   *Hint: this snippet will fail because it's trying to add a vector to a matrix.*
+# #### Exc – linear algebra of with random variables
+#
+# - (a) Prove the linearity of the expectation operator:
+#   $\Expect[a X + Y] = a \Expect[X] + \Expect[Y]$.
+# - (b) Thereby, show that $\mathbb{Var}[ a  X + Y ] = a^2 \mathbb{Var} [X] + \mathbb{Var} [Y]$
+#   if $X$ and $Y$ are independent.  
+# - (c) Similarly, prove:
+#   $\mathbb{Cov}[ \vect{A} \, \vect{X} + \vect{Y} ] = \mat{A} \, \mathbb{Cov} [\vect{X}] \, \mat{A}\tr + \mathbb{Cov}[\vect{Y}]$ if $\vect{X}$ and $\vect{Y}$ are independent.
+# - (d – optional) If $X$ and $Y$ are Gaussian, then so is $X + Y$.
+#   Proof in the [next tutorial](T3%20-%20Bayesian%20inference.ipynb#Exc-–-BR-LG1). Meanwhile watch the [`3blue1brown` video](https://www.youtube.com/watch?v=d_qvLDhkg00&t=266s&ab_channel=3Blue1Brown).
+# - (e) Let $\vect{Z} \sim \NormDist(\vect{0}, \I)$,  where $\I$ is the identity matrix.
+#   Show that each component, $Z_i$, is independent of all others.
 
-def sample_GM(mu=0, L=None, C=None, N=1):
-    """Draw `N` realisations of multivar. Gaussian with mean `mu` and covariance `L L'`."""  
-    # L not provided ⇒ compute (may be costly) from C
+# +
+# show_answer('RV linear algebra', 'a')
+# -
+
+# #### Exc – Gaussian (multivariate) sampling
+#
+# Pseudo-random samples of $Z_i\sim \NormDist(0, 1)$
+# can be generated on any modern computer using one of [these algorithms](https://en.wikipedia.org/wiki/Normal_distribution#Computational_methods).
+# As shown above, the "transformation" $\X = \mat{L} \vect{Z} + \mu$
+# yields $\vect{X} \sim \NormDist(\mu, \mat{C})$,
+# which can be used to sample with a desired mean and covariance, $\mat{C} = \mat{L}^{}\mat{L}^T$.
+# Indeed, the code below samples $N$ realizations of $\X$,
+# and assembles them as columns in an "ensemble matrix", $\E$.
+# But `for` loops are slow in Python (and Matlab).
+# Replace it with something akin to `E = mu + L@Z`.
+# *Hint: this snippet will fail because it's trying to add a vector to a matrix.*
+
+def sample_GM(mu=0, L=None, C=None, N=1, rng=rnd):
+    # Compute L from C (if needed)
     if L is None:
         from numpy.linalg import cholesky
         L = cholesky(C)
-    xDim = len(L)
-    Z = rnd.randn(xDim, N)
+
+    d = len(L) # len (number of dims) of x
+    Z = rng.standard_normal((d, N))
+
+    # Ensure mu is 1d
+    if np.isscalar(mu):
+        mu = mu * np.ones(d)
 
     # Using a loop ("slow"):
-    E = np.zeros((xDim, N))
+    E = np.zeros((d, N))
     for n in range(N):
-        E[:, n] = mu + L@Z[:, n]
+        E[:, n] = mu + L @ Z[:, n]
+
     return E
 
 # Go back up to the interactive illustration of the 2D Gaussian distribution re-run its cell to check (eyeball measure) your implementation.
 
 # +
-# show_answer('Gaussian sampling', 'b')
+# show_answer('Broadcasting')
 # -
 
 # **Exc (optional) – Gaussian ubiquity:** Why are we so fond of the Gaussian assumption?
@@ -466,4 +507,3 @@ def sample_GM(mu=0, L=None, C=None, N=1):
 #
 # - **Laplace (1812)**: P. S. Laplace, "Théorie Analytique des Probabilités", 1812.
 # - **Gauss (1809)**: Gauss, C. F. (1809). *Theoria Motus Corporum Coelestium in Sectionibus Conicis Solem Ambientium*. Specifically, Book II, Section 3, Art. 177-179, where he presents the method of least squares (which will be very relevant to us) and its probabilistic justification based on the normal distribution of errors.
-# hello

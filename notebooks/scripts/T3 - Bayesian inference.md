@@ -261,6 +261,8 @@ This is straightforward in the linear-Gaussian case, i.e. when $\ObsMod$ is line
 
 The proof is in the following exercise.
 
+<a name="Exc-–-BR-LG1"></a>
+
 #### Exc – BR-LG1
 
 Consider the following identity, where $P^\ta$ and $x^\ta$ are given by eqns. (5) and (6).
@@ -273,9 +275,11 @@ but the RHS only contains *one*.
 
 - (a) Actually derive the first term of the RHS of (LG1), i.e. eqns. (5) and (6).  
   *Hint: you can simplify the task by first "hiding" $\ObsMod$*
-- (b) *Optional*: Derive the full RHS (i.e. also the second term).
-- (c) Show that $p(\color{darkorange}{x}|y) = \NormDist(\color{darkorange}{x} \mid x^\ta, P^\ta)$
+- (b) Show that $p(\color{darkorange}{x}|y) = \NormDist(\color{darkorange}{x} \mid x^\ta, P^\ta)$
   using part (a), Bayes' rule (BR2), and the Gaussian pdf (G1).
+- (c) *Optional*: Derive the full RHS (i.e. also the second term).
+- (d) *Optional*: Complete the [exc. of the previous tutorial](T2%20-%20Gaussian%20distribution.ipynb#Exc-–-linear-algebra-of-Gaussian-random-variables)
+  by proving that the sum of two Gaussians is another Gaussian.
 
 ```python
 # show_answer('BR Gauss, a.k.a. completing the square', 'a')

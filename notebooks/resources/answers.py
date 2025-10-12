@@ -278,10 +278,10 @@ Because the formal proof is a lot of ado for nothing;
 it actually involves applying (integral) change-of-variables *twice*,
 thereby cancelling itself out:
 
-- Once to derive $p_z$ from $p_x$, although
+- Once to derive $p_u$ from $p_x$, although
   [differently](https://en.wikipedia.org/wiki/Integration_by_substitution#Application_in_probability)
   than in part (a).
-- A second time when substituting $z$ by $\phi(x)$ in the integral for the expectation.
+- A second time when substituting $u$ by $\phi(x)$ in the integral for the expectation.
 ''']
 
 answers['Sum of Gaussians a'] = ['MD', r'''
@@ -296,24 +296,11 @@ from which the result follows from the linearity of the integral and the fact th
 
 answers['Sum of Gaussians b'] = ['MD', r'''
 $$\begin{align}
-\mathbb{Var}[z] &= \Expect\Big[\big(z - \Expect(z)\big)^2 \Big] \\\
+\mathbb{Var}[u] &= \Expect\Big[\big(u - \Expect(u)\big)^2 \Big] \\\
 &= \Expect\Big[\big(\DynMod x + b - \Expect(\DynMod x + b) \big)^2 \Big] \\\
 &= \Expect\Big[\DynMod^2 \big( x - \Expect(x) \big)^2 \Big] \\\
 &= \DynMod^2 \Expect\Big[ \big( x - \Expect(x) \big)^2 \Big] \\\
 &= \DynMod^2 \mathbb{Var}[x]\end{align}$$
-''']
-
-answers['Sum of Gaussians c'] = ['MD', r'''
-Start with eqn. (G1) for the Gaussian pdf.
-Their product again produces the sum of squares in the exponential.
-Now, the second term on the right hand side is constant in $x$,
-and so factors out of the integral, which can be identified
-as the integral of a Gaussian, and so reduces to a constant.
-Subsequently, the first term can be identified:
-its shape is Guassian and its parameters are the ones we are looking for!
-
-If you want, you can check that the normalising constants work out,
-but this is not necessary, since we know they must.
 ''']
 
 
@@ -337,6 +324,86 @@ What's not to love? Consider
    and Chapter 7 of: [Probability theory: the logic of science (Edwin T. Jaynes)](https://books.google.com/books/about/Probability_Theory.html?id=tTN4HuUNXjgC).
 """]
 
+answers['Correlation extremes a'] = ['MD', r"""
+Recall that $p(x, y) = p(x|y) \, p(y) = p(x) \, p(y)$ by independence.
+Thus,
+$$\begin{align}
+\mathbb{Cov}(X, Y)
+&= \int (x - \mu_x)(y - \mu_y) \, p(x, y) \, d x \, d y \\\
+&= \Big(\int (x - \mu_x) p(x) \, d x \Big) \Big(\int (y - \mu_y) p(y) \, d y \Big)
+\,.
+\end{align}$$
+But of course, $\int x \, p(x) \, d x = \mu_x$, so each integral is zero,
+as is the resulting correlation.
+"""]
+
+answers['Correlation extremes b'] = ['MD', r"""
+Now $p(y|x) = \delta(y - a x)$, where $\delta$ is the Dirac delta function
+so that $\int f(y) \, p(y|x) \, d y = f(x)$ for any function $f$.
+Hence
+$$\begin{align}
+\mathbb{Cov}(X, Y)
+&= a \int (x - \mu_x)^2 \, p(x) \, d x \\\
+&= a \sigma_x^2 \,.
+\end{align}$$
+Similarly, it can be shown that $\mathbb{Var}(Y) = a^2 \mathbb{Var}(X)$,
+i.e. $\sigma_y = a \sigma_x$.
+The conclusion follows by substitution into the definition of $\rho$.
+"""]
+
+answers['Correlation extremes c'] = ['MD', r"""
+This is shown the same way as (b), except that
+$a < 0$ implies $\sigma_y = -a \sigma_x$.
+"""]
+
+answers['RV linear algebra a'] = ['MD', r"""
+- By the linearity of the integral,
+  $$ \Expect[a X] = \int a x \, p(x) \, d x = a \int x \, p(x) \, d x = a \, \Expect[X] $$
+- By the [law of the unconscious statistician](#Exc-(optional)----Change-of-variables)
+  $$ \Expect[X + Y] = \iint (x + y) \, p(x, y) \, d x \, d y \,.$$
+  Now consider $\iint x \, p(x, y) \, d x \, d y = \int x \, p(x) \Big(\int p(y | x) d y\Big) dx$.
+  The inner integral is $1$ for any $x$ and so can be ignored, leaving just $\Expect[X]$.
+  Likewise, $\iint y \, p(x, y) \, d x \, d y = \Expect[Y]$.
+"""]
+
+answers['RV linear algebra b'] = ['MD', r"""
+$$\begin{align}
+\mathbb{Var} [a X + Y]
+&= \Expect\big[\big(a X + Y - \Expect[a X + Y]\big)^2\big] \\\
+&= \Expect\big[\big(a (X - \Expect[X]) + (Y - \Expect[Y])\big)^2\big] \\\
+&= \Expect\big[a^2 (X - \Expect[X])^2 + (Y - \Expect[Y])^2 + 2 a (X - \Expect[X])(Y - \Expect[Y])\big] \\\
+\end{align}$$
+The last term can be recognized as $2 a \, \mathbb{Cov}[X, Y]$,
+which is zero by independence, as shown in the [correlation exercise](#Exc-–-correlation-extremes).
+"""]
+
+answers['RV linear algebra c'] = ['MD', r"""
+Nothing really changes compared with part (b).
+The whole exercise can be done element-wise.
+"""]
+
+answers['RV linear algebra e'] = ['MD', r"""
+In the case of a diagonal covariance matrix,
+the weight matrix on the norm in eqn. (GM) is also diagonal,
+and therefore the norm reduces to a sum of the squares, $\sum_i z_i^2$.
+Hence $p(\vect{z}) = \NormDist(\z | \vect{0}, \mat{I}) = c \prod_i e^{-z_i^2/ 2} = \NormDist(z | 0, 1) = \prod_i p(z_i)$.
+"""]
+
+answers['Broadcasting'] = ['MD', r"""
+    # Cheating:
+    # E = rng.multivariate_normal(mu, C, N).T
+
+    # Using numpy "broadcasting"
+    # (would have been a lot easier if using orientation N-times-d):
+    # E = (mu + (L@Z).T).T
+    
+    # Make mu 2d:
+    # mu2d = np.atleast_2d(mu).T
+    mu2d = mu[:, None]
+    # mu2d = np.tile(mu, (N, 1)).T
+    # mu2d = np.outer(mu, np.ones(N))
+    E = mu2d + L @ Z
+"""]
 
 answers['LG BR example'] = ['MD', r'''
 - Eqn. (5) yields $P^\ta = \frac{1}{1/4 + 1/4} = \frac{1}{2/4} = 2$.
@@ -460,7 +527,7 @@ For comparison, there are about $10^{82}$ atoms in the universe.
 ''']
 
 answers['BR Gauss, a.k.a. completing the square a'] = ['MD', r'''
-Expanding the squares of the left hand side (LHS),
+Expanding the squares of the left hand side of eqn. (LG1),
 and gathering terms in powers of $x$ yields
 $$
     \frac{(x-x^\tf)^2}{P^\tf} + \frac{(x-y)^2}{R}
@@ -470,17 +537,20 @@ $$
     \,, \tag{a1}
 $$
 with $c_1 = (x^\tf)^2/P^\tf + y^2/R$.
-Meanwhile
+Now consider the right hand side of eqn. (LG1),
 $$
-    \frac{(x-x^\ta)^2}{P^\tf}
+    \frac{(x-x^\ta)^2}{P^\tf} + c_2
     = x^2 / P^\ta
     - 2 x x^\ta/P^\ta
     + (x^\ta)^2/P^\ta
+    + c_2
     \,.
 \tag{a2}
 $$
+where $c_2$ is constant wrt. $x$.
 Both (a1) and (a2) are quadratics in $x$,
-so we can equate them by setting
+so we can equate them by requiring
+$c_2 = c_1 - (x^\ta)^2/P^\ta$ and
 $$ \begin{align}
 1/P^\ta = 1/P^\tf + 1/R \,, \tag{a3} \\\
 x^\ta/P^\ta = x^\tf/P^\tf + y/R \,, \tag{a4}
@@ -493,7 +563,17 @@ plus a "constant" that we add and subtract.*
 ''']
 
 answers['BR Gauss, a.k.a. completing the square b'] = ['MD', r'''
-From part (a),
+$$ \begin{align}
+p(x|y)
+&\propto p(x) \, p(y|x) \\\
+&=       N(x \mid x^\tf, P^\tf) \, N(y \mid x, R) \\\
+&\propto \exp \Big( \frac{-1}{2} \big[ (x-x^\tf)^2/P^\tf + (x-y)^2/R \big] \Big) \,.
+\end{align} \tag{} $$
+The rest follows by eqn. (LG1) and identification with $N(x \mid x^\ta, P^\ta)$.
+''']
+
+answers['BR Gauss, a.k.a. completing the square c'] = ['MD', r'''
+Resuming from part (a), we have
 $$
     \frac{(x-x^\tf)^2}{P^\tf} + \frac{(x-y)^2}{R}
     =
@@ -501,21 +581,23 @@ $$
     \,,
 \tag{a5}
 $$
-with $c_2 = c_1 - (x^\ta)^2/P^\ta$.
-Substituting in the formulae for $c_1$ and $x^\ta$ produces
-$$
-c_2 = (x^\tf)^2/P^\tf + y^2/R - P^\ta (x^\tf/P^\tf + y/R)^2
-= y^2 ( 1/R - P^\ta/R^2 ) - 2 y x^\tf \frac{P^\ta}{P^\tf R} + \frac{(x^\tf)^2}{P^\tf} - P^\ta \frac{(x^\tf)^2}{(P^\tf)^2}  
-\tag{a6}
-$$
-Now, multiplying eqn. (a3) with $P^\tf R$, it can be seen that
-
-- $\frac{P^\ta}{P^\tf R} = \frac{1}{P^\tf + R}$, whence
-- $\frac{P^\ta}{P^\tf} = \frac{R}{P^\tf + R}$, and
-- $\frac{P^\ta}{R} = \frac{P^\tf}{P^\tf + R}$ so that
-- $1/R - P^\ta/R^2 = \frac{1}{R}(1 - \frac{P^\ta}{R} ) = \frac{1}{R} \frac{R}{P^\tf + R} = \frac{1}{P^\tf + R}$.
-
-Thus eqn. (a6) simplifies to
+where
+$$ \begin{align}
+c_2
+&= c_1 - (x^\ta)^2/P^\ta \\\
+&= (x^\tf)^2/P^\tf + y^2/R - P^\ta (x^\tf/P^\tf + y/R)^2 \\\
+&=
+  y^2 ( 1/R - P^\ta/R^2 )
+  - 2 y x^\tf \frac{P^\ta}{P^\tf R}
+  + \frac{(x^\tf)^2}{P^\tf}
+  - P^\ta \frac{(x^\tf)^2}{(P^\tf)^2}  
+    \tag{a6}
+\end{align} $$
+Now, eqn. (a3) yields
+$\frac{P^\ta}{P^\tf} = \frac{R}{P^\tf + R}$.
+Similarly, $\frac{P^\ta}{R} = \frac{P^\tf}{P^\tf + R}$ and thereby
+$ 1/R - P^\ta/R^2 = \frac{1}{R}(1 - \frac{P^\ta}{R} ) = \frac{1}{P^\tf + R} $.
+Thus $c_2$ simplifies as
 $$ \begin{align}
 c_2
 &= y^2 \frac{1}{P^\tf + R}  - 2 y x^\tf \frac{1}{P^\tf + R} + \frac{(x^\tf)^2}{P^\tf} - \frac{(x^\tf)^2}{P^\tf}\frac{R}{P^\tf + R} \\\
@@ -525,14 +607,18 @@ c_2
 \end{align} $$
 ''']
 
-answers['BR Gauss, a.k.a. completing the square c'] = ['MD', r'''
-\begin{align}
-p(x|y)
-&\propto p(x) \, p(y|x) \\\
-&=       N(x \mid x^\tf, P^\tf) \, N(y \mid x, R) \\\
-&\propto \exp \Big( \frac{-1}{2} \big[ (x-x^\tf)^2/P^\tf + (x-y)^2/R \big] \Big) \,.
-\end{align}
-The rest follows by eqn. (LG1) and identification with $N(x \mid x^\ta, P^\ta)$.
+answers['BR Gauss, a.k.a. completing the square d'] = ['MD', r'''
+Let $U = X+Y$.
+By the [law of the unconscious statistician](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Change-of-variables)
+$$ p_u(u) = \int p_x(x) \, p_q(u - x) \, d x \,. \tag{}$$
+
+Insert eqn. (G1) for the Gaussian pdf.
+Then, the products of the exponentials of the integrand yield an exponent that is a sum of squares,
+which we can rewrite using part (c)
+to obtain a quadratic in $x$ and another in $u$.
+The latter factors out of the integral,
+rendering the remaining integral a constant (in $u$).
+The resulting Guassian in $u$ has the parameters are the ones we are looking for!
 ''']
 
 answers['BR Gauss'] = ['MD', r'''
@@ -651,7 +737,6 @@ answers['KF with bias'] = ['MD', r'''
 - Even longer.
 ''']
 
-# Also see 'Gaussian sampling a'
 answers['RV sums'] = ['MD', r'''
 By the [linearity of the expected value](https://en.wikipedia.org/wiki/Expected_value#Linearity),
 and that of (Dyn),
@@ -1107,22 +1192,6 @@ answers['Kriging code'] = ["MD", r"""
 answers['KDE'] = ['MD', r'''
     from scipy.stats import gaussian_kde
     ax.plot(grid1d, gaussian_kde(E.ravel(), 10.**log_bw)(grid1d), label="KDE estimate")
-''']
-
-answers['Gaussian sampling a'] = ['MD', r'''
-TODO
-''']
-answers['Gaussian sampling b'] = ['MD', r'''
-
-    # Different versions
-    # -- You only really need to understand one of the first ones
-    E = mu[:, None] + L@Z               # broadcasting with a 2d mu
-    E = np.atleast_2d(mu).T + L@Z       # broadcasting with a 2d mu
-    E = (mu + (L@Z).T).T                # broadcasting with 1d mu
-    E = np.tile(mu, (N, 1)).T + L@Z     # no broadcasting
-    E = np.outer(mu, np.ones(N)) + L@Z  # like in Matlab
-    E = np.random.multivariate_normal(mu, C, N).T
-
 ''']
 
 answers['ensemble moments, loop'] = ['MD', r'''
