@@ -2,7 +2,7 @@
 # jupyter:
 #   jupytext:
 #     cell_metadata_filter: -all
-#     formats: ipynb,scripts//py:light,scripts//md
+#     formats: ipynb,nb_mirrors//py:light,nb_mirrors//md
 #     text_representation:
 #       extension: .py
 #       format_name: light

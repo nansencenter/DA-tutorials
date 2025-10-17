@@ -134,5 +134,5 @@ def update_1nbscript(f: Path):
 
 
 if __name__ == "__main__" and any("update" in arg for arg in sys.argv):
-    for f in sorted((Path(__file__).parents[1] / "scripts").glob("T*.py")):
+    for f in sorted((Path(__file__).parents[1] / "nb_mirrors").glob("T*.py")):
         update_1nbscript(f)

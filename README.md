@@ -60,7 +60,7 @@ This is a bit snappier than running them online.
 
 [![GitHub CI](https://github.com/nansencenter/DA-tutorials/actions/workflows/tests.yml/badge.svg)](https://github.com/nansencenter/DA-tutorials/actions)
 
-#### Why `scripts/` dir?
+#### Why `nb_mirrors/` dir?
 
 - Easier to read git diffs
 - Enable importing from notebook (script mirrors)

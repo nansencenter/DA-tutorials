@@ -317,7 +317,7 @@ def import_from_nb(name: str, objs: list):
     """
     NBDIR = Path(__file__).parents[1]
     notebk = next(NBDIR.glob(name + "*.ipynb"))
-    script = (NBDIR / "scripts" / notebk.relative_to(NBDIR)).with_suffix('.py')
+    script = (NBDIR / "nb_mirrors" / notebk.relative_to(NBDIR)).with_suffix('.py')
     import_from_nb.nesting_level += 1
 
     interact.disabled = True

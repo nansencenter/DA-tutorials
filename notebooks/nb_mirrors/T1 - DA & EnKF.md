@@ -1,7 +1,7 @@
 ---
 jupyter:
   jupytext:
-    formats: ipynb,scripts//py:light,scripts//md
+    formats: ipynb,nb_mirrors//py:light,nb_mirrors//md
     text_representation:
       extension: .md
       format_name: markdown
@@ -17,8 +17,7 @@ jupyter:
 
 *Copyright (c) 2020, Patrick N. Raanes*
 
-This tutorial series is a self-contained introduction to *data assimilation (DA)*,
-taking you from the mathematical basics to your own implementation of the EnKF.
+This tutorial series introduces *data assimilation (DA)*, beginning with basic mathematical concepts and culminating in your own implementation of the EnKF.
 Alternatively, the article by [Wikle and Berliner (2007)](#References) is short and nice,
 while the book by [Asch, Bocquet, and Nodet (2016)](#References) is rigorous and detailed.
 $

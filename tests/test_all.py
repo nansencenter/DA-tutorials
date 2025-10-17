@@ -149,7 +149,7 @@ converted = []
 ipynbs = sorted((ROOT / "notebooks").glob("T*.ipynb"))
 for f in ipynbs:
     script = (ROOT / "tests" / f.name).with_suffix('.py')
-    # script = (ROOT / "notebooks" / "scripts" / f.name).with_suffix('.py')
+    # script = (ROOT / "notebooks" / "nb_mirrors" / f.name).with_suffix('.py')
     converted.append(script)
     cmd = ["jupytext", "--output", str(script), str(f)]
     print(subprocess.run(cmd, **text, check=True).stdout)

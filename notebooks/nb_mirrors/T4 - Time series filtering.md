@@ -1,12 +1,12 @@
 ---
 jupyter:
   jupytext:
-    formats: ipynb,scripts//py:light,scripts//md
+    formats: ipynb,nb_mirrors//py:light,nb_mirrors//md
     text_representation:
       extension: .md
       format_name: markdown
       format_version: '1.3'
-      jupytext_version: 1.17.3
+      jupytext_version: 1.17.2
   kernelspec:
     display_name: Python 3 (ipykernel)
     language: python
@@ -156,12 +156,12 @@ in order to estimate (or "track") it.
 From above,
 $p(x_0) = \NormDist(x_0 | x^\ta_0, P^\ta_0)$ with given parameters.
 We also know that $x_k$ evolves according to eqn. (DynMod).
-Therefore, as shown in [T2](T2%20-%20Gaussian%20distribution.ipynb),
+Therefore, as shown in the TODO exercsize
 $p(x_1) = \NormDist(x_1 | x^\tf_1, P^\tf_1)$, with
 $$
 \begin{align}
-x^\tf_k &= \DynMod \, x^\ta_{k-1} \,, \tag{5} \\
-P^\tf_k &= \DynMod^2 \, P^\ta_{k-1} + Q \,. \tag{6}
+x^\tf_k &= \DynMod \, x^\ta_{k-1} \tag{5} \\
+P^\tf_k &= \DynMod^2 \, P^\ta_{k-1} + Q \tag{6}
 \end{align}
 $$
 
