@@ -3,12 +3,12 @@
 Our didactic goal is to put as little as possible in here.
 """
 import os
+import contextlib
 from pathlib import Path
 
 import numpy as np
 import matplotlib as mpl
 import mpl_tools
-
 
 import matplotlib.pyplot as plt
 plt.style.use("seaborn-v0_8")
@@ -171,6 +171,8 @@ def interact(top=None, right=None, bottom=None, left=None, **kwargs):
             w.style.description_width = "max-content"
             if getattr(w, 'orientation', '') == "vertical":
                 w.layout.width = "2em"
+            else:
+                w.layout.width = "13em"
 
         on = {side: pop_widgets(ww, labels) for side, labels in sides.items()}
         on['right'] = ww + on['right']  # put any remainder on the right (before any dict)
@@ -256,6 +258,18 @@ def frame(data, ax, zoom=1):
                 m + w/2/zoom])
 
 
+@contextlib.contextmanager
+def nonchalance(*exceptions):
+    """Like `contextlib.suppress()`, but ignores (almost) all by default.
+
+    For example, `KeyboardInterrupt` is not suppressed.
+    """
+    if not exceptions:
+        exceptions = (Exception, )
+    with contextlib.suppress(*exceptions):
+        yield
+
+
 def envisat_video():
     caption = """Illustration of DA for the ozone layer in 2002.
     <br><br>
@@ -314,6 +328,9 @@ def import_from_nb(name: str, objs: list):
 
     But notebooks are learning materials -- not production code --
     and this helps tie together different tutorials of the course.
+
+    PS: If you are looking to run a .py script from `nb_mirrors/`
+    then you need to `sys.path.append("notebooks")` first, unless it's your PWD.
     """
     NBDIR = Path(__file__).parents[1]
     notebk = next(NBDIR.glob(name + "*.ipynb"))

@@ -396,7 +396,7 @@ answers['Broadcasting'] = ['MD', r"""
     # Using numpy "broadcasting"
     # (would have been a lot easier if using orientation N-times-d):
     # E = (mu + (L@Z).T).T
-    
+
     # Make mu 2d:
     # mu2d = np.atleast_2d(mu).T
     mu2d = mu[:, None]
@@ -1177,10 +1177,105 @@ answers["inv-dist weight interp"] = ["MD", r"""
     weights = weights / weights.sum(axis=1, keepdims=True)  # normalize
 """]
 
-answers['Kriging code'] = ["MD", r"""
-    covar_yy = 1 - variogram(dists_yy, **vg_params)
-    cross_xy = 1 - variogram(dists_xy, **vg_params)
-    regression_coefficients = sla.solve(covar_yy, cross_xy.T).T
+answers['Simple kriging'] = ["MD", r"""
+    covar_yy = C0 - vg(dists_yy)
+    cross_xy = C0 - vg(dists_xy)
+    # weights = sla.inv(covar_yy) @ cross_xy.T
+    # weights = sla.solve(covar_yy, cross_xy.T)
+    weights, *_ = sla.lstsq(covar_yy, cross_xy.T, cond=1e-9)
+"""]
+
+answers['Interpolant = f(Variogram) a'] = ["MD", r"""
+When `Range` $\to 0$ then the SK (mean) estimate becomes a flat line
+located on the supposed mean (`mu`),
+except where there are observations, which gets interpolated by a spike.
+In other words, it becomes a collection (sum) of delta functions.
+The same effect can be achieved regardless of variogram model by setting the nugget to 1.
+
+When `Range` $\to \infty$ then the SK field estimate becomes a (piecewise) linear interpolant.
+The extrapolating tails appear to tend towards `mu`.
+
+For intermediate values, the SK interpolant resembles somewhat the covariance function in between the data points. It looks like a slack curtain draped over a set of spikes corresponding to the observations.
+"""]
+
+answers['Interpolant = f(Variogram) b'] = ["MD", r"""
+The interpolant is now smooth. Thus, even as `Range` $\to \infty$ the interpolant never becomes piecewise linear. Instead, it will curve and bend a lot around the observational data, which also has the effect that it can exceed the range of the observations. In fact, the interpolant is infinitely differentiable, meaning analytic, meaning that knowing it should be possible to extrapolate the entire function based on observations located within a local neighbourhood, which is somewhat against the spirit of a random function.
+"""]
+
+answers['Ordinary kriging a'] = ["MD", r"""
+    def ordinary_kriging(vg, dists_xy, dists_yy, observations):
+        xDim = len(dists_xy)
+        yDim = len(dists_yy)
+        A = np.ones((yDim+1, yDim+1))
+        b = np.ones((yDim+1, xDim))
+
+        A[-1, -1] = 0
+        A[:-1, :-1] = vg(dists_yy)
+        b[:-1] = vg(dists_xy).T
+
+        weights, *_ = sla.lstsq(A, b, cond=1e-9)
+        return observations @ weights[:-1]
+"""]
+answers['Ordinary kriging b'] = ["MD", r"""
+- `linear`, `quadratic`, `cubic`.
+"""]
+answers['Ordinary kriging c'] = ["MD", r"""
+- The `linear` variogram yields a piecewise linear intepolant.
+  Unlike the `triangular` one there are no longer any weird vertices at `Range` distance from observations.
+- The `quadratic` variogram always yields a single/global quadratic,
+  losing the ability to interpolate.
+  Even just slightly perturbing the exponent (from $2$ to $2.1$, e.g., or $1.9$)
+  recovers the interpolating behavioour.
+- The `cubic` one yields an interpolant that extrapolates towards unbounded values, rather than attenuating towards any mean.
+"""]
+answers['Ordinary kriging d'] = ["MD", r"""
+- The SK interpolant tends to `mu` away from the observation, while the OK interpolant is constant/flat line with value equal to the observation.
+"""]
+answers['Ordinary kriging e'] = ["MD", r"""
+- The SK interpolant tends to `mu` away from the observation, while the OK interpolant tends towards the average of the 2 observations.
+"""]
+
+answers['Universal kriging a'] = ["MD", r"""
+    def universal_kriging(vg, dists_xy, dists_yy, observations, regressors, regressands):
+        xDim = len(dists_xy)
+        yDim = len(dists_yy)
+
+        A = np.zeros((yDim+2, yDim+2))
+        b = np.zeros((yDim+2, xDim))
+
+        A[:-2, :-2] = vg(dists_yy)
+        A[-2:,:-2] = regressors
+        A.T[-2:,:-2] = regressors
+
+        b[:-2] = vg(dists_xy).T
+        b[-2:] = regressands
+
+        weights, *_ = sla.lstsq(A, b, cond=1e-9)
+        return observations @ weights[:-2]
+"""]
+answers['Universal kriging b'] = ["MD", r"""
+Yes, by using a cubic variogram.
+While the extrapolating tails differ, the interpolant lines are superimposed in the interior.
+
+This is an interesting results because cubic (piecewise) splines are
+named after shipbuilding techniques and can be similarly shown to minimize
+bend, and their derivation typically proceeds from requiring continuity of the
+second order from one cubic to another, which is quite different to the
+derivation of kriging. Moreover, their implementation is also very different,
+with the cubic spline computed from a tridiagonal linear system of equations.
+"""]
+answers['Universal kriging c'] = ["MD", r"""
+Use only 2 or 3 observation points. To make it clearer yet, add a linear trend to the truth.
+"""]
+
+answers['variogram params'] = ["MD", r"""
+- (a) They become flat (fully correlated infinitely far apart). Effectively each field realisation becomes a single draw.
+- (b) Covariance becomes the identity. Fields become white noise.
+- (c) Yes, set `nugget = 1`.
+- (d) Because the Gaussian variogram is differentiable at zero
+  (variograms apply to *distances*, and as such are applied for $-\epsilon$ as well as $+\epsilon$).
+  The behaviour of the variogram near the origin determines the smoothness at small scales.
+- (e) It controls the "vertical" spacing between fields.
 """]
 
 

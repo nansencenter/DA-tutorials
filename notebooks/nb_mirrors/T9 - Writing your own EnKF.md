@@ -81,12 +81,12 @@ deferred to later.
 Since we're going to focus on a single filtering cycle (at a time),
 the subscript $k$ is dropped. Moreover, <br>
 The superscript $f$ indicates that $\{\x_n^\tf\}_{n=1..N}$ is the forecast (prior) ensemble.<br>
-The superscript $a$ indicates that $\{\x_n\supa\}_{n=1..N}$ is the analysis (posterior) ensemble.
+The superscript $a$ indicates that $\{\x_n^\ta\}_{n=1..N}$ is the analysis (posterior) ensemble.
 </font></mark>
 
 ### The forecast step
 
-Suppose $\{\x_n\supa\}_{n=1..N}$ is an iid. sample from $p(\x_{k-1} \mid \y_1,\ldots, \y_{k-1})$, which may or may not be Gaussian.
+Suppose $\{\x_n^\ta\}_{n=1..N}$ is an iid. sample from $p(\x_{k-1} \mid \y_1,\ldots, \y_{k-1})$, which may or may not be Gaussian.
 
 The forecast step of the EnKF consists of a Monte Carlo simulation
 of the forecast dynamics for each $\x_n$:

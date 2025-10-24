@@ -376,17 +376,18 @@ Let $\ObsMod = 1$ for simplicity.
 # show_answer('BR Kalman1 code')
 ```
 
+<a name="Exc-(optional)-–-optimalities"></a>
+
 #### Exc (optional) – optimalities
 
 In contrast to orthodox statistics,
 Bayes' rule (BR) does not attempt to produce a single estimate/value of $x$.
 It merely states how to update our quantitative belief (weighted possibilities) in light of new data.
-Barring any approximations (such as using `Bayes_rule_LG1` outside the linear-Gaussian case),
+As such, barring any approximations (such as using `Bayes_rule_LG1` outside the linear-Gaussian case),
 the (full) posterior will be **optimal** from the perspective of any [proper scoring rule](https://en.wikipedia.org/wiki/Scoring_rule#Propriety_and_consistency).
 
 *But if you must* pick a single point value estimate $\hat{x}$
-(in order to perform a contingent action, without [robust optimisation](https://en.wikipedia.org/wiki/Robust_optimization)),
-you can **decide** on it by optimising (with respect to $\hat{x}$)
+then you should **decide** on it by optimising (with respect to $\hat{x}$)
 the expectation (with respect to $x$) of some utility/loss function,
 i.e. $\Expect\, \text{Loss}(x - \hat{x})$.
 For instance, if the posterior pdf happens to be symmetric
@@ -410,31 +411,35 @@ the minimum mean-square error (MMSE) estimator.
 ```
 
 However, it is not generally easy to find the posterior mean, median, or mode,
-so these optimalities mainly serve to justify a preference for $x^\ta$
-in the linear-Gaussian case.
+so the above optimalities are mainly useful in the linear-Gaussian case,
+where they justify a preference for $x^\ta$.
 
 <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
   <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
-      It is possible to drop the Gaussianity assumption and still
+      It is possible to drop the linear-Gaussian assumption and still
       claim optimality for $x^\ta$ of eqns. (6) and (11) as
       the best (min. variance), linear, unbiased, estimate (BLUE ... 🔍).
   </summary>
-  The result requires reformulating the prior
-  as "background" zero-mean noise onto the (non-random) $x$,
-  whose outcome was the prior mean, $x^\tf$, and whose covariance is $P^\tf$.
-  Then, by explicit augmentation (i.e. pseudo-obs: $[y, x^\tf]$) one recovers the linear regression problem
-  of the celebrated Gauss-Markov theorem, generalized by Aitken to the case of correlated noise.
-  A similar proof uses an ansatz linear in both $x^\tf$ and $y$ without concatenating them.
-  *PS: this results is also [sometimes](https://en.wikipedia.org/wiki/Minimum_mean_square_error#Linear_MMSE_estimator) reframed as MMSE,
-  causing confusion with the above meaning of the acronym.*
+The result requires reformulating the prior
+as "background" zero-mean noise onto the (non-random) $x$,
+whose outcome was the prior mean, $x^\tf$, and whose covariance is $P^\tf$.
+Then, by explicit augmentation (i.e. pseudo-obs: $[y, x^\tf]$) one recovers the linear regression problem
+of the celebrated Gauss-Markov theorem, generalized by Aitken to the case of correlated noise.
+Some additional notes follow.
 
-  If Gaussianity is again assumed (but the perspective remains "frequentist"),
+- A similar proof uses an ansatz that is linear in both $x^\tf$ and $y$ separately (without concatenating them).
+  It does not need the Woodbury matrix identity to derive the Kalman gain form of $x^\ta$.
+- The same results is [sometimes](https://en.wikipedia.org/wiki/Minimum_mean_square_error#Linear_MMSE_estimator)
+  reframed as MMSE, causing confusion with the above (and different) meaning of MMSE.
+- The result is closely related to the fact that the Moore-Penrose pseudoinverse of linear algebra
+  finds the minimum (Euclidean) norm solution to a system of linear equations with multiple solutions.
+- If Gaussianity is assumed (but the perspective remains "frequentist"),
   then one can drop the linearity requirement,
   yielding the (uniformly) minimum-variance unbiased estimate (UMVUE),
   as per [Lehmann-Sheffé](https://stats.stackexchange.com/a/398911), or [Cramér-Rao](https://stats.stackexchange.com/a/596307).
-  However, the linearity imposition cannot generally be omitted [Pötscher & Preinerstorfer (2024)](#References).
+  Without Gaussianity, the linearity imposition cannot be omitted [Pötscher & Preinerstorfer (2024)](#References).
 
-  - - -
+- - -
 </details>
 
 All in all, the intuitive idea of **considering the mean of $p(x)$ as the point

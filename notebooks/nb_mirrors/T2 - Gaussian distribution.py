@@ -307,31 +307,31 @@ def pdf_U1(x, mu, sigma2):
 # $\Sigma_{i,j} = \Expect[(X_i-\mu_i)(X_j-\mu_j)] =: \mathbb{Cov}(X_i, X_j)$,
 # and – on the diagonal – variances: $\Sigma_{i,i} = \mathbb{Var}(X_i)$.
 #
-# The following implements the pdf (GM). Take a moment to digest the code, but don't worry if you don't understand it all. Hints:
-#
-# - `@` produces matrix multiplication (`*` in `Matlab`);
-# - `*` produces array (i.e. element-wise) multiplication (`.*` in `Matlab`);
-# - `axis=-1` makes `np.sum()` work along the last dimension of an ND-array.
+# The following implements the pdf (GM).
 
 # +
-from numpy.linalg import det, inv
+import numpy.linalg as la
 
-def weighted_norm22(points, Wi):
-    "Computes the weighted norm of each vector (row in `points`)."
-    return np.sum( (points @ inv(Wi)) * points, axis=-1)
+def pdf_GM(x, mu, Sigma):
+    "pdf – Gaussian, Multivariate: N(x | mu, Sigma) for each x."
+    c = np.sqrt(la.det(2*np.pi*Sigma))
+    return 1/c * np.exp(-0.5*weighted_norm22(x - mu, Sigma))
 
-def pdf_GM(points, mu, Sigma):
-    "pdf – Gaussian, Multivariate: N(x | mu, Sigma) for each x in `points`."
-    c = np.sqrt(det(2*np.pi*Sigma))
-    return 1/c * np.exp(-0.5*weighted_norm22(points - mu, Sigma))
+def weighted_norm22(points, cov):
+    "Computes the weighted norm of each vector (a row in `points`)."
+    W = la.inv(cov) # NB: replace by la.solve() in real applications!
+    return np.sum( (points @ W) * points, axis=-1)
 
 
 # -
 
-# The following code plots the pdf as contour (level) curves.
+# The norm implementation is a bit tricky because it uses `@` (matrix multiplication), `*` (array, i.e. element-wise multiplication) and `axis=-1` (sum along the last dimension) to enable inputting the entire lattice/grid at once without shape manipulation.
 
-# +
 grid2d = np.dstack(np.meshgrid(grid1d, grid1d))
+grid2d.shape
+
+
+# The following code plots the pdf as contour (level) curves.
 
 @interact(corr=(-1, 1, .001), std_x=(1e-5, 10, 1), seed=(0, 9))
 def plot_pdf_G2(corr=0.7, std_x=1, seed=0):
@@ -349,23 +349,24 @@ def plot_pdf_G2(corr=0.7, std_x=1, seed=0):
 
     # Plot
     plt.figure(figsize=(4, 4))
-    height = 1/np.sqrt(det(2*np.pi*C))
-    plt.contour(grid1d, grid1d, density_values,
-               levels=np.linspace(1e-4, height, 11), cmap="plasma")
+    plt.contour(grid1d, grid1d, density_values, cmap="plasma",
+                # Because built-in heuristical levels cause animation noise:
+                levels=np.linspace(1e-4, 1/np.sqrt(la.det(2*np.pi*C)), 11))
 
-    if seed:
-        plt.scatter(*sample_GM(mu, C=C, N=100, rng=rnd.default_rng(seed)))
+    # See exc. below
+    if seed and 'sample_GM' in globals():
+        plt.scatter(*sample_GM(mu, C=C, N=100, rng=seed))
 
     plt.axis('equal');
     plt.show()
 
 
-# -
-
 # Note that the code defines the covariance `cv_xy` from the input ***correlation*** `corr`.
 # This is a coefficient (number),
 # defined for any two random variables $X$ and $Y$ (not necessarily Gaussian) as
 # $$ \rho[X,Y]=\frac{\mathbb{Cov}[X,Y]}{\sigma_x \sigma_y} \,.$$
+# Equivalently, it is the covariance between the *standardized* variables,
+# i.e. $\rho[X,Y] = \mathbb{Cov}[X / \sigma_x, Y / \sigma_y]$.
 # It quantifies (defines) the ***linear dependence*** between $X$ and $Y$,
 # as illustrated by the following exercises.
 #
@@ -377,6 +378,9 @@ def plot_pdf_G2(corr=0.7, std_x=1, seed=0):
 # - (d) correlation=0.5, but with non-equal variances.
 #
 # Finally (optional): why does the code "crash" when `corr = +/- 1`? Is this a good or a bad thing?  
+#
+# More generally, it can be shown that $\rho^2$ is the proportion of the variance of $Y$
+# captured/explained by a simple linear regression from $X$.
 #
 # <a name="Exc-–-correlation-extremes"></a>
 #
@@ -408,9 +412,9 @@ def plot_pdf_G2(corr=0.7, std_x=1, seed=0):
 # - Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
 #   Does information about $y$ give you information about $x$?
 #
-# <a name="Exc-–-linear-algebra-of-Gaussian-random-variables"></a>
+# <a name="Exc-–-linear-algebra-of-with-random-variables"></a>
 #
-# #### Exc – linear algebra of with random variables
+# #### Exc – linear algebra with random variables
 #
 # - (a) Prove the linearity of the expectation operator:
 #   $\Expect[a X + Y] = a \Expect[X] + \Expect[Y]$.
@@ -441,13 +445,17 @@ def plot_pdf_G2(corr=0.7, std_x=1, seed=0):
 # *Hint: this snippet will fail because it's trying to add a vector to a matrix.*
 
 def sample_GM(mu=0, L=None, C=None, N=1, rng=rnd):
+    # Seed random number generator
+    if isinstance(rng, int):
+        rng = rnd.default_rng(seed=rng)
+
     # Compute L from C (if needed)
     if L is None:
         from numpy.linalg import cholesky
         L = cholesky(C)
 
     d = len(L) # len (number of dims) of x
-    Z = rng.standard_normal((d, N))
+    Z = rng.standard_normal((N, d)).T
 
     # Ensure mu is 1d
     if np.isscalar(mu):

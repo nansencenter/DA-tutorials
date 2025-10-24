@@ -52,6 +52,7 @@ plt.ion();
 # \newcommand{\x}[0]{\vect{x}}
 # \newcommand{\y}[0]{\vect{y}}
 # \newcommand{\q}[0]{\vect{q}}
+# \newcommand{\r}[0]{\vect{r}}
 # $
 #
 # ## Prelude: Multivariate Bayes
@@ -123,7 +124,9 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 # -
 
 # Note that the likelihood is again defined as in eqn. (Lklhd):
-# $$ p(\y|\x) = \NormDist(\y| \ObsMod(\x), \R) \,. \tag{Lklhd} $$
+# $$ p(\y|\x) = \NormDist(\y| \ObsMod(\x), \R) \,, \tag{Lklhd} $$
+# corresponding to observations taken as $\y = \ObsMod(\x) + \r$,
+# where $\r \sim \NormDist(\vect{0}, \R)$ for some covariance $\R>\vect{0}$.
 #
 # Examples of $\ObsMod(\x)$ for multivariate $\x$ (and possibly $\y$) include:
 #
@@ -241,7 +244,8 @@ for i, x in enumerate(truths.T):
     plt.plot(magnification*x, label=fr"${magnification}\,x_{i}$")
 plt.legend();
 # -
-
+# <a name="The-KF-forecast-step"></a>
+#
 # ## The KF forecast step
 #
 # The forecast step (and its derivation) remains essentially unchanged from the [univariate case](T4%20-%20Time%20series%20filtering.ipynb#The-(univariate)-Kalman-filter-(KF)).
@@ -445,6 +449,30 @@ def plot_correlation_matrix(k=1, analysis=True):
 #   (inspecting the plot of the example problem, or printouts of the same numbers).
 # - Replace the use of `inv` by `scipy.linalg.solve`.
 #   Don't hesitate to google their documentations.
+#
+# <a name="Regression-perspective"></a>
+#
+# #### Regression perspective
+#
+# Recall the various interpretations of the Kalman gain highlighted in [T3](T3%20-%20Bayesian%20inference.ipynb#Exc-(optional)-%E2%80%93-Gain-intuition).
+# The following provides another perspective on eqn. (K1).
+# Again by the [T2 exercise on algebra with random variables](T2%20-%20Gaussian%20distribution.ipynb#Exc-–-linear-algebra-of-with-random-variables),
+# the covariance matrix of the measurements, including noise,
+# can be identified as the "denominator" in eqn. (K1), i.e.
+# $\mathbb{Cov}[\y] = \ObsMod \bP^\tf \ObsMod\tr + \R$,
+# where the conditioning obviously does not include $\y$ itself.
+# Meanwhile $\mathbb{Cov}[\x, \y] = \ObsMod \bP^\tf$.
+# Thus,
+# $$ \K = \mathbb{Cov}[\x, \y] \, (\mathbb{Cov}[\y])^{-1} \,, $$
+# which can be identified as the ***regression coefficients***.
+# This perspective is usually derived by assuming that the augmented vector
+# $\begin{bmatrix} \x \\ \y \end{bmatrix}$
+# has a Gaussian distribution with covariance
+# $\begin{bmatrix} \mathbb{Cov}[\x] & \mathbb{Cov}[\x,\y] \\
+# \mathbb{Cov}[\y, \x] & \mathbb{Cov}[\y] \end{bmatrix}$
+# and finding the mean of $\x$ conditional on some value for $\y$.
+# Another derivation, more common in the domain of geostatistics ([T7](T7%20-%20Geostats%20%26%20Kriging%20[optional].ipynb)),
+# is to show that it is the [BLUE](T3%20-%20Bayesian%20inference.ipynb#Exc-(optional)-–-optimalities).
 #
 # ## Summary
 #

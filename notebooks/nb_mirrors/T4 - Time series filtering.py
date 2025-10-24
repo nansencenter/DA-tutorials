@@ -153,7 +153,7 @@ def exprmt(seed=4, nTime=50, M=0.97, logR=1, logQ=1, analyses_only=False, logR_b
 # From above,
 # $p(x_0) = \NormDist(x_0 | x^\ta_0, P^\ta_0)$ with given parameters.
 # We also know that $x_k$ evolves according to eqn. (DynMod).
-# Therefore, as shown in the TODO exercsize
+# Therefore, as shown in the [T2 exercise on algebra with random variables](T2%20-%20Gaussian%20distribution.ipynb#Exc-–-linear-algebra-of-with-random-variables)
 # $p(x_1) = \NormDist(x_1 | x^\tf_1, P^\tf_1)$, with
 # $$
 # \begin{align}
