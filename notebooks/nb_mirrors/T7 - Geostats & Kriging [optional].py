@@ -17,7 +17,7 @@
 remote = "https://raw.githubusercontent.com/nansencenter/DA-tutorials"
 # !wget -qO- {remote}/master/notebooks/resources/colab_bootstrap.sh | bash -s
 
-from resources import show_answer, interact,  import_from_nb, nonchalance
+from resources import show_answer, interact,  import_from_nb, nonchalance, colorbar
 # %matplotlib inline
 import numpy as np
 import matplotlib as mpl
@@ -26,7 +26,6 @@ import numpy.random as rnd
 import scipy.linalg as sla
 from mpl_tools.place import freshfig
 plt.ion();
-plt.style.use("default") # need tick markers
 
 # # T7 - Spatial statistics ("geostatistics") & kriging
 #
@@ -46,16 +45,14 @@ plt.style.use("default") # need tick markers
 # $
 #
 # Once again, randomness will serve as a stand-in for uncertainty and will generate our synthetic experiments.
-# Conceptually, little is new – once discretized and flattened, spatial fields are simply long vectors of unknowns.
+# Conceptually, little is new – once discretized and flattened, spatial fields are simply long vectors of unknowns, which we can estimate using covariances very similarly as in the Kalman filter.
 # The challenge lies in their scale: such long vectors lead to large and unwieldy covariance matrices.
 # Moreover, rather than treating the covariance matrix as merely a symmetric table of numbers,
 # we will explicitly model it through spatial relationships and distances
-# between field elements. This type of covariance modeling may be used to
-# *generate* priors, and the experience gained will help in understanding
-# covariance localization.
+# between field elements. Such covariance modeling will also be useful for the EnKF in that they can encode initial priors, and the experience gained will help in understanding covariance localization.
 #
 # As always, we discretize the domains.
-# The following sets up a lattice for fields on a 1D domain.
+# The following sets up a grid/lattice for fields on a 1D domain.
 
 grid1D = np.linspace(0, 1, 21)
 
@@ -117,55 +114,47 @@ grid2D.shape
 # that we believe the random field has.
 # Some of the most commonly used examples are implemented below.
 
-vg_models = {
-    "expo":      lambda d: 1 - np.exp(-d),
-    "Gauss":     lambda d: 1 - np.exp(-(d) ** 2),
-    "Cauchy":    lambda d: 1 - 1 / (1 + d ** 2),
-    "triangular":lambda d: d.clip(max=1),
-    "linear":    lambda d: d,      # NB: intrinsically stationary, but
-    # does not produce valid covariances ⇒ requires ordinary kriging.
-    "quadratic": lambda d: d**2,   # NB: valid variogram, but degenerate.
-    "cubic":     lambda d: d ** 3, # NB: Not a valid variogram, but
-    # a "generalized covariance func." ⇒ requires order-1 intrinsic/universal kriging.
-    # NB: Not to be confused with the "cubic" covariance function.
-}
-
-
-def variograms(model="Gauss", Range=0.3, nugget=0, sill=1):
+def variograms(power=1.5, transf01="expo", Range=0.3, nugget=0, sill=1):
     """Create variogram (function) for the given parameters."""
     def vg(dists):
         dists = np.asarray(dists)
         dists = dists / Range
-        gamma = vg_models[model](dists)
+        gamma = transforms01[transf01](dists**power)
         gamma *= sill
         gamma = np.where(dists != 0, nugget + (1 - nugget) * gamma, gamma)
         return gamma
     return vg
 
+# where `transforms01` monotonically decreasingly maps $[0, +\infty]$ to $[0, 1]$ .
 
-# Beware that "Gaussian" and the other names used here
-# refer to the consequent shape of the covariance function,
-# which is **not** to be confused with the probability density itself (at any given location).
+transforms01 = {
+    "none":  lambda x: x,               # identity
+    "expo":  lambda x: 1 - np.exp(-x),  # similar to Gaussian densities
+    "hyper": lambda x: 1 - 1 / (1 + x), # similar to Cachy densities
+    "clip":  lambda x: x.clip(max=1)    # similar to "hat" function
+}
+vg_params = dict(transf01=list(transforms01), power=(0.01, 4, .01),
+                 Range=(.01, 4), nugget=(0, 1, .01), sill=(0.1, 5))
+
 # Below is a visual illustration.
 
-vg_params = dict(Range=(.01, 4), nugget=(0, 1, .01), sill=(0.1, 5))
 @interact(**vg_params)
-def plot_variograms(Range=0.3, nugget=0, sill=1):
+def plot_variograms(power=1.5, Range=0.3, nugget=0, sill=1):
     fig, ax = plt.subplots(figsize=(6, 3))
-    ax.set_ylim(0, sill)
+    ax.set_ylim(0, 1.05 * sill)
     ax.set_xlim(left=0)
-    for i, model in enumerate(vg_models):
-        vg = variograms(model, Range, nugget, sill)
-        ax.plot(grid1D, vg(grid1D), lw=2, color=f"C{i}", label=model)
+    for i, transf01 in enumerate(transforms01):
+        vg = variograms(power, transf01, Range, nugget, sill)
+        ax.plot(grid1D, vg(grid1D), lw=5-i, color=f"C{i+1}", label=transf01)
     plt.xlabel("distance/lag")
-    ax.legend()
+    ax.legend(title="transf 0→1", loc="lower right")
     plt.show()
 
 
 # Now that we're in possession of a valid variogram,
 # we can compute a covariance matrix between any sets of points as follows.
 
-def covar_theoretical(coords, variogram):
+def covar_modelled(coords, variogram):
     C0 = variogram(np.inf)
     assert C0 < np.inf, "Not a valid covariance"
     dists = dist_euclid(coords, coords)
@@ -222,15 +211,16 @@ sample_GM, = import_from_nb("T2", ["sample_GM"])
 #
 # ### 1D example
 
-@interact(**vg_params, model=list(vg_models), N=(1, 30), top=True)
-def sample_1D(Range=0.3, nugget=1e-2, sill=1, model="expo", N=10):
-    variogram = variograms(model, Range, nugget, sill)
-    C = covar_theoretical(grid1D[:, None], variogram)
-    fields = sample_GM(C=C, N=N, rng=3000)
+@interact(**vg_params, N=(1, 30), top=list(vg_params))
+def sample_1D(power=1.5, transf01="expo", Range=0.3, nugget=1e-2, sill=1, N=10):
+    variogram = variograms(power, transf01, Range, nugget, sill)
+    C = covar_modelled(grid1D[:, None], variogram)
+    fields = sample_GM(C=C, N=N, reg=1e-12, rng=3000)
 
-    fig, axs = plt.subplots(figsize=(10, 4), ncols=2)
-    fig.colorbar(axs[0].matshow(C, cmap="inferno", vmin=0, vmax=sill), ax=axs[0], shrink=0.8)
-    axs[1].plot(grid1D, fields);
+    fig, axs = plt.subplots(figsize=(9, 4), ncols=2)
+    colorbar(fig, axs[0].matshow(C, cmap="inferno", vmin=0, vmax=sill), axs[0])
+    axs[0].grid(False)
+    axs[1].plot(grid1D, fields)
     plt.show()
 
 
@@ -242,7 +232,7 @@ def sample_1D(Range=0.3, nugget=1e-2, sill=1, model="expo", N=10):
 # - (b) What about `Range` $\rightarrow 0$ ?
 # - (c) Can you reproduce this using `nugget` somehow ?
 # - (d) Try `nugget = 0` and `0.01`. Explain why the impact is much more noticeable
-#   in the Gauss and Cauchy cases, sometimes causing errors. *Hint: These are due to numerical imprecision and can be avoided with a small `Range`.*
+#   in the Gauss and Cauchy cases.
 # - (e) How does changing `sill` affect the fields?
 
 # +
@@ -251,8 +241,8 @@ def sample_1D(Range=0.3, nugget=1e-2, sill=1, model="expo", N=10):
 
 # ### 2D example
 
-variogram = variograms("Gauss", 1, nugget=1e-4, sill=1)
-C = covar_theoretical(grid2D, variogram)
+vg = variograms(2, "expo", Range=1, nugget=0, sill=1)
+C = covar_modelled(grid2D, vg)
 C.shape
 
 # Note that the size of the covariance matrix is the square of a single 2D field's size.
@@ -260,7 +250,7 @@ C.shape
 # which has a nested structure.
 
 fig, ax = freshfig("2D covar")
-C0 = variogram(np.inf)
+C0 = vg(np.inf)
 ax.matshow(C, cmap="inferno", vmin=0, vmax=C0);
 ax.grid(False)
 
@@ -281,7 +271,7 @@ def plot2d(ax, field, contour=True, show_obs=True, cmap="PiYG"):
     field = field.reshape(grid2x.shape)
     if contour:
         ε = 1e-12 # fudge to center colors right below 0
-        levels = np.arange(vmin - ε, vmax + .5 + ε, .5) 
+        levels = np.arange(vmin - ε, vmax + .5 + ε, .5)
         return ax.contourf(field, levels=levels, extent=(0, 1, 0, 1), extend="both", cmap=cmap)
     else:
         return ax.pcolormesh(grid2x, grid2y, field, shading="auto", vmin=vmin, vmax=vmax, cmap=cmap)
@@ -291,18 +281,18 @@ def plot2d(ax, field, contour=True, show_obs=True, cmap="PiYG"):
 # between nodes, making the fields appear higher resolution than they actually are.
 # Therefore, you may want to use `contour=False` instead to view the actual grid "pixels".
 
-@interact(**vg_params, model=list(vg_models))
-def sample_2D(Range=0.3, nugget=1e-2, model="Gauss"):
+@interact(**vg_params)
+def sample_2D(power=1.5, transf01="expo", Range=0.3, nugget=1e-2):
     fig, axs = plt.subplots(figsize=(8, 4), nrows=2, ncols=4, sharex=True, sharey=True)
-    C = covar_theoretical(grid2D, variograms(model, Range, nugget, sill=1))
-    fields = sample_GM(C=C, N=len(axs.ravel()), rng=3000)
+    C = covar_modelled(grid2D, variograms(power, transf01, Range, nugget, sill=1))
+    fields = sample_GM(C=C, N=len(axs.ravel()), reg=1e-12, rng=3000)
 
     for ax, field in zip(axs.ravel(), fields.T):
         cb = plot2d(ax, field, show_obs=False)
 
     fig.tight_layout()
-    fig.colorbar(cb, ax=axs.ravel().tolist(), shrink=0.8);
-    plt.show();
+    colorbar(fig, cb, axs)
+    plt.show()
 
 
 # ## Estimation
@@ -311,7 +301,7 @@ def sample_2D(Range=0.3, nugget=1e-2, model="Gauss"):
 #
 # For our estimation target ($\vect{x}$), we use the default covariance defined above.
 
-truth = sample_GM(C=C, N=1).squeeze()
+truth = sample_GM(C=C, N=1, reg=1e-12).squeeze()
 
 # For our observations, we randomly pick some grid locations...
 
@@ -350,8 +340,8 @@ for name, ax1, ax2 in zip(estims, *axs):
     cb2 = plot2d(ax2, x - truth, cmap="seismic")
 
 fig.tight_layout()
-fig.colorbar(cb1, ax=axs[0].tolist(), shrink=0.8);
-fig.colorbar(cb2, ax=axs[1].tolist(), shrink=0.8);
+colorbar(fig, cb1, axs[0]);
+colorbar(fig, cb2, axs[1]);
 # -
 
 # Pre-compute some objects that see repeated use.
@@ -396,8 +386,8 @@ estims["Inv-dist."][obs_idx] = observations # Fix singularities
 #
 # Consider the random value $x(s)$ of the field at a single location, and drop the $s$.
 # Kriging minimizes the mean square error
-# $\text{MSE} = \Expect (\hat{x} - x)^2$ among all linear estimators
-# of the form $\hat{x} = \vect{w}\tr \vect{y}$ that are unbiased.
+# $$\text{MSE} = \Expect (\hat{x} - x)^2$$ among all linear estimators
+# of the form `estimate = observations @ weights`, i.e., $$\hat{x} = \vect{w}\tr \vect{y}$$ that are unbiased.
 # <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
 #   <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
 #     Thus, kriging seeks the best linear unbiased *predictor* (BLUP),
@@ -488,12 +478,12 @@ estims["Inv-dist."][obs_idx] = observations # Fix singularities
 # Implement the method [(Wikipedia)](https://en.wikipedia.org/wiki/Kriging#Simple_kriging).  
 # *Hint: You may use `sla.inv`, but `sla.solve` is better, and `sla.lstsq` is even better.*
 
-C0 = variogram(np.inf)
+C0 = vg(np.inf)
 ### FIX THIS ###
 covar_yy = ...
 cross_xy = ...
-weights = np.zeros_like(dists_xy) # cross_xy "/" covar_yy
-estims["S.Kriging"] = weights @ observations
+weights = np.zeros_like(dists_xy.T) # cross_yy "\" covar_yy
+estims["S.Kriging"] = observations @ weights
 
 
 # +
@@ -522,8 +512,8 @@ def gen_obs_loc(nObs, spacing, L):
 
 # Visualisation:
 
-@interact(**vg_params, vg_model=list(vg_models), L=(1, 10, 0.1), nObs=(1, 100, 1), spacing=(0.01, 1))
-def kriging_1d(L=4, nObs=6, spacing=0.5, vg_model="expo", Range=0.3, nugget=0):
+@interact(**vg_params, L=(1, 10, 0.1), nObs=(1, 100, 1), spacing=(0.01, 1), top=list(vg_params))
+def kriging_1d(L=4, nObs=6, spacing=0.5, transf01="expo", power=1.5, Range=0.3, nugget=0, sill=1):
     # Experiment setup
     grid = np.linspace(0, L, 1001)
     truth = true(grid)
@@ -536,7 +526,7 @@ def kriging_1d(L=4, nObs=6, spacing=0.5, vg_model="expo", Range=0.3, nugget=0):
     ax.plot(obs_loc, observs, 'ok', label='data', ms=12, zorder=9)
 
     # Kriging setup
-    vg = variograms(vg_model, Range=Range, nugget=nugget)
+    vg = variograms(power, transf01, Range=Range, nugget=nugget, sill=sill)
     dists_yy = dist_euclid(obs_loc, obs_loc)
     dists_xy = dist_euclid(grid, obs_loc)
 
@@ -628,7 +618,7 @@ def ordinary_kriging(vg, dists_xy, dists_yy, observations):
 # then they may well be called *trends*,
 # and the UK method is called intrinsic kriging (IK).
 # Their order $+1$ defines the maximum allowable order of the *generalized* covariance function
-# (for the `cubic` "variogram" above, we need to include linear trends),
+# (for the `power=3` "variogram" above, we need to include linear trends),
 # again rendering the augmented linear system well-posed.
 #
 # - (a) Implement UK below and answer the following.
@@ -668,13 +658,13 @@ def universal_kriging(vg, dists_xy, dists_yy, observations, regressors, regressa
 #
 # <!--
 #
-# @book{chiles2009geostatistics,
+# @book{chiles2012geostatistics,
 #   title={Geostatistics: Modeling Spatial Uncertainty},
 #   author={Chil{\`e}s, J.P. and Delfiner, P.},
 #   isbn={9780470317839},
 #   series={Wiley Series in Probability and Statistics},
 #   url={https://books.google.no/books?id=tZl07WdjYHgC},
-#   year={2009},
+#   year={2012},
 #   publisher={Wiley}
 # }
 #
@@ -697,3 +687,13 @@ def universal_kriging(vg, dists_xy, dists_yy, observations, regressors, regressa
 #   publisher={Southern African Institute of Mining and Metallurgy}
 # }
 # -->
+
+# - **Chilès & Delfiner (2012)**:
+#   J.P. Chilès and P. Delfiner,
+#   "Geostatistics: Modeling Spatial Uncertainty", 2nd edition,
+#   Wiley, 2012.
+# - **Wackernagel (2013)**:
+#   H. Wackernagel, "Multivariate Geostatistics: An Introduction with Applications", Springer, 2013.
+# - **Krige (1951)**:
+#   D. G. Krige, "A statistical approach to some basic mine valuation problems on the Witwatersrand",
+#   1951.

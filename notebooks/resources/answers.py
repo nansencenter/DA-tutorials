@@ -1217,22 +1217,26 @@ answers['Ordinary kriging a'] = ["MD", r"""
         return observations @ weights[:-1]
 """]
 answers['Ordinary kriging b'] = ["MD", r"""
-- `linear`, `quadratic`, `cubic`.
+`transf01=none`.
 """]
 answers['Ordinary kriging c'] = ["MD", r"""
+Let `linear`, `quadratic`, `cubic` refer to `power=1,2,3`.
+
 - The `linear` variogram yields a piecewise linear intepolant.
-  Unlike the `triangular` one there are no longer any weird vertices at `Range` distance from observations.
+  Unlike the `triangular` one (which can be used with SK)
+  there are no longer any weird vertices at `Range` distance from observations.
 - The `quadratic` variogram always yields a single/global quadratic,
   losing the ability to interpolate.
   Even just slightly perturbing the exponent (from $2$ to $2.1$, e.g., or $1.9$)
   recovers the interpolating behavioour.
-- The `cubic` one yields an interpolant that extrapolates towards unbounded values, rather than attenuating towards any mean.
+- The `cubic` one yields an interpolant that extrapolates towards unbounded values,
+  rather than attenuating towards any mean.
 """]
 answers['Ordinary kriging d'] = ["MD", r"""
-- The SK interpolant tends to `mu` away from the observation, while the OK interpolant is constant/flat line with value equal to the observation.
+The SK interpolant tends to `mu` away from the observation, while the OK interpolant is constant/flat line with value equal to the observation.
 """]
 answers['Ordinary kriging e'] = ["MD", r"""
-- The SK interpolant tends to `mu` away from the observation, while the OK interpolant tends towards the average of the 2 observations.
+The SK interpolant tends to `mu` away from the observation, while the OK interpolant tends towards the average of the 2 observations.
 """]
 
 answers['Universal kriging a'] = ["MD", r"""

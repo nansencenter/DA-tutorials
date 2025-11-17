@@ -38,6 +38,16 @@ except ImportError:
 # because Colab does %matplotlib inline at startup (I think), resetting rcParams.
 mpl.rcParams.update({'lines.linewidth': 2.5})
 
+# Prefer mpl style w/o tick length, but need them for colorbar
+# Also conveniently set `shrink` default and handle ax array.
+def colorbar(fig, mappable, ax=None, **kwargs):
+    kwargs.setdefault('shrink', 0.8)
+    if isinstance(ax, np.ndarray):
+        ax = ax.ravel().tolist()
+    cbar = fig.colorbar(mappable, ax=ax, **kwargs)
+    cbar.ax.yaxis.set_tick_params(length=2)
+    return cbar
+
 # Load answers
 from .answers import show_answer
 

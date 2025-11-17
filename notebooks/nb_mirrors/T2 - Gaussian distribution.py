@@ -444,7 +444,7 @@ def plot_pdf_G2(corr=0.7, std_x=1, seed=0):
 # Replace it with something akin to `E = mu + L@Z`.
 # *Hint: this snippet will fail because it's trying to add a vector to a matrix.*
 
-def sample_GM(mu=0, L=None, C=None, N=1, rng=rnd):
+def sample_GM(mu=0, L=None, C=None, N=1, reg=0, rng=rnd):
     # Seed random number generator
     if isinstance(rng, int):
         rng = rnd.default_rng(seed=rng)
@@ -452,6 +452,8 @@ def sample_GM(mu=0, L=None, C=None, N=1, rng=rnd):
     # Compute L from C (if needed)
     if L is None:
         from numpy.linalg import cholesky
+        if reg:
+            C = C + reg * np.eye(len(C))
         L = cholesky(C)
 
     d = len(L) # len (number of dims) of x
