@@ -137,13 +137,13 @@ def variograms(power=1.5, transf01="expo", Range=0.3, nugget=0, sill=1):
     return vg
 ```
 
-where `transforms01` monotonically decreasingly maps $[0, +\infty]$ to $[0, 1]$ .
+Here, `transforms01` monotonically decreasingly maps $[0, +\infty]$ to $[0, 1]$ .
 
 ```python
 transforms01 = {
     "none":  lambda x: x,               # identity
     "expo":  lambda x: 1 - np.exp(-x),  # similar to Gaussian densities
-    "hyper": lambda x: 1 - 1 / (1 + x), # similar to Cachy densities
+    "hyper": lambda x: 1 - 1 / (1 + x), # similar to Cauchy densities
     "clip":  lambda x: x.clip(max=1)    # similar to "hat" function
 }
 vg_params = dict(transf01=list(transforms01), power=(0.01, 4, .01),
@@ -230,7 +230,7 @@ Let's try it out.
 ### 1D example
 
 ```python
-@interact(**vg_params, N=(1, 30), top=list(vg_params))
+@interact(**vg_params, N=(1, 30), bottom=list(vg_params))
 def sample_1D(power=1.5, transf01="expo", Range=0.3, nugget=1e-2, sill=1, N=10):
     variogram = variograms(power, transf01, Range, nugget, sill)
     C = covar_modelled(grid1D[:, None], variogram)
@@ -252,7 +252,7 @@ Refer to both of the above interactive widgets to answer the following.
 - (c) Can you reproduce this using `nugget` somehow ?
 - (d) Try `nugget = 0` and `0.01`. Explain why the impact is much more noticeable
   in the Gauss and Cauchy cases.
-- (e) How does changing `sill` affect the fields?
+- (e) How does changing `sill` affect the fields? Can you express `sill` in terms of $C(d)$ somehow? Thus, what other name could we give it?
 
 ```python
 # show_answer('variogram params')
@@ -288,8 +288,8 @@ def plot2d(ax, field, contour=True, show_obs=True, cmap="PiYG"):
     ax.set(aspect="equal", xticks=[0, 1], yticks=[0, 1])
 
     if show_obs:
-        ax.plot(*obs_loc.T, "ko", ms=4)
-        ax.plot(*obs_loc.T, "yo", ms=1)
+        ax.plot(*obs_locations.T, "ko", ms=4)
+        ax.plot(*obs_locations.T, "yo", ms=1)
 
     field = field.reshape(grid2x.shape)
     if contour:
@@ -321,27 +321,31 @@ def sample_2D(power=1.5, transf01="expo", Range=0.3, nugget=1e-2):
 
 ## Estimation
 
-### Problem
+Denote $x = X(s)$ the random field at a single location,
+$\vect{x}$ the random field at all grid locations,
+and $\vect{y}$ the field at the observation locations.
 
-For our estimation target ($\vect{x}$), we use the default covariance defined above.
+### Problem (2D)
+
+For our estimation/interpolation target ($\vect{x}$) we sample using the default covariance matrix defined above.
 
 ```python
 truth = sample_GM(C=C, N=1, reg=1e-12).squeeze()
 ```
 
-For our observations, we randomly pick some grid locations...
+For our observations ($\vect{y}$) we randomly pick some grid points:
 
 ```python
 nObs = 10
 rnd.seed(3000)
-obs_idx = rnd.choice(len(grid2D), nObs, replace=False)
-obs_loc = grid2D[obs_idx]
+obs_indices = rnd.choice(len(grid2D), nObs, replace=False)
 ```
 
-...such that the observation values ($\vect{y}$) are simply:
+...such that the observation locations and values are simply:
 
 ```python
-observations = truth[obs_idx]
+obs_locations = grid2D[obs_indices]
+observations = truth[obs_indices]
 ```
 
 However (unlike classical bilinear/bicubic interpolation),
@@ -379,8 +383,8 @@ colorbar(fig, cb2, axs[1]);
 Pre-compute some objects that see repeated use.
 
 ```python
-dists_yy = dist_euclid(obs_loc, obs_loc)
-dists_xy = dist_euclid(grid2D, obs_loc)
+dists_yy = dist_euclid(obs_locations, obs_locations)
+dists_xy = dist_euclid(grid2D, obs_locations)
 ```
 
 The cells below contain snippets of different spatial interpolation methods
@@ -411,63 +415,27 @@ exponent = 3
 with np.errstate(invalid='ignore', divide='ignore'):
     weights = np.zeros_like(dists_xy)  ### FIX THIS ###    
 estims["Inv-dist."] = weights @ observations # Apply weights
-estims["Inv-dist."][obs_idx] = observations # Fix singularities
+estims["Inv-dist."][obs_indices] = observations # Fix singularities
 ```
 
 ```python
 # show_answer('inv-dist weight interp')
 ```
 
-<a name='Exc:-"simple"-kriging'></a>
+#### Kriging
 
-#### Exc: "simple" kriging
+Kriging finds the best (minimum) mean square error (MSE), $\Expect (\hat{x} - x)^2$, among all linear "predictors",
+$\hat{x} = \vect{w}\tr \vect{y}$, that are unbiased (BLUP).
 
-Consider the random value $x(s)$ of the field at a single location, and drop the $s$.
-Kriging minimizes the mean square error
-$$\text{MSE} = \Expect (\hat{x} - x)^2$$ among all linear estimators
-of the form `estimate = observations @ weights`, i.e., $$\hat{x} = \vect{w}\tr \vect{y}$$ that are unbiased.
-<details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
-  <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
-    Thus, kriging seeks the best linear unbiased *predictor* (BLUP),
-    which is similar but different from the BLUE (optional reading...)
-  </summary>
+<a name='Exc:-"simple"-kriging-(SK)'></a>
 
-  Note that unbiasedness means the MSE can also be termed the error "variance".
-  Thus, the metric may easily be confused with the variance of the estimator alone,
-  which is what the BLUE (Best Linear Unbiased Estimator) of classical Gauss-Markov theory minimizes,
-  but which is not suitable for the current setting.
-  To wit, the BLUE for linear regression is derived to estimate a fixed (but unknown) parameter,
-  while kriging tries to *predict* a *random* value $X$ of mean $\mu$
-  (one conventionally "estimates" fixed effects and "predicts" random effects).
+#### Exc: "simple" kriging (SK)
 
-  This additional randomness (i.e., in the estimand as well as in the observations)
-  makes the criterion of unbiasedness much more bland and less influential than in the case of the BLUE.
-  For instance, if the mean is known (effectively zero), then the BLUE is simply zero
-  (it is unbiased and has zero variance)!
-  Or if the mean is unknown, unbiasedness merely imposes that the weights sum to one,
-  which is entirely independent of the observation configuration.
-
-  In an effort to make the unbiasedness criterion more informative,
-  as for the BLUE, one could condition on the random (but realized) $x(s)$.
-  However, the resulting expectation at the observation points all simply become $x(s)$,
-  and the same would happen for any other location $s'$, meaning that unbiasedness
-  remains highly uninformative.
-  Indeed, the resulting weights are $\frac{\vect{1}\tr C^{-1}}{\vect{1}\tr C^{-1} \vect{1}}$,
-  which does not depend in any way on the location of $x$.
-
-  Alternatively, one could try to remove the other source of randomness,
-  namely that of $Y$, by conditioning on it to estimate the *posterior* of $X$.
-  This works well enough but requires Gaussianity assumptions for tractability
-  (otherwise, the posterior mean, e.g., is not a definite quantity).
-  Further details are provided below.
-  - - -
-</details>
-
-For now, assume the mean is constant in space and known.
-Since it is easy to subtract (and later re-include) the mean from both $x$ and the data $\vect{y}$,
-we simply assume the mean is zero.
+Suppose $X(s)$ has a mean that is constant in space, $\mu$, and known.
+Since it is easy to subtract (and later re-include) $\mu$
+from both $x$ and the data $\vect{y}$, we simply assume $\mu = 0$.
 Thus, $\Expect \vect{y} = \vect{0}$ and $\Expect \hat{x} = 0$ for any weights $\vect{w}$,
-and so $\hat{x}$ is inherently unbiased.
+and so $\hat{x}$ is already unbiased.
 Meanwhile,
 $$
 \begin{align}
@@ -478,40 +446,82 @@ $$
   &= \vect{w}\tr \Expect \big( \vect{y} \vect{y}\tr \big) \vect{w}
      - 2 \Expect \big( x \vect{y}\tr \big) \vect{w}
      + \Expect \big( x^2 \big) \\
-  &= \vect{w}\tr \mat{C}_{yy} \vect{w}
-     - 2 \vect{c}_{xy}\tr \vect{w}
+  &= \vect{w}\tr \mat{C}_{\vect{y} \vect{y}} \vect{w}
+     - 2 \vect{c}_{x \vect{y}}\tr \vect{w}
      + C(0) \,,
 \end{align}
 $$
-whose minimum can be found by setting the derivative with respect to $\vect{w}$ to zero,
-yielding
-$\vect{w}_{\text{SK}} = \mat{C}_{yy}^{-1} \, \vect{c}_{xy}$
-and the corresponding simple kriging (SK) estimate
-$\hat{x}_{\text{SK}}$.
+where $C(0)$ is the variance ("sill") of the field.
+The minimum can be found by setting the derivative with respect to $\vect{w}$ to zero,
+yielding $\vect{w}_{\text{SK}} = \mat{C}_{\vect{y} \vect{y}}^{-1} \, \vect{c}_{x \vect{y}}$
 
-These weights can be identified with those from the
-[regression perspective on the Kalman filter (T5)](T5%20-%20Multivariate%20Kalman%20filter.ipynb#Regression-perspective),
-which we derived as the posterior/conditional mean of a joint Gaussian distribution
-and simplified the use of Bayes' rule.
-This is how it's done for GP regression, and [Krige (1951)](#References) was also aware of this.
-We also [recall (T3)](T3%20-%20Bayesian%20inference.ipynb#Exc-(optional)-–-optimalities) that linear regression is the BLUE.
-Thus, we are effectively performing linear regression at any/all locations $s$,
-of which there are infinitely (uncountably) many.
-This reflects the fact that kriging is a so-called non-parametric method
-and that the variogram (seen as a kernel) has infinite rank.
+<details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
+  <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
+    We have already seen this formula in the
+    <a href="T5%20-%20Multivariate%20Kalman%20filter.ipynb#Regression-perspective">regression perspective on the Kalman gain (T5)</a>,
+    which also noted the Gauss-Markov theorem which states that it is optimal in the BLUE sense.
+    The perspective of radial basis functions (RBF) is also informative (optional reading...)
+  </summary>
 
-The fact that kriging can be derived as a posterior Gaussian distribution
-makes it evident that kriging also provides an uncertainty estimate,
-namely the posterior covariance matrix. This can also be derived from the linear, unbiased MSE perspective
-and is a major benefit compared to the other interpolation methods we tested above.
+  The BLUP criterion is similar to the best linear unbiased *estimator* (BLUE),
+  and so the equivalence of the formulae may not come as a surprise.
+  Still, even though the MSE optimized by the BLUP can be construed as a *variance* (by the unbiasedness constraint),
+  it should not be confused with the variance minimized by the BLUE, which targets a *fixed* (but unknown) quantity
+  (one conventionally "estimates" fixed effects and "predicts" random effects).
+  Indeed, fruitfully applying the BLUE criterion to the kriging setting is difficult.
+  For example, the additional randomness (i.e., in the estimand $x$ as well as in the observations $\vect{y}$)
+  makes it so that if the mean $\mu$ is known – effectively zero – then the BLUE is simply zero
+  (it is unbiased and has zero variance)!
+  Or, if $\mu$ is unknown, we can assume $\vect{y} = x + \vect{r}$ in order to define unbiasedness,
+  which then requires that the weights sum to one, i.e. $\vect{w}\tr\vect{1} = 1$.
+  Then, if $\mat{C}_{\vect{y}\vect{y}}$ is the covariance of $\vect{r}$,
+  the BLUE weights become $(\vect{1}\tr \mat{C}_{\vect{y}\vect{y}}^{-1})/(\vect{1}\tr \mat{C}_{\vect{y}\vect{y}}^{-1} \vect{1})$,
+  and so $\hat{x}(s)$ is constant in $s$, i.e. flat.
+  Thus we see the need to include the randomness of $x$ along with that of $\vect{y}$.
+  This seems contrary to the classical BLUE framing,
+  but we have already seen it done for the Kalman gain (by augmenting the observations by the prior mean).
+  Even so, claims of BLUE optimality would be limited to cases where we could find
+  covariances and operators that fit with the variogram-modelled covariance,
+  which is very limiting.
 
-Yet another perspective on kriging is that of **radial basis function (RBF) interpolation**,
-where it is derived by fitting $N$ radial functions to interpolate $N$ data points (observations).
-Ultimately, the various kriging methods can all be written as
-$\vect{y}\tr \mat{C}^{-1} \vect{d}$, where $\vect{y}$ is the observations
-and the product of the last two factors is seen as the "weights" initially solved for.
-With RBFs, the parentheses (ordering of computations) shift, and the "weights" solved for are given
-by the first two factors. This perspective is termed "dual" in kriging.
+  Now for the "dual" perspective of kriging, which is held by **radial basis function (RBF) interpolation**.
+  Ultimately, kriging (simple, ordinary, and universal) provides an estimate of the form
+  $\hat{x} = \vect{y}\tr (\mat{A}_\vect{y}^{-1} \vect{b}_{\vect{y} x})$,
+  where $\vect{y}$ is the observations,
+  and the subscripts indicate that $\mat{A}_\vect{y}$ depends on the locations of $\vect{y}$,
+  while $\vect{b}_{\vect{y} x}$ depends on the locations of $\vect{y}$ and $x$ both.
+  In the kriging perspective, $\vect{w} = \mat{A}_\vect{y}^{-1} \vect{b}_{\vect{y} x}$ is seen as the "weights" and get applied to $\vect{y}$:
+  once solved for, they are easily re-applied for different values of $\vect{y}$.
+  However, if we shift the parentheses (and computational order) onto the first two factors,
+  then the linear solver computes $\vect{v} = \mat{A}_\vect{y}^{-1} \vect{y}$,
+  fitting $N$ RBFs to $N$ data points, $\vect{y}$.
+  Now the "weights", $\vect{v}$, are computed from the observations,
+  but applied onto $\vect{b}_{\vect{y} x}$, which is a function of (the location) of $x$.
+  As such we have not merely derived an estimate for a single location, $s$,
+  but an *interpolant* (that is cheap to evaluate) for all locations.
+
+  Lastly, why is kriging said to be **non-parametric**?
+  Heuristically, note that – while the kernel itself is specified through a small number of parameters –
+  kriging defines a separate linear regression problem for each and every location of the domain,
+  of which there are infinitely (uncountably) many.
+  More rigorously, by identifying the variogram with a kernel,
+  we can appeal to the theory of reproducing kernel Hilbert spaces (RKHS) to kriging.
+  In particular, kriging (GP) can be seen to solve an "empirical risk minimisation problem"
+  with negligible measurement error (for interpolation).
+  Thus, by the "representer theorem",
+  – even though we're only solving for $N$ weights, $\vect{v}$ –
+  the fitted surface is not restricted to a finite feature basis,
+  but is the minimum in an infinite-dimensional function space.
+
+  - - -
+</details>
+
+However, we previously derived this $\hat{x}$ as the posterior/conditional mean of Gaussian distribution.
+This perspective is that of GP regression,
+but was also highlighted by [Krige (1951)](#References),
+and makes it evident that kriging also provides an uncertainty estimate
+(a major benefit compared to the other interpolation methods we tested above),
+namely the posterior covariance matrix, $C(0) - \vect{c}_{x \vect{y}}\tr \mat{C}_{\vect{y} \vect{y}}^{-1} \vect{c}_{x \vect{y}}$.
 
 Implement the method [(Wikipedia)](https://en.wikipedia.org/wiki/Kriging#Simple_kriging).  
 *Hint: You may use `sla.inv`, but `sla.solve` is better, and `sla.lstsq` is even better.*
@@ -529,7 +539,7 @@ estims["S.Kriging"] = observations @ weights
 # show_answer('Simple kriging')
 ```
 
-### More kriging
+### More kriging (1D)
 
 The above 2D case used the same variogram that generated the truth.
 But in practice, we do not know this variogram (whose very existence is a theoretical assumption),
@@ -544,7 +554,7 @@ def true(s):
     return np.sin(s**2)
 ```
 
-The observations ($\vect{y}$) are taken at the following (configurable) locations:
+The observations are taken at the following (configurable) locations:
 
 ```python
 def gen_obs_loc(nObs, spacing, L):
@@ -554,44 +564,30 @@ def gen_obs_loc(nObs, spacing, L):
 Visualisation:
 
 ```python
-@interact(**vg_params, L=(1, 10, 0.1), nObs=(1, 100, 1), spacing=(0.01, 1), top=list(vg_params))
+@interact(**vg_params, L=(1, 10, 0.1), nObs=(1, 100, 1), spacing=(0.01, 1), bottom=list(vg_params))
 def kriging_1d(L=4, nObs=6, spacing=0.5, transf01="expo", power=1.5, Range=0.3, nugget=0, sill=1):
     # Experiment setup
-    grid = np.linspace(0, L, 1001)
-    truth = true(grid)
-    obs_loc = gen_obs_loc(nObs, spacing, L)
-    observs = true(obs_loc)
+    sx = np.linspace(0, L, 1001)       # locations of x (interpolation grid)
+    sy = gen_obs_loc(nObs, spacing, L) # locations of y (observations points)
+    truth = true(sx)
+    obsvs = true(sy)
 
+    # Plot setup
     fig, ax = plt.subplots(figsize=(8, 4))
     ax.set_ylim(-2, 2)
-    ax.plot(grid, truth, "-k", label="truth")
-    ax.plot(obs_loc, observs, 'ok', label='data', ms=12, zorder=9)
+    ax.plot(sx, truth, "-k", label="truth")
+    ax.plot(sy, obsvs, 'ok', label='data', ms=12, zorder=9)
 
     # Kriging setup
     vg = variograms(power, transf01, Range=Range, nugget=nugget, sill=sill)
-    dists_yy = dist_euclid(obs_loc, obs_loc)
-    dists_xy = dist_euclid(grid, obs_loc)
+    dists_yy = dist_euclid(sy, sy)
+    dists_xy = dist_euclid(sx, sy)
 
     with nonchalance():
         mu = 0
-        interp = mu + simple_kriging(vg, dists_xy, dists_yy, observs - mu)
-        ax.plot(grid, interp, 'C1', label="S-krig", lw=5)
         ax.axhline(mu, c="k", lw=0.5)
-
-    with nonchalance():
-        interp = ordinary_kriging(vg, dists_xy, dists_yy, observs) 
-        ax.plot(grid, interp, 'C2', label="O-krig", lw=4)
-
-    with nonchalance():
-        regressors = [np.ones(nObs), obs_loc]
-        regressands = [np.ones(len(grid)), grid]
-        interp = universal_kriging(vg, dists_xy, dists_yy, observs, regressors, regressands)
-        ax.plot(grid, interp, 'C3', label="U-krig", lw=3)
-
-        from scipy.interpolate import CubicSpline, PchipInterpolator, Akima1DInterpolator
-        ax.plot(grid, CubicSpline(obs_loc, observs, bc_type="natural")(grid), 'C4', label="N-spline")
-        # ax.plot(grid, Akima1DInterpolator(obs_loc, observs)(grid), 'C6', label="Akima spline")
-        # ax.plot(grid, PchipInterpolator(obs_loc, observs)(grid), 'C5', label="PCHIP spline")
+        interp = mu + simple_kriging(vg, dists_xy, dists_yy, obsvs - mu)
+        ax.plot(sx, interp, 'C1', label="S-krig", lw=5)
 
     ax.legend(loc='lower left', ncols=2)
     plt.show()
@@ -604,7 +600,7 @@ Add the simple kriging interpolant by copy-pasting your solution from above into
 able to view error messages (to debug errors).*
 
 ```python
-def simple_kriging(vg, dists_xy, dists_yy, observations):
+def simple_kriging(vg, dists_xy, dists_yy, observations, mu):
     field_estimate = ...
     return field_estimate
 ```
@@ -624,8 +620,8 @@ The resulting method is called ordinary kriging.
 In this case, unbiasedness of $\hat{x} = \vect{w}\tr \vect{y}$ requires that the weights sum to one.
 This can be imposed on the MSE minimization using a Lagrange multiplier $\lambda$,
 yielding the augmented system to solve:
-$$ \begin{pmatrix} \mat{C}_{yy} & \vect{1} \\ \vect{1}\tr & 0 \end{pmatrix} \begin{pmatrix} \vect{w} \\ \lambda \end{pmatrix}
-= \begin{pmatrix} \vect{c}_{xy} \\ 1 \end{pmatrix} \,.$$
+$$ \begin{pmatrix} \mat{C}_{\vect{y} \vect{y}} & \vect{1} \\ \vect{1}\tr & 0 \end{pmatrix} \begin{pmatrix} \vect{w} \\ \lambda \end{pmatrix}
+= \begin{pmatrix} \vect{c}_{x \vect{y}} \\ 1 \end{pmatrix} \,.$$
 
 Ordinary kriging can be reproduced by separately kriging the mean and the resulting residual field [(Wackernagel, 2013)](#References).
 
@@ -636,8 +632,12 @@ In this case, the unbiasedness requirement also manifests as a requirement
 that any variance expressed as a linear combination of variograms be positive.
 In the RBF perspective, this requirement guarantees the existence and uniqueness of the solution to the OK equations.
 
-- (a) Implement OK below *using variograms*.\
-  Before each of the following questions, re-run the above plotting cell to reset the parameters to their written defaults.
+- (a) Implement the OK method and add it to the above plotting by adding the following to its code:
+  ```python
+  with nonchalance():
+    interp = ordinary_kriging(vg, dists_xy, dists_yy, obsvs)
+    ax.plot(sx, interp, 'C2', label="O-krig", lw=4)
+  ```
 - (b) Which variogram model(s) does OK "unlock"?
 - (c) What is peculiar about the interpolant for each of the new variograms?
 - (d) Set `nObs = 1`. What is the difference between the SK and OK interpolants?
@@ -647,26 +647,32 @@ In the RBF perspective, this requirement guarantees the existence and uniqueness
 # show_answer('Ordinary kriging', 'a')
 ```
 
-```python
-def ordinary_kriging(vg, dists_xy, dists_yy, observations):
-    field_estimate = ...
-    return field_estimate
-```
-
 #### Exc (optional) – Universal kriging
 
 In addition to the flat/constant *feature* $\vect{1}$,
 one can add additional regressors in a similar fashion to how the OK system augments the SK system of equations,
 producing universal kriging (UK).
-If the features are monomials (evaluated at the locations of $x$ and $\vect{y}$),
-then they may well be called *trends*,
+If the features are monomials, then they may well be called *trends*,
 and the UK method is called intrinsic kriging (IK).
 Their order $+1$ defines the maximum allowable order of the *generalized* covariance function
-(for the `power=3` "variogram" above, we need to include linear trends),
+(for example, `power=3` "variogram" has order 2, requiring order 1 (linear) trends),
 again rendering the augmented linear system well-posed.
 
-- (a) Implement UK below and answer the following.
-- (b) Can you make the UK interpolant reproduce `CubicSpline`?
+```python
+order = 1
+features = [(lambda x: x**p) for p in range(order+1)]
+```
+
+- (a) Add the following to the plotting code above, and implement the requisite UK method.
+  ```python
+    with nonchalance():
+        regressors = [f(sy) for f in features]
+        regressands = [f(sx) for f in features]
+        interp = universal_kriging(vg, dists_xy, dists_yy, obsvs, regressors, regressands)
+        ax.plot(sx, interp, 'C3', label="U-krig", lw=3)
+  ```
+- (b) Add the interpolation method of cubic spine (from scipy; Google it!).\
+  Can you make the UK interpolant reproduce this (in the interior)?
   What happens when you vary `Range`?
 - (c) Although theoretically suboptimal
   (since it assumes a constant/flat mean, and does not support generalized covariance functions),
@@ -676,12 +682,6 @@ again rendering the augmented linear system well-posed.
 
 ```python
 # show_answer('Universal kriging', 'a')
-```
-
-```python
-def universal_kriging(vg, dists_xy, dists_yy, observations, regressors, regressands):
-    field_estimate = ...
-    return field_estimate
 ```
 
 Further generalizations include co-kriging (vector-valued fields).
@@ -696,7 +696,7 @@ Random, (geo)spatial fields are often modeled by their (auto-)correlation functi
 Covariances also form the basis of a family of spatial interpolation and approximation
 methods known as kriging.
 
-### Next: [T8 - Monte-Carlo & ensembles](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb)
+### Next: [T8 - Monte-Carlo & ensembles](T8%20-%20Monte-Carlo%20%26%20cov%20estimation.ipynb)
 
 <a name="References"></a>
 
@@ -733,7 +733,6 @@ methods known as kriging.
   publisher={Southern African Institute of Mining and Metallurgy}
 }
 -->
-
 
 - **Chilès & Delfiner (2012)**:
   J.P. Chilès and P. Delfiner,

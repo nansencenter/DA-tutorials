@@ -122,7 +122,7 @@ The gain $\barK$ is defined by inserting the ensemble estimates for
 - (ii) $\bH \bP^\tf \bH\tr$: the covariance matrix of $\ObsMod(\x^\tf)$,
 
 in the formula for $\K$, namely eqn. (K1) of [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb).
-Using the estimators from [T8](T8%20-%20Monte-Carlo%20%26%20ensembles.ipynb) yields
+Using the estimators from [T8](T8%20-%20Monte-Carlo%20%26%20cov%20estimation.ipynb) yields
 
 $$\begin{align}
   \barK &= \X \Y\tr ( \Y \Y\tr + (N{-}1) \R )^{-1} \,, \tag{5a}

@@ -1258,6 +1258,13 @@ answers['Universal kriging a'] = ["MD", r"""
         return observations @ weights[:-2]
 """]
 answers['Universal kriging b'] = ["MD", r"""
+    from scipy.interpolate import CubicSpline
+    ax.plot(grid, CubicSpline(obs_loc, observs, bc_type="natural")(grid), 'C4', label="N-spline")
+
+    # from scipy.interpolate import PchipInterpolator, Akima1DInterpolator
+    # ax.plot(grid, Akima1DInterpolator(obs_loc, observs)(grid), 'C6', label="Akima spline")
+    # ax.plot(grid, PchipInterpolator(obs_loc, observs)(grid), 'C5', label="PCHIP spline")
+
 Yes, by using a cubic variogram.
 While the extrapolating tails differ, the interpolant lines are superimposed in the interior.
 
@@ -1280,6 +1287,7 @@ answers['variogram params'] = ["MD", r"""
   (variograms apply to *distances*, and as such are applied for $-\epsilon$ as well as $+\epsilon$).
   The behaviour of the variogram near the origin determines the smoothness at small scales.
 - (e) It controls the "vertical" spacing between fields.
+  This is because the sill equals $C(0)$, i.e. the "variance" of the field (assuming this exists).
 """]
 
 
