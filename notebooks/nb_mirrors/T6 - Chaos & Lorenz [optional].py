@@ -353,7 +353,7 @@ def plot_pendulum2(k=1, N=2):
 # - (f) Now suppose $x'(t)$ evolves according to $\frac{d x'}{d t} = g(x')$, with $g \neq f$.  
 #   What is the differential equation governing the error, $\varepsilon$, to leading order?
 #   What new phenomenon does it prescribe, as compared to eqn. (TLM)?
-# - (g, optional) Now drop the scalar assumption.
+# - (g, *optional*) Now drop the scalar assumption.
 #   Assuming diagonalizability, $\mat{F} = \mat{T} \operatorname{diag}(\vect{d}) \, \mat{T}^{-1}$,
 #   show that the solution to eqn. (TLM) is
 #   $\boldsymbol{\varepsilon} = \mat{M} \, \boldsymbol{\varepsilon}_0$,

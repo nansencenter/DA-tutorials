@@ -430,7 +430,7 @@ Otherwise, it can be shown by Cauchy-Swartz, that $-1\leq \rho \leq 1$.
   if $X$ and $Y$ are independent.  
 - (c) Similarly, prove:
   $\mathbb{Cov}[ \vect{A} \, \vect{X} + \vect{Y} ] = \mat{A} \, \mathbb{Cov} [\vect{X}] \, \mat{A}\tr + \mathbb{Cov}[\vect{Y}]$ if $\vect{X}$ and $\vect{Y}$ are independent.
-- (d – optional) If $X$ and $Y$ are Gaussian, then so is $X + Y$.
+- (d – *optional*) If $X$ and $Y$ are Gaussian, then so is $X + Y$.
   Proof in the [next tutorial](T3%20-%20Bayesian%20inference.ipynb#Exc-–-BR-LG1). Meanwhile watch the [`3blue1brown` video](https://www.youtube.com/watch?v=d_qvLDhkg00&t=266s&ab_channel=3Blue1Brown).
 - (e) Let $\vect{Z} \sim \NormDist(\vect{0}, \I)$,  where $\I$ is the identity matrix.
   Show that each component, $Z_i$, is independent of all others.

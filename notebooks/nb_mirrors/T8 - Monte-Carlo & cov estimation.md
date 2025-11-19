@@ -61,6 +61,8 @@ $
 \newcommand{\barC}[0]{\mat{\bar{C}}}
 \newcommand{\ones}[0]{\vect{1}}
 \newcommand{\AN}[0]{\big( \I_N - \ones \ones\tr / N \big)}
+\newcommand{\diff}[0]{\mathrm{d}}
+\newcommand{\Reals}{\mathbb{R}}
 $
 wherein the dynamics (and measurements) are assumed linear,
 i.e. $\DynMod, \ObsMod$ are matrices.
@@ -234,11 +236,10 @@ def var_and_precision_estimates(N=4):
 
 - Note that $1/\barC$ does not appear to be an unbiased estimate of $1/C = 1$.  
   Explain this by referring to a well-known property of the expectation, $\Expect$.  
-  In view of this, consider the role and utility of "unbiasedness" in estimation.
 - What, roughly, is the dependence of the mean values (vertical lines) on the ensemble size?  
   What do they tend to as $N$ goes to $0$?  
   What about $+\infty$ ?
-- Optional: What are the theoretical distributions of $\barC$ and $1/\barC$ ?
+- *Optional*: What are the theoretical distributions of $\barC$ and $1/\barC$ ?
 
 ```python
 # show_answer('variance estimate statistics')
@@ -310,33 +311,90 @@ as illustrated by the widget above.
 ### What about the linearisation?
 
 **Exc – The ensemble switcheroo:**
-Show that, if the covariance matrix $\bP^\tf$ is replaced by its estimate based on $\E^\tf$ then, in the linear case,
-$\ObsMod \, \bP^\tf$ equals the cross covariance estimated from $\ObsMod \, \E^\tf$ and $\E^\tf$.
+Show that, if the covariance matrix $\bP^\tf$ is replaced by its estimate based on $\E^\tf$, say $\barC_{\vect{x}}$,
+then, in the linear case, $\ObsMod \, \bP^\tf$ equals
+the cross covariance estimated from $\ObsMod \, \E^\tf$ and $\E^\tf$, say $\barC_{\vect{y},\vect{x}}$.
 
 ```python
 # show_answer('associativity')
 ```
+
 Now, $\ObsMod \, \bP^\tf$ figures in the KF,
 but is not applicable in the non-linear (and hence non-Gaussian).
-On the other hand, the latter approach, i.e. the EnKF, is applicable.
-
+On the other hand, $\barC_{\vect{y},\vect{x}}$ is straightforward to compute,
+which is what the EnKF relies on.
 But what can be said about the way non-linearity is handled by the EnKF?
+Let $\vect{x} \sim \NormDist(\vect{\mu}, \mat{C}_{\vect{x}})$,
+i.e. $p(\vect{x}) \propto e^{ - \| \vect{x} - \vect{\mu} \|^2_{\mat{C}_{\vect{x}}} / 2 }$,
+and consider the average (w.r.t. $\vect{x}$) of the analytic (exact) gradient:
+$$
+\require{cancel}
+\begin{align}
+    \Expect \nabla\! \ObsMod(\vect{x})
+    &:=
+    \, \int_{\Reals^d} \nabla\! \ObsMod(\vect{x}) \, p(\vect{x}) \diff \vect{x} \\
+    &=
+    - \int_{\Reals^d} \ObsMod(\vect{x}) \, [\nabla p(\vect{x})]\tr \diff \vect{x}
+    \;+\; \xcancel{\bigl[\ObsMod(\vect{x}) \, p(\vect{x}) \, \vect{n} \bigr]_{\partial \Reals^d}}
+\end{align}
+$$
+by integration by parts, and $p(\vect{x}) \xrightarrow[\partial \Reals^d]{} 0$.
+But
+$$
+\begin{align*}
+    \nabla p(\vect{x})
+    &= p(\vect{x}) \, \nabla\! \log p(\vect{x}) &\\
+    &= p(\vect{x}) \, \mat{C}_{\vect{x}}^{-1} (\vect{\mu} - \vect{x}) \,.&
+\end{align*}
+$$
+In summary, we obtain **Stein's lemma**:
+$$
+\begin{align}
+    \Expect \nabla\! \ObsMod(\vect{x})
+    &=
+    \int_{\Reals^d} \ObsMod(\vect{x}) \, p(\vect{x}) \, (\vect{x} - \vect{\mu})\tr \diff \vect{x} \;\; \mat{C}_{\vect{x}}^{-1}
+    \hspace{6.5em}
+    \\
+    &= \mat{C}_{\vect{y}, \vect{x}}\, \mat{C}_{\vect{x}}^{-1} \,.
+\end{align}
+$$
+Meanwhile, by Slutsky, $
+    % \ensgrad\! \ObsMod
+    % =
+    \bar{\mat{C}}_{\vect{y}, \vect{x}} \, \bar{\mat{C}}_{\vect{x}}^{+}
+    \xrightarrow[N \rightarrow \infty]{}
+    % \Expect \nabla\! \ObsMod(\vect{x})
+    \mat{C}_{\vect{y}, \vect{x}}\, \mat{C}_{\vect{x}}^{-1}
+    .$
+Thus, using $\bar{\mat{C}}_{\vect{y}, \vect{x}}$
+in ensemble methods means using an average derivative [[Raanes (2019)](#References)],
+a claim which was long made somewhat heuristically,
+along with the view of ensemble as a set of large, random, finite difference perturbations.
+Alternatively, $\mat{C}_{\vect{y}, \vect{x}}\, \mat{C}_{\vect{x}}^{-1}$ can also be shown to be
+the analytic derivative – with respect to $\mu$ – of the average of $\ObsMod(\vect{x})$ [[Stordal (2016)]](#References).
 
-- Stein ⇒ Average derivative [[Raanes (2019)](#References)] (or derivative of average) .
-  - Exc: Stein's lemma
-    - Univariate
-    - Proof
-      It is important to note that this derivation of the ensemble linearisation
-      shows that errors (from different members) cancel out,
-      and shows exactly the linearisation converges to,
-      both of which are not present in any derivation starting with Taylor-series expansions.
-    - A similar result was recognized by [[Stordal (2016)]](#References).
+Note that this derivation of the ensemble linearisation
+shows that errors (from different members) *cancel out*,
+and shows exactly the linearisation converges to,
+neither of which are present in any derivation starting with Taylor-series expansions in $\ObsMod$.
 
-  Formalizes view of ensemble method as a set of finite difference perturbations (with large, pseudo-random spread).
-- When recognized as preconditioned LLS regression [[Anderson (2001)](#References)], can talk about BLUE.
-- But the whole of the EnKF can be seen as LLS regression (Snyder),
-  which is perhaps not terribly surprising considering that the whole of the KF is called BLUE,
-  i.e. is LLS (but rarely spoken of as such).
+Of course, $\mat{C}_{\vect{y}, \vect{x}}\, \mat{C}_{\vect{x}}^{-1}$ can also be recognized as
+the formula for linear least-squares (LLS) regression,
+which enables a discussion of Gauss-Markov (BLUE) optimality.
+<details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
+  <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
+  The fact that LLS regression is used by the EnKF was recognized as early as [Anderson (2001)](#References)
+  (optional reading 🔍)
+  </summary>
+
+  although he employs it in the reverse direction (from $\vect{y}$ to $\vect{x}$).
+  LLS regression was also identified by Snyder (2012) for the Kalman gain as a whole,
+  and can even be identified as implicit in the ETKF approximation: $\ObsMod(x) \approx \bar{y} + \mat{Y} \vect{w}$.
+  The strict equivalence between these approaches can be globally understood as a corollary
+  of the fact that the chain rule applies for LLS derivatives.
+
+  - - -
+</details>
 
 ## Summary
 
@@ -352,7 +410,6 @@ The ensemble approach naturally handles nonlinearity by simulating the full syst
 forming the basis for methods like the EnKF.
 
 ### Next: [T9 - Writing your own EnKF](T9%20-%20Writing%20your%20own%20EnKF.ipynb)
-
 
 - - -
 

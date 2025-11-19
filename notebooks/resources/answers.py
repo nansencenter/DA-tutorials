@@ -1321,6 +1321,11 @@ answers['variance estimate statistics'] = ['MD', r'''
  * Visibly, the expected value (mean) of $1/\barC$ is not $1$,
    so $1/\barC$ is not unbiased. This is to be expected,
    since taking the reciprocal is a *nonlinear* operation.
+
+   In the EnKF, estimated covariances feature in multiple places,
+   interacting and impacting the updated ensemble nonlinearly.
+   Thus it is not obvious that unbiasedness is all that important
+   for covariance estimation for the EnKF.
  * The mean of $\barC$ is $1$ for any ensemble size.
  * The mean  of $1/\barC$ is infinite for $ N=2 $,
    and decreases monotonically as $ N $ increases,
