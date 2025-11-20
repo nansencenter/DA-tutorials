@@ -389,10 +389,10 @@ It merely states how to update our quantitative belief (weighted possibilities) 
 As such, barring any approximations (such as using `Bayes_rule_LG1` outside the linear-Gaussian case),
 the (full) posterior will be **optimal** from the perspective of any [proper scoring rule](https://en.wikipedia.org/wiki/Scoring_rule#Propriety_and_consistency).
 
-*But if you must* pick a single point value estimate $\hat{x}$
-then you should **decide** on it by optimising (with respect to $\hat{x}$)
+*But if you must* pick a single point value estimate $\widehat{x}$
+then you should **decide** on it by optimising (with respect to $\widehat{x}$)
 the expectation (with respect to $x$) of some utility/loss function,
-i.e. $\Expect\, \text{Loss}(x - \hat{x})$.
+i.e. $\Expect\, \text{Loss}(x - \widehat{x})$.
 For instance, if the posterior pdf happens to be symmetric
 (as in the linear-Gaussian context above),
 and your loss function is convex and symmetric,

@@ -250,7 +250,7 @@ def var_and_precision_estimates(N=4):
 - (a). What's the difference between error and residual?
 - (b). What's the difference between error and bias?
 - (c). Show that mean-square-error (MSE) = Bias${}^2$ + Var.  
-  *Hint: start by writing down the definitions of error, bias, and variance (of $\hat{\theta}$).*
+  *Hint: start by writing down the definitions of error, bias, and variance (of $\widehat{\theta}$).*
 
 ```python
 # show_answer('errors')

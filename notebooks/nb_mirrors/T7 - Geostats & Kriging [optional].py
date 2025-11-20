@@ -389,8 +389,8 @@ estims["Inv-dist."][obs_indices] = observations # Fix singularities
 
 # #### Kriging
 #
-# Kriging finds the best (minimum) mean square error (MSE), $\Expect (\hat{x} - x)^2$, among all linear "predictors",
-# $\hat{x} = \vect{w}\tr \vect{y}$, that are unbiased (BLUP).
+# Kriging finds the best (minimum) mean square error (MSE), $\Expect (\widehat{x} - x)^2$, among all linear "predictors",
+# $\widehat{x} = \vect{w}\tr \vect{y}$, that are unbiased (BLUP).
 #
 # <a name='Exc-–-"simple"-kriging-(SK)'></a>
 #
@@ -399,13 +399,13 @@ estims["Inv-dist."][obs_indices] = observations # Fix singularities
 # Suppose $X(s)$ has a mean that is constant in space, $\mu$, and known.
 # Since it is easy to subtract (and later re-include) $\mu$
 # from both $x$ and the data $\vect{y}$, we simply assume $\mu = 0$.
-# Thus, $\Expect \vect{y} = \vect{0}$ and $\Expect \hat{x} = 0$ for any weights $\vect{w}$,
-# and so $\hat{x}$ is already unbiased.
+# Thus, $\Expect \vect{y} = \vect{0}$ and $\Expect \widehat{x} = 0$ for any weights $\vect{w}$,
+# and so $\widehat{x}$ is already unbiased.
 # Meanwhile,
 # $$
 # \begin{align}
 #   \text{MSE}
-#   % \Expect \big( \hat{x} - x \big)^2
+#   % \Expect \big( \widehat{x} - x \big)^2
 #   &= \Expect \big( \vect{w}\tr \vect{y} - x \big)^2 \\
 #   % &= \Expect \big( \vect{w}\tr \vect{y} \vect{y}\tr \vect{w} - 2 x \vect{y}\tr \vect{w} + x^2 \big) \\
 #   &= \vect{w}\tr \Expect \big( \vect{y} \vect{y}\tr \big) \vect{w}
@@ -441,7 +441,7 @@ estims["Inv-dist."][obs_indices] = observations # Fix singularities
 #   which then requires that the weights sum to one, i.e. $\vect{w}\tr\vect{1} = 1$.
 #   Then, if $\mat{C}_{\vect{y}\vect{y}}$ is the covariance of $\vect{r}$,
 #   the BLUE weights become $(\vect{1}\tr \mat{C}_{\vect{y}\vect{y}}^{-1})/(\vect{1}\tr \mat{C}_{\vect{y}\vect{y}}^{-1} \vect{1})$,
-#   and so $\hat{x}(s)$ is constant in $s$, i.e. flat.
+#   and so $\widehat{x}(s)$ is constant in $s$, i.e. flat.
 #   Thus we see the need to include the randomness of $x$ along with that of $\vect{y}$.
 #   This seems contrary to the classical BLUE framing,
 #   but we have already seen it done for the Kalman gain (by augmenting the observations by the prior mean).
@@ -451,7 +451,7 @@ estims["Inv-dist."][obs_indices] = observations # Fix singularities
 #
 #   Now for the "dual" perspective of kriging, which is held by **radial basis function (RBF) interpolation**.
 #   Ultimately, kriging (simple, ordinary, and universal) provides an estimate of the form
-#   $\hat{x} = \vect{y}\tr (\mat{A}_\vect{y}^{-1} \vect{b}_{\vect{y} x})$,
+#   $\widehat{x} = \vect{y}\tr (\mat{A}_\vect{y}^{-1} \vect{b}_{\vect{y} x})$,
 #   where $\vect{y}$ is the observations,
 #   and the subscripts indicate that $\mat{A}_\vect{y}$ depends on the locations of $\vect{y}$,
 #   while $\vect{b}_{\vect{y} x}$ depends on the locations of $\vect{y}$ and $x$ both.
@@ -481,7 +481,7 @@ estims["Inv-dist."][obs_indices] = observations # Fix singularities
 #   - - -
 # </details>
 #
-# However, we previously derived this $\hat{x}$ as the posterior/conditional mean of Gaussian distribution.
+# However, we previously derived this $\widehat{x}$ as the posterior/conditional mean of Gaussian distribution.
 # This perspective is that of GP regression,
 # but was also highlighted by [Krige (1951)](#References),
 # and makes it evident that kriging also provides an uncertainty estimate
@@ -577,7 +577,7 @@ def simple_kriging(vg, dists_xy, dists_yy, observations, mu):
 # Let us do away with the assumption that the mean of the field is known,
 # all the while retaining the assumption that it is constant in space.
 # The resulting method is called ordinary kriging.
-# In this case, unbiasedness of $\hat{x} = \vect{w}\tr \vect{y}$ requires that the weights sum to one.
+# In this case, unbiasedness of $\widehat{x} = \vect{w}\tr \vect{y}$ requires that the weights sum to one.
 # This can be imposed on the MSE minimization using a Lagrange multiplier $\lambda$,
 # yielding the augmented system to solve:
 # $$ \begin{pmatrix} \mat{C}_{\vect{y} \vect{y}} & \vect{1} \\ \vect{1}\tr & 0 \end{pmatrix} \begin{pmatrix} \vect{w} \\ \lambda \end{pmatrix}
