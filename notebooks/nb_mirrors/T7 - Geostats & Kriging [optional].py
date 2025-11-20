@@ -392,9 +392,9 @@ estims["Inv-dist."][obs_indices] = observations # Fix singularities
 # Kriging finds the best (minimum) mean square error (MSE), $\Expect (\hat{x} - x)^2$, among all linear "predictors",
 # $\hat{x} = \vect{w}\tr \vect{y}$, that are unbiased (BLUP).
 #
-# <a name='Exc:-"simple"-kriging-(SK)'></a>
+# <a name='Exc-–-"simple"-kriging-(SK)'></a>
 #
-# #### Exc: "simple" kriging (SK)
+# #### Exc – "simple" kriging (SK)
 #
 # Suppose $X(s)$ has a mean that is constant in space, $\mu$, and known.
 # Since it is easy to subtract (and later re-include) $\mu$

@@ -152,7 +152,7 @@ def Bayes2(  corr_R =.6,                 y1=1,          R1=4**2,                
 
 # While conceptually and technically simple, the sheer **amount** of computations done by `Bayes_rule` quickly becomes a difficulty in higher dimensions. This is highlighted in the following exercise.
 #
-# <a name="Exc-(optional)----Curse-of-dimensionality"></a>
+# <a name="Exc-(optional)-–-Curse-of-dimensionality"></a>
 #
 # #### Exc (optional) – Curse of dimensionality
 #
@@ -277,7 +277,7 @@ plt.legend();
 # *PS: all of the objects in the analysis equations could also be subscripted by the time index ($k$), but that seems unnecessary (since it is the same one for all of the objects involved).*
 #
 # **Exc (optional) – The 'precision' form of the KF:** Prove eqns. (4-6).  
-# *Hint: As in the [univariate case](T3%20-%20Bayesian%20inference.ipynb#Exc----BR-LG1), the main part lies in "completing the square" in $\x$.**
+# *Hint: As in the [univariate case](T3%20-%20Bayesian%20inference.ipynb#Exc-–-BR-LG1), the main part lies in "completing the square" in $\x$.**
 
 # +
 # show_answer('KF precision')
@@ -327,7 +327,7 @@ for i, (ax, truth, estim) in enumerate(zip(axs, truths.T, estims.T)):
 
 # Note that the other, *unobserved* components also get updated. As you can see from eqn. (5), the KF will update such *hidden* components as long as $\bP^\tf$ is not diagonal (i.e., as long as there are correlations between the state components). Let us inspect this correlation matrix. Run the cell below, and note:
 #
-# - It converges in time to a fixed value, as we might expect from [T4](T4%20-%20Time%20series%20filtering.ipynb#Exc----Temporal-convergence).
+# - It converges in time to a fixed value, as we might expect from [T4](T4%20-%20Time%20series%20filtering.ipynb#Exc-–-Temporal-convergence).
 # - There are no negative correlations in this case, which is perhaps a bit boring.
 
 @interact(k=(1, nTime))
@@ -355,7 +355,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 #    *Hint: Assume the computationally demanding part is the [Cholesky decomposition](https://en.wikipedia.org/wiki/Cholesky_decomposition#Computation).*
 # - (c) How much memory (bytes) is required to hold its covariance matrix $\bP$ ?
 # - (d) How many megabytes (MB) is that if $\xDim$ is a million,
-#    as in our [$1^\circ$ (110km) resolution Earth atmosphere model](#Exc-(optional)----Curse-of-dimensionality).
+#    as in our [$1^\circ$ (110km) resolution Earth atmosphere model](#Exc-(optional)-–-Curse-of-dimensionality).
 # - (e) How many times more MB or flops are needed if you double the resolution (in all 3 dimensions) ?
 
 # +
@@ -418,6 +418,8 @@ def plot_correlation_matrix(k=1, analysis=True):
 # show_answer('Woodbury C2')
 # -
 
+# <a name='Exc-–-The-"Gain"-form-of-the-KF'></a>
+#
 # #### Exc – The "Gain" form of the KF
 #
 # Now, let's return to the KF, eqns. (5) and (6). Since $\bP^\tf$ and $\R$ are covariance matrices, they are symmetric and positive. In addition, we will assume that they are full-rank, i.e. definite (i.e. SPD) and invertible.
@@ -456,9 +458,9 @@ def plot_correlation_matrix(k=1, analysis=True):
 #
 # Recall the various interpretations of the Kalman gain highlighted in [T3](T3%20-%20Bayesian%20inference.ipynb#Exc-(optional)-%E2%80%93-Gain-intuition).
 # The following provides another perspective on eqn. (K1).
-# Again by the [T2 exercise on algebra with random variables](T2%20-%20Gaussian%20distribution.ipynb#Exc-–-linear-algebra-of-with-random-variables),
-# the covariance matrix of the measurements, including noise,
-# can be identified as the "denominator" in eqn. (K1), i.e.
+# Again by the [T2 exercise on algebra with random variables](T2%20-%20Gaussian%20distribution.ipynb#Exc-–-linear-algebra-with-random-variables),
+# the "denominator" in eqn. (K1)
+# can be identified as the covariance matrix of the measurements, including noise, i.e.
 # $\mathbb{Cov}[\y] = \ObsMod \bP^\tf \ObsMod\tr + \R$,
 # where the conditioning obviously does not include $\y$ itself.
 # Meanwhile $\mathbb{Cov}[\x, \y] = \ObsMod \bP^\tf$.
@@ -471,7 +473,7 @@ def plot_correlation_matrix(k=1, analysis=True):
 # $\begin{bmatrix} \mathbb{Cov}[\x] & \mathbb{Cov}[\x,\y] \\
 # \mathbb{Cov}[\y, \x] & \mathbb{Cov}[\y] \end{bmatrix}$
 # and finding the mean of $\x$ conditional on some value for $\y$.
-# Another derivation, more common in the domain of geostatistics ([T7](T7%20-%20Geostats%20%26%20Kriging%20[optional].ipynb)),
+# Another derivation, more common in the domain of geostatistics ([T7](T7%20-%20Geostats%20%26%20Kriging%20%5Boptional%5D.ipynb#Exc-%E2%80%93-%22simple%22-kriging-(SK))),
 # is to show that it is the [BLUE](T3%20-%20Bayesian%20inference.ipynb#Exc-(optional)-–-optimalities).
 #
 # ## Summary

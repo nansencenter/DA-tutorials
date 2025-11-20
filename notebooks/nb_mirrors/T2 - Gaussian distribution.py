@@ -184,7 +184,7 @@ def plot_pdf(mu=0, sigma=5):
 # - (iii) Where is the **inflection point**? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
 # - (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
 #
-# <a name="Exc-(optional)----Change-of-variables"></a>
+# <a name="Exc-(optional)-–-Change-of-variables"></a>
 #
 # #### Exc (optional) – Change of variables
 #
@@ -202,7 +202,7 @@ def plot_pdf(mu=0, sigma=5):
 # show_answer('CVar in proba')
 # -
 
-# <a name="Exc-(optional)----Integrals"></a>
+# <a name="Exc-(optional)-–-Integrals"></a>
 #
 # #### Exc (optional) – Integrals
 #
@@ -297,7 +297,7 @@ def pdf_U1(x, mu, sigma2):
 # - - -
 # </details>
 #
-# Moreover, [as above](#Exc-(optional)----Integrals), it can be shown that
+# Moreover, [as above](#Exc-(optional)-–-Integrals), it can be shown that
 #
 # - $\mathbf{\mu} = \Expect[\X]$,
 # - $\mathbf{\Sigma} = \Expect[(\X-\mu)(\X-\mu)\tr]  =: \mathbb{Cov}(\X)$.
@@ -384,7 +384,7 @@ def plot_pdf_G2(corr=0.7, std_x=1, seed=0):
 #
 # <a name="Exc-–-correlation-extremes"></a>
 #
-# **Exc (optional) – Correlation extremes**
+# #### Exc (optional) – Correlation extremes
 #
 # Show that
 #
@@ -412,7 +412,7 @@ def plot_pdf_G2(corr=0.7, std_x=1, seed=0):
 # - Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
 #   Does information about $y$ give you information about $x$?
 #
-# <a name="Exc-–-linear-algebra-of-with-random-variables"></a>
+# <a name="Exc-–-linear-algebra-with-random-variables"></a>
 #
 # #### Exc – linear algebra with random variables
 #

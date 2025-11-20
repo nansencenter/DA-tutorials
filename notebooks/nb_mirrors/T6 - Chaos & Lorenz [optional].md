@@ -351,7 +351,7 @@ Let $\mat{F} = \frac{\partial \vect{f}}{\partial \x}$, which is called the ***ta
   - (1) Suppose $F<0$. What happens to the error? What does this mean for predictability?
   - (2) Now suppose $F>0$. Given that all observations are uncertain (i.e. $R_t>0$, if only ever so slightly),
     can we ever hope to estimate $x(t)$ with 0 uncertainty?
-    *PS: [T4](T4%20-%20Time%20series%20filtering.ipynb#Exc----Temporal-convergence) goes into further detail*
+    *PS: [T4](T4%20-%20Time%20series%20filtering.ipynb#Exc-–-Temporal-convergence) goes into further detail*
 - (d) What is the doubling time of the error?
 - (e) Consider the modified ODE
   $\frac{d \varepsilon}{d t} \approx F \varepsilon (1 - \varepsilon / \varepsilon_{\infty})$.

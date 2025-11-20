@@ -156,7 +156,7 @@ in order to estimate (or "track") it.
 From above,
 $p(x_0) = \NormDist(x_0 | x^\ta_0, P^\ta_0)$ with given parameters.
 We also know that $x_k$ evolves according to eqn. (DynMod).
-Therefore, as shown in the [T2 exercise on algebra with random variables](T2%20-%20Gaussian%20distribution.ipynb#Exc-–-linear-algebra-of-with-random-variables)
+Therefore, as shown in the [T2 exercise on algebra with random variables](T2%20-%20Gaussian%20distribution.ipynb#Exc-–-linear-algebra-with-random-variables)
 $p(x_1) = \NormDist(x_1 | x^\tf_1, P^\tf_1)$, with
 $$
 \begin{align}
@@ -187,6 +187,7 @@ Note that if $k$ is a date index, then "yesterday's forecast becomes today's pri
 
 In the case of linearity and Gaussianity,
 the KF of eqns. (5)-(8) computes the *exact* Bayesian pdfs for $x_k$.
+<a name="Bayesian-filtering-recursion"></a>
 <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
   <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
   But even without these assumptions,
@@ -230,8 +231,6 @@ the KF of eqns. (5)-(8) computes the *exact* Bayesian pdfs for $x_k$.
 
   - - -
 </details>
-
-
 
 #### Exc – Implementation
 
@@ -277,7 +276,7 @@ def KF(nTime, xa, Pa, M, H, Q, R, obsrvs):
 # show_answer('KF behaviour')
 ```
 
-<a name="Exc----Temporal-convergence"></a>
+<a name="Exc-–-Temporal-convergence"></a>
 
 #### Exc – Temporal convergence
 

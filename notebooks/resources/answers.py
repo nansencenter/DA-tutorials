@@ -287,7 +287,7 @@ thereby cancelling itself out:
 answers['Sum of Gaussians a'] = ['MD', r'''
 We could show this by letting $z = \phi(x) = \DynMod x + b$ and computing $\Expect z$
 using $p_z(z) = p_x\big(\phi^{-1}(z)\big) \,/\, |\phi'(z)|$,
-ref part (a) of [this question](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Change-of-variables).
+ref part (a) of [this question](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)-–-Change-of-variables).
 
 But it is much easier to just apply part (b). Then
 $\Expect [ \DynMod  x + b ] = \int ( \DynMod  x + b ) \, p(x) \,d x $,
@@ -359,7 +359,7 @@ $a < 0$ implies $\sigma_y = -a \sigma_x$.
 answers['RV linear algebra a'] = ['MD', r"""
 - By the linearity of the integral,
   $$ \Expect[a X] = \int a x \, p(x) \, d x = a \int x \, p(x) \, d x = a \, \Expect[X] $$
-- By the [law of the unconscious statistician](#Exc-(optional)----Change-of-variables)
+- By the [law of the unconscious statistician](#Exc-(optional)-–-Change-of-variables)
   $$ \Expect[X + Y] = \iint (x + y) \, p(x, y) \, d x \, d y \,.$$
   Now consider $\iint x \, p(x, y) \, d x \, d y = \int x \, p(x) \Big(\int p(y | x) d y\Big) dx$.
   The inner integral is $1$ for any $x$ and so can be ignored, leaving just $\Expect[X]$.
@@ -465,7 +465,7 @@ i.e. $\NormDist(y | \ObsMod(x), R)$.
 PS: for the non-additive case,
 i.e. more complicated combinations of $r$ and $x$,
 the likelihood can be derived by applying the
-[change-of-variables formula](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Change-of-variables).
+[change-of-variables formula](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)-–-Change-of-variables).
 For example, multiplicative noise, i.e. $y = x r$, produces $p(y|x) = \NormDist(y | 0, x^2 R)$.
 ''']
 
@@ -609,7 +609,7 @@ c_2
 
 answers['BR Gauss, a.k.a. completing the square d'] = ['MD', r'''
 Let $U = X+Y$.
-By the [law of the unconscious statistician](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)----Change-of-variables)
+By the [law of the unconscious statistician](T2%20-%20Gaussian%20distribution.ipynb#Exc-(optional)-–-Change-of-variables)
 $$ p_u(u) = \int p_x(x) \, p_q(u - x) \, d x \,. \tag{}$$
 
 Insert eqn. (G1) for the Gaussian pdf.
@@ -807,7 +807,7 @@ answers['KF1 code'] = ['MD', r'''
 
 answers['Asymptotic Riccati a'] = ['MD', r'''
 Follows directly from eqn. (6) from both this tutorial and
-[the previous one](T3%20-%20Bayesian%20inference.ipynb#Exc----BR-LG1).
+[the previous one](T3%20-%20Bayesian%20inference.ipynb#Exc-–-BR-LG1).
 ''']
 
 answers['Asymptotic Riccati b'] = ['MD', r'''

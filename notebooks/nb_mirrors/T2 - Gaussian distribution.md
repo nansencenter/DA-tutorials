@@ -191,7 +191,7 @@ which will help you remember some key properties of the distribution.
 - (iii) Where is the **inflection point**? I.e. where $\frac{d^2 p}{d x^2}(x) = 0$.
 - (iv) *Optional*: Some forms of *sensitivity analysis* (typically for non-Gaussian $p$) consist in estimating/approximating the Hessian, i.e. $\frac{d^2 \log p}{d x^2}$. Explain what this has to do with *uncertainty quantification*.
 
-<a name="Exc-(optional)----Change-of-variables"></a>
+<a name="Exc-(optional)-–-Change-of-variables"></a>
 
 #### Exc (optional) – Change of variables
 
@@ -209,7 +209,7 @@ and let $p_x$ and $p_u$ be their probability density functions (pdf).
 # show_answer('CVar in proba')
 ```
 
-<a name="Exc-(optional)----Integrals"></a>
+<a name="Exc-(optional)-–-Integrals"></a>
 
 #### Exc (optional) – Integrals
 
@@ -305,7 +305,7 @@ and $\|.\|_\mathbf{W}$ representing the weighted 2-norm: $\|\x\|^2_\mathbf{W} = 
 - - -
 </details>
 
-Moreover, [as above](#Exc-(optional)----Integrals), it can be shown that
+Moreover, [as above](#Exc-(optional)-–-Integrals), it can be shown that
 
 - $\mathbf{\mu} = \Expect[\X]$,
 - $\mathbf{\Sigma} = \Expect[(\X-\mu)(\X-\mu)\tr]  =: \mathbb{Cov}(\X)$.
@@ -392,7 +392,7 @@ captured/explained by a simple linear regression from $X$.
 
 <a name="Exc-–-correlation-extremes"></a>
 
-**Exc (optional) – Correlation extremes**
+#### Exc (optional) – Correlation extremes
 
 Show that
 
@@ -420,7 +420,7 @@ Otherwise, it can be shown by Cauchy-Swartz, that $-1\leq \rho \leq 1$.
 - Suppose $x$ and $y$ have non-zero correlation, but neither one causes the other.
   Does information about $y$ give you information about $x$?
 
-<a name="Exc-–-linear-algebra-of-with-random-variables"></a>
+<a name="Exc-–-linear-algebra-with-random-variables"></a>
 
 #### Exc – linear algebra with random variables
 

@@ -214,7 +214,7 @@ Then the likelihood is $$p(y|x) = \NormDist(y| \ObsMod(x), R) \,. \tag{Lklhd}$$
 # show_answer('Likelihood')
 ```
 
-<a name="Exc----Obs.-model-gallery"></a>
+<a name="Exc-–-Obs.-model-gallery"></a>
 
 #### Exc – Obs. model gallery
 
@@ -261,6 +261,8 @@ This is straightforward in the linear-Gaussian case, i.e. when $\ObsMod$ is line
 
 The proof is in the following exercise.
 
+<a name="Exc-–-BR-LG1"></a>
+
 #### Exc – BR-LG1
 
 Consider the following identity, where $P^\ta$ and $x^\ta$ are given by eqns. (5) and (6).
@@ -306,7 +308,7 @@ def Bayes_rule_LG1(xf, Pf, y, H, R):
 
 #### Exc – Gaussianity as an approximation
 
-- (a) Again, try the various $\ObsMod$ from the [above exercise](#Exc----Obs.-model-gallery) in the [interactive Bayes' rule widget](#Interactive-illustration).  
+- (a) Again, try the various $\ObsMod$ from the [above exercise](#Exc-–-Obs.-model-gallery) in the [interactive Bayes' rule widget](#Interactive-illustration).  
   For which $\ObsMod$ does `Bayes_rule_LG1()` reproduce `Bayes_rule()`?
 - (b) For simplicity, revert back to the identity for $\ObsMod$.
   Then run the cell below, which fits distributions [from `scipy`s library of distributions](https://stackoverflow.com/questions/37559470/)
@@ -356,6 +358,7 @@ $$
 ```python
 # show_answer('BR Kalman1 algebra')
 ```
+<a name="Exc-(optional)-–-Gain-intuition"></a>
 
 #### Exc (optional) – Gain intuition
 

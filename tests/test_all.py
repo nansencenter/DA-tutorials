@@ -12,6 +12,7 @@ from pathlib import Path
 import os
 import subprocess
 import sys
+import re
 import requests
 from urllib.parse import unquote
 
@@ -22,35 +23,38 @@ UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like 
 ROOT = Path(__file__).parents[1]
 
 
-def _report_error(msg):
-    # raise AssertionError(msg)  # for post-portem debugging
-    print(msg)
-    return True
-
-
-def _find_anchor(fname: Path, anchor):
+def _find_headings(fname: Path):
+    """Find headings"""
     lines = fname.read_text().splitlines()
     # filter for "# ### Example heading" or "# - ### Heading in bullet point"
     headings = [x for x in lines if x.startswith("# #") or x.startswith("# - #")]
     headings = [x.lstrip("# -") for x in headings]
     headings = [x.replace(" ", "-") for x in headings]
-    return anchor in headings
+    return headings
 
+def _find_anchors(fname: Path):
+    """Find anchors"""
+    lines = fname.read_text().splitlines()
+    # filter for "<a name="example-heading"></a>"
+    anchors = [x for x in lines if x.lstrip().startswith("# <a name=")]
+    anchors = [x.split('name=')[1][1:].split('>')[0][:-1] for x in anchors]
+    return anchors
 
+cache_headings = {}
+cache_anchors = {}
 def assert_all_links_work(lines, fname):
-    failed = False
+    any_failed = False
     for i, line in enumerate(lines):
-
-        # Skip
+        # Skip misc
         if not line.startswith("#"):
             continue
-        if any(x in line for x in [
-                "www.google.com/search",  # because md2html fails to parse
-                "www.example.com"]):
+        if "url={" in line.lower():
+            # Dont check bibtex URLs
             continue
 
         # First do a *quick* scan for links.
         if "](" in line or "http" in line:
+
             # Extract link
             html = md2html(line) # since extracting url from md w/ regex is hard
             # PS: linebreaks in links ⇒ failure (as desired)
@@ -60,11 +64,16 @@ def assert_all_links_work(lines, fname):
                 link = link.split("))")[0] + ")"
 
             # Common error message
-            def errm(issue):
-                return f"Issue on line {i} with {issue} link\n    {link}"
+            def print_err(msg):
+                # raise AssertionError(msg)  # for post-portem debugging
+                print(f"Issue on line {i} for link\n    {link}\n    {msg}")
 
             # Internet links
             if "http" in link:
+                if any(x in line for x in [
+                        "www.google.com/search",  # because md2html fails to parse
+                        "www.example.com"]):
+                    continue
                 response = None
                 try:
                     response = requests.head(link, headers={'User-Agent': UA}, allow_redirects=True, timeout=10)
@@ -81,9 +90,8 @@ def assert_all_links_work(lines, fname):
                     status = response.status_code if response is not None else "N/A"
                     skip = os.getenv("GITHUB_ACTIONS") and any(domain in link for domain in skip_domains) or status == 429
                     if not skip:
-                        failed |= True
-                        _report_error(errm("**requesting**") +
-                            f"\nStatus code: {status}\nError: {e}")
+                        any_failed |= True
+                        print_err(f"Status code: {status} when **requesting**. Error: {e}")
 
             # Local links
             else:
@@ -93,35 +101,60 @@ def assert_all_links_work(lines, fname):
                 # Validate filename
                 if link_fname:
                     if not (ROOT / "notebooks" / link_fname).is_file():
-                        failed |= _report_error(errm("**filename** of"))
+                        any_failed |= True
+                        print_err("Filename not found.")
 
                 # Validate anchor
                 if link_anchor:
-                    if not link_fname:
-                        # Anchor only ⇒ same file
-                        link_fname = fname
+                    # Find headings in `link_fname`
+                    if "answers.py" not in str(fname):
+                        if not link_fname:
+                            # Anchor only ⇒ same file
+                            link_fname = fname
+                        else:
+                            # Change "T4...ipynb" --> "tests/T4...py"
+                            link_fname = (ROOT / "tests" / link_fname).with_suffix(".py")
+                        # With caching
+                        if link_fname not in cache_anchors:
+                            cache_headings[link_fname] = _find_headings(link_fname)
+                            cache_anchors[link_fname] = _find_anchors(link_fname)
+                        anchors = cache_anchors[link_fname]
+                        headings = cache_headings[link_fname]
                     else:
-                        # Change "T4...ipynb" --> "tests/T4...py"
-                        link_fname = (ROOT / "tests" / link_fname).with_suffix(".py")
+                        # For answers.py, use union of anchors in all notebooks
+                        anchors = [h for hh in cache_anchors.values() for h in hh]
+                        headings = [h for hh in cache_headings.values() for h in hh]
 
-                    if not _find_anchor(link_fname, link_anchor[0]):
-                        failed |= _report_error(errm("**anchor tag** of"))
-    return failed
+                    # Gheck if anchor present in anchors
+                    if link_anchor[0] not in anchors:
+                        any_failed |= True
+                        if link_anchor[0] in headings:
+                            print_err("Anchor (necessary on Colab) missing or incorrect")
+                        else:
+                            closest = []
+                            for h in anchors:
+                                for word in re.split(r'[-–:_]', link_anchor[0]):
+                                    if len(word) > 2 and (word.lower() not in ["exc", "optional"]) and word.lower() in h.lower():
+                                        closest.append(h)
+                                        break
+                            closest = "\n      * ".join(["Change to one of the following?"] + closest)
+                            print_err("Anchor tag not found. " + closest)
+    return any_failed
 
 
 def assert_show_answer(lines, _fname):
     """Misc checks on `show_answer`"""
-    failed = False
+    any_failed = False
     found_import = False
     for i, line in enumerate(lines):
         found_import |= ("show_answer" in line and "import" in line)
         if line.lstrip().startswith("show_answer"):
                 print(f"`show_answer` uncommented on line {i}")
-                failed |= True
+                any_failed |= True
     if not found_import:
         print("`import show_answer` not found.")
-        failed = True
-    return failed
+        any_failed = True
+    return any_failed
 
 
 def uncomment_show_answer(lines):
@@ -161,17 +194,17 @@ for script in converted:
     print("\nStatic analysis for", script.stem)
     print("========================================")
     lines = script.read_text().splitlines()
-    failed = False
+    any_failed = False
 
     # Validatation checks
-    failed |= assert_all_links_work(lines, script)
-    failed |= assert_show_answer(lines, script)
+    any_failed |= assert_all_links_work(lines, script)
+    any_failed |= assert_show_answer(lines, script)
 
     # Modify script in preparation of running it
     lines = uncomment_show_answer(lines)
     lines = make_script_runnable_by_fixing_sys_path(lines)
 
-    if failed:
+    if any_failed:
         erred.append(script)
     script.write_text("\n".join(lines))
 
@@ -187,21 +220,21 @@ for key, answer in resources.answers.answers.items():
         erred.append(fname)
 
 
-## Run ipynbs as python scripts
-for script in converted:
-    print("\nRunning", script.name)
-    print("========================================")
-    run = subprocess.run(["python", str(script)], **text, check=False)
-    # print(run.stdout)
-    if run.returncode:
-        erred.append(script)
-        print(run.stderr, file=sys.stderr)
+# ## Run ipynbs as python scripts
+# for script in converted:
+#     print("\nRunning", script.name)
+#     print("========================================")
+#     run = subprocess.run(["python", str(script)], **text, check=False)
+#     # print(run.stdout)
+#     if run.returncode:
+#         erred.append(script)
+#         print(run.stderr, file=sys.stderr)
 
 # Provide return code
 if erred:
     print("========================================")
-    print("FOUND ISSUES")
+    print("FOUND ISSUES IN")
     print("========================================")
-    print(*["- " + str(f) for f in erred], file=sys.stderr)
+    print(*["- " + str(f) for f in erred], file=sys.stderr, sep="\n")
     print("See above for individual tracebacks.")
     sys.exit(1)

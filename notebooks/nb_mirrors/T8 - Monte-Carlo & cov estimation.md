@@ -34,7 +34,7 @@ plt.ion();
 (pdf_G1, grid1d, sample_GM) = import_from_nb("T2", ("pdf_G1", "grid1d", "sample_GM"))
 ```
 
-In [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb#Exc----The-%22Gain%22-form-of-the-KF) we derived the classical Kalman filter (KF),
+In [T5](T5%20-%20Multivariate%20Kalman%20filter.ipynb#Exc-–-The-%22Gain%22-form-of-the-KF) we derived the classical Kalman filter (KF),
 $
 \newcommand{\Expect}[0]{\mathbb{E}}
 \newcommand{\NormDist}{\mathscr{N}}
@@ -101,7 +101,7 @@ combined with the law of large numbers ([LLN](T2%20-%20Gaussian%20distribution.i
 Thus M-C methods apply to surprisingly large class of problems, including for
 example a way to [inefficiently approximate the value of $\pi$](https://en.wikipedia.org/wiki/Monte_Carlo_method#Overview).
 Indeed, many of the integrals of interest are inherently expectations,
-in particular the forecast distribution. Its [integral](T4%20-%20Time%20series%20filtering.ipynb#The-(general)-Bayesian-filtering-recursions)
+in particular the forecast distribution. Its [integral](T4%20-%20Time%20series%20filtering.ipynb#Bayesian-filtering-recursion)
 is intractable, due to the non-trivial nature of the generating process.
 However, a Monte-Carlo sample of the forecast distribution
 can be generated simply by repeated simulation of eqn. (DynMod),
