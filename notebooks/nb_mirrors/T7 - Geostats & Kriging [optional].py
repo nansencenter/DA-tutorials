@@ -560,7 +560,7 @@ def kriging_1d(L=4, nObs=6, spacing=0.5, transf01="expo", power=1.5, Range=0.3, 
 # *Hint: Move (and de-indent) code out of the `nonchalance()` context if you want to be
 # able to view error messages (to debug errors).*
 
-def simple_kriging(vg, dists_xy, dists_yy, observations, mu):
+def simple_kriging(vg, dists_xy, dists_yy, observations):
     field_estimate = ...
     return field_estimate
 

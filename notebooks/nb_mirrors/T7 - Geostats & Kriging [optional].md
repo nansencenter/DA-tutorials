@@ -600,7 +600,7 @@ Add the simple kriging interpolant by copy-pasting your solution from above into
 able to view error messages (to debug errors).*
 
 ```python
-def simple_kriging(vg, dists_xy, dists_yy, observations, mu):
+def simple_kriging(vg, dists_xy, dists_yy, observations):
     field_estimate = ...
     return field_estimate
 ```
