@@ -57,21 +57,31 @@ rnd.seed(3000)
 #
 # $$ \mathbb{P}(\text{event}) = \frac{\text{number of} \textit{ favorable } \text{outcomes}}{\text{number of} \textit{ possible } \text{outcomes}} $$
 #
-# The probability of *both* events $A$ and $B$ occurring is given by their intersection:
+# For two events, $A, B$, the probability of *both* occurring is that of their intersection:
 # $\mathbb{P}(A \cap B)$, while the probability of *either (or)* is obtained by their union $\mathbb{P}(A \cup B)$.
 # The *conditional* probability of $A$ given $B$ restricts our attention (count)
 # to cases where $B$ occurs: $\mathbb{P}(A | B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}$.
 #
-# A **random variable**, $X$, is a *numeric quantity* taking values as a function of some underlying random process.
 # Rather than "*did* event $A$ occur or no?",
-# random variables conveniently enable the question
-# "*what* was the value of $X$?".
-# Each value, $x$, constitutes an event that is disjoint from all others (functions never being one-to-many),
-# and so they define a probability space of outcomes with associated probabilities,
-# which can be tabulated into *distributions*.
-# If $X$ is *discrete*, then $p_X(x) := \mathbb{P}(X{=}x)$ is a list mapping outcomes to probabilities
-# called the probability *mass* function (**pmf**).
-# It sums to 1, and may be written $p(x)$ if contextually unambiguous.
+# a **random variable** conveniently enables the question "*what* was the value of $X$?".
+# The probabilities associated with each *outcome* (event), $x$, form a *distribution*.
+# <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
+#   <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
+#       This question presumes the existence of one, and only one outcome,
+#       a structure implying that $X$ is a <em>function</em>... (optional reading 🔍)
+#   </summary>
+#
+#   Formally, $X$ is defined as a function on (the sample space of)
+#   some underlying *probability space* (like that of $A, B$ above).
+#   But since each $x$ constitutes a disjoint event,
+#   $X$ itself defines a new probability space,
+#   enabling us to forget about the underlying one.
+#
+#   - - -
+# </details>
+#
+# If $X$ is *discrete*, then $p_X(x) := \mathbb{P}(X{=}x)$ is a list mapping numeric outcomes to probabilities
+# called the probability *mass* function (**pmf**), which sums to $1$, and may be written $p(x)$ if contextually unambiguous.
 # The cumulative distribution function (**cdf**) is defined as $F(x) := \mathbb{P}(X \le x)$.
 # The 2D table of *joint* probabilities of $X$ and $Y$ is denoted $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$,
 # while the conditionals are denoted $p(x|y) = \frac{p(x,y)}{p(y)}$.
