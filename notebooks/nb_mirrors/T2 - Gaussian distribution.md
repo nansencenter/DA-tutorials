@@ -54,56 +54,105 @@ $
 
 As stated by James Bernoulli (1713) and elucidated by [Laplace (1812)](#References):
 
-> The Probability for an event is the ratio of the number of cases favorable to it, to the number of all
-> cases possible when nothing leads us to expect that any one of these cases should occur more than any other,
+> The Probability ($\mathbb{P}$) for an event ($E$) is the ratio of the number of cases favorable to it ($|E|$), to the number of all
+> cases possible ($|\Omega|$) when nothing leads us to expect that any one of these cases should occur more than any other,
 > which renders them, for us, equally possible:
 
-$$ \mathbb{P}(\text{event}) = \frac{\text{number of} \textit{ favorable } \text{outcomes}}{\text{number of} \textit{ possible } \text{outcomes}} $$
+$$ \mathbb{P}(E) = \frac{|E|}{|\Omega|} $$
 
-For two events, $A, B$, the probability of *both* occurring is that of their intersection:
+It follows that for two events, $A, B$, the probability of *both* occurring is that of their intersection:
 $\mathbb{P}(A \cap B)$, while the probability of *either (or)* is obtained by their union $\mathbb{P}(A \cup B)$.
 The *conditional* probability of $A$ given $B$ restricts our attention (count)
 to cases where $B$ occurs: $\mathbb{P}(A | B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}$.
 
-Rather than "*did* event $A$ occur or no?",
-a **random variable** conveniently enables the question "*what* was the value of $X$?".
-The probabilities associated with each *outcome* (event), $x$, form a *distribution*.
+#### Exc (optional) – By definition, not axiom
+
+- (a) Show that $0 \le \mathbb{P}(E) \le 1$, with the boundaries attained if $E=\emptyset$ or $E=\Omega$.
+- (b) Assuming $E_i \cap E_j = \emptyset$ for $i \neq j$, i.e. that the events are (pairwise) disjoint,
+  show that $\mathbb{P}(\bigcup_i E_i) = \sum_i \mathbb{P}(E_i)$.
+- (c) For general (non-disjoint) events/sets $A, B$,
+  express $\mathbb{P}(A \cup B)$ in terms of $\mathbb{P}(A)$, $\mathbb{P}(B)$, and $\mathbb{P}(A \cap B)$.
+
+```python
+# show_answer('By definition, not axiom', 'a')
+```
+
+Rather than "*did* event $E$ occur or not?",
+a **random variable** conveniently enables the question "*what* was the value of $X$?"
 <details style="border: 1px solid #aaaaaa; border-radius: 4px; padding: 0.5em 0.5em 0;">
   <summary style="font-weight: normal; font-style: italic; margin: -0.5em -0.5em 0; padding: 0.5em;">
-      This question presumes the existence of one, and only one outcome,
-      a structure implying that $X$ is a <em>function</em>... (optional reading 🔍)
+      This question pre-supposes the existence of one, and only one outcome,
+      a "structure" that brings to mind <em>functions</em>... (optional reading 🔍)
   </summary>
 
-  Formally, $X$ is defined as a function on (the sample space of)
+  Indeed, formally, $X$ is defined as a function on (the sample space of)
   some underlying *probability space* (like that of $A, B$ above).
-  But since each $x$ constitutes a disjoint event,
-  $X$ itself defines a new probability space,
-  enabling us to forget about the underlying one.
+  But since each possible value $x$ constitutes a disjoint event,
+  $X$ itself induces a new probability space
+  (though not Laplacian, since cases no longer equally probable),
+  allowing us to forget about the underlying one.
 
   - - -
 </details>
 
-If $X$ is *discrete*, then $p_X(x) := \mathbb{P}(X{=}x)$ is a list mapping numeric outcomes to probabilities
-called the probability *mass* function (**pmf**), which sums to $1$, and may be written $p(x)$ if contextually unambiguous.
-The cumulative distribution function (**cdf**) is defined as $F(x) := \mathbb{P}(X \le x)$.
-The 2D table of *joint* probabilities of $X$ and $Y$ is denoted $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$,
-while the conditionals are denoted $p(x|y) = \frac{p(x,y)}{p(y)}$.
+A random variable takes *numeric* values, so it can be sorted, averaged, and transformed.
+The probabilities associated with each *outcome*, $x$, form a **distribution**.
+If $X$ is *discrete* (the set $\{x_i\}$ is countable), the distribution can be summarized by
+the probability *mass* function (**pmf**) $p_X(x) := \mathbb{P}(X{=}x)$,
+which is essentially a mapping (table) of outcomes to probabilities,
+written $p(x)$ if contextually unambiguous.
+Similarly, $p(x, y) = \mathbb{P}(X{=}x \cap Y{=}y)$ is a 2D table of the **joint** probabilities of $X$ and $Y$.
+**Independence** means $p(x, y) = p(x) \, p(y)$ for all possible $x, y$.
 
-- The *marginal* pmf, $p(x)$, can be recovered from the joint pmf, $p(x, y)$, by summing over all $y$.
-- *Independence* means $p(x, y) = p(x) \, p(y)$ for all possible $x, y$. Equivalently $p(x|y) = p(x)$.
+#### Exc (optional) – conditional and marginal
 
-We will mainly be concerned with *continuous* random variables,
-for which $\mathbb{P}(X \in I)$ may be non-zero for any interval, $I$.
-The distribution of $X$ is then characterised by its probability *density* function (**pdf**),
-defined as $p(x) = F'(x)$ or
+Show that
+- (a) $p(x | y) = \frac{p(x,y)}{p(y)}$, where $p(x|y)$ is defined similarly to $p(x, y)$ above.
+- (b) The *marginal* pmf, $p(x)$, can be recovered from the joint pmf, $p(x, y)$, by summing over all $y$.
+- (c) *Independence* can equivalently be stated as $p(x|y) = p(x)$ (or the other way around).
 
-$$p(x) = \lim_{h \to 0} \frac{\mathbb{P}(X \in [x,\, x{+} h])}{h} \,.$$
+```python
+# show_answer('pmf identities', 'a')
+```
+
+#### Exc – Try it out
+
+Consider the joint pmf $p(x,y)$ given by the table below.
+$\,$ (a) Is it a valid pmf?
+$\,$ (b) Compute $p(x)$ and $p(y)$.
+$\,$ (c) Compute $p(y \mid x{=}0)$.
+$\,$ (d) Are $X$ and $Y$ independent?
+
+$$
+\begin{array}{c|ccc}
+x \diagdown\, y & 0 & 1 & 2 \\ \hline
+0 & 0.10 & 0.15 & 0.25 \\
+1 & 0.20 & 0.05 & 0.25
+\end{array}
+$$
+
+```python
+# show_answer('pmf test', 'a')
+```
+
+We will mainly be concerned with **continuous** random variables,
+whose possible values are *uncountable* (e.g. all of $\Reals$),
+so that the above counting definition of probability no longer applies.
+Instead, the distribution of such an $X$ can be characterised by
+a probability *density* function (**pdf**, analogous to the pmf), $p(x) \ge 0$,
+which integrates to $1$ (but unlike a pmf, the pdf $p(x)$ itself may exceed $1$).
+Then $$\mathbb{P}(X \in [a, b]) := \int_a^b p(x) \, d x \,,$$
+satisfies the above axioms by calculus (rather than counting).
+Moreover, the above pmf definitions and identities carry over to the pdf, with sums becoming integrals,
+as can be shown by replacing $\mathbb{P}(X{=}x)$ by $p(x) \, \delta x$
+and taking limits (assuming sufficient regularity).
 
 The **sample average** of draws from a random variable $X$
 is denoted with an overhead bar:
 $$ \bar{x} := \frac{1}{N} \sum_{n=1}^{N} x_n \,. $$
 The *law of large numbers (LLN)* states that, as $N \to \infty$,
-the sample average converges to the **expected value** (sometimes called the **mean**):
+the sample average of independent draws
+converges to the **expected value** (sometimes called the **mean**):
 $$ \Expect[X] ≔ \int x \, p(x) \, d x \,, $$
 where the (omitted) domain of integration is *all values of $x$*.
 
@@ -233,7 +282,7 @@ Use pen, paper, and calculus to show that
   *Hint: use $x^2 = x x$ to enable integration by parts.*
 - (iii) $c$ is indeed the right normalizing constant, i.e. that
   $$E[1] = 1 \,.$$
-  *Hint: Neither Bernoulli and Laplace managed this,
+  *Hint: Neither Bernoulli nor Laplace managed this,
   until [Gauss (1809)](#References) did by first deriving $(E[1])^2$.
   Here is a nice [video demonstration by 3Blue1Brown](https://www.youtube.com/watch?v=cy8r7WSuT1I&t=3m52s).*
 
@@ -310,7 +359,7 @@ and $\|.\|_\mathbf{W}$ representing the weighted 2-norm: $\|\x\|^2_\mathbf{W} = 
 </summary>
 
 - The norm (a quadratic form) is invariant to any asymmetry in the weight matrix.
-- The density (GM) would not be integrable (over $\Reals^{d}$) if $\x\tr \mathbf{\Sigma} \x > 0$.
+- The density (GM) would not be integrable (over $\Reals^{d}$) unless $\x\tr \mathbf{\Sigma}^{-1} \x > 0$ for all $\x \neq \vect{0}$.
 
 - - -
 </details>
@@ -410,7 +459,7 @@ Show that
 - (b) $\rho = 1$ if $Y = a X$ for some $a > 0$.
 - (c) $\rho = -1$ if $Y = a X$ for some $a < 0$.
 
-Otherwise, it can be shown by Cauchy-Swartz, that $-1\leq \rho \leq 1$.
+Otherwise, it can be shown by Cauchy-Schwarz, that $-1\leq \rho \leq 1$.
 
 ```python
 # show_answer('Correlation extremes', 'a')
@@ -490,7 +539,7 @@ def sample_GM(mu=0, L=None, C=None, N=1, reg=0, rng=rnd):
     return E
 ```
 
-Go back up to the interactive illustration of the 2D Gaussian distribution re-run its cell to check (eyeball measure) your implementation.
+Go back up to the interactive illustration of the 2D Gaussian distribution and re-run its cell to check (eyeball measure) your implementation.
 
 ```python
 # show_answer('Broadcasting')

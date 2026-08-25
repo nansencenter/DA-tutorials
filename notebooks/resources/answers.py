@@ -210,6 +210,85 @@ answers['Discussion topics 1'] = ['MD', r'''
 ###########################################
 # Tut: Bayesian inference & Gaussians
 ###########################################
+answers['By definition, not axiom a'] = ['MD', r'''
+Since $E \subseteq \Omega$, the number of favorable outcomes satisfies $0 \le |E| \le |\Omega|$.
+Dividing by $|\Omega|$ preserves the inequality: $0 \le \mathbb{P}(E) \le 1$.
+The lower bound is attained iff $|E|=0$, i.e. $E=\emptyset$;
+the upper bound iff $|E|=|\Omega|$, i.e. $E=\Omega$.
+''']
+
+answers['By definition, not axiom b'] = ['MD', r'''
+Since the $E_i$ are pairwise disjoint, no outcome is counted more than once
+when counting the cases favorable to $\bigcup_i E_i$, so
+$$\Big|\bigcup_i E_i\Big| = \sum_i |E_i| \,.$$
+Dividing by $|\Omega|$ yields the result.
+''']
+
+answers['By definition, not axiom c'] = ['MD', r'''
+Every outcome in $A \cup B$ is counted once in $|A| + |B|$,
+except those in $A \cap B$, which get counted twice.
+Subtracting $|A \cap B|$ once corrects for this:
+$$|A \cup B| = |A| + |B| - |A \cap B| \,.$$
+Dividing by $|\Omega|$ yields
+$$\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A \cap B) \,.$$
+''']
+
+answers['pmf identities a'] = ['MD', r'''
+Apply the general definition of conditional probability,
+$\mathbb{P}(A|B) = \mathbb{P}(A \cap B)/\mathbb{P}(B)$,
+to the events $A = \\{X{=}x\\}$ and $B = \\{Y{=}y\\}$:
+
+- $\mathbb{P}(A \cap B) = \mathbb{P}(X{=}x \cap Y{=}y) = p(x,y)$
+- $\mathbb{P}(B) = p(y)$,
+
+whence $p(x|y) := \mathbb{P}(A|B) = p(x,y)/p(y)$.
+''']
+
+answers['pmf identities b'] = ['MD', r'''
+The events $\{Y{=}y\}$, for the different values of $y$, are disjoint,
+and their union is the entire sample space
+(some value of $Y$ always occurs).
+Hence $\{X{=}x\}$ decomposes as the disjoint union of $\{X{=}x, Y{=}y\}$ over all $y$,
+and additivity yields
+$$p(x) = \mathbb{P}(X{=}x) = \sum_y \mathbb{P}(X{=}x \cap Y{=}y) = \sum_y p(x,y) \,.$$
+''']
+
+answers['pmf identities c'] = ['MD', r'''
+($\Rightarrow$) If $p(x,y) = p(x) \, p(y)$ for all $x,y$ (independence),
+then for any $y$ with $p(y)>0$,
+$$p(x|y) = \frac{p(x,y)}{p(y)} = \frac{p(x)\,p(y)}{p(y)} = p(x) \,.$$
+
+($\Leftarrow$) Conversely, if $p(x|y) = p(x)$ for all $x$ and all $y$ with $p(y)>0$,
+then $p(x,y) = p(x|y)\,p(y) = p(x)\,p(y)$ for those $y$.
+For $y$ with $p(y)=0$, $p(x,y) \le p(y) = 0 = p(x)\,p(y)$ trivially too.
+Hence $p(x,y) = p(x)\,p(y)$ for all $x,y$, i.e. independence.
+''']
+
+answers['pmf test a'] = ['MD', r'''
+Yes: all entries are non-negative, and they sum to $1$.
+''']
+
+answers['pmf test b'] = ['MD', r'''
+Summing each row and column of the table yields
+
+- $$p(x{=}0) = 0.50 \qquad p(x{=}1) = 0.50 \,,$$
+- $$p(y{=}0) = 0.30 \,, \quad p(y{=}1) = 0.20 \,, \quad p(y{=}2) = 0.50 \,.$$
+''']
+
+answers['pmf test c'] = ['MD', r'''
+Using (a) above, and dividing the $x{=}0$ row by $p(x{=}0) = 0.50$:
+
+- $p(y{=}0 \mid x{=}0) = \frac{0.10}{0.50} = 0.20$
+- $p(y{=}1 \mid x{=}0) = \frac{0.15}{0.50} = 0.30$
+- $p(y{=}2 \mid x{=}0) = \frac{0.25}{0.50} = 0.50$
+''']
+
+answers['pmf test d'] = ['MD', r'''
+No. For example, $p(y{=}0 \mid x{=}0) = 0.20 \ne 0.30 = p(y{=}0)$.
+
+Alternatively: $p(x{=}0, y{=}0) = 0.10$ while $p(x{=}0)\,p(y{=}0) = 0.50 \times 0.30 = 0.15$.
+''']
+
 answers['pdf_G1'] = ['MD', r'''
     const = 1/np.sqrt(2*np.pi*sigma2)
     pdf_values = const * np.exp(-0.5*(x - mu)**2/sigma2)
