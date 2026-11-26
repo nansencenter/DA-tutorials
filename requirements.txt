@@ -1,7 +1,7 @@
 # DAPPER is maintained for compatibility with Colab.
 # https://github.com/nansencenter/DAPPER/issues/41#issuecomment-1381616971
 # -e ${HOME}/path/DAPPER
-dapper==1.7.3
+dapper==1.9.0
 
 ipywidgets
 # Fix error "zmq message arrived on closed channel" ... "assert 0 < size <= self._size"
